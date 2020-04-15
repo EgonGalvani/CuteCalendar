@@ -1,0 +1,4 @@
+#ifndef DATEMANAGER_H
+#define DATEMANAGER_H
+
+#endif // DATEMANAGER_H
