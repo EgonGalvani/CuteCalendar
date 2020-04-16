@@ -29,7 +29,8 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-        evento.h
+        evento.h \
+    Model/intervaltree.h
 
 FORMS += \
         mainwindow.ui
