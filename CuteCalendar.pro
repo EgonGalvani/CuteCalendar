@@ -25,12 +25,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    Model/invalidinterval.cpp
 
 HEADERS += \
         mainwindow.h \
         evento.h \
-    Model/intervaltree.h
+    Model/intervaltree.h \
+    Model/invalidinterval.h
 
 FORMS += \
         mainwindow.ui
