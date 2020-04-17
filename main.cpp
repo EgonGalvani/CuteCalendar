@@ -1,7 +1,7 @@
-#include "mainwindow.h"
+#include "View/mainwindow.h"
 #include <QApplication>
 
-#include "Model/intervaltree.h".h"
+#include "Model/Container/intervaltree.h"
 
 int main(int argc, char *argv[])
 {

@@ -25,14 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
-    Model/invalidinterval.cpp
+        View/mainwindow.cpp \
+    	Model/Container/invalidinterval.cpp
 
 HEADERS += \
-        mainwindow.h \
-        evento.h \
-    Model/intervaltree.h \
-    Model/invalidinterval.h
+        View/mainwindow.h \
+        Model/Hierarchy/evento.h \
+	Model/Hierarchy/datemanager.h \
+    	Model/Container/intervaltree.h \
+   	Model/Container/invalidinterval.h \    	
+	Model/DataType/date.h \
+    	Model/DataType/time.h
 
-FORMS += \
-        mainwindow.ui
+FORMS +=
