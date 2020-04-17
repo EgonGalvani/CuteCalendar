@@ -29,12 +29,16 @@ SOURCES += \
     	Model/Container/invalidinterval.cpp
 
 HEADERS += \
-        View/mainwindow.h \
-        Model/Hierarchy/evento.h \
-	Model/Hierarchy/datemanager.h \
-    	Model/Container/intervaltree.h \
-   	Model/Container/invalidinterval.h \    	
-	Model/DataType/date.h \
-    	Model/DataType/time.h
+View/mainwindow.h \
+        Model/Hierarchy/datemanager.h \
+        Model/Container/intervaltree.h \
+        Model/Container/invalidinterval.h \
+        Model/DataType/date.h \
+        Model/DataType/time.h \
+    Model/Hierarchy/datemanager.h \
+    Model/Hierarchy/event.h \
+    Model/Hierarchy/timemanager.h \
+    Model/Hierarchy/recurrence.h \
+    Model/Hierarchy/recurrencerule.h
 
 FORMS +=
