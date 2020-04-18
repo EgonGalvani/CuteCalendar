@@ -39,6 +39,18 @@ View/mainwindow.h \
     Model/Hierarchy/event.h \
     Model/Hierarchy/timemanager.h \
     Model/Hierarchy/recurrence.h \
-    Model/Hierarchy/recurrencerule.h
+    Model/Hierarchy/recurrencerule.h \
+    Model/Hierarchy/weeklyrule.h \
+    Model/Hierarchy/yearlyrule.h \
+    Model/Hierarchy/alldayevent.h \
+    Model/Hierarchy/eventwithduration.h \
+    Model/Hierarchy/uniqueevent.h \
+    Model/Hierarchy/birthday.h \
+    Model/Hierarchy/training.h \
+    Model/Hierarchy/todolist.h \
+    Model/Hierarchy/preciseevent.h \
+    Model/Hierarchy/meeting.h \
+    Model/Hierarchy/reminder.h \
+    Model/Hierarchy/monthlyrule.h
 
 FORMS +=
