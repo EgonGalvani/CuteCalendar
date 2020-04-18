@@ -7,7 +7,6 @@
 #include <QMenu>
 #include <QCalendarWidget>
 #include <QGroupBox>
-#include <QCalendar>
 #include <QTableView>
 #include <QGridLayout>
 
