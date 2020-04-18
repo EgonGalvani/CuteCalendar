@@ -32,6 +32,20 @@ int main(int argc, char *argv[])
     std::cout << "--------------------------------------------------" << std::endl;
     std::cout << "Sono stati inseriti, in ordine: " << *it1 << "\t" << *it2 << "\t" << *it3 << "\t" << *it4 << std::endl;
 
+    tree.insert("a", 1, 3000);
+    tree.insert("a", 5, 7000);
+    tree.insert("a", 1000, 3000);
+    tree.insert("a", 600, 3500);
+    tree.insert("a", 450, 1800);
+    tree.insert("a", 8000, 10000);
+    tree.insert("a", 1, 3000);
+    tree.insert("a", 1, 3000);
+    tree.insert("a", 1, 3000);
+    tree.insert("a", 1, 3000);
+    tree.insert("a", 1, 3000);
+    tree.insert("a", 1, 3000);
+    tree.insert("a", 1, 3000);
+
 
     return 0;
 }

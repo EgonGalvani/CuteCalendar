@@ -364,18 +364,17 @@ typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator
 template<class DT, class BT, BT minBV, BT maxBV>
 void IntervalTree<DT, BT, minBV, maxBV>::insert_fixup(Node* z) {
 
-    Node *parent = z->_parent;
-
     while(z->_parent && z->_parent->_parent && z->_parent->_color == RED) {
         Node *parent = z->_parent,
              *anchestor = parent->_parent;
 
         std::cout << "Sono entrato nel ciclo del fixup" << std::endl;
 
-        if(parent == anchestor->_left) {
+        if(parent->isLeft()) {
             Node* y = anchestor->_right;
             std::cout << "Primo ramo dell'if" << std::endl;
-            if(y->_color == RED) {
+
+            if(y && y->_color == RED) {
                 parent->_color = BLACK;
                 y->_color = BLACK;
                 anchestor->_color = RED;
@@ -393,7 +392,7 @@ void IntervalTree<DT, BT, minBV, maxBV>::insert_fixup(Node* z) {
         } else {
             Node* y = anchestor->_left;
 
-            if(y->_color == RED) {
+            if(y && y->_color == RED) {
                 parent->_color = BLACK;
                 y->_color = BLACK;
                 anchestor->_color = RED;
