@@ -39,7 +39,6 @@ private:
         RBTreeColor _color;
         Node *_parent, *_right, *_left;
 
-
         Node(const DT&, const Interval& = Interval(), RBTreeColor = RED,
                Node* = nullptr, Node* = nullptr, Node* = nullptr);
         ~Node();
@@ -56,7 +55,8 @@ private:
     void insert_fixup(Node*); // O(log N)
     void left_rotate(Node*);
     void right_rotate(Node*);
-    void transplant(Node*, Node*);
+    void transplant(Node*, Node*); // O(1)
+    void delete_node(Node*);
     void delete_fixup(Node*);
     void recalculate_max(Node*); // O(log N)
 public:
@@ -102,13 +102,13 @@ public:
     const DT& back() const;
 
     // Modifiers
-    void clear();
+    void clear(); // O(N)
     BaseIterator insert(const DT&, const BT&, const BT&); // O(log N)
-    BaseIterator erase(const BaseIterator&);
+    BaseIterator erase(const BaseIterator&); // O(log N)
 
     // Operations
-    std::list<DT*> intersects(const BT&, const BT&) const;
-    DT* intervalSearch(const BT&, const BT&) const;
+    std::list<DT*> searchAll(const BT&, const BT&) const; // O(R logN) dove R è il numero di intervalli che intersecano quello dato
+    DT* search(const BT&, const BT&) const; // O(log N)
 };
 
 // Interval class
@@ -270,19 +270,20 @@ void IntervalTree<DT, BT, minBV, maxBV>::left_rotate(Node* x) {
     y->_left = x;
     x->_parent = y;
 
+    // TODO: refactor
     if (x->_left && x->_right)
-                   x->_maxBoundChild = std::max(x->_interval._highBound, std::max(x->_left->_maxBoundChild, x->_right->_maxBoundChild));
-               else if (x->_left)
-                   x->_maxBoundChild = std::max(x->_interval._highBound, x->_left->_maxBoundChild);
-               else if (x->_right)
-                   x->_maxBoundChild = std::max(x->_interval._highBound, x->_right->_maxBoundChild);
-               else
-                   x->_maxBoundChild = x->_interval._highBound;
+           x->_maxBoundChild = std::max(x->_interval._highBound, std::max(x->_left->_maxBoundChild, x->_right->_maxBoundChild));
+       else if (x->_left)
+           x->_maxBoundChild = std::max(x->_interval._highBound, x->_left->_maxBoundChild);
+       else if (x->_right)
+           x->_maxBoundChild = std::max(x->_interval._highBound, x->_right->_maxBoundChild);
+       else
+           x->_maxBoundChild = x->_interval._highBound;
 
-               if (y->_right)
-                   y->_maxBoundChild = std::max(y->_interval._highBound, std::max(y->_right->_maxBoundChild, x->_maxBoundChild));
-               else
-                   y->_maxBoundChild = std::max(y->_interval._highBound, x->_maxBoundChild);
+       if (y->_right)
+           y->_maxBoundChild = std::max(y->_interval._highBound, std::max(y->_right->_maxBoundChild, x->_maxBoundChild));
+       else
+           y->_maxBoundChild = std::max(y->_interval._highBound, x->_maxBoundChild);
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
@@ -310,7 +311,8 @@ void IntervalTree<DT, BT, minBV, maxBV>::right_rotate(Node* y) {
       x->_right = y;
       y->_parent = x;
 
-      if (y->_left && y->_right)
+      // TODO: refactor
+     if (y->_left && y->_right)
          y->_maxBoundChild = std::max(y->_interval._highBound, std::max(y->_left->_maxBoundChild, y->_right->_maxBoundChild));
      else if (y->_left)
          y->_maxBoundChild = std::max(y->_interval._highBound, y->_left->_maxBoundChild);
@@ -430,10 +432,103 @@ void IntervalTree<DT, BT, minBV, maxBV>::recalculate_max(Node* z) {
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
+void IntervalTree<DT, BT, minBV, maxBV>::transplant(Node* u, Node* v) {
+    if(u->isRoot())
+           _root = v;
+    else if(u->isLeft())
+        u->_parent->_left = v;
+    else u->_parent->_right = v;
+
+    if(v)
+        v->_parent = u->_parent;
+}
+
+template<class DT, class BT, BT minBV, BT maxBV>
 typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator
     IntervalTree<DT, BT, minBV, maxBV>::erase(const BaseIterator& it) {
 
-    return BaseIterator();
+    // controllo se it._node != nullptr
+
+    BaseIterator next = it;
+    // TODO next++;
+
+    delete_node(it._node);
+
+    return next;
+}
+
+// PRE = z != nullptr
+template<class DT, class BT, BT minBV, BT maxBV>
+void IntervalTree<DT, BT, minBV, maxBV>::delete_node(Node* z) {
+   /* Node* y;
+    if(!z->_left || !z->_right)
+        y = z;
+    else y = successor(z); // ?
+
+    Node* x;
+    if(!y->_left)
+        x = y->_right;
+    else
+        x = y->_left;
+
+    if(x)
+        x->_parent = y->_parent;
+
+    if(!y->_parent)
+        _root = x;
+    else if(y->isLeft())
+        y->_parent->_left = x;
+    else y->_parent->_right = x;
+
+    if(y->_color == BLACK)
+        delete_fixup(x);
+
+    delete y;
+    _size--; */
+}
+
+template<class DT, class BT, BT minBV, BT maxBV>
+std::list<DT*> IntervalTree<DT, BT, minBV, maxBV>::searchAll(const BT& lowBound, const BT& highBound) const {
+    Interval i(lowBound, highBound);
+    Node* x = _root;
+    std::list<DT*> datas;
+
+    while(x) {
+        if(i.overlaps(x->_interval))
+            datas.push_back(&x->_info);
+
+        if(x->_left && x->_left->_maxBoundChild >= i._lowBound)
+            x = x->_left;
+        else
+            x = x->_right;
+    }
+
+    if(datas.empty()) {
+        std::cout << "nessuna intersezione trovata" << std::endl;
+        exit(0);
+    }
+
+    return  datas;
+}
+
+template<class DT, class BT, BT minBV, BT maxBV>
+DT* IntervalTree<DT, BT, minBV, maxBV>::search(const BT& lowBound, const BT& highBound) const {
+    Interval i(lowBound, highBound);
+    Node* x = _root;
+
+    while(x && !i.overlaps(x->_interval)) {
+        if(x->_left && x->_left->_maxBoundChild >= i._lowBound)
+            x = x->_left;
+        else
+            x = x->_right;
+    }
+
+    if(!x) {
+        std::cout << "nessuna intersezione trovata" << std::endl;
+        exit(0);
+    }
+
+    return &x->_info;
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
