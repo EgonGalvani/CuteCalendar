@@ -9,6 +9,10 @@
 #include <QGroupBox>
 #include <QTableView>
 #include <QGridLayout>
+#include <QDate>
+#include <QLabel>
+#include <QDateEdit>
+
 
 class MainWindow : public QWidget
 {
@@ -17,6 +21,9 @@ class MainWindow : public QWidget
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+private slots:
+    void seeEvent();
+    void selectedDateChanged();
 
 private:
     //Elementi addCalendar
@@ -27,6 +34,9 @@ private:
     //Elementi addEventBox
     QGroupBox *eventBlock;
     QGridLayout *eventLayout;
+    QLabel *currentDateLabel;
+    QDateEdit *currentDateEdit;
+
     void addCalendar();
     void addEventBox();
 
