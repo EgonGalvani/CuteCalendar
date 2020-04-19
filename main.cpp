@@ -4,34 +4,52 @@
 #include "Model/Container/intervaltree.h"
 
 #include <string>
+#include <list>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+   /* QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    return a.exec();
+    return a.exec();*/
 
     IntervalTree<std::string, int, 0, 10000> tree;
 
     // insert(value, low, high)
-    IntervalTree<std::string, int, 0, 10000>::BaseIterator it1 = tree.insert("ciao", 5, 20);
-    std::cout << "Inserito correttamente: " << *it1 << std::endl;
-    std::cout << "--------------------------------------------------" << std::endl;
+   /* tree.insert("1", 1, 3000);
+    tree.insert("2", 5, 7000);
+    tree.insert("3", 1000, 3000);
+    tree.insert("4", 600, 3500);
+    tree.insert("5", 450, 1800);
+    tree.insert("6", 8000, 10000);
+    tree.insert("7", 1, 3000);
+    tree.insert("8", 5000, 10000);
+    tree.insert("9", 100, 200);
+    tree.insert("10", 1, 10);
+    tree.insert("11", 4000, 4000);
 
-    IntervalTree<std::string, int, 0, 10000>::BaseIterator it2 =  tree.insert("prove", 4, 1000);
-    std::cout << "Inserito correttamente: " << *it2 << std::endl;
-    std::cout << "--------------------------------------------------" << std::endl;
 
-    IntervalTree<std::string, int, 0, 10000>::BaseIterator it3 =  tree.insert("a", 7, 500);
-    std::cout << "Inserito correttamente: " << *it3 << std::endl;
-    std::cout << "--------------------------------------------------" << std::endl;
+    std::list<IntervalTree<std::string, int, 0, 10000>::BaseIterator> results = tree.findAll(1500, 6000);
+    for(IntervalTree<std::string, int, 0, 10000>::BaseIterator result : results) {
+        std::cout << *result << " ";
+    }
 
-    IntervalTree<std::string, int, 0, 10000>::BaseIterator it4 = tree.insert("caso", 5, 10000);
-    std::cout << "Inserito correttamente: " << *it4 << std::endl;
-    std::cout << "--------------------------------------------------" << std::endl;
-    std::cout << "Sono stati inseriti, in ordine: " << *it1 << "\t" << *it2 << "\t" << *it3 << "\t" << *it4 << std::endl;
+    std::cout << std::endl;*/
 
+    tree.insert("1", 1, 10);
+    tree.insert("3", 3, 10);
+    tree.insert("2", 2, 10);
+    tree.insert("6", 6, 10);
+    tree.insert("4", 4, 10);
+    tree.insert("5", 5, 10);
+    tree.insert("7", 7, 10);
+
+
+    std::cout << "Prova iteratori: ";
+    for(auto it = tree.begin(); it != tree.end(); it++) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
 
     return 0;
 }
