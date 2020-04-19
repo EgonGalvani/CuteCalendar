@@ -292,7 +292,7 @@ IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator--() {
                     _node = parent;
                     parent = parent->_parent;
                 }
-                _node = _parent;
+                _node = parent;
             }
         }
     }

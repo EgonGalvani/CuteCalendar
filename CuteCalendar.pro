@@ -26,7 +26,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         View/mainwindow.cpp \
-    	Model/Container/invalidinterval.cpp
+    	Model/Container/invalidinterval.cpp \
+    Model/DataType/time.cpp
 
 HEADERS += \
 View/mainwindow.h \
