@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     IntervalTree<std::string, int, 0, 10000> tree;
 
     // insert(value, low, high)
-    tree.insert("1", 1, 3000);
+   /* tree.insert("1", 1, 3000);
     tree.insert("2", 5, 7000);
     tree.insert("3", 1000, 3000);
     tree.insert("4", 600, 3500);
@@ -34,8 +34,22 @@ int main(int argc, char *argv[])
         std::cout << *result << " ";
     }
 
-    std::cout << std::endl;
+    std::cout << std::endl;*/
 
+    tree.insert("1", 1, 10);
+    tree.insert("3", 3, 10);
+    tree.insert("2", 2, 10);
+    tree.insert("6", 6, 10);
+    tree.insert("4", 4, 10);
+    tree.insert("5", 5, 10);
+    tree.insert("7", 7, 10);
+
+
+    std::cout << "Prova iteratori: ";
+    for(auto it = tree.begin(); it != tree.end(); it++) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
 
     return 0;
 }
