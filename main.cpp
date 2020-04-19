@@ -8,10 +8,10 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+   /* QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    return a.exec();
+    return a.exec();*/
 
     IntervalTree<std::string, int, 0, 10000> tree;
 
@@ -26,14 +26,16 @@ int main(int argc, char *argv[])
     tree.insert("8", 5000, 10000);
     tree.insert("9", 100, 200);
     tree.insert("10", 1, 10);
+    tree.insert("11", 4000, 4000);
 
 
-    std::list<std::string*> results = tree.searchAll(1500, 6000);
-
-    std::cout << "Intersezioni: ";
-    for(std::string* result : results)
+    std::list<IntervalTree<std::string, int, 0, 10000>::BaseIterator> results = tree.findAll(1500, 6000);
+    for(IntervalTree<std::string, int, 0, 10000>::BaseIterator result : results) {
         std::cout << *result << " ";
+    }
+
     std::cout << std::endl;
+
 
     return 0;
 }

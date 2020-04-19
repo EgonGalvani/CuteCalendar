@@ -59,6 +59,7 @@ private:
     void delete_node(Node*);
     void delete_fixup(Node*);
     void recalculate_max(Node*); // O(log N)
+
 public:
 
     class BaseIterator {
@@ -107,8 +108,11 @@ public:
     BaseIterator erase(const BaseIterator&); // O(log N)
 
     // Operations
-    std::list<DT*> searchAll(const BT&, const BT&) const; // O(R logN) dove R è il numero di intervalli che intersecano quello dato
-    DT* search(const BT&, const BT&) const; // O(log N)
+    std::list<BaseIterator> findAll(const BT&, const BT&) const; // O(RlogN) dove R è il numero di intervalli che intersecano quello dato
+    BaseIterator find(const BT&, const BT&) const; // O(log N)
+
+private:
+     static std::list<BaseIterator> findAllHelper(Node*, const Interval&);
 };
 
 // Interval class
@@ -488,31 +492,41 @@ void IntervalTree<DT, BT, minBV, maxBV>::delete_node(Node* z) {
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-std::list<DT*> IntervalTree<DT, BT, minBV, maxBV>::searchAll(const BT& lowBound, const BT& highBound) const {
-    Interval i(lowBound, highBound);
-    Node* x = _root;
-    std::list<DT*> datas;
-
-    while(x) {
-        if(i.overlaps(x->_interval))
-            datas.push_back(&x->_info);
-
-        if(x->_left && x->_left->_maxBoundChild >= i._lowBound)
-            x = x->_left;
-        else
-            x = x->_right;
-    }
-
-    if(datas.empty()) {
-        std::cout << "nessuna intersezione trovata" << std::endl;
-        exit(0);
-    }
-
-    return  datas;
+std::list<typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator> IntervalTree<DT, BT, minBV, maxBV>::findAll(const BT& lowBound, const BT& highBound) const {
+    return findAllHelper(_root, Interval(lowBound, highBound));
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-DT* IntervalTree<DT, BT, minBV, maxBV>::search(const BT& lowBound, const BT& highBound) const {
+std::list<typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator>
+IntervalTree<DT, BT, minBV, maxBV>::findAllHelper(Node* n, const Interval& i) {
+
+    std::list<BaseIterator> matches;
+
+    if(!n)
+        return matches;
+
+    // se il lowBound dell'intervallo è > del punto più a destra nell'albero che ha per radice n
+    //  --> in tale albero non ci sono intervalli che lo intersecano
+    if(i._lowBound > n->_maxBoundChild)
+        return matches;
+
+    // cerco a sinistra
+    if(n->_left)
+        matches.splice(matches.end(), findAllHelper(n->_left, i)); // splice funziona in O(1)
+
+    if(n->_interval.overlaps(i))
+        matches.push_back(n); // O(1)
+
+    // se il punto più a destra dell'intervallo (highBound) è a sinistra del punto
+    // più a sinistra della root, allora non ci possono essere intersezioni con i figli di sinistra
+    if(i._highBound >=  n->_interval._lowBound && n->_right)
+        matches.splice(matches.end(), findAllHelper(n->_right, i));
+
+    return matches;
+}
+
+template<class DT, class BT, BT minBV, BT maxBV>
+typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator IntervalTree<DT, BT, minBV, maxBV>::find(const BT& lowBound, const BT& highBound) const {
     Interval i(lowBound, highBound);
     Node* x = _root;
 
@@ -523,12 +537,7 @@ DT* IntervalTree<DT, BT, minBV, maxBV>::search(const BT& lowBound, const BT& hig
             x = x->_right;
     }
 
-    if(!x) {
-        std::cout << "nessuna intersezione trovata" << std::endl;
-        exit(0);
-    }
-
-    return &x->_info;
+    return BaseIterator(x);
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
