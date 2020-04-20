@@ -646,6 +646,7 @@ typename IntervalTree<DT, BT, minBV, maxBV>::Iterator IntervalTree<DT, BT, minBV
 
     return Iterator(x);
 }
+
 template<class DT, class BT, BT minBV, BT maxBV>
 typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
 IntervalTree<DT, BT, minBV, maxBV>::begin() const {
@@ -666,6 +667,48 @@ IntervalTree<DT, BT, minBV, maxBV>::end() const {
         return Iterator(n);
     return Iterator(n+1, true);
 }
+
+template<class DT, class BT, BT minBV, BT maxBV>
+typename IntervalTree<DT, BT, minBV, maxBV>::ConstIterator
+IntervalTree<DT, BT, minBV, maxBV>::cbegin() const {
+    Node* n = _root;
+    while(n && n->_left)
+        n = n->_left;
+    return ConstIterator(n);
+}
+
+template<class DT, class BT, BT minBV, BT maxBV>
+typename IntervalTree<DT, BT, minBV, maxBV>::ConstIterator
+IntervalTree<DT, BT, minBV, maxBV>::cend() const {
+    Node* n = _root;
+    while(n && n->_right)
+        n = n->_right;
+
+    if(!n)
+        return ConstIterator(n);
+    return ConstIterator(n+1, true);
+}
+
+template<class DT, class BT, BT minBV, BT maxBV>
+DT& IntervalTree<DT, BT, minBV, maxBV>::front() {
+    return *begin();
+}
+
+template<class DT, class BT, BT minBV, BT maxBV>
+const DT& IntervalTree<DT, BT, minBV, maxBV>::front() const {
+    return *cbegin();
+}
+
+template<class DT, class BT, BT minBV, BT maxBV>
+DT& IntervalTree<DT, BT, minBV, maxBV>::back() {
+    return *(--end());
+}
+
+template<class DT, class BT, BT minBV, BT maxBV>
+const DT& IntervalTree<DT, BT, minBV, maxBV>::back() const {
+    return *(--cend());
+}
+
 
 template<class DT, class BT, BT minBV, BT maxBV>
 IntervalTree<DT, BT, minBV, maxBV>::~IntervalTree() {
