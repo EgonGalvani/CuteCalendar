@@ -11,6 +11,8 @@ public:
     Time(); // ora attuale
     Time(unsigned int, unsigned int, unsigned int = 0); // ore, minuti e secondi
 
+    // Time(const Time&) coincide con quello standard
+
     void addHours(unsigned int);
     void addMinutes(unsigned int);
     void addSeconds(unsigned int);
@@ -31,9 +33,7 @@ public:
 };
 
 std::ostream& operator<<(std::ostream&, const Time&);
-std::istream& operator>>(std::ostream&, Time&);
-
-
+std::istream& operator>>(std::istream&, Time&);
 
 
 #endif // TIME_H

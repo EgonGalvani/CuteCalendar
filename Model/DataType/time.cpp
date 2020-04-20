@@ -2,7 +2,8 @@
 
 #include <ctime>
 #include <regex>
- #include <string>
+#include <string>
+#include <sstream>
 
 unsigned int Time::_secondsInDay = 86400;
 
@@ -62,3 +63,54 @@ std::string Time::toString(const std::string& format) const {
     return aux;
 }
 
+bool Time::operator==(const Time& t) const {
+    return _sec == t._sec;
+}
+
+bool Time::operator!=(const Time& t) const {
+    return _sec != t._sec;
+}
+
+bool Time::operator<(const Time& t) const {
+    return _sec < t._sec;
+}
+
+bool Time::operator<=(const Time& t) const {
+    return _sec <= t._sec;
+}
+
+bool Time::operator>(const Time& t) const {
+    return _sec > t._sec;
+}
+
+bool Time::operator>=(const Time& t) const {
+    return _sec >= t._sec;
+}
+
+std::ostream& operator<<(std::ostream& out, const Time& t) {
+    return out << t.toString("hh:mm:ss");
+}
+
+std::istream& operator>>(std::istream& in, Time& t) {
+    std::string value;
+    in >> value;
+
+    unsigned int hours, minutes, seconds;
+
+    std::size_t pos_h = value.find(':');
+    if(pos_h == std::string::npos)
+        std::cout << "eccezione" << std::endl;
+    std::istringstream (value.substr(0, pos_h)) >> hours;
+    value = value.substr(pos_h+1);
+
+    std::size_t pos_m = value.find(':');
+    if(pos_m == std::string::npos)
+        std::cout << "eccezione" << std::endl;
+    std::istringstream (value.substr(0, pos_m)) >> minutes;
+    value = value.substr(pos_m+1);
+
+    std::istringstream (value) >> seconds;
+    t = Time(hours, minutes, seconds);
+
+    return in;
+}
