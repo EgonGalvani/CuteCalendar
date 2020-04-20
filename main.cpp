@@ -8,12 +8,11 @@
 
 #include "Model/DataType/time.h"
 
-int main(int argc, char *argv[])
-{
-  /*  QApplication a(argc, argv);
+int main(int argc, char *argv[]) {
+ /*   QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    return a.exec(); */
+    return a.exec();*/
 
     IntervalTree<std::string, int, 0, 10000> tree;
 

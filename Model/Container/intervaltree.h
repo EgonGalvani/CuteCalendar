@@ -62,16 +62,20 @@ private:
 
 public:
 
+    template<bool constness>
     class BaseIterator {
         friend class IntervalTree<DT, BT, minBV, maxBV>;
     private:
         Node* _node;
-          bool _pastTheEnd;
+        bool _pastTheEnd;
         BaseIterator(Node*, bool = false);
     public:
+        typedef typename std::conditional<constness, const DT*, DT*>::type pointer;
+        typedef typename std::conditional<constness, const DT&, DT&>::type reference;
+
         BaseIterator();
-        DT& operator*() const;
-        DT* operator->() const;
+        reference operator*() const;
+        pointer operator->() const;
         BaseIterator& operator++(); // O(log N)
         BaseIterator operator++(int); // O(log N)
         BaseIterator& operator--(); // O(log N)
@@ -84,6 +88,9 @@ public:
         BaseIterator parent() const;
     };
 
+    using Iterator = BaseIterator<false>;
+    using ConstIterator = BaseIterator<true>;
+
     // member functions
     IntervalTree(); // O(1)
     IntervalTree(const IntervalTree&);
@@ -91,10 +98,10 @@ public:
     ~IntervalTree(); // O(n)
 
     // Iterators
-    BaseIterator begin() const; // O(log N)
-    BaseIterator end() const; // O(log N)
-   //  ConstIterator cbegin() const;
-   //  ConstIterator cend() const;
+    Iterator begin() const; // O(log N)
+    Iterator end() const; // O(log N)
+    ConstIterator cbegin() const;
+    ConstIterator cend() const;
 
     // Capacity
     bool empty() const; // O(1)
@@ -108,15 +115,15 @@ public:
 
     // Modifiers
     void clear(); // O(N)
-    BaseIterator insert(const DT&, const BT&, const BT&); // O(log N)
-    BaseIterator erase(const BaseIterator&); // O(log N)
+    Iterator insert(const DT&, const BT&, const BT&); // O(log N)
+    Iterator erase(const Iterator&); // O(log N)
 
     // Operations
-    std::list<BaseIterator> findAll(const BT&, const BT&) const; // O(RlogN) dove R è il numero di intervalli che intersecano quello dato
-    BaseIterator find(const BT&, const BT&) const; // O(log N)
+    std::list<Iterator> findAll(const BT&, const BT&) const; // O(RlogN) dove R è il numero di intervalli che intersecano quello dato
+    Iterator find(const BT&, const BT&) const; // O(log N)
 
 private:
-     static std::list<BaseIterator> findAllHelper(Node*, const Interval&);
+     static std::list<Iterator> findAllHelper(Node*, const Interval&);
 };
 
 // Interval class
@@ -190,51 +197,66 @@ IntervalTree<DT, BT, minBV, maxBV>::Node::~Node() {
 
 // BaseIterator class
 template<class DT, class BT, BT minBV, BT maxBV>
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::BaseIterator()
+template<bool C>
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::BaseIterator()
     : _node(nullptr), _pastTheEnd(false){}
 
 template<class DT, class BT, BT minBV, BT maxBV>
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::BaseIterator(Node* n, bool pastTheEnd)
+template<bool C>
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::BaseIterator(Node* n, bool pastTheEnd)
     : _node(n), _pastTheEnd(pastTheEnd) {}
 
 template<class DT, class BT, BT minBV, BT maxBV>
-DT& IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator*() const {
+template<bool C>
+typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>::reference
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator*() const {
     return _node->_info;
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-DT* IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator->() const {
+template<bool C>
+typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>::pointer
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator->() const {
     return &(_node->_info);
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator==(const BaseIterator& it) const {
+template<bool C>
+bool IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator==(const BaseIterator& it) const {
     return _node == it._node; // confronto le aree di memoria
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator!=(const BaseIterator& it) const {
+template<bool C>
+bool IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator!=(const BaseIterator& it) const {
     return _node != it._node;
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::right() const {
+template<bool C>
+typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::right() const {
     return BaseIterator(_node->_right);
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::left() const {
+template<bool C>
+typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::left() const {
     return BaseIterator(_node->_left);
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::parent() const {
+template<bool C>
+typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::parent() const {
     return BaseIterator(_node->_parent);
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator&
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator++() {
+template<bool C>
+typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>&
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator++() {
 
     if(_node) {
         if(!_pastTheEnd) {
@@ -264,8 +286,9 @@ IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator++() {
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator++(int) {
+template<bool C>
+typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator++(int) {
     BaseIterator aux = *this;
     operator++();
     return aux;
@@ -274,8 +297,9 @@ IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator++(int) {
 // NOTA: non vengono fatti controlli nel caso in cui si faccia
 // il -- del minimo => si finisce con _node = nullptr
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator&
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator--() {
+template<bool C>
+typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>&
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator--() {
     if(_node) {
         if(_pastTheEnd) {
             _pastTheEnd = false;
@@ -301,8 +325,9 @@ IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator--() {
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator::operator--(int) {
+template<bool C>
+typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>
+IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator--(int) {
     BaseIterator aux = *this;
     operator--();
     return aux;
@@ -413,7 +438,7 @@ void IntervalTree<DT, BT, minBV, maxBV>::right_rotate(Node* y) {
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator
+typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
     IntervalTree<DT, BT, minBV, maxBV>::insert(const DT& data, const BT& lowBound, const BT& highBound) {
 
     Node *x = _root,
@@ -445,7 +470,7 @@ typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator
     std::cout << "Calcolato il massimo" << std::endl;
 
     _size++;
-    return BaseIterator(z);
+    return Iterator(z);
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
@@ -529,12 +554,12 @@ void IntervalTree<DT, BT, minBV, maxBV>::transplant(Node* u, Node* v) {
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator
-    IntervalTree<DT, BT, minBV, maxBV>::erase(const BaseIterator& it) {
+typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
+    IntervalTree<DT, BT, minBV, maxBV>::erase(const Iterator& it) {
 
     // controllo se it._node != nullptr
 
-    BaseIterator next = it;
+    Iterator next = it;
     // TODO next++;
 
     delete_node(it._node);
@@ -573,15 +598,16 @@ void IntervalTree<DT, BT, minBV, maxBV>::delete_node(Node* z) {
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-std::list<typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator> IntervalTree<DT, BT, minBV, maxBV>::findAll(const BT& lowBound, const BT& highBound) const {
+std::list<typename IntervalTree<DT, BT, minBV, maxBV>::Iterator>
+IntervalTree<DT, BT, minBV, maxBV>::findAll(const BT& lowBound, const BT& highBound) const {
     return findAllHelper(_root, Interval(lowBound, highBound));
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-std::list<typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator>
+std::list<typename IntervalTree<DT, BT, minBV, maxBV>::Iterator>
 IntervalTree<DT, BT, minBV, maxBV>::findAllHelper(Node* n, const Interval& i) {
 
-    std::list<BaseIterator> matches;
+    std::list<Iterator> matches;
 
     if(!n)
         return matches;
@@ -596,7 +622,7 @@ IntervalTree<DT, BT, minBV, maxBV>::findAllHelper(Node* n, const Interval& i) {
         matches.splice(matches.end(), findAllHelper(n->_left, i)); // splice funziona in O(1)
 
     if(n->_interval.overlaps(i))
-        matches.push_back(n); // O(1)
+        matches.push_back(Iterator(n)); // O(1)
 
     // se il punto più a destra dell'intervallo (highBound) è a sinistra del punto
     // più a sinistra della root, allora non ci possono essere intersezioni con i figli di sinistra
@@ -607,7 +633,7 @@ IntervalTree<DT, BT, minBV, maxBV>::findAllHelper(Node* n, const Interval& i) {
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator IntervalTree<DT, BT, minBV, maxBV>::find(const BT& lowBound, const BT& highBound) const {
+typename IntervalTree<DT, BT, minBV, maxBV>::Iterator IntervalTree<DT, BT, minBV, maxBV>::find(const BT& lowBound, const BT& highBound) const {
     Interval i(lowBound, highBound);
     Node* x = _root;
 
@@ -618,25 +644,27 @@ typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator IntervalTree<DT, BT, m
             x = x->_right;
     }
 
-    return BaseIterator(x);
+    return Iterator(x);
 }
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator IntervalTree<DT, BT, minBV, maxBV>::begin() const {
+typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
+IntervalTree<DT, BT, minBV, maxBV>::begin() const {
     Node* n = _root;
     while(n && n->_left)
         n = n->_left;
-    return BaseIterator(n);
+    return Iterator(n);
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::BaseIterator IntervalTree<DT, BT, minBV, maxBV>::end() const {
+typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
+IntervalTree<DT, BT, minBV, maxBV>::end() const {
     Node* n = _root;
     while(n && n->_right)
         n = n->_right;
 
     if(!n)
-        return BaseIterator(n);
-    return BaseIterator(n+1, true);
+        return Iterator(n);
+    return Iterator(n+1, true);
 }
 
 template<class DT, class BT, BT minBV, BT maxBV>
