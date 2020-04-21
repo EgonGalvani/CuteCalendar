@@ -4,6 +4,7 @@
 #include <regex>
 #include <string>
 #include <sstream>
+#include <stdexcept>
 
 unsigned int Time::_secondsInDay = 86400;
 
@@ -13,9 +14,18 @@ Time::Time() {
     _sec = now->tm_sec + now->tm_min * 60 + now->tm_hour * 3600;
 }
 
-// da aggiungere eccezioni (se es. hours > 23)
 Time::Time(unsigned int hours, unsigned int minutes, unsigned int seconds)
-    : _sec(hours*3600 + minutes*60 + seconds) {}
+    : _sec(hours*3600 + minutes*60 + seconds) {
+
+    if(hours > 23)
+        throw std::invalid_argument("Hours must be between 0 and 23");
+
+    if(minutes > 59)
+        throw std::invalid_argument("Minutes must be between 0 and 59");
+
+    if(seconds > 59)
+        throw std::invalid_argument("Seconds must be between 0 and 59");
+}
 
 void Time::addHours(unsigned int hours) {
     _sec = (_sec + hours*3600) % _secondsInDay;
@@ -99,13 +109,13 @@ std::istream& operator>>(std::istream& in, Time& t) {
 
     std::size_t pos_h = value.find(':');
     if(pos_h == std::string::npos)
-        std::cout << "eccezione" << std::endl;
+        throw std::invalid_argument("Input must be in the form hours:minutes:seconds");
     std::istringstream (value.substr(0, pos_h)) >> hours;
     value = value.substr(pos_h+1);
 
     std::size_t pos_m = value.find(':');
     if(pos_m == std::string::npos)
-        std::cout << "eccezione" << std::endl;
+        throw std::invalid_argument("Input must be in the form hours:minutes:seconds");
     std::istringstream (value.substr(0, pos_m)) >> minutes;
     value = value.substr(pos_m+1);
 

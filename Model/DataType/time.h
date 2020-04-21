@@ -9,17 +9,15 @@ private:
     unsigned int _sec;
 public:
     Time(); // ora attuale
-    Time(unsigned int, unsigned int, unsigned int = 0); // ore, minuti e secondi
-
-    // Time(const Time&) coincide con quello standard
+    Time(unsigned short, unsigned short, unsigned short = 0); // ore, minuti e secondi
 
     void addHours(unsigned int);
     void addMinutes(unsigned int);
     void addSeconds(unsigned int);
 
-    unsigned int hour() const;
-    unsigned int minute() const;
-    unsigned int second() const;
+    unsigned short hour() const;
+    unsigned short minute() const;
+    unsigned short second() const;
 
     unsigned int secSinceStartOfDay() const;
     std::string toString(const std::string&) const;
