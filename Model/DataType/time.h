@@ -5,7 +5,7 @@
 
 class Time {
 private:
-    static unsigned int _secondsInDay;
+    static unsigned int SECONDS_IN_DAY;
     unsigned int _sec;
 public:
     Time(); // ora attuale
@@ -28,6 +28,9 @@ public:
     bool operator<=(const Time&) const;
     bool operator>(const Time&) const;
     bool operator>=(const Time&) const;
+
+    Time operator+(const Time&) const;
+    Time operator-(const Time&) const;
 };
 
 std::ostream& operator<<(std::ostream&, const Time&);

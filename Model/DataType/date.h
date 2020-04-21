@@ -7,7 +7,7 @@ class Date {
 private:
     unsigned short _day, _month, _year;
 public:
-    Date(); // ora attuale
+    Date(); // data attuale
     Date(unsigned short, unsigned short, unsigned short); // anno, mese e giorno
 
     void addDays(unsigned short);

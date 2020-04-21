@@ -6,7 +6,7 @@
 #include <sstream>
 #include <stdexcept>
 
-unsigned int Time::_secondsInDay = 86400;
+unsigned int Time::SECONDS_IN_DAY = 86400;
 
 Time::Time() {
     std::time_t t = std::time(0);   // get time now
@@ -14,7 +14,7 @@ Time::Time() {
     _sec = now->tm_sec + now->tm_min * 60 + now->tm_hour * 3600;
 }
 
-Time::Time(unsigned int hours, unsigned int minutes, unsigned int seconds)
+Time::Time(unsigned short hours, unsigned short minutes, unsigned short seconds)
     : _sec(hours*3600 + minutes*60 + seconds) {
 
     if(hours > 23)
@@ -28,19 +28,30 @@ Time::Time(unsigned int hours, unsigned int minutes, unsigned int seconds)
 }
 
 void Time::addHours(unsigned int hours) {
-    _sec = (_sec + hours*3600) % _secondsInDay;
+    _sec = (_sec + hours*3600) % SECONDS_IN_DAY;
 }
 
 void Time::addMinutes(unsigned int minutes) {
-     _sec = (_sec + minutes*60) % _secondsInDay;
+     _sec = (_sec + minutes*60) % SECONDS_IN_DAY;
 }
 
 void Time::addSeconds(unsigned int seconds) {
-     _sec = (_sec + seconds) % _secondsInDay;
+     _sec = (_sec + seconds) % SECONDS_IN_DAY;
 }
 
 unsigned int Time::secSinceStartOfDay() const {
     return _sec;
+}
+
+unsigned short Time::hour() const {
+    return _sec / 3600;
+}
+
+unsigned short Time::minute() const {
+    return (_sec % 3600) / 60;
+}
+unsigned short Time::second() const {
+    return _sec % 60;
 }
 
 /*
@@ -54,9 +65,9 @@ unsigned int Time::secSinceStartOfDay() const {
 std::string Time::toString(const std::string& format) const {
     std::string aux(format);
 
-    unsigned int hours = _sec / 3600;
-    unsigned int minutes = (_sec % 3600) / 60;
-    unsigned int seconds = _sec - hours*3600 - minutes*60;
+    unsigned int hours = hour();
+    unsigned int minutes = minute();
+    unsigned int seconds = second();
 
     aux = std::regex_replace(aux, std::regex("hh"),
             hours < 10 ? "0" + std::to_string(hours) : std::to_string(hours));
@@ -95,6 +106,20 @@ bool Time::operator>(const Time& t) const {
 
 bool Time::operator>=(const Time& t) const {
     return _sec >= t._sec;
+}
+
+Time Time::operator+(const Time& t) const {
+    Time aux;
+    aux._sec = (_sec + t._sec) % SECONDS_IN_DAY;
+    return aux;
+}
+
+Time Time::operator-(const Time& t) const {
+    Time aux;
+    aux._sec = (_sec >= t._sec)
+            ? _sec - t._sec
+            : SECONDS_IN_DAY - (t._sec - _sec);
+    return aux;
 }
 
 std::ostream& operator<<(std::ostream& out, const Time& t) {
