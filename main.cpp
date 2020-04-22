@@ -53,10 +53,12 @@ int main(int argc, char *argv[]) {
     std::cout << std::endl;
 
     // test time.h
+
     Time t;
     std::cout << t.toString("hh:mm:ss") << std::endl;
     std::cout << t.toString("h:mm:s") << std::endl;
     std::cout << t.toString("h:m:s") << std::endl;
+
 
     return 0;
 }

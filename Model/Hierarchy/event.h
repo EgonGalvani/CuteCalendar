@@ -11,6 +11,10 @@ private:
     std::vector<std::string> tags;
 
 public:
+
+    Event(std::string nome,std::string descr,std::string luogo,
+            std::vector<std::string> vettoreTag);
+
     //Pure virtual methods
     virtual Event* clone() = 0;
     virtual void serialize() = 0;

@@ -5,6 +5,7 @@
 
 class ToDoList : public AllDayEvent,UniqueEvent {
 
+private:
     //Non so se usarla come classe privata,
     //il getter potrebbe rovinare il tutto
     class ListItem {
@@ -12,20 +13,24 @@ class ToDoList : public AllDayEvent,UniqueEvent {
         std::string description;
         bool done;
     public:
-        std::string getDescription;
+        ListItem(std::string = nullptr,bool = false);
+        std::string getDescription();
         bool isDone();
         void setDone(bool);
-        virtual void serialize();
-        virtual ~ListItem();
-
     };
 
     std::vector<ListItem> items;
 
 public:
     //getter setter
-    std::vector<ListItem> getItems;
-    void setDone(unsigned int);
+    std::vector<ListItem> getItems();
+
+    //praticamente quando vado ad aggiungere
+    //devo costruire un nuovo item
+    //Ma devo mettere un id univoco?For reference chat telegram 21 aprile
+    void addItem();
+
+
 
     //Virtual methods
     virtual void serialize();

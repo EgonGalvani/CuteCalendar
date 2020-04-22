@@ -27,6 +27,19 @@ SOURCES += \
         main.cpp \
         View/mainwindow.cpp \
     	Model/Container/invalidinterval.cpp \
+    Model/Hierarchy/uniqueevent.cpp \
+    Model/Hierarchy/eventwithduration.cpp \
+    Model/Hierarchy/recurrence.cpp \
+    Model/Hierarchy/recurrencerule.cpp \
+    Model/Hierarchy/event.cpp \
+    Model/Hierarchy/birthday.cpp \
+    Model/Hierarchy/training.cpp \
+    Model/Hierarchy/reminder.cpp \
+    Model/Hierarchy/meeting.cpp \
+    Model/Hierarchy/alldayevent.cpp \
+    Model/Hierarchy/datemanager.cpp \
+    Model/Hierarchy/timemanager.cpp \
+    Model/Hierarchy/todolist.cpp \
     Model/DataType/time.cpp
 
 HEADERS += \

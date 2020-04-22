@@ -9,7 +9,8 @@ private:
 
     QDate* dataNascita;
 public:
-
+    //PERCHÈ BirthDay eredita getDuration?...
+    virtual QTime* getDuration();
     virtual void serialize();
 
 };

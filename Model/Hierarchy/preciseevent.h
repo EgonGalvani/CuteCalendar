@@ -7,6 +7,7 @@
 class PreciseEvent : public UniqueEvent,EventWithDuration {
 
 public:
+    //CON COSA LO REALIZZO?È UN VIRTUALE PURO?
     virtual bool isCompleted();
 };
 

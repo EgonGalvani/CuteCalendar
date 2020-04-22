@@ -11,7 +11,7 @@ private:
 
 public:
     std::string getSport();
-    void setSport();
+    void setSport(std::string sp);
 
     virtual void serialize();
 
