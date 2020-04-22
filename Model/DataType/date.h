@@ -5,9 +5,10 @@
 
 class Date {
 private:
-    unsigned short _day, _month, _year;
+    unsigned short _year, _month, _day;
+    static const int DAYS_OF_MONTH[12];
 public:
-    Date(); // data attuale
+    Date(); // Date attuale
     Date(unsigned short, unsigned short, unsigned short); // anno, mese e giorno
 
     void addDays(unsigned short);
@@ -25,7 +26,6 @@ public:
 
     unsigned int daysTo(const Date& d) const;
 
-    unsigned short secSinceStartOfDay() const;
     std::string toString(const std::string&) const;
 
     bool operator!=(const Date&) const;
@@ -35,9 +35,9 @@ public:
     bool operator>(const Date&) const;
     bool operator>=(const Date&) const;
 
-    static Date currentDate();
     static Date fromString(const std::string&);
     static bool isLeapYear(unsigned short);
+    static unsigned short daysInMonth(unsigned short, unsigned short);
 };
 
 std::ostream& operator<<(std::ostream&, const Date&);

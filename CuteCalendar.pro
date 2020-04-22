@@ -27,7 +27,8 @@ SOURCES += \
         main.cpp \
         View/mainwindow.cpp \
     	Model/Container/invalidinterval.cpp \
-    Model/DataType/time.cpp
+    Model/DataType/time.cpp \
+    Model/DataType/date.cpp
 
 HEADERS += \
 View/mainwindow.h \
