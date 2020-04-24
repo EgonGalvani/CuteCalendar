@@ -56,6 +56,7 @@ void MainWindow::addEventBox()
         currentDateLabel = new QLabel(tr("Current Date"));
         currentDateLabel->setBuddy(currentDateEdit);
 
+        addEvent= new QPushButton(tr("Add Event"));
 
 
         connect(currentDateEdit, &QDateEdit::dateChanged,
@@ -63,8 +64,11 @@ void MainWindow::addEventBox()
 
         connect(calendar, &QCalendarWidget::selectionChanged, this , &MainWindow::selectedDateChanged);
 
+        connect(addEvent, &QPushButton::clicked, this, &MainWindow::addNewEvent);
         eventLayout->addWidget(currentDateLabel, 1, 0);
         eventLayout->addWidget(currentDateEdit, 1, 1);
+        eventLayout->addWidget(addEvent);
+
         eventBlock->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
         eventBlock->setLayout(eventLayout);
 
@@ -77,6 +81,19 @@ void MainWindow::addEventBox()
 void MainWindow::selectedDateChanged()
 {
     currentDateEdit->setDate(calendar->selectedDate());
+}
+
+void MainWindow::addNewEvent()
+{
+    QWidget * popup = new QWidget();
+    popup->show();
+    eventLayout->addWidget(new QLabel(tr("Prova")));
+
+}
+
+void MainWindow::addMenu()
+{
+
 }
 
 

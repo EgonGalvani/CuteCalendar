@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
   /*  QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    return a.exec();*/
+    return a.exec();
 
     Date d;
     std::cout << d << std::endl;

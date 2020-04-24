@@ -1,3 +1,4 @@
+/*#include "date.h"
 #include "date.h"
 #include "formaterror.h"
 
@@ -66,7 +67,7 @@ unsigned short Date::month() const {
 
 unsigned short Date::year() const {
     return _year;
-}
+}*/
 
 /*
     d	The day as a number without a leading zero (1 to 31)
@@ -76,6 +77,7 @@ unsigned short Date::year() const {
     yy	The year as a two digit number (00 to 99)
     yyyy The year as a four digit number. If the year is negative, a minus sign is prepended, making five characters.
 */
+/*std::string Date::toString(const std::string& format) const {
 std::string Date::toString(const std::string& format) const {
     std::string aux(format);
 
@@ -146,6 +148,7 @@ unsigned short Date::daysInMonth(unsigned short month, unsigned short year) {
         ? 29
         : DAYS_OF_MONTH[month-1];
 }
+*/
 
 std::istream& operator>>(std::istream& in, Date& d) {
     std::string value;
