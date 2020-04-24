@@ -27,7 +27,8 @@ SOURCES += \
         main.cpp \
         View/mainwindow.cpp \
     Model/DataType/time.cpp \
-    Model/DataType/date.cpp
+    Model/DataType/date.cpp \
+    Model/DataType/formaterror.cpp
 
 HEADERS += \
 View/mainwindow.h \
@@ -51,6 +52,7 @@ View/mainwindow.h \
     Model/Hierarchy/preciseevent.h \
     Model/Hierarchy/meeting.h \
     Model/Hierarchy/reminder.h \
-    Model/Hierarchy/monthlyrule.h
+    Model/Hierarchy/monthlyrule.h \
+    Model/DataType/formaterror.h
 
 FORMS +=

@@ -1,5 +1,7 @@
 #include "time.h"
 
+#include "formaterror.h"
+
 #include <ctime>
 #include <regex>
 #include <string>
@@ -123,7 +125,7 @@ Time Time::operator-(const Time& t) const {
 }
 
 std::ostream& operator<<(std::ostream& out, const Time& t) {
-    return out << t.toString("hh:mm:ss");
+    return out << t.toString();
 }
 
 std::istream& operator>>(std::istream& in, Time& t) {
@@ -134,13 +136,13 @@ std::istream& operator>>(std::istream& in, Time& t) {
 
     std::size_t pos_h = value.find(':');
     if(pos_h == std::string::npos)
-        throw std::invalid_argument("Input must be in the form hours:minutes:seconds");
+        throw FormatError("Input must be in the form hours:minutes:seconds");
     std::istringstream (value.substr(0, pos_h)) >> hours;
     value = value.substr(pos_h+1);
 
     std::size_t pos_m = value.find(':');
     if(pos_m == std::string::npos)
-        throw std::invalid_argument("Input must be in the form hours:minutes:seconds");
+        throw FormatError("Input must be in the form hours:minutes:seconds");
     std::istringstream (value.substr(0, pos_m)) >> minutes;
     value = value.substr(pos_m+1);
 
