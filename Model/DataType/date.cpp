@@ -114,6 +114,6 @@ bool Date::operator>=(const Date& d) const {
 
 }
 
-std::ostream& Date::operator<<(std::ostream& out, const Date& d) {
-    return out << d._day << "/" << d._month << "/" << d._year;
+std::ostream& operator<< (std::ostream& out, const Date& d) {
+    return out; // << d._day << "/" << d._month << "/" << d._year;
 }

@@ -2,261 +2,576 @@
 #define INTERVALTREE_H
 
 #include <list>
-#include <cstddef> // std::size_t
+#include <cstddef>
+#include <stdexcept>
 
-#include <iostream> // test
-
-#include "invalidinterval.h"
-
+/**
+ * @brief Tipo enum utilizzato per indicare il colore delle foglie di un albero rosso-nero
+ */
 enum RBTreeColor{BLACK, RED};
 
-// i valori di maxBV e minBV sono necessari per la gestione di intervalli aperti
-// consideriamo intervalli del tipo [a, b] o (-infty, b] o [a, +infty)
-// DT -> DataType, BT -> BoundType, minBV -> min bound value, maxBV -> max bound value
-
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 class IntervalTree {
 private:
+
+    /**
+     * @brief Classe usata per la rappresentazione dell'intervallo associato ad ogni nodo
+     */
     class Interval {
     public:
+        /**
+         * @brief i due estremi dell'intervallo considerato
+         */
         BT _lowBound, _highBound;
-        Interval(const BT& = minBV, const BT& = maxBV); // TODO: aggiungere eccezioni se minBound > maxBound
-        // Interval& operator=(const Interval&) il funzionamento del costruttore di copia sarebbe uguale a quello standard
 
+        /**
+         * @brief Costruttore dell'intervallo, necessita dei due estremi dell'intervallo stesso
+         */
+        Interval(const BT&, const BT&); // TODO: aggiungere eccezioni se minBound > maxBound
+
+        /**
+         * @brief Verifica se l'intervallo attuale si interseca con un intervallo dato
+         * @return true sse i due intervalli si intersecano
+         */
         bool overlaps(const Interval&) const;
+
+        /**
+         * @brief Verifica se l'intervallo attuale si interseca con un intervallo dato (estremi esclusi)
+         * @return true sse i due intervalli si intersecano (estremi esclusi)
+         */
         bool operlapsExclusive(const Interval&) const;
+
+        /**
+         * @brief Verifica se l'intervallo attuale coincide con un punto
+         * @return true sse i due estremi dell'intervallo coincidono
+         */
         bool isPoint() const;
+
+        /**
+         * @brief within
+         * @return
+         */
         bool within(const Interval&) const;
+
+        /**
+         * @brief Calcola la dimensione dell'intervallo
+         * @return la dimensione dell'intervallo
+         */
         BT size() const;
+
+        /**
+         * @brief Verifica se i due intervalli coincidono
+         * @return true sse i due intervalli presentano gli stessi estremi
+         */
         bool operator==(const Interval&) const;
     };
 
+    /**
+     * @brief Classe usata per la rappresentazione di un nodo dell'albero
+     */
     class Node {
     public:
+        /**
+         * @brief Informazione contenuta nel nodo
+         */
         DT _info;
+
+        /**
+         * @brief Intervallo associato al nodo considerato
+         */
         Interval _interval;
+
+        /**
+         * @brief Massimo estremo tra gli intervalli del nodo attuale e dei nodi dell'albero radicato in esso
+         */
         BT _maxBoundChild;
+
+        /**
+         * @brief Poichè la struttura si basa su un albero rosso-nero, allora ad ogni foglia è associato un colore
+         */
         RBTreeColor _color;
+
+        /**
+         * @brief Padre e figli del nodo attuale. Se il nodo non presenta uno di essi, allora questo è posto a nullptr
+         */
         Node *_parent, *_right, *_left;
 
+        /**
+         * @brief Costruttore della classe Node, richiede: dell'informazione da contenere, di un intervallo ed eventualmente
+         *  di un colore, di un padre, figlio destro e sinistro.
+         */
         Node(const DT&, const Interval& = Interval(), RBTreeColor = RED,
                Node* = nullptr, Node* = nullptr, Node* = nullptr);
+
+        /**
+          * @brief Distruttore del nodo corrente, innesca la distruzione dell'intero albero radicato in esso
+          */
         ~Node();
 
+        /**
+         * @brief Verifica se il nodo attuale è figlio destro del relativo padre
+         * @return true sse il nodo attuale è figlio destro
+         */
         bool isRight() const;
+
+        /**
+         * @brief Verifica se il nodo attuale è figlio sinistro del relativo padre
+         * @return true sse il nodo attuale è figlio sinistro
+         */
         bool isLeft() const;
+
+        /**
+         * @brief Verifica se il nodo attuale è la radice dell'albero
+         * @return true sse il nodo non ha padre
+         */
         bool isRoot() const;
+
+        /**
+         * @brief La chiave di ogni nodo è rappresentata dall'estremo sinistro dell'intervallo a lui associato
+         * @return la chiave del nodo
+         */
         BT getKey() const;
     };
 
+    /**
+     * @brief Puntatore alla radice dell'albero
+     */
     Node* _root;
+
+    /**
+     * @brief Numero di nodi che costituiscono l'albero
+     */
     std::size_t _size;
 
-    void insert_fixup(Node*); // O(log N)
+    /**
+     * @brief Procedura di fix necessaria a seguito di un inserimento, per mantenere le proprietà di un albero
+     *  rosso-nero
+     */
+    void insert_fixup(Node*);
+
+    /**
+     * @brief Procedura di rotazione sinistra di un nodo
+     */
     void left_rotate(Node*);
+
+    /**
+     * @brief Procedura di rotazione destra di un nodo
+     */
     void right_rotate(Node*);
-    void transplant(Node*, Node*); // O(1)
+
+    /**
+     * @brief Procedura di sostituzione di un nodo con un altro
+     */
+    void transplant(Node*, Node*);
+
+    /**
+     * @brief Procedura di eliminazione di un nodo dall'albero
+     */
     void delete_node(Node*);
+
+    /**
+     * @brief Procedura di fix necessaria a seguito dell'eliminazione di un nodo dell'albero, si occupa di mantenere
+     *  le proprietà di un albero rosso-nero
+     */
     void delete_fixup(Node*);
-    void recalculate_max(Node*); // O(log N)
+
+    /**
+     * @brief Procedura di fix necessaria a seguito di una modifica all'albero, si occupa di aggiornare i campi
+     *  _maxBoundChild dei nodi
+     */
+    void recalculate_max(Node*);
 
 public:
 
+    /**
+     * @brief Classe di base utilizzata per la creazione di iteratori, la variabile booleana indicata nel template
+     *  permette di utilizzare tale classe per la creazione sia di iteratori normali sia di iteratori costanti
+     */
     template<bool constness>
     class BaseIterator {
-        friend class IntervalTree<DT, BT, minBV, maxBV>;
+        friend class IntervalTree;
     private:
+
+        /**
+         * @brief Nodo riferito dall'iteratore corrente
+         */
         Node* _node;
+
+        /**
+         * @brief Indica se l'iteratore si trova nello stato di "past the end"
+         */
         bool _pastTheEnd;
+
+        /**
+         * @brief Costruttore privato dell'iteratore, richiede: il nodo a cui puntare e se lo stato da considerare si
+         *  past the end
+         */
         BaseIterator(Node*, bool = false);
     public:
+
+        /**
+         * @brief Tipo definito per indicare un puntatore, il quale potrà essere costante o meno a seconda
+         *  dell'iteratore considerato
+         */
         typedef typename std::conditional<constness, const DT*, DT*>::type pointer;
+
+        /**
+         * @brief Tipo definito per indicare un riferimento, il quale potrà essere costante o meno a seconda
+         *  dell'iteratore considerato
+         */
         typedef typename std::conditional<constness, const DT&, DT&>::type reference;
 
+        /**
+         * @brief Costruttore di default dell'iteratore, imposta _node a nullptr e _pastTheEnd a false
+         */
         BaseIterator();
-        reference operator*() const;
-        pointer operator->() const;
-        BaseIterator& operator++(); // O(log N)
-        BaseIterator operator++(int); // O(log N)
-        BaseIterator& operator--(); // O(log N)
-        BaseIterator operator--(int); // O(log N)
 
-        bool operator==(const BaseIterator&) const; // SI RIFERISCE ALL'AREA DI MEMORIA, NON ALL'OGGETTO PUNTATO
+        /**
+         * @brief Operatore di dereferenziazione
+         * @return un riferimento alla variabile puntata da _node.
+         *  Non viene fatto alcun tipo di controllo riguardo ad un possibile nullptr
+         */
+        reference operator*() const;
+
+        /**
+         * @brief Operatore di ->
+         * @return un puntatore alla variabile puntata da _node.
+         */
+        pointer operator->() const;
+
+        /**
+         * @brief Operatore di incremento prefisso. In particolare l'iteratore viene incrementato seguendo una vista
+         *  in-order dell'albero
+         * @return un riferimento all'iteratore avanzato di 1
+         */
+        BaseIterator& operator++();
+
+        /**
+         * @brief Operatore di incremento postfisso. In particolare l'iteratore viene incrementato seguendo una vista
+         *  in-order dell'albero
+         * @return TODO
+         */
+        BaseIterator operator++(int);
+
+        /**
+         * @brief Operatore di incremento prefisso. In particolare l'iteratore viene decrementato seguendo una vista
+         *  in-order dell'albero
+         * @return un riferimento all'iteratore decrementato di 1
+         */
+        BaseIterator& operator--();
+
+        /**
+         * @brief Operatore di incremento postfisso. In particolare l'iteratore viene decrementato seguendo una vista
+         *  in-order dell'albero
+         * @return TODO
+         */
+        BaseIterator operator--(int);
+
+        /**
+         * @brief Operatore di uguaglianza
+         * @return true sse i due iteratori considerati stanno puntando alla medesima area di memoria
+         */
+        bool operator==(const BaseIterator&) const;
+
+        /**
+         * @brief Operatore di disuguaglianza
+         * @return true sse i due iteratori considerati stanno puntando a due aree di memoria distinte
+         */
         bool operator!=(const BaseIterator&) const;
+
+        /**
+         * @brief Accesso al figlio destro del nodo riferito dall'iteratore
+         * @return un iteratore al figlio destro del nodo riferito dall'iteratore.
+         *  Non viene eseguito alcun tipo di controllo sulla sua effettiva esistenza.
+         */
         BaseIterator right() const;
+
+        /**
+         * @brief Accesso al figlio sinistro del nodo riferito dall'iteratore
+         * @return un iteratore al figlio sinistro del nodo riferito dall'iteratore.
+         *  Non viene eseguito alcun tipo di controllo sulla sua effettiva esistenza.
+         */
         BaseIterator left() const;
+
+        /**
+         * @brief Accesso al padre del nodo riferito dall'iteratore
+         * @return un iteratore al padre del nodo riferito dall'iteratore.
+         *  Non viene eseguito alcun tipo di controllo sulla sua effettiva esistenza.
+         */
         BaseIterator parent() const;
     };
 
+    /**
+     *  Definizio del tipo Iterator, tramite utilizzo della classe templetizzata BaseIterator
+     */
     using Iterator = BaseIterator<false>;
+
+    /**
+     * Definizione del tipo ConstIterator, tramite utilizzo della classe templetizzata BaseIterator
+     */
     using ConstIterator = BaseIterator<true>;
 
-    // member functions
-    IntervalTree(); // O(1)
-    IntervalTree(const IntervalTree&);
-    IntervalTree& operator=(const IntervalTree&);
-    ~IntervalTree(); // O(n)
+    /**
+     * @brief Costruttore di default di IntervalTree, pone _root = nullptr e _size = 0
+     */
+    IntervalTree();
 
-    // Iterators
-    Iterator begin() const; // O(log N)
-    Iterator end() const; // O(log N)
+    /**
+     * @brief Costruttore di copia di IntervalTree. La copia viene gestita in maniera profonda
+     */
+    IntervalTree(const IntervalTree&);
+
+    /**
+     * @brief Operatore di assegnazione
+     * @return un riferimento alla struttura IntervalTree appena creata
+     */
+    IntervalTree& operator=(const IntervalTree&);
+
+    /**
+      * @brief Distruttore di IntervalTree. Viene distrutta la radice, che a sua volta innesca la distruzione
+      *     dell'intero albero
+      */
+    ~IntervalTree();
+
+    /**
+     * @brief Permette di ottenre un iteratore al primo elemento del contenitore
+     * @return un iteratore al primo elemento del contenitore (secondo una vista in-order)
+     */
+    Iterator begin() const;
+
+    /**
+     * @brief Permette di ottenere un iteratore che rappresenta la fine del contenitore
+     * @return un iteratore alla fine del contenitore (dopo una vista in-order)
+     */
+    Iterator end() const;
+
+    /**
+     * @brief Permette di ottenre un iteratore costante al primo elemento del contenitore
+     * @return un iteratore costante al primo elemento del contenitore (secondo una vista in-order)
+     */
     ConstIterator cbegin() const;
+
+    /**
+     * @brief Permette di ottenere un iteratore costante che rappresenta la fine del contenitore
+     * @return un iteratore costante alla fine del contenitore (dopo una vista in-order)
+     */
     ConstIterator cend() const;
 
-    // Capacity
-    bool empty() const; // O(1)
-    std::size_t size() const; // O(1)
+    /**
+     * @brief Verifica se l'albero è vuoto
+     * @return true sse l'albero è vuoto, cioè se _size == 0
+     */
+    bool empty() const;
 
-    // Element access
+    /**
+     * @return il numero di elementi dell'albero, cioè _size
+     */
+    std::size_t size() const;
+
+    /**
+     * @brief Permette di ottenere un riferimento al primo elemento dell'albero (secondo una vista in-order)
+     * @return un riferimento al primo elemento dell'albero.
+     *  Non viene fatto alcun controllo sulla sua effettiva esistenza
+     */
     DT& front();
+
+    /**
+     * @brief Permette di ottenere un riferimento al primo elemento dell'albero (secondo una vista in-order)
+     * @return un riferimento al primo elemento dell'albero.
+     *  Non viene fatto alcun controllo sulla sua effettiva esistenza
+     */
     const DT& front() const;
+
+    /**
+     * @brief Permette di ottenere un riferimento all'utlimo elemento dell'albero (secondo una vista in-order)
+     * @return un riferimento all'ultimo elemento dell'albero.
+     *  Non viene fatto alcun controllo sulla sua effettiva esistenza
+     */
     DT& back();
+
+    /**
+     * @brief Permette di ottenere un riferimento costante all'ultimo elemento dell'albero (secondo una vista in-order)
+     * @return un riferimento costante all'ultimo elemento dell'albero.
+     *  Non viene fatto alcun controllo sulla sua effettiva esistenza
+     */
     const DT& back() const;
 
-    // Modifiers
-    void clear(); // O(N)
-    Iterator insert(const DT&, const BT&, const BT&); // O(log N)
-    Iterator erase(const Iterator&); // O(log N)
+    /**
+     * @brief Metodo che si occupa di "ripulire" l'albero, cioè di eliminare tutti i suoi elementi e di conseguenza
+     *  impostare la _size a 0
+     */
+    void clear();
 
-    // Operations
-    std::list<Iterator> findAll(const BT&, const BT&) const; // O(RlogN) dove R è il numero di intervalli che intersecano quello dato
-    Iterator find(const BT&, const BT&) const; // O(log N)
+    /**
+     * @brief Procedura di inserimento di un nuovo elemento all'interno dell'albero. Vengono richieste le informazioni per la creazione
+     *  dell'intervallo e dell'oggeto da associare al nuovo nodo
+     * @return un iteratore al nuovo nodo inserito
+     */
+    Iterator insert(const DT&, const BT&, const BT&);
+
+    /**
+     * @brief erase
+     * @return
+     */
+    Iterator erase(const Iterator&);
+
+    /**
+     * @brief Permette di identificare tutti gli intervalli dell'albero che intersecano un intervallo dato
+     * @return una lista di iteratori a tutti i nodi dell'albero i cui intervalli si intersecano con un intervallo dato
+     */
+    std::list<Iterator> findAll(const BT&, const BT&) const;
+
+    /**
+     * @brief Permette di identificare un intervallo dell'albero che interseca un intervallo dato
+     * @return un iteratore a un nodo dell'albero il cui intervallo si interseca con un intervallo dato
+     */
+    Iterator find(const BT&, const BT&) const;
 
 private:
-     static std::list<Iterator> findAllHelper(Node*, const Interval&);
+
+    /**
+      * @brief Funzione ricorsiva usata come aiuto per l'individuazione degli intervalli che si intersecano con un intervallo dato
+      * @return una lista di iteratori ai nodi apparteneti all'albero radicato nel nodo passato come parametro e i cui intervalli
+      *     si intersecano a un intervallo dato
+      */
+    static std::list<Iterator> findAllHelper(Node*, const Interval&);
 };
 
 // Interval class
-template<class DT, class BT, BT minBV, BT maxBV>
-IntervalTree<DT, BT, minBV, maxBV>::Interval::Interval(const BT& lowBound, const BT& highBound)
-    : _lowBound(lowBound), _highBound(highBound) {}
+template<class DT, class BT>
+IntervalTree<DT, BT>::Interval::Interval(const BT& lowBound, const BT& highBound)
+    : _lowBound(lowBound), _highBound(highBound) {
 
-template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::Interval::overlaps(const Interval& i) const {
+    if(_lowBound > _highBound)
+        throw std::logic_error("In an interval low bound must be less than or equal to high bound");
+}
+
+template<class DT, class BT>
+bool IntervalTree<DT, BT>::Interval::overlaps(const Interval& i) const {
     return _lowBound <= i._highBound && i._lowBound <= _highBound;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::Interval::operlapsExclusive(const Interval& i) const {
+template<class DT, class BT>
+bool IntervalTree<DT, BT>::Interval::operlapsExclusive(const Interval& i) const {
     return _lowBound < i._highBound && i._lowBound < _highBound;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::Interval::isPoint() const {
+template<class DT, class BT>
+bool IntervalTree<DT, BT>::Interval::isPoint() const {
     return _lowBound == _highBound;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-BT IntervalTree<DT, BT, minBV, maxBV>::Interval::size() const {
+template<class DT, class BT>
+BT IntervalTree<DT, BT>::Interval::size() const {
     return _highBound - _lowBound;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::Interval::within(const Interval& i) const {
+template<class DT, class BT>
+bool IntervalTree<DT, BT>::Interval::within(const Interval& i) const {
     return _lowBound >= i._lowBound && _highBound <= i._highBound;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::Interval::operator==(const Interval& i) const {
+template<class DT, class BT>
+bool IntervalTree<DT, BT>::Interval::operator==(const Interval& i) const {
     return _lowBound == i._lowBound && _highBound == i._highBound;
 }
 
 
 // Node class
-template<class DT, class BT, BT minBV, BT maxBV>
-IntervalTree<DT, BT, minBV, maxBV>::Node::Node(const DT& info,
+template<class DT, class BT>
+IntervalTree<DT, BT>::Node::Node(const DT& info,
        const Interval& interval, RBTreeColor color, Node* parent, Node* right, Node* left)
     : _info(info), _interval(interval), _maxBoundChild(interval._highBound), _color(color),
         _parent(parent), _right(right), _left(left) {}
 
-template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::Node::isRight() const {
+template<class DT, class BT>
+bool IntervalTree<DT, BT>::Node::isRight() const {
     return _parent && _parent->_right == this;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::Node::isLeft() const {
+template<class DT, class BT>
+bool IntervalTree<DT, BT>::Node::isLeft() const {
     return _parent && _parent->_left == this;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-BT IntervalTree<DT, BT, minBV, maxBV>::Node::getKey() const {
+template<class DT, class BT>
+BT IntervalTree<DT, BT>::Node::getKey() const {
     return _interval._lowBound;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::Node::isRoot() const {
+template<class DT, class BT>
+bool IntervalTree<DT, BT>::Node::isRoot() const {
     return !_parent;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-IntervalTree<DT, BT, minBV, maxBV>::Node::~Node() {
+template<class DT, class BT>
+IntervalTree<DT, BT>::Node::~Node() {
     delete _left;
     delete _right;
 }
 
 // BaseIterator class
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::BaseIterator()
+IntervalTree<DT, BT>::BaseIterator<C>::BaseIterator()
     : _node(nullptr), _pastTheEnd(false){}
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::BaseIterator(Node* n, bool pastTheEnd)
+IntervalTree<DT, BT>::BaseIterator<C>::BaseIterator(Node* n, bool pastTheEnd)
     : _node(n), _pastTheEnd(pastTheEnd) {}
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>::reference
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator*() const {
+typename IntervalTree<DT, BT>::template BaseIterator<C>::reference
+IntervalTree<DT, BT>::BaseIterator<C>::operator*() const {
     return _node->_info;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>::pointer
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator->() const {
+typename IntervalTree<DT, BT>::template BaseIterator<C>::pointer
+IntervalTree<DT, BT>::BaseIterator<C>::operator->() const {
     return &(_node->_info);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-bool IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator==(const BaseIterator& it) const {
+bool IntervalTree<DT, BT>::BaseIterator<C>::operator==(const BaseIterator& it) const {
     return _node == it._node; // confronto le aree di memoria
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-bool IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator!=(const BaseIterator& it) const {
+bool IntervalTree<DT, BT>::BaseIterator<C>::operator!=(const BaseIterator& it) const {
     return _node != it._node;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::right() const {
+typename IntervalTree<DT, BT>::template BaseIterator<C>
+IntervalTree<DT, BT>::BaseIterator<C>::right() const {
     return BaseIterator(_node->_right);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::left() const {
+typename IntervalTree<DT, BT>::template BaseIterator<C>
+IntervalTree<DT, BT>::BaseIterator<C>::left() const {
     return BaseIterator(_node->_left);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::parent() const {
+typename IntervalTree<DT, BT>::template BaseIterator<C>
+IntervalTree<DT, BT>::BaseIterator<C>::parent() const {
     return BaseIterator(_node->_parent);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>&
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator++() {
+typename IntervalTree<DT, BT>::template BaseIterator<C>&
+IntervalTree<DT, BT>::BaseIterator<C>::operator++() {
 
     if(_node) {
         if(!_pastTheEnd) {
@@ -285,10 +600,10 @@ IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator++() {
     return *this;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator++(int) {
+typename IntervalTree<DT, BT>::template BaseIterator<C>
+IntervalTree<DT, BT>::BaseIterator<C>::operator++(int) {
     BaseIterator aux = *this;
     operator++();
     return aux;
@@ -296,10 +611,10 @@ IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator++(int) {
 
 // NOTA: non vengono fatti controlli nel caso in cui si faccia
 // il -- del minimo => si finisce con _node = nullptr
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>&
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator--() {
+typename IntervalTree<DT, BT>::template BaseIterator<C>&
+IntervalTree<DT, BT>::BaseIterator<C>::operator--() {
     if(_node) {
         if(_pastTheEnd) {
             _pastTheEnd = false;
@@ -324,39 +639,39 @@ IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator--() {
     return *this;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
+template<class DT, class BT>
 template<bool C>
-typename IntervalTree<DT, BT, minBV, maxBV>::template BaseIterator<C>
-IntervalTree<DT, BT, minBV, maxBV>::BaseIterator<C>::operator--(int) {
+typename IntervalTree<DT, BT>::template BaseIterator<C>
+IntervalTree<DT, BT>::BaseIterator<C>::operator--(int) {
     BaseIterator aux = *this;
     operator--();
     return aux;
 }
 
 // Interval Tree class
-template<class DT, class BT, BT minBV, BT maxBV>
-IntervalTree<DT, BT, minBV, maxBV>::IntervalTree() : _root(nullptr), _size(0) {}
+template<class DT, class BT>
+IntervalTree<DT, BT>::IntervalTree() : _root(nullptr), _size(0) {}
 
 // Interval Tree - Capacity
-template<class DT, class BT, BT minBV, BT maxBV>
-bool IntervalTree<DT, BT, minBV, maxBV>::empty() const {
+template<class DT, class BT>
+bool IntervalTree<DT, BT>::empty() const {
     return _size == 0;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-std::size_t IntervalTree<DT, BT, minBV, maxBV>::size() const {
+template<class DT, class BT>
+std::size_t IntervalTree<DT, BT>::size() const {
     return _size;
 }
 
 // Interval Tree - Modifiers
-template<class DT, class BT, BT minBV, BT maxBV>
-void IntervalTree<DT, BT, minBV, maxBV>::clear() {
+template<class DT, class BT>
+void IntervalTree<DT, BT>::clear() {
     delete _root;
     _size = 0;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-void IntervalTree<DT, BT, minBV, maxBV>::left_rotate(Node* x) {
+template<class DT, class BT>
+void IntervalTree<DT, BT>::left_rotate(Node* x) {
        std::cout << "Left rotate" << std::endl;
 
     if(!x->_right) {
@@ -396,8 +711,8 @@ void IntervalTree<DT, BT, minBV, maxBV>::left_rotate(Node* x) {
            y->_maxBoundChild = std::max(y->_interval._highBound, x->_maxBoundChild);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-void IntervalTree<DT, BT, minBV, maxBV>::right_rotate(Node* y) {
+template<class DT, class BT>
+void IntervalTree<DT, BT>::right_rotate(Node* y) {
     std::cout << "Right rotate" << std::endl;
     if(!y->_right) {
         std::cout << "Caso" << std::endl;
@@ -437,9 +752,9 @@ void IntervalTree<DT, BT, minBV, maxBV>::right_rotate(Node* y) {
          x->_maxBoundChild = std::max(x->_interval._highBound, y->_maxBoundChild);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
-    IntervalTree<DT, BT, minBV, maxBV>::insert(const DT& data, const BT& lowBound, const BT& highBound) {
+template<class DT, class BT>
+typename IntervalTree<DT, BT>::Iterator
+    IntervalTree<DT, BT>::insert(const DT& data, const BT& lowBound, const BT& highBound) {
 
     Node *x = _root,
          *y = nullptr,
@@ -473,8 +788,8 @@ typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
     return Iterator(z);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-void IntervalTree<DT, BT, minBV, maxBV>::insert_fixup(Node* z) {
+template<class DT, class BT>
+void IntervalTree<DT, BT>::insert_fixup(Node* z) {
 
     while(z->_parent && z->_parent->_parent && z->_parent->_color == RED) {
         Node *parent = z->_parent,
@@ -528,8 +843,8 @@ void IntervalTree<DT, BT, minBV, maxBV>::insert_fixup(Node* z) {
 // ripercorro al contrario l'albero aggiornando il massimo
 // finchè non trovo un nodo con max maggiore del nodo corrente --> il massimo in questo caso sarà dato
 // dall'altro figlio = non devo aggiornare più niente
-template<class DT, class BT, BT minBV, BT maxBV>
-void IntervalTree<DT, BT, minBV, maxBV>::recalculate_max(Node* z) {
+template<class DT, class BT>
+void IntervalTree<DT, BT>::recalculate_max(Node* z) {
     Node* tmp = z->_parent;
     while(tmp && tmp->_maxBoundChild <= z->_maxBoundChild) {
         if(tmp->_left && tmp->_left->_maxBoundChild > tmp->_maxBoundChild)
@@ -541,8 +856,8 @@ void IntervalTree<DT, BT, minBV, maxBV>::recalculate_max(Node* z) {
     }
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-void IntervalTree<DT, BT, minBV, maxBV>::transplant(Node* u, Node* v) {
+template<class DT, class BT>
+void IntervalTree<DT, BT>::transplant(Node* u, Node* v) {
     if(u->isRoot())
            _root = v;
     else if(u->isLeft())
@@ -553,9 +868,9 @@ void IntervalTree<DT, BT, minBV, maxBV>::transplant(Node* u, Node* v) {
         v->_parent = u->_parent;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
-    IntervalTree<DT, BT, minBV, maxBV>::erase(const Iterator& it) {
+template<class DT, class BT>
+typename IntervalTree<DT, BT>::Iterator
+    IntervalTree<DT, BT>::erase(const Iterator& it) {
 
     // controllo se it._node != nullptr
 
@@ -568,8 +883,8 @@ typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
 }
 
 // PRE = z != nullptr
-template<class DT, class BT, BT minBV, BT maxBV>
-void IntervalTree<DT, BT, minBV, maxBV>::delete_node(Node* z) {
+template<class DT, class BT>
+void IntervalTree<DT, BT>::delete_node(Node* z) {
    /* Node* y;
     if(!z->_left || !z->_right)
         y = z;
@@ -597,15 +912,15 @@ void IntervalTree<DT, BT, minBV, maxBV>::delete_node(Node* z) {
     _size--; */
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-std::list<typename IntervalTree<DT, BT, minBV, maxBV>::Iterator>
-IntervalTree<DT, BT, minBV, maxBV>::findAll(const BT& lowBound, const BT& highBound) const {
+template<class DT, class BT>
+std::list<typename IntervalTree<DT, BT>::Iterator>
+IntervalTree<DT, BT>::findAll(const BT& lowBound, const BT& highBound) const {
     return findAllHelper(_root, Interval(lowBound, highBound));
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-std::list<typename IntervalTree<DT, BT, minBV, maxBV>::Iterator>
-IntervalTree<DT, BT, minBV, maxBV>::findAllHelper(Node* n, const Interval& i) {
+template<class DT, class BT>
+std::list<typename IntervalTree<DT, BT>::Iterator>
+IntervalTree<DT, BT>::findAllHelper(Node* n, const Interval& i) {
 
     std::list<Iterator> matches;
 
@@ -632,8 +947,8 @@ IntervalTree<DT, BT, minBV, maxBV>::findAllHelper(Node* n, const Interval& i) {
     return matches;
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::Iterator IntervalTree<DT, BT, minBV, maxBV>::find(const BT& lowBound, const BT& highBound) const {
+template<class DT, class BT>
+typename IntervalTree<DT, BT>::Iterator IntervalTree<DT, BT>::find(const BT& lowBound, const BT& highBound) const {
     Interval i(lowBound, highBound);
     Node* x = _root;
 
@@ -647,18 +962,18 @@ typename IntervalTree<DT, BT, minBV, maxBV>::Iterator IntervalTree<DT, BT, minBV
     return Iterator(x);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
-IntervalTree<DT, BT, minBV, maxBV>::begin() const {
+template<class DT, class BT>
+typename IntervalTree<DT, BT>::Iterator
+IntervalTree<DT, BT>::begin() const {
     Node* n = _root;
     while(n && n->_left)
         n = n->_left;
     return Iterator(n);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::Iterator
-IntervalTree<DT, BT, minBV, maxBV>::end() const {
+template<class DT, class BT>
+typename IntervalTree<DT, BT>::Iterator
+IntervalTree<DT, BT>::end() const {
     Node* n = _root;
     while(n && n->_right)
         n = n->_right;
@@ -668,18 +983,18 @@ IntervalTree<DT, BT, minBV, maxBV>::end() const {
     return Iterator(n+1, true);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::ConstIterator
-IntervalTree<DT, BT, minBV, maxBV>::cbegin() const {
+template<class DT, class BT>
+typename IntervalTree<DT, BT>::ConstIterator
+IntervalTree<DT, BT>::cbegin() const {
     Node* n = _root;
     while(n && n->_left)
         n = n->_left;
     return ConstIterator(n);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-typename IntervalTree<DT, BT, minBV, maxBV>::ConstIterator
-IntervalTree<DT, BT, minBV, maxBV>::cend() const {
+template<class DT, class BT>
+typename IntervalTree<DT, BT>::ConstIterator
+IntervalTree<DT, BT>::cend() const {
     Node* n = _root;
     while(n && n->_right)
         n = n->_right;
@@ -689,29 +1004,29 @@ IntervalTree<DT, BT, minBV, maxBV>::cend() const {
     return ConstIterator(n+1, true);
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-DT& IntervalTree<DT, BT, minBV, maxBV>::front() {
+template<class DT, class BT>
+DT& IntervalTree<DT, BT>::front() {
     return *begin();
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-const DT& IntervalTree<DT, BT, minBV, maxBV>::front() const {
+template<class DT, class BT>
+const DT& IntervalTree<DT, BT>::front() const {
     return *cbegin();
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-DT& IntervalTree<DT, BT, minBV, maxBV>::back() {
+template<class DT, class BT>
+DT& IntervalTree<DT, BT>::back() {
     return *(--end());
 }
 
-template<class DT, class BT, BT minBV, BT maxBV>
-const DT& IntervalTree<DT, BT, minBV, maxBV>::back() const {
+template<class DT, class BT>
+const DT& IntervalTree<DT, BT>::back() const {
     return *(--cend());
 }
 
 
-template<class DT, class BT, BT minBV, BT maxBV>
-IntervalTree<DT, BT, minBV, maxBV>::~IntervalTree() {
+template<class DT, class BT>
+IntervalTree<DT, BT>::~IntervalTree() {
     delete _root;
 }
 

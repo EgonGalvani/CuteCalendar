@@ -26,7 +26,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         View/mainwindow.cpp \
-    	Model/Container/invalidinterval.cpp \
     Model/DataType/time.cpp \
     Model/DataType/date.cpp
 
@@ -34,7 +33,6 @@ HEADERS += \
 View/mainwindow.h \
         Model/Hierarchy/datemanager.h \
         Model/Container/intervaltree.h \
-        Model/Container/invalidinterval.h \
         Model/DataType/date.h \
         Model/DataType/time.h \
     Model/Hierarchy/datemanager.h \

@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     w.show();
     return a.exec();*/
 
-    IntervalTree<std::string, int, 0, 10000> tree;
+    IntervalTree<std::string, int> tree;
 
     // insert(value, low, high)
    /* tree.insert("1", 1, 3000);
