@@ -172,5 +172,5 @@ std::istream& operator>>(std::istream& in, Date& d) {
 }
 
 std::ostream& operator<<(std::ostream& out, const Date& d) {
-    return out << toString();
+    return out << d.toString();
 }
