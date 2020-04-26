@@ -13,7 +13,7 @@ enum RBTreeColor{BLACK, RED};
 
 template<class DT, class BT>
 class IntervalTree {
-private:
+public:
 
     /**
      * @brief Classe usata per la rappresentazione dell'intervallo associato ad ogni nodo
@@ -854,7 +854,7 @@ template<class DT, class BT>
 void IntervalTree<DT, BT>::recalculate_max(Node* z) {
     Node* p = z;
 
-    while (p && p->_maxBoundChild <= z->_maxBoundChild) {
+    /*while (p && p->_maxBoundChild <= z->_maxBoundChild) {
 
        if (p->_left && p->_left->_maxBoundChild > p->_maxBoundChild)
            p->_maxBoundChild = p->_left->_maxBoundChild;
@@ -863,7 +863,25 @@ void IntervalTree<DT, BT>::recalculate_max(Node* z) {
            p->_maxBoundChild = p->_right->_maxBoundChild;
 
        p = p->_parent;
-   }
+   }*/
+
+    while(p) {
+        std::cout << "Fottiti " << z->_maxBoundChild  << std::endl;
+        BT max = z->_maxBoundChild;
+
+        if(z->isLeft()) {
+            if(p->_right && p->_right->_maxBoundChild > max)  {
+                max = p->_right->_maxBoundChild;
+            }
+        } else if(p->_left && p->_left->_maxBoundChild > max)
+                max = p->_left->_maxBoundChild;
+
+         p->_maxBoundChild = max;
+        if(p->_maxBoundChild != z->_maxBoundChild)
+            break;
+        z = p;
+        p = p->_parent;
+    }
 }
 
 template<class DT, class BT>
@@ -941,12 +959,13 @@ void IntervalTree<DT, BT>::delete_node(Node* z) {
        z->_info = y->_info;
        z->_interval = y->_interval;
        z->_maxBoundChild = y->_maxBoundChild;
-       recalculate_max(z);
     }
+
+      recalculate_max(y); // il problema è quiii
 
     if (x && x->_color == RED) {
        if (x_parent)
-           erase_fixup(x, x_parent, y->isLeft());
+           erase_fixup(x, x_parent, y->isLeft()); // la fixup nelle rotation controlla anche il max OK
        else
            x->_color =BLACK;
     }

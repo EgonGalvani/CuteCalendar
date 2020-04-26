@@ -5,7 +5,7 @@
 #include "Model/Container/intervaltree.h"
 
 int main(int argc, char *argv[]) {
-  /*  QApplication a(argc, argv);
+ /* QApplication a(argc, argv);
     MainWindow w;
     w.show();
     return a.exec();*/
@@ -19,23 +19,16 @@ int main(int argc, char *argv[]) {
     tree.insert("6", Date(2070, 1, 10), Date(2070, 5, 10));
     tree.insert("7", Date(2020, 12, 10), Date(2021, 5, 10));
 
-    std::list<IntervalTree<std::string, Date>::Iterator> intervals = tree.findAll(Date(2030, 10, 10), Date(2110, 10, 10));
-    std::cout << "Occorrenze: ";
-    for(auto interval : intervals)
-        std::cout << *interval << " ";
-    std::cout << std::endl;
+  std::cout << tree._root->_maxBoundChild << std::endl;
+    auto it = tree.end();
+       --it;
+    std::cout << *it << std::endl;
 
-    IntervalTree<std::string, Date>::Iterator first = intervals.front();
-    std::cout << "Deleting " << *first << std::endl;
+    tree.erase(it);
 
-    tree.erase(first);
+   // tree.insert("100", Date(2100, 10, 10), Date(2200, 10, 10));
 
-    intervals.clear();
-    intervals = tree.findAll(Date(1900, 10, 10), Date(3000, 10, 10));
-    std::cout << "Occorrenze: ";
-    for(auto interval : intervals)
-        std::cout << *interval << " ";
-    std::cout << std::endl;
+    std::cout << tree._root->_maxBoundChild << std::endl;
 
     return 0;
 }
