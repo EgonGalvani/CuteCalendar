@@ -428,6 +428,7 @@ public:
      */
     Iterator find(const BT&, const BT&) const;
 
+    static Node* treeMinimum(Node*);
 private:
 
     /**
@@ -436,8 +437,6 @@ private:
       *     si intersecano a un intervallo dato
       */
     static std::list<Iterator> findAllHelper(Node*, const Interval&);
-
-    void erase_fixup(Node*, Node*, bool);
 
     Node* successor(Node* _node);
 };
@@ -884,10 +883,11 @@ void IntervalTree<DT, BT>::recalculate_max(Node* z) {
     }
 }
 
+// sostituisce il sottoalbero con radice nel nodo u con il sottoalbero con radice nel nodo v
 template<class DT, class BT>
 void IntervalTree<DT, BT>::transplant(Node* u, Node* v) {
     if(u->isRoot())
-           _root = v;
+        _root = v;
     else if(u->isLeft())
         u->_parent->_left = v;
     else u->_parent->_right = v;
@@ -931,46 +931,79 @@ typename IntervalTree<DT, BT>::Node* IntervalTree<DT, BT>::successor(Node* _node
 // PRE = z != nullptr
 template<class DT, class BT>
 void IntervalTree<DT, BT>::delete_node(Node* z) {
-    Node* y;
-    if (!z->_left || !z->_right)
-       y = z;
-    else
-       y = successor(z);
+    /*Node *y = z,
+         *x = nullptr;
+    RBTreeColor originalColor = y->_color;
 
-    Node* x;
-    if (y->_left)
-       x = y->_left;
-    else
-       x = y->_left;
+    if(!z->_left) {
+        x = z->_right;
+        transplant(z, z->_right);
+    } else if(!z->_right) {
+        x = z->_left;
+        transplant(z, z->_left);
+    } else { // right e left sono entrambi diversi da null
+        y = treeMinimum(z->_right);
+        originalColor = y->_color;
+        x = y->_right;
 
-    if (x)
-       x->_parent = y->_parent;
+        if(y->_parent == z) {
+            x->_parent = y;
+        } else {
+            transplant(y, y->_right);
+            y->_right = z->_right;
+            y->_right->_parent = y;
+        }
 
-    auto* x_parent = y->_parent;
-
-    if (!y->_parent)
-       _root = x;
-    else if (y->isLeft())
-       y->_parent->_left = x;
-    else
-       y->_parent->_right = x;
-
-    if (y != z){
-       z->_info = y->_info;
-       z->_interval = y->_interval;
-       z->_maxBoundChild = y->_maxBoundChild;
+        transplant(z, y);
+        y->_left = z->_left;
+        y->_left->_parent = y;
+        y->_color = z->_color;
     }
 
-      recalculate_max(y); // il problema è quiii
+    if(originalColor == BLACK)
+        delete_fixup(x);
+        */
+
+    Node* y;
+    if(!z->_left || !z->_right) {
+        y = z;
+    } else y = successor(z);
+    Node* x;
+    if(y->_left)
+        x = y->_left;
+    else x = y->_right;
+
+    if(x)
+        x->_parent = y->_parent;
+
+    if(!y->_parent)
+        _root = x;
+    else if (y->isLeft())
+        y->_parent->_left = x;
+    else y->_parent->_right = x;
+
+    if(y != z) {
+        z->_interval = y->_interval;
+        z->_maxBoundChild = y->_maxBoundChild;
+        // ....
+    }
 
     if (x && x->_color == RED) {
-       if (x_parent)
-           erase_fixup(x, x_parent, y->isLeft()); // la fixup nelle rotation controlla anche il max OK
-       else
-           x->_color =BLACK;
+        if (x->_parent)
+            delete_fixup(x);
+        else
+            x->_color = BLACK;
     }
 
     delete y;
+}
+
+template<class DT, class BT>
+typename IntervalTree<DT, BT>::Node* IntervalTree<DT, BT>::treeMinimum(Node* x) {
+    if(!x || !x->_left)
+        return x;
+
+    return treeMinimum(x->_left);
 }
 
 
@@ -1093,83 +1126,66 @@ IntervalTree<DT, BT>::~IntervalTree() {
 }
 
 template<class DT, class BT>
-void IntervalTree<DT, BT>::erase_fixup(Node* x, Node* x_parent, bool y_is_left) {
+void IntervalTree<DT, BT>::delete_fixup(Node* x) {
+    // if(!x) std::cout << "Not x" << std::endl;
     while (x != _root && x->_color == BLACK) {
-         Node* w;
-         if (y_is_left)
-         {
-             w = x_parent->_right;
-             if (w->_color == RED)
-             {
+        std::cout << "Entrato" << std::endl;
+        Node* w;
+         if (x->isLeft()) {
+             w = x->_parent->_right;
+             if (w->_color == RED) {
                  w->_color = BLACK;
-                 x_parent->_color = RED;
-                 left_rotate(x_parent);
-                 w = x_parent->_right;
+                 x->_parent->_color = RED;
+                 left_rotate(x->_parent);
+                 w = x->_parent->_right;
              }
 
-             if (w->_left->_color == BLACK && w->_right->_color == BLACK)
-             {
+             if (w->_left->_color == BLACK && w->_right->_color == BLACK) {
                  w->_color = RED;
-                 x = x_parent;
-                 x_parent = x->_parent;
-                 y_is_left = (x == x_parent->_left);
-             }
-             else
-             {
-                 if (w->_right->_color == BLACK)
-                 {
+                 x = x->_parent;
+             } else {
+                 if (w->_right->_color == BLACK) {
                      w->_left->_color = BLACK;
                      w->_color = RED;
                      right_rotate(w);
-                     w = x_parent->_right;
+                     w = x->_parent->_right;
                  }
 
-                 w->_color = x_parent->_color;
-                 x_parent->_color = BLACK;
+                 w->_color = x->_parent->_color;
+                 x->_parent->_color = BLACK;
                  if (w->_right)
                      w->_right->_color = BLACK;
 
-                 left_rotate(x_parent);
+                 left_rotate(x->_parent);
                  x = _root;
-                 x_parent = nullptr;
              }
-         }
-         else
-         {
-             w = x_parent->_left;
-             if (w->_color == RED)
-             {
+         } else {
+             w = x->_parent->_left;
+             if (w->_color == RED) {
                  w->_color = BLACK;
-                 x_parent->_color = RED;
-                 right_rotate(x_parent);
-                 w = x_parent->_left;
+                 x->_parent->_color = RED;
+                 right_rotate(x->_parent);
+                 w = x->_parent->_left;
              }
 
-             if (w->_right->_color == BLACK && w->_left->_color == BLACK)
-             {
+             if (w->_right->_color == BLACK && w->_left->_color == BLACK) {
                  w->_color = RED;
-                 x = x_parent;
-                 x_parent = x->_parent;
-                 y_is_left = (x == x_parent->_left);
-             }
-             else
-             {
-                 if (w->_left->_color == BLACK)
-                 {
+                 x = x->_parent;
+             } else {
+                 if (w->_left->_color == BLACK) {
                      w->_right->_color = BLACK;
                      w->_color = RED;
                      left_rotate(w);
-                     w = x_parent->_left;
+                     w = x->_parent->_left;
                  }
 
-                 w->_color = x_parent->_color;
-                 x_parent->_color = BLACK;
+                 w->_color = x->_parent->_color;
+                 x->_parent->_color = BLACK;
                  if (w->_left)
                      w->_left->_color = BLACK;
 
-                 right_rotate(x_parent);
+                 right_rotate(x->_parent);
                  x = _root;
-                 x_parent = nullptr;
              }
          }
      }
