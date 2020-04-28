@@ -13,7 +13,7 @@ enum RBTreeColor{BLACK, RED};
 
 template<class DT, class BT>
 class IntervalTree {
-private:
+public:
 
     /**
      * @brief Classe usata per la rappresentazione dell'intervallo associato ad ogni nodo
@@ -428,6 +428,7 @@ public:
      */
     Iterator find(const BT&, const BT&) const;
 
+    static Node* treeMinimum(Node*);
 private:
 
     /**
@@ -436,6 +437,8 @@ private:
       *     si intersecano a un intervallo dato
       */
     static std::list<Iterator> findAllHelper(Node*, const Interval&);
+
+    Node* successor(Node* _node);
 };
 
 // Interval class
@@ -600,6 +603,8 @@ IntervalTree<DT, BT>::BaseIterator<C>::operator++() {
 
     return *this;
 }
+
+
 
 template<class DT, class BT>
 template<bool C>
@@ -846,21 +851,43 @@ void IntervalTree<DT, BT>::insert_fixup(Node* z) {
 // dall'altro figlio = non devo aggiornare più niente
 template<class DT, class BT>
 void IntervalTree<DT, BT>::recalculate_max(Node* z) {
-    Node* tmp = z->_parent;
-    while(tmp && tmp->_maxBoundChild <= z->_maxBoundChild) {
-        if(tmp->_left && tmp->_left->_maxBoundChild > tmp->_maxBoundChild)
-            tmp->_maxBoundChild = tmp->_left->_maxBoundChild;
-        if(tmp->_right && tmp->_right->_maxBoundChild > tmp->_maxBoundChild)
-            tmp->_maxBoundChild = tmp->_right->_maxBoundChild;
+    Node* p = z;
 
-        tmp = tmp->_parent;
+    /*while (p && p->_maxBoundChild <= z->_maxBoundChild) {
+
+       if (p->_left && p->_left->_maxBoundChild > p->_maxBoundChild)
+           p->_maxBoundChild = p->_left->_maxBoundChild;
+
+       if (p->_right && p->_right->_maxBoundChild > p->_maxBoundChild)
+           p->_maxBoundChild = p->_right->_maxBoundChild;
+
+       p = p->_parent;
+   }*/
+
+    while(p) {
+        std::cout << "Fottiti " << z->_maxBoundChild  << std::endl;
+        BT max = z->_maxBoundChild;
+
+        if(z->isLeft()) {
+            if(p->_right && p->_right->_maxBoundChild > max)  {
+                max = p->_right->_maxBoundChild;
+            }
+        } else if(p->_left && p->_left->_maxBoundChild > max)
+                max = p->_left->_maxBoundChild;
+
+         p->_maxBoundChild = max;
+        if(p->_maxBoundChild != z->_maxBoundChild)
+            break;
+        z = p;
+        p = p->_parent;
     }
 }
 
+// sostituisce il sottoalbero con radice nel nodo u con il sottoalbero con radice nel nodo v
 template<class DT, class BT>
 void IntervalTree<DT, BT>::transplant(Node* u, Node* v) {
     if(u->isRoot())
-           _root = v;
+        _root = v;
     else if(u->isLeft())
         u->_parent->_left = v;
     else u->_parent->_right = v;
@@ -873,45 +900,112 @@ template<class DT, class BT>
 typename IntervalTree<DT, BT>::Iterator
     IntervalTree<DT, BT>::erase(const Iterator& it) {
 
-    // controllo se it._node != nullptr
+    if(!it._node) // TODO: controllo sul past the end
+        return it;
 
     Iterator next = it;
-    // TODO next++;
-
+    next++;
     delete_node(it._node);
-
+    _size--;
     return next;
+}
+
+template<class DT, class BT>
+typename IntervalTree<DT, BT>::Node* IntervalTree<DT, BT>::successor(Node* _node) {
+  if(_node->_right) {
+      _node = _node->_right;
+      while(_node->_left)
+          _node = _node->_left;
+      return _node;
+  } else {
+      Node *parent = _node->_parent;
+      while(parent && _node->isRight()) {
+          _node = parent;
+          parent = parent->_parent;
+      }
+
+      return parent;
+  }
 }
 
 // PRE = z != nullptr
 template<class DT, class BT>
 void IntervalTree<DT, BT>::delete_node(Node* z) {
-   /* Node* y;
-    if(!z->_left || !z->_right)
-        y = z;
-    else y = successor(z); // ?
+    /*Node *y = z,
+         *x = nullptr;
+    RBTreeColor originalColor = y->_color;
 
-    Node* x;
-    if(!y->_left)
+    if(!z->_left) {
+        x = z->_right;
+        transplant(z, z->_right);
+    } else if(!z->_right) {
+        x = z->_left;
+        transplant(z, z->_left);
+    } else { // right e left sono entrambi diversi da null
+        y = treeMinimum(z->_right);
+        originalColor = y->_color;
         x = y->_right;
-    else
+
+        if(y->_parent == z) {
+            x->_parent = y;
+        } else {
+            transplant(y, y->_right);
+            y->_right = z->_right;
+            y->_right->_parent = y;
+        }
+
+        transplant(z, y);
+        y->_left = z->_left;
+        y->_left->_parent = y;
+        y->_color = z->_color;
+    }
+
+    if(originalColor == BLACK)
+        delete_fixup(x);
+        */
+
+    Node* y;
+    if(!z->_left || !z->_right) {
+        y = z;
+    } else y = successor(z);
+    Node* x;
+    if(y->_left)
         x = y->_left;
+    else x = y->_right;
 
     if(x)
         x->_parent = y->_parent;
 
     if(!y->_parent)
         _root = x;
-    else if(y->isLeft())
+    else if (y->isLeft())
         y->_parent->_left = x;
     else y->_parent->_right = x;
 
-    if(y->_color == BLACK)
-        delete_fixup(x);
+    if(y != z) {
+        z->_interval = y->_interval;
+        z->_maxBoundChild = y->_maxBoundChild;
+        // ....
+    }
+
+    if (x && x->_color == RED) {
+        if (x->_parent)
+            delete_fixup(x);
+        else
+            x->_color = BLACK;
+    }
 
     delete y;
-    _size--; */
 }
+
+template<class DT, class BT>
+typename IntervalTree<DT, BT>::Node* IntervalTree<DT, BT>::treeMinimum(Node* x) {
+    if(!x || !x->_left)
+        return x;
+
+    return treeMinimum(x->_left);
+}
+
 
 template<class DT, class BT>
 std::list<typename IntervalTree<DT, BT>::Iterator>
@@ -1029,6 +1123,74 @@ const DT& IntervalTree<DT, BT>::back() const {
 template<class DT, class BT>
 IntervalTree<DT, BT>::~IntervalTree() {
     delete _root;
+}
+
+template<class DT, class BT>
+void IntervalTree<DT, BT>::delete_fixup(Node* x) {
+    // if(!x) std::cout << "Not x" << std::endl;
+    while (x != _root && x->_color == BLACK) {
+        std::cout << "Entrato" << std::endl;
+        Node* w;
+         if (x->isLeft()) {
+             w = x->_parent->_right;
+             if (w->_color == RED) {
+                 w->_color = BLACK;
+                 x->_parent->_color = RED;
+                 left_rotate(x->_parent);
+                 w = x->_parent->_right;
+             }
+
+             if (w->_left->_color == BLACK && w->_right->_color == BLACK) {
+                 w->_color = RED;
+                 x = x->_parent;
+             } else {
+                 if (w->_right->_color == BLACK) {
+                     w->_left->_color = BLACK;
+                     w->_color = RED;
+                     right_rotate(w);
+                     w = x->_parent->_right;
+                 }
+
+                 w->_color = x->_parent->_color;
+                 x->_parent->_color = BLACK;
+                 if (w->_right)
+                     w->_right->_color = BLACK;
+
+                 left_rotate(x->_parent);
+                 x = _root;
+             }
+         } else {
+             w = x->_parent->_left;
+             if (w->_color == RED) {
+                 w->_color = BLACK;
+                 x->_parent->_color = RED;
+                 right_rotate(x->_parent);
+                 w = x->_parent->_left;
+             }
+
+             if (w->_right->_color == BLACK && w->_left->_color == BLACK) {
+                 w->_color = RED;
+                 x = x->_parent;
+             } else {
+                 if (w->_left->_color == BLACK) {
+                     w->_right->_color = BLACK;
+                     w->_color = RED;
+                     left_rotate(w);
+                     w = x->_parent->_left;
+                 }
+
+                 w->_color = x->_parent->_color;
+                 x->_parent->_color = BLACK;
+                 if (w->_left)
+                     w->_left->_color = BLACK;
+
+                 right_rotate(x->_parent);
+                 x = _root;
+             }
+         }
+     }
+
+    x->_color = BLACK;
 }
 
 #endif // INTERVALTREE_H

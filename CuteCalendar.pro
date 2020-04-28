@@ -53,6 +53,8 @@ View/mainwindow.h \
     Model/Hierarchy/preciseevent.h \
     Model/Hierarchy/meeting.h \
     Model/Hierarchy/reminder.h \
-    Model/Hierarchy/monthlyrule.h
+    Model/Hierarchy/monthlyrule.h \
+    Model/DataType/formaterror.h \
+    Model/DataType/deepptr.h
 
 FORMS +=
