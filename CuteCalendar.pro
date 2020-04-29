@@ -55,6 +55,8 @@ View/mainwindow.h \
     Model/Hierarchy/reminder.h \
     Model/Hierarchy/monthlyrule.h \
     Model/DataType/formaterror.h \
-    Model/DataType/deepptr.h
+    Model/DataType/deepptr.h \
+	View/newevent.h \
+	
 
 FORMS +=

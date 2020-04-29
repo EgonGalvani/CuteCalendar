@@ -13,6 +13,7 @@
 #include <QLabel>
 #include <QDateEdit>
 #include <QPushButton>
+#include <QScrollArea>
 
 
 class MainWindow : public QWidget
@@ -38,7 +39,10 @@ private:
 
     //Elementi addEventBox
     QGroupBox *eventBlock;
-    QGridLayout *eventLayout;
+    QVBoxLayout *eventLayout;
+    QHBoxLayout *eventLayoutTop;
+    QVBoxLayout *eventLayoutBot;
+    QScrollArea *areaEventi;
     QLabel *currentDateLabel;
     QDateEdit *currentDateEdit;
     QPushButton *addEvent;
