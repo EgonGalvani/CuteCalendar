@@ -28,12 +28,13 @@ SOURCES += \
         View/mainwindow.cpp \
     Model/DataType/time.cpp \
     Model/DataType/date.cpp \
-    Model/DataType/formaterror.cpp
+    Model/DataType/formaterror.cpp \
+    Model/model.cpp \
+    Model/xmlfileio.cpp
 
 HEADERS += \
 View/mainwindow.h \
         Model/Hierarchy/datemanager.h \
-        Model/Container/intervaltree.h \
         Model/DataType/date.h \
         Model/DataType/time.h \
     Model/Hierarchy/datemanager.h \
@@ -54,6 +55,12 @@ View/mainwindow.h \
     Model/Hierarchy/reminder.h \
     Model/Hierarchy/monthlyrule.h \
     Model/DataType/formaterror.h \
-    Model/DataType/deepptr.h
+    Model/DataType/deepptr.h \
+    Model/Hierarchy/serializable.h \
+    Model/model.h \
+    Model/xmlfileio.h \
+    Model/fileio.h \
+    Model/Container/vector.h \
+    Model/Container/unorderedmultimap.h
 
 FORMS +=
