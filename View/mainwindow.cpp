@@ -1,5 +1,4 @@
-#include "View\mainwindow.h"
-
+#include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent){
         addCalendar();
@@ -13,16 +12,11 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent){
 //        calendarLayout->setColumnMinimumWidth(0, calendar->sizeHint().width());
 }
 
-
-
-MainWindow::~MainWindow()
-{
-
+MainWindow::~MainWindow() {
 
 }
 
-void MainWindow::addCalendar()
-{
+void MainWindow::addCalendar() {
         calendarBlock = new QGroupBox(tr("Calendar"));
         calendar = new QCalendarWidget;
       //  calendar->setMinimumDate(QDate(1900, 1, 1));
@@ -44,12 +38,9 @@ void MainWindow::addCalendar()
         calendarLayout = new QGridLayout;
         calendarLayout->addWidget(calendar, 0, 0);
         calendarBlock->setLayout(calendarLayout);
-
-
 }
 
-void MainWindow::addEventBox()
-{
+void MainWindow::addEventBox() {
         eventBlock = new QGroupBox(tr("Eventi"));
         eventLayout= new QVBoxLayout;
         eventLayoutTop = new QHBoxLayout;
@@ -104,33 +95,19 @@ void MainWindow::addEventBox()
 
 
 
-void MainWindow::selectedDateChanged()
-{
+void MainWindow::selectedDateChanged() {
     currentDateEdit->setDate(calendar->selectedDate());
 }
 
-void MainWindow::addNewEvent()
-{
-
+void MainWindow::addNewEvent() {
     QWidget * popup = new QWidget();
     popup->show();
-
-
 }
 
-void MainWindow::addMenu()
-{
+void MainWindow::addMenu() {
 
 }
-
 
 void MainWindow::seeEvent(){
 
 }
-
-
-
-
-
-
-

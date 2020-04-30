@@ -22,11 +22,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-
 SOURCES += \
+    main.cpp \
     View/newevent.cpp \
-        main.cpp \
-        View/mainwindow.cpp \
+    View/mainwindow.cpp \
     Model/DataType/time.cpp \
     Model/DataType/date.cpp \
     Model/DataType/formaterror.cpp \
@@ -34,10 +33,11 @@ SOURCES += \
     Model/xmlfileio.cpp
 
 HEADERS += \
-View/mainwindow.h \
-        Model/Hierarchy/datemanager.h \
-        Model/DataType/date.h \
-        Model/DataType/time.h \
+    View/mainwindow.h \
+    View/newevent.h \
+    Model/Hierarchy/datemanager.h \
+    Model/DataType/date.h \
+    Model/DataType/time.h \
     Model/Hierarchy/datemanager.h \
     Model/Hierarchy/event.h \
     Model/Hierarchy/timemanager.h \
@@ -63,5 +63,4 @@ View/mainwindow.h \
     Model/fileio.h \
     Model/Container/vector.h \
     Model/Container/unorderedmultimap.h
-
 FORMS +=
