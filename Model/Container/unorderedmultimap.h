@@ -12,30 +12,30 @@ private:
         Key _key;
         Vector<Value> _data;
 
-        Node();
-        ~Node();
+        Node(const Key&, Node* = nullptr, Node* = nullptr); // fatto
+        ~Node(); // fatto
     };
 
-    Node *_root,
-         *_parent,
-         *_begin,
-         *_end;
-    unsigned int _bucketSize;
-    unsigned int _elementSize; // all elements
+    Node *_root;
+
+    unsigned int _bucketSize; // numero di chiavi
+    unsigned int _elementSize; // numero totale di elementi
+
+    static Node* copyTree(Node*);
 public:
+
     template<bool constness>
     class BaseIterator {
         friend class UnorderedMultimap;
     private:
-        T* _ptr;
+        Node* _ptr;
         bool _pastTheEnd;
-        BaseIterator(T*, bool = false);
+        BaseIterator(Key*, bool = false);
 
     public:
-        typedef typename std::conditional<constness, const DT*, DT*>::type pointer;
-        typedef typename std::conditional<constness, const DT&, DT&>::type reference;
-        typedef typename std::conditional<constness, DT, DT>::type value_type;
-        typedef typename BaseIterator<constness> self_type;
+        typedef typename std::conditional<constness, const Key*, Key*>::type pointer;
+        typedef typename std::conditional<constness, const Key&, Key&>::type reference;
+        typedef typename std::conditional<constness, Key, Key>::type value_type;
 
         BaseIterator();
 
@@ -63,15 +63,16 @@ public:
     using Iterator = BaseIterator<false>;
     using ConstIterator = BaseIterator<true>;
 
-    using LocalIterator = Vector<Value>::Iterator;
-    using LocalConstIterator = Vector<Value>::ConstIterator;
+    using LocalIterator = typename Vector<Value>::Iterator;
+    using LocalConstIterator = typename Vector<Value>::ConstIterator;
 
-    UnorderedMultimap();
-    ~UnorderedMultimap();
+    UnorderedMultimap(); // fatto
+    UnorderedMultimap(const UnorderedMultimap&); // fatto
+    ~UnorderedMultimap(); // fatto
 
     // capacity
-    bool empty() const;
-    unsigned int size() const;
+    bool empty() const; // fatto
+    unsigned int size() const; // fatto
 
     // iterators
     Iterator begin(); // ritorna un iteratore al primo bucket
@@ -83,8 +84,8 @@ public:
     ConstIterator cend() const;
 
     // buckets
-    unsigned int bucket_count() const;
-    unsigned int bucket_size(const Key&) const;
+    unsigned int bucket_count() const; // fatto
+    unsigned int bucket_size(const Key&) const; // da ricontrollare
 
     LocalIterator begin(const Key&); // ritorna un iteratore al primo elemento del bucket con chiave Key
     LocalConstIterator begin(const Key&) const;
@@ -102,11 +103,112 @@ public:
     Iterator erase(const Iterator&);
     unsigned int erase(const Key&);
 
+    void clear();
+    void swap(const UnorderedMultimap&);
+
     // delete element inside bucket
     LocalIterator erase(Iterator, LocalIterator);
     LocalIterator erase(Iterator, LocalIterator, LocalIterator);
 
     // search
     Iterator find(const Key&) const;
+};
+
+/**
+ * Node
+ */
+
+template<class K, class V>
+UnorderedMultimap<K, V>::Node::Node(const K& key, Node* right, Node* left)
+    : _key(key), _right(right), _left(left) {
+}
+
+template<class K, class V>
+UnorderedMultimap<K, V>::Node::~Node() {
+    delete _right;
+    delete _left;
+}
+
+/**
+ * Unordered Multimap
+ */
+
+template<class K, class V>
+Node* copyTree(Node* n) {
+    if(n)
+        return new Node(n->_key, n->_data, copyTree(n->_left), copyTree(n->_right));
+    return nullptr;
+}
+
+template<class K, class V>
+UnorderedMultimap<K, V>::UnorderedMultimap()
+    : _root(nullptr), _elementSize(0), _bucketSize(0){}
+
+template<class K, class V>
+UnorderedMultimap<K, V>::~UnorderedMultimap() {
+    delete _root;
+}
+
+template<class K, class V>
+UnorderedMultimap<K, V>::UnorderedMultimap(const UnorderedMultimap& um)
+    : _root(copyTree(um._root)), _elementSize(um._elementSize), _bucketSize(um._bucketSize) {}
+
+
+template<class K, class V>
+unsigned int UnorderedMultimap<K, V>::empty() const {
+    return _elementSize == 0;
+}
+
+template<class K, class V>
+unsigned int UnorderedMultimap<K, V>::size() const {
+    return _elementSize;
+}
+
+template<class K, class V>
+unsigned int UnorderedMultimap<K, V>::bucket_count() const {
+    return _bucketSize;
+}
+
+template<class K, class V>
+unsigned int UnorderedMultimap<K, V>::bucket_size(const Key& k) const {
+    Iterator it = find(k);
+    return it._ptr->_data.size();
+}
+
+template<class K, class V>
+Iterator UnorderedMultimap<K, V>::find(const Key& k) const {
+    Node *ptr = _root;
+    while(ptr && ptr->_key != k) {
+        if(ptr->_key < k)
+            ptr = ptr->_left;
+        else
+            ptr = ptr->_right;
+    }
+
+    return Iterator(ptr);
+}
+
+template<class K, class V>
+void UnorderedMultimap<K, V>::clear() {
+    _bucketSize = 0;
+    _elementSize = 0;
+    delete _root;
+}
+
+template<class K, class V>
+void UnorderedMultimap<K, V>::swap(const UnorderedMultimap& um) {
+    Node* auxRoot = _root;
+    unsigned int auxBucketSize = _bucketSize,
+        auxElementSize = _elementSize;
+
+    _root = um._root;
+    _bucketSize = um._bucketSize;
+    _elementSize = um._elementSize;
+
+    um._root = auxRoot;
+    um._bucketSize = auxBucketSize;
+    um._elementSize = auxElementSize;
+}
+
 
 #endif // UNORDEREDMULTIMAP_H

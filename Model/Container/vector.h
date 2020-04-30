@@ -16,7 +16,7 @@ public:
 
    template<bool constness>
    class BaseIterator {
-       friend class IntervalTree;
+       friend class Vector;
    private:
        T* _ptr;
        BaseIterator(T* = nullptr); // fatto
@@ -32,8 +32,8 @@ public:
 
        BaseIterator& operator+=(int); // fatto // no controllo sui bound
        BaseIterator& operator-=(int); // fatto // no controllo sui bound
-       BaseIterator operator+(int); // fatto // no controllo sui bound
-       BaseIterator operator-(int); // fatto // no controllo sui bound
+       BaseIterator operator+(int) const; // fatto // no controllo sui bound
+       BaseIterator operator-(int) const; // fatto // no controllo sui bound
        BaseIterator& operator++(); // fatto
        BaseIterator operator++(int); // fatto
        BaseIterator& operator--(); // fatto
@@ -157,14 +157,14 @@ Vector<T>::BaseIterator<C>::operator-=(int pos) {
 template<typename T>
 template<bool C>
 typename Vector<T>::template BaseIterator<C>
-Vector<T>::BaseIterator<C>::operator+(int pos) {
+Vector<T>::BaseIterator<C>::operator+(int pos) const {
     return BaseIterator<C>(_ptr+pos);
 }
 
 template<typename T>
 template<bool C>
 typename Vector<T>::template BaseIterator<C>
-Vector<T>::BaseIterator<C>::operator-(int pos) {
+Vector<T>::BaseIterator<C>::operator-(int pos) const {
     return BaseIterator<C>(_ptr-pos);
 }
 
@@ -243,7 +243,7 @@ bool Vector<T>::BaseIterator<C>::operator!=(const BaseIterator& it) const {
  */
 template<typename T>
 Vector<T>::Vector(unsigned int size, const T& t)
-    : _vector(size ? new T[size] : nullptr), _size(size), _capacity(size) {
+    : _vector(size ? new T[size] : new T[1]), _size(size), _capacity(size ? size : 1) {
 
     for(unsigned int i = 0; i < size; i++)
         _vector[i] = t;
@@ -326,7 +326,7 @@ unsigned int Vector<T>::capacity() const {
 
 template<typename T>
 void Vector<T>::reserve(unsigned int newCapacity) {
-    // if(newCapacity > max_size())
+    // TODO if(newCapacity > max_size())
     //     throw length_error
 
     if(newCapacity > _capacity) {
@@ -441,47 +441,75 @@ void Vector<T>::pop_back() {
 // inserisco l'elemento prima di quello inserito dal position
 template<typename T> // ---> vedere di semplicemente traslare gli elementi
 typename Vector<T>::Iterator Vector<T>::insert(const ConstIterator& position, const T& t) {
-
-    if(_size == _capacity) _capacity *= 2;
-    unsigned int pos = static_cast<unsigned int>(position._ptr - _vector);
-
-    T* aux = new T[_capacity];
-    for(unsigned int i = 0; i < pos; i++)
-        aux[i] = _vector[i];
-    aux[pos] = t;
-
-    for(unsigned int i = pos; i < _size; i++)
-        aux[i+1] = _vector[i];
-
-    delete[] _vector;
-    _size++;
-    _vector = aux;
-
-    return new Iterator(aux+pos);
+    return insert(position, 1, t);
 }
 
+// ritorna un iteratore al primo elemento inserito
 template<typename T>
 typename Vector<T>::Iterator Vector<T>::insert(const ConstIterator& position, unsigned int number, const T& t) {
+    int pos = static_cast<unsigned int>(position._ptr - _vector);
 
+    if(_size + number > _capacity) {
+        _capacity = (_size + number) * 2;
+        T* aux = new T[_capacity];
+
+        // copio quelli precedenti
+        for(unsigned int i = 0; i < pos; i++)
+            aux[i] = _vector[i];
+
+        // inserisco quelli da aggiungere
+        for(unsigned int i = 0; i < number; i++)
+            aux[pos+i] = t;
+
+        // copio i rimanenti
+        for(unsigned int i = pos; i < _size; i++)
+            aux[i+1] = _vector[i];
+
+        delete[] _vector;
+        _size++;
+        _vector = aux;
+        return Iterator(aux+pos);
+    }
+
+    // sposto tutti gli elementi a dx di number
+    for(int i = _size-1; i >= pos; i--)
+        _vector[i+number] = _vector[i];
+
+    // inserisco tutti gli elementi
+    for(unsigned int i = 0; i < number; i++)
+        _vector[pos+i] = t;
+    _size++;
+
+    return Iterator(_vector+pos);
 }
 
 template<typename T>
 typename Vector<T>::Iterator Vector<T>::erase(const ConstIterator& position) {
-
+    return erase(position, position+1);
 }
 
 // elimina gli elementi in [first, last)
 template<typename T>
 typename Vector<T>::Iterator Vector<T>::erase(const ConstIterator& first, const ConstIterator& last) {
-    unsigned int number = static_cast<unsigned int>(last - first);
+    unsigned int number = static_cast<unsigned int>(last._ptr - first._ptr);
+    unsigned int lastPosition = static_cast<unsigned int>(last._ptr - _vector);
+    unsigned int firstPosition = static_cast<unsigned int>(first._ptr - _vector);
+
+    // devo eliminare gli elmenti in [first, last)
+    for(unsigned int i = lastPosition; i < _size; i++) {
+        _vector[i-number] = _vector[i];
+    }
 
     _size -= number;
+    return Iterator(_vector+firstPosition);
 } // ritorna un iteratore alla nuova posizione di last
 
 template<typename T>
 void Vector<T>::clear() {
     delete[] _vector;
-    _capacity = _size = 0;
+    _size = 0;
+    _capacity = 1;
+    _vector = new T[1];
 }
 
 template<typename T>
