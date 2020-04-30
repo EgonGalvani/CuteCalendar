@@ -24,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    View/newevent.cpp \
         main.cpp \
         View/mainwindow.cpp \
     Model/DataType/time.cpp \
