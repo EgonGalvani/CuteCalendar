@@ -26,6 +26,7 @@ SOURCES += \
     main.cpp \
     View/newevent.cpp \
     View/mainwindow.cpp \
+    View/mycalendar.cpp \
     Model/DataType/time.cpp \
     Model/DataType/date.cpp \
     Model/DataType/formaterror.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
 HEADERS += \
     View/mainwindow.h \
     View/newevent.h \
+    View/mycalendar.h \
     Model/Hierarchy/datemanager.h \
     Model/DataType/date.h \
     Model/DataType/time.h \
