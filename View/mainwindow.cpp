@@ -1,5 +1,5 @@
-#include "View\mainwindow.h"
-#include "View\mycalendar.h"
+#include "mainwindow.h"
+#include "mycalendar.h"
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent){
         addCalendar();

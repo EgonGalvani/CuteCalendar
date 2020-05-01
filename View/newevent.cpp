@@ -1,4 +1,4 @@
-#include "View\newevent.h"
+#include "newevent.h"
 
 
 newEvent::newEvent(QWidget *parent) :
