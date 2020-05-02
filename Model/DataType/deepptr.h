@@ -39,7 +39,7 @@ template<typename T>
 DeepPtr<T>& DeepPtr<T>::operator=(const DeepPtr& p) {
     if(this != &p) {
         delete _ptr;
-        _ptr = p._ptr ? (*p)->clone() : nullptr;
+        _ptr = p._ptr ? p._ptr->clone() : nullptr;
     }
 
     return *this;
