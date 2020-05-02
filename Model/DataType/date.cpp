@@ -15,7 +15,7 @@ Date::Date() {
     _day = now->tm_mday;
 }
 
-Date::Date(unsigned short year, unsigned short month, unsigned short day)
+Date::Date(unsigned short day, unsigned short month, unsigned short year)
     : _year(year), _month(month), _day(day) {
 
     if(month == 0 || month > 12)
