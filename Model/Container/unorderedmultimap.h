@@ -2,6 +2,7 @@
 #define UNORDEREDMULTIMAP_H
 
 #include "vector.h"
+#include <iostream>
 
 template<class Key, class Value>
 class UnorderedMultimap {
@@ -13,7 +14,7 @@ private:
         Vector<Value> _data;
 
         Node(const Key&, Node* = nullptr, Node* = nullptr, Node* = nullptr); // fatto
-        ~Node(); // fatto
+        ~Node() = default; // fatto -> non ci pensa lui ad eliminare i propri figli
 
         bool isLeft() const; // fatto // no controlli su parent
         bool isRight() const;  // fatto // no controlli su parent
@@ -31,6 +32,8 @@ private:
     static Node* create_bucket(Node*, const Key&); // fatto
     static Node* tree_minimum(Node*); // fatto
     static Node* tree_maximum(Node*); // fatto
+    void transplant(Node*, Node*);
+    static void delete_tree(Node*);
 public:
 
     template<bool constness>
@@ -102,15 +105,15 @@ public:
     LocalIterator insert(const Iterator&, const Value&); // fatto // ritorna l'iteratore all'elemento inserito
 
     // delete all bucket
-    Iterator erase(const Iterator&);
+    Iterator erase(Iterator);
     unsigned int erase(const Key&);
 
     void clear(); // fatto
     void swap(UnorderedMultimap&); // fatto
 
     // delete element inside bucket
-    LocalIterator erase(Iterator, LocalIterator); // fatto
-    LocalIterator erase(Iterator, LocalIterator, LocalIterator); // fatto
+    LocalIterator erase(Iterator, LocalConstIterator); // fatto
+    LocalIterator erase(Iterator, LocalConstIterator, LocalConstIterator); // fatto
 
     // search
     Iterator find(const Key&) const; // fatto
@@ -235,14 +238,8 @@ UnorderedMultimap<K, V>::Node::Node(const K& key, Node* parent, Node* right, Nod
     : _right(right), _left(left), _parent(parent), _key(key) {}
 
 template<class K, class V>
-UnorderedMultimap<K, V>::Node::~Node() {
-    delete _right;
-    delete _left;
-}
-
-template<class K, class V>
 bool UnorderedMultimap<K, V>::Node::isLeft() const {
-    return _parent->_left = this;
+    return _parent->_left == this;
 }
 
 template<class K, class V>
@@ -273,7 +270,7 @@ UnorderedMultimap<K, V>::UnorderedMultimap()
 
 template<class K, class V>
 UnorderedMultimap<K, V>::~UnorderedMultimap() {
-    delete _root;
+    delete_tree(_root);
 }
 
 template<class K, class V>
@@ -308,7 +305,7 @@ UnorderedMultimap<K, V>::find(const K& k) const {
 
     Node *ptr = _root;
     while(ptr && ptr->_key != k) {
-        if(ptr->_key < k)
+        if(k < ptr->_key)
             ptr = ptr->_left;
         else
             ptr = ptr->_right;
@@ -332,8 +329,6 @@ UnorderedMultimap<K, V>::insert(const K& key, const V& value) {
             _root = it._ptr;
     }
 
-
-
     // aggiungo l'elemento
     it._ptr->_data.push_back(value);
     _elementSize++;
@@ -352,7 +347,8 @@ template<class K, class V>
 void UnorderedMultimap<K, V>::clear() {
     _bucketSize = 0;
     _elementSize = 0;
-    delete _root;
+    delete_tree(_root);
+    _root = nullptr;
 }
 
 template<class K, class V>
@@ -380,10 +376,9 @@ UnorderedMultimap<K, V>::create_bucket(Node* root, const K& k) {
     while(current) {
         parent = current;
 
-        if(current->_key < k)
+        if(k < current->_key)
             current = current->_left;
-        else
-            current = current->_right;
+        else current = current->_right;
     }
 
     Node* aux = new Node(k, parent);
@@ -442,14 +437,18 @@ UnorderedMultimap<K, V>::cend(const K& k) const {
 
 template<class K, class V>
 typename UnorderedMultimap<K, V>::LocalIterator
-UnorderedMultimap<K, V>::erase(Iterator it, LocalIterator lit) {
+UnorderedMultimap<K, V>::erase(Iterator it, LocalConstIterator lit) {
+    _elementSize--;
     return it._ptr->_data.erase(lit);
 }
 
 template<class K, class V>
 typename UnorderedMultimap<K, V>::LocalIterator
-UnorderedMultimap<K, V>::erase(Iterator it, LocalIterator lit_first, LocalIterator lit_last) {
-    return it._ptr->_data.erase(lit_first, lit_last);
+UnorderedMultimap<K, V>::erase(Iterator it, LocalConstIterator lit_first, LocalConstIterator lit_last) {
+    unsigned int previousSize = it._ptr->_data.size();
+    LocalIterator lit = it._ptr->_data.erase(lit_first, lit_last);
+    _elementSize -= previousSize - it._ptr->_data.size();
+    return lit;
 }
 
 template<class K, class V>
@@ -463,10 +462,9 @@ UnorderedMultimap<K, V>::begin() {
 template<class K, class V>
 typename UnorderedMultimap<K, V>::ConstIterator
 UnorderedMultimap<K, V>::begin() const {
-    std::cout << "Begin" << std::endl;
     if(!_root)
         return cend();
-    std::cout << "Non vuoot" << std::endl;
+
     return ConstIterator(tree_minimum(_root));
 }
 
@@ -497,43 +495,80 @@ UnorderedMultimap<K, V>::cend() const {
 }
 
 template<class K, class V>
+typename UnorderedMultimap<K, V>::Iterator
+UnorderedMultimap<K, V>::erase(Iterator it) {
+    if(!it._ptr || it._pastTheEnd)
+        return it;
+
+    Node* z = it._ptr, *w = nullptr;
+    if(!z->_left) {
+        w = z->_right;
+        transplant(z, z->_right);
+    } else if(!z->_right) {
+        w = z->_left;
+        transplant(z, z->_left);
+    } else {
+        Node* y = tree_minimum(z->_right);
+        w = y;
+
+        if(y->_parent != z) {
+            transplant(y, y->_right);
+            y->_right = z->_right;
+            y->_right->_parent = y;
+        }
+
+        transplant(z, y);
+        y->_left = z->_left;
+        y->_left->_parent = y;
+    }
+
+    _bucketSize--;
+    _elementSize -= it._ptr->_data.size();
+    delete it._ptr;
+    return Iterator(w);
+}
+
+template<class K, class V>
+unsigned int UnorderedMultimap<K, V>::erase(const K& k) {
+    Iterator it = find(k);
+    if(it._ptr) {
+        unsigned int size = it._ptr->_data.size();
+        erase(it); // ci pensa lui ad aggiornare la _bucketSize ed _elementSize
+
+        return size;
+    }
+
+    return 0;
+}
+
+
+template<class K, class V>
 typename UnorderedMultimap<K, V>::Node*
 UnorderedMultimap<K, V>::successor(Node* n) {
-    if(n->_right) {
-        n = n->_right;
-        while(n->_left)
-            n = n->_left;
-        return n;
-    }
+    if(n->_right)
+        return tree_minimum(n->_right);
 
     Node *parent = n->_parent;
     while(parent && n->isRight()) {
         n = parent;
         parent = parent->_parent;
     }
-
     return parent;
 }
 
 template<class K, class V>
 typename UnorderedMultimap<K, V>::Node*
 UnorderedMultimap<K, V>::predecessor(Node* n) {
-    if(n->_left) {
-        while(n->_right)
-            n = n->_right;
-    } else {
-        Node* parent = n->_parent;
-        while(parent && n->isLeft()) {
-            n = parent;
-            parent = parent->_parent;
-        }
+    if(n->_left)
+        return tree_maximum(n->_left);
+
+    Node* parent = n->_parent;
+    while(parent && n->isLeft()) {
         n = parent;
+        parent = parent->_parent;
     }
-
-    return n;
+    return parent;
 }
-
-
 
 template<class K, class V>
 typename UnorderedMultimap<K, V>::Node*
@@ -551,5 +586,30 @@ UnorderedMultimap<K, V>::tree_maximum(Node* n) {
     return n;
 }
 
+template<class K, class V>
+void UnorderedMultimap<K, V>::delete_tree(Node* n) {
+    if(n) {
+        if(n->_left)
+            delete_tree(n->_left);
+        if(n->_right)
+            delete_tree(n->_right);
+
+        delete n;
+    }
+}
+
+
+// sostituisco v ad u, non aggiorna v.left e v.right, questo è compito della procedura che chiama transplant
+template<class K, class V>
+void UnorderedMultimap<K, V>::transplant(Node* u, Node* v) {
+    if(u->isRoot())
+        _root = v;
+    else if(u->isLeft())
+        u->_parent->_left = v;
+    else u->_parent->_right = v;
+
+    if(v)
+        v->_parent = u->_parent;
+}
 
 #endif // UNORDEREDMULTIMAP_H
