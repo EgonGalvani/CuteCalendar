@@ -2,16 +2,18 @@
 #define NEWEVENT_H
 
 #include <QWidget>
+#include <QVBoxLayout>
+#include <QLabel>
 
 
 
-class newEvent : public QWidget
+class NewEvent : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit newEvent(QWidget *parent = nullptr);
-    ~newEvent();
+    explicit NewEvent(QWidget *parent = nullptr);
+    ~NewEvent();
 
 private:
 

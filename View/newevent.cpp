@@ -1,13 +1,17 @@
-#include "newevent.h"
+#include "newEvent.h"
 
 
-newEvent::newEvent(QWidget *parent) :
+NewEvent::NewEvent(QWidget *parent) :
     QWidget(parent)
 {
+    QLabel * prova=new QLabel(tr("Provone"));
+    QVBoxLayout* layout = new QVBoxLayout();
+    layout->addWidget(prova);
+    setLayout(layout);
 
 }
 
-newEvent::~newEvent()
+NewEvent::~NewEvent()
 {
 
 }

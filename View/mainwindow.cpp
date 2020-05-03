@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "mycalendar.h"
+#include "newEvent.h"
+
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent){
         addCalendar();
@@ -83,11 +85,28 @@ void MainWindow::addEventBox()
 
         areaEventi = new QScrollArea();
 
-        areaEventi->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
         eventLayoutBot->addWidget(areaEventi);
         eventLayoutBot->addWidget(addEvent);
 
-        //aggiunta LayoutBot e Top a eventLayout
+
+        auto * container = new QWidget();
+        //ScrollAreaFilling
+        QVBoxLayout * layoutArea = new QVBoxLayout(container);
+
+        auto * button1 = new QPushButton( "1", container);
+        auto * button2 = new QPushButton( "2", container);
+        auto * button3 = new QPushButton( "3", container);
+        layoutArea->addWidget( button1 );
+        layoutArea->addWidget( button2 );
+        layoutArea->addWidget( button3 );
+        areaEventi->setWidget( container );
+
+        areaEventi->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
+
+
+         //aggiunta LayoutBot e Top a eventLayout
 
         eventLayout->addLayout(eventLayoutTop);
         eventLayout->addLayout(eventLayoutBot);
@@ -114,7 +133,7 @@ void MainWindow::selectedDateChanged()
 void MainWindow::addNewEvent()
 {
 
-    QWidget * popup = new QWidget();
+    NewEvent * popup = new NewEvent();
     popup->show();
 
 

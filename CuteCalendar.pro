@@ -23,10 +23,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
+    View/viewallenamento.cpp \
+    View/viewcompleanno.cpp \
+    View/viewmeeting.cpp \
+    View/viewpromemoria.cpp \
     View/newevent.cpp \
     View/mainwindow.cpp \
     View/mycalendar.cpp \
+    main.cpp \
     Model/DataType/time.cpp \
     Model/DataType/date.cpp \
     Model/DataType/formaterror.cpp \
@@ -37,6 +41,10 @@ HEADERS += \
     View/mainwindow.h \
     View/newevent.h \
     View/mycalendar.h \
+    View/viewallenamento.h \
+    View/viewcompleanno.h \
+    View/viewmeeting.h \
+    View/viewpromemoria.h \
     Model/Hierarchy/datemanager.h \
     Model/DataType/date.h \
     Model/DataType/time.h \
@@ -64,5 +72,6 @@ HEADERS += \
     Model/xmlfileio.h \
     Model/fileio.h \
     Model/Container/vector.h \
-    Model/Container/unorderedmultimap.h
+    Model/Container/unorderedmultimap.h \
+
 FORMS +=

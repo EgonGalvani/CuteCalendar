@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QCalendarWidget>
 #include <QPainter>
+#include <QPen>
+#include <QColor>
 class MyCalendar : public QCalendarWidget
 {
 public:
