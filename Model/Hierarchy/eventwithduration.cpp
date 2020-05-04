@@ -9,16 +9,14 @@ EventWithDuration::EventWithDuration(Time start,Time end,std::string nome,
 Time EventWithDuration::getDuration() {
     //POTREBBE ESSERCI UN METODO PIÙ EFFICACE,
     //Difference converted in seconds, e poi ricostruisco ora,minuti,secondi
-/*
-    int x = endTime - startTime;
+
+    int x = (endTime - startTime).second();
     int hour = x / 3600;
     x %= 3600;
     int minutes = x / 60 ;
     x %= 60;
     int seconds = x;
     return Time(hour,minutes,seconds);
-    */
-
 }
 
 bool EventWithDuration::isCompleted() {

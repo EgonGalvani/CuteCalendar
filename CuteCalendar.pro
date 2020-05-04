@@ -34,7 +34,14 @@ SOURCES += \
     Model/Hierarchy/reminder.cpp \
     Model/Hierarchy/alldayevent.cpp \
     Model/Hierarchy/birthday.cpp \
-    Model/Hierarchy/meeting.cpp
+    Model/Hierarchy/meeting.cpp \
+    View/viewpromemoria.cpp \
+    View/viewmeeting.cpp \
+    View/viewcompleanno.cpp \
+    View/viewallenamento.cpp \
+    View/newevent.cpp \
+    View/mycalendar.cpp \
+    View/mainwindow.cpp
 
 HEADERS += \
     View/mainwindow.h \
@@ -62,5 +69,12 @@ HEADERS += \
     Model/Container/unorderedmultimap.h \
     Model/Hierarchy/workout.h \
     Model/Hierarchy/alert.h \
+    View/viewpromemoria.h \
+    View/viewmeeting.h \
+    View/viewcompleanno.h \
+    View/viewallenamento.h \
+    View/newevent.h \
+    View/mycalendar.h \
+    View/mainwindow.h
 
 FORMS +=
