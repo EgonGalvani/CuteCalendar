@@ -5,10 +5,7 @@
 #include <QVBoxLayout>
 #include <QLabel>
 
-
-
-class NewEvent : public QWidget
-{
+class NewEvent : public QWidget {
     Q_OBJECT
 
 public:
@@ -16,7 +13,6 @@ public:
     ~NewEvent();
 
 private:
-
 
 };
 

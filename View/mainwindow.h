@@ -16,7 +16,6 @@
 #include <QScrollArea>
 
 
-
 class MainWindow : public QWidget
 {
     Q_OBJECT
@@ -51,7 +50,6 @@ private:
     void addMenu();
     void addCalendar();
     void addEventBox();
-
 };
 
 #endif // MAINWINDOW_H

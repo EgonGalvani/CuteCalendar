@@ -2,8 +2,8 @@
 #define VIEWMEETING_H
 
 #include <QWidget>
-class ViewMeeting : public QWidget
-{
+
+class ViewMeeting : public QWidget {
     Q_OBJECT
 public:
     explicit ViewMeeting(QWidget *parent = 0);
