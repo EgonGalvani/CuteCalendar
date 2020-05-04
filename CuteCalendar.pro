@@ -23,25 +23,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp \
-        View/mainwindow.cpp \
+    View/viewallenamento.cpp \
+    View/viewcompleanno.cpp \
+    View/viewmeeting.cpp \
+    View/viewpromemoria.cpp \
+    View/newevent.cpp \
+    View/mainwindow.cpp \
+    View/mycalendar.cpp \
+    main.cpp \
     Model/DataType/time.cpp \
+    Model/DataType/date.cpp \
+    Model/DataType/formaterror.cpp \
+    Model/model.cpp \
+    Model/xmlfileio.cpp \
     Model/Hierarchy/todolist.cpp \
     Model/Hierarchy/event.cpp \
     Model/Hierarchy/workout.cpp \
-    Model/Hierarchy/eventwithduration.cpp \
     Model/Hierarchy/alert.cpp \
-    Model/Hierarchy/reminder.cpp \
     Model/Hierarchy/alldayevent.cpp \
-    Model/Hierarchy/birthday.cpp \
+    Model/Hierarchy/eventwithduration.cpp \
+    Model/Hierarchy/reminder.cpp \
     Model/Hierarchy/meeting.cpp \
-    View/viewpromemoria.cpp \
-    View/viewmeeting.cpp \
-    View/viewcompleanno.cpp \
-    View/viewallenamento.cpp \
-    View/newevent.cpp \
-    View/mycalendar.cpp \
-    View/mainwindow.cpp
+    Model/Hierarchy/birthday.cpp
 
 HEADERS += \
     View/mainwindow.h \
@@ -56,7 +59,9 @@ HEADERS += \
     Model/Hierarchy/event.h \
     Model/Hierarchy/alldayevent.h \
     Model/Hierarchy/eventwithduration.h \
+    Model/Hierarchy/alert.h \
     Model/Hierarchy/birthday.h \
+    Model/Hierarchy/workout.h \
     Model/Hierarchy/todolist.h \
     Model/Hierarchy/meeting.h \
     Model/Hierarchy/reminder.h \
@@ -67,14 +72,5 @@ HEADERS += \
     Model/fileio.h \
     Model/Container/vector.h \
     Model/Container/unorderedmultimap.h \
-    Model/Hierarchy/workout.h \
-    Model/Hierarchy/alert.h \
-    View/viewpromemoria.h \
-    View/viewmeeting.h \
-    View/viewcompleanno.h \
-    View/viewallenamento.h \
-    View/newevent.h \
-    View/mycalendar.h \
-    View/mainwindow.h
 
 FORMS +=
