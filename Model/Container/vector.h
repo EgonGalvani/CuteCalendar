@@ -3,7 +3,6 @@
 
 #include <limits>
 #include <stdexcept>
-#include <iostream> // TODO: togliere cout di test
 #include <algorithm>
 
 template<typename T>
@@ -19,95 +18,409 @@ public:
        friend class Vector;
    private:
        T* _ptr;
-       BaseIterator(T* = nullptr); // fatto
+       BaseIterator(T* = nullptr);
 
    public:
        typedef typename std::conditional<constness, const T*, T*>::type pointer;
        typedef typename std::conditional<constness, const T&, T&>::type reference;
        typedef typename std::conditional<constness, T, T>::type value_type;
 
-       reference operator*() const;  // fatto
-       reference operator[](unsigned int) const; // fatto
-       pointer operator->() const; // fatto
+       /**
+        * @brief ritorna un riferimento (costante o meno a seconda del tipo di iteratore) all'elemento corrente
+        * @return riferimento all'elemento corrente
+        */
+       reference operator*() const;
 
-       BaseIterator& operator+=(int); // fatto // no controllo sui bound
-       BaseIterator& operator-=(int); // fatto // no controllo sui bound
-       BaseIterator operator+(int) const; // fatto // no controllo sui bound
-       BaseIterator operator-(int) const; // fatto // no controllo sui bound
-       BaseIterator& operator++(); // fatto
-       BaseIterator operator++(int); // fatto
-       BaseIterator& operator--(); // fatto
-       BaseIterator operator--(int); // fatto
+       /**
+        * @brief ritorna un riferimento (costante o meno a seconda del tipo di iteratore) all'elemento che si trova
+        *   a distanza dist da quello corrente. Non vengono eseguiti controlli sui bound.
+        * @param dist: distanza dall'elemento desiderato
+        * @return riferimento all'elemento che si trova a distanza diff da quello attuale.
+        */
+       reference operator[](unsigned int dist) const;
 
-       bool operator<(const BaseIterator&) const; // fatto
-       bool operator>(const BaseIterator&) const; // fatto
-       bool operator<=(const BaseIterator&) const; // fatto
-       bool operator>=(const BaseIterator&) const; // fatto
-       bool operator==(const BaseIterator&) const; // fatto
-       bool operator!=(const BaseIterator&) const; // fatto
+       /**
+        * @brief ritorna un puntatore (costante o meno a seconda del tipo di iteratore) all'elemento corrente
+        * @return puntatore all'elemento corrente
+        */
+       pointer operator->() const;
+
+       /**
+        * @brief fa avanzare di diff posizioni l'iteratore. Non vengono fatti controlli sui bound.
+        * @param diff: numero di posizioni di cui far avanzare l'iteratore attuale
+        * @return un riferimento all'iteratore attuale, avanzato di diff posizioni
+        */
+       BaseIterator& operator+=(int diff);
+
+       /**
+        * @brief fa retrocedere di diff posizioni l'iteratore. Non vengono fatti controlli sui bound.
+        * @param diff: numero di posizioni di cui far retrocedere l'iteratore attuale
+        * @return un riferimento all'iteratore attuale, retrocesso di diff posizioni
+        */
+       BaseIterator& operator-=(int);
+
+       /**
+        * @brief crea un iteratore avanzato di diff posizioni rispetto a quello attuale (che invece non subisce alcun
+        *   tipo di modifica). Non vengono fatti controlli sui bound.
+        * @param diff: numero di posizioni dall'iteratore attuale
+        * @return un iteratore avanzato di diff posizioni rispetto a quello attuale
+        */
+       BaseIterator operator+(int diff) const;
+
+       /**
+        * @brief crea un iteratore retrocesso di diff posizioni rispetto a quello attuale (che invece non subisce alcun
+        *   tipo di modifica). Non vengono fatti controlli sui bound.
+        * @param diff: numero di posizioni dall'iteratore attuale
+        * @return un iteratore retrocesso di diff posizioni rispetto a quello attuale
+        */
+       BaseIterator operator-(int diff) const;
+
+       /**
+        * @brief Operator di incremento prefisso: incremeta l'iteratore attuale e lo ritorna per riferimento.
+        *  Non vengono fatti controlli sui bound.
+        * @return un riferimento all'iteratore attuale incrementato
+        */
+       BaseIterator& operator++();
+
+       /**
+        * @brief Operator di incremento postfisso: incremeta l'iteratore attuale e ne ritorna un iteratore allo
+        *   stato precedente. Non vengono fatti controlli sui bound.
+        * @return l'iteratore prima di essere incrementato
+        */
+       BaseIterator operator++(int);
+
+       /**
+        * @brief Operator di decremento prefisso: decrementa l'iteratore attuale e lo ritorna per riferimento.
+        *  Non vengono fatti controlli sui bound.
+        * @return un riferimento all'iteratore attuale decrementato
+        */
+       BaseIterator& operator--();
+
+       /**
+        * @brief Operator di decremento postfisso: decrementa l'iteratore attuale e ne ritorna un iteratore allo
+        *   stato precedente. Non vengono fatti controlli sui bound.
+        * @return l'iteratore prima di essere decrementato
+        */
+       BaseIterator operator--(int);
+
+       /**
+        * @brief Operatore di minore
+        * @param it: iteratore da confrontare con quello attuale
+        * @return true sse l'iteratore attuale si riferisce ad un'area di memoria precedente a quella riferita da it
+        */
+       bool operator<(const BaseIterator& it) const;
+
+       /**
+        * @brief Operatore di maggiore
+        * @param it: iteratore da confrontare con quello attuale
+        * @return true sse l'iteratore attuale si riferisce ad un'area di memoria successiva a quella riferita da it
+        */
+       bool operator>(const BaseIterator& it) const;
+
+       /**
+        * @brief Operatore di minore o uguale
+        * @param it: iteratore da confrontare con quello attuale
+        * @return true sse l'iteratore attuale si riferisce ad un'area di memoria che precede o coincide con
+        *   a quella riferita da it
+        */
+       bool operator<=(const BaseIterator& it) const;
+
+       /**
+        * @brief Operatore di maggiore o uguale
+        * @param it: iteratore da confrontare con quello attuale
+        * @return true sse l'iteratore attuale si riferisce ad un'area di memoria successiva o che coincide con
+        *   quella riferita da it
+        */
+       bool operator>=(const BaseIterator& it) const;
+
+       /**
+        * @brief Operatore di uguaglianza
+        * @param it: iteratore da confrontare con quello attuale
+        * @return true sse i due iteratori si riferiscono al medesimo elemento del container
+        */
+       bool operator==(const BaseIterator& it) const;
+
+       /**
+        * @brief Operatore di disuguaglianza
+        * @param it: iteratore da confrontare con quello attuale
+        * @return true sse i due iteratori si riferiscono a due elementi distinti del container
+        */
+       bool operator!=(const BaseIterator& it) const;
     };
 
     using Iterator = BaseIterator<false>;
     using ConstIterator = BaseIterator<true>;
 
-    // costruttori
-    // explicit Vector(const ConstIterator&, const ConstIterator&);
-    explicit Vector(unsigned int =0, const T& = T()); // fatto
-    Vector(const Vector&); // fatto
+   /**
+     * @brief Crea un oggetto di tipo vector, costituito da n occorrenze dell'oggetto t;
+     *  in particolare il valore di n verrà associato alla _size e _capacity dell'oggetto.
+     *  Si noti che se n == 0, allora la _capacity viene comunque posta a 1.
+     * @param n: numero di elementi da inserire
+     * @param t: valore che devono avere gli elementi inseriti
+     */
+    explicit Vector(unsigned int n=0, const T& t= T());
 
-    // distruttori
-    ~Vector(); // fatto
+    /**
+     * @brief Costruttore di copia profonda di Vector. Crea un oggetto con _size e _capacity
+     *  coincidenti a quelle di v. La copia del campo _vector di v avviene in maniera profonda.
+     * @param v: vettore da copiare
+     */
+    Vector(const Vector& v);
 
-    // assegnazione
-    Vector& operator=(const Vector&); // fatto
+    /**
+      * @brief Distruttore: si occupa di dealloccare _vector
+      */
+    ~Vector();
 
-    // iterators
-    Iterator begin(); // fatto
-    ConstIterator begin() const; // fatto
-    ConstIterator cbegin() const; // fatto
+    /**
+     * @brief Operatore di assegnazione. Si occupa di dealloccare il _vector dell'oggetto attuale
+     *  e copiare (in maniera profonda) lo stato interno di v
+     * @return un riferimento all'oggetto attuale, per permettere assegnazioni a cascata
+     */
+    Vector& operator=(const Vector& v);
 
-    Iterator end(); // fatto
-    ConstIterator end() const; // fatto
-    ConstIterator cend() const; // fatto
+    /**
+     * @brief Ritorna un iteratore al primo elemento del vettore
+     * @return un iteratore al primo elemento del vettore
+     */
+    Iterator begin();
 
-    // capacity
-    bool empty() const; // fatto
-    unsigned int size() const; // fatto
-    unsigned int capacity() const; // fatto
-    void reserve(unsigned int); // fatto
-    void resize(unsigned int, const T& = T()); // fatto
-    static unsigned int max_size(); // fatto
+    /**
+     * @brief Ritorna un iteratore costante al primo elemento del vettore
+     * @return un iteratore costante al primo elemento del vettore
+     */
+    ConstIterator begin() const;
 
-    // element access
-    T& front(); // fatto
-    const T& front() const; // fatto
-    T& back(); // fatto
-    const T& back() const; // fatto
-    T& at(unsigned int); // fatto
-    const T& at(unsigned int) const; // fatto
-    T& operator[](unsigned int); // fatto  // no controlli sui bound
-    const T& operator[](unsigned int) const; // fatto  // no controlli sui bound
+    /**
+     * @brief Ritorna un iteratore costante al primo elemento del vettore
+     * @return un iteratore costante al primo elemento del vettore
+     */
+    ConstIterator cbegin() const;
 
-    // modifiers
-    void push_back(const T&); // fatto
-    void pop_back(); // fatto
-    Iterator insert(const ConstIterator&, const T&);
-    Iterator insert(const ConstIterator&, unsigned int, const T &);
+    /**
+     * @brief Ritorna un iteratore all'elemento successivo all'ultimo elemento del vettore
+     * @return iteratore all'elemento successivo all'ultimo elemento del vettore
+     */
+    Iterator end();
+
+    /**
+     * @brief Ritorna un iteratore costnate all'elemento successivo all'ultimo elemento del vettore
+     * @return iteratore costante all'elemento successivo all'ultimo elemento del vettore
+     */
+    ConstIterator end() const;
+
+    /**
+     * @brief Ritorna un iteratore costante all'elemento successivo all'ultimo elemento del vettore
+     * @return iteratore costante all'elemento successivo all'ultimo elemento del vettore
+     */
+    ConstIterator cend() const;
+
+    /**
+     * @brief Verifica se il vettore è vuoto, cioè se _size == 0
+     * @return true sse il vettore è vuoto
+     */
+    bool empty() const;
+
+    /**
+     * @brief Permette di ottenere il numero di elementi presenti all'interno del vettore
+     * @return il numero di elementi del vettore (_size)
+     */
+    unsigned int size() const;
+
+    /**
+     * @brief Permette di ottenere la capacità attuale del vettore
+     * @return la capacità del vettore (_capacity)
+     */
+    unsigned int capacity() const;
+
+    /**
+     * @brief Permette di richiedere di riservare lo spazio per memorizzare almeno n elementi.
+     *  In particolare n, se maggiore di _capacity, andrà ad inidicare il nuovo valore di _capacity.
+     *  ( solo nel caso appena indicato si assiste ad un ridimensionamento del vettore )
+     */
+    void reserve(unsigned int n);
+
+    /**
+     * @brief
+     *  - Se n è più piccolo della _size attuale, il contenuto è ridotto ai primi n elementi
+     *  - Se n è maggiore di _size, allora il vengono aggiunti gli elementi necessari per raggiungere n, i quali
+     *      saranno tutti uguali a t
+     *  - Se n è maggiore anche dell'attuale _capacity allora si innescherà una riallocazione automatica del vettore
+     * @param n: nuova dimensione del vector
+     * @param t: valore da associare ai nuovi elementi
+     */
+    void resize(unsigned int n, const T& t = T());
+
+    /**
+     * @brief Metodo utilizzato per identificare il numero massimo di elementi che il vector può contenere. Poichè sia per la
+     *  _size che per la _capacity sono usate variabili di tipo: unsigned int, allora il valore coinciderà con il massimo valore
+     *  rappresentabile da un unsigned int
+     * @return il numero massimo di elementi memorizzabili correttamente all'interno del container
+     */
+    static unsigned int max_size();
+
+    /**
+     * @brief Ritorna un riferimento al primo elemento del vettore
+     * @return riferimento al primo elemento del vettore
+     */
+    T& front();
+
+    /**
+     * @brief Ritorna un riferimento costante al primo elemento del vettore
+     * @return riferimento costante al primo elemento del vettore
+     */
+    const T& front() const;
+
+    /**
+     * @brief Ritorna un riferimento all'ultimo elemento del vettore
+     * @return riferimento all'ultimo elemento del vettore
+     */
+    T& back();
+
+    /**
+     * @brief Ritorna un riferimento costante all'ultimo elemento del vettore
+     * @return riferimento costante all'ultimo elemento del vettore
+     */
+    const T& back() const;
+
+    /**
+     * @brief ritorna un riferimento all'elemento che si trova in posizione pos nel vettore.
+     *  Fa controlli sui bound.
+     * @param pos: posizione dell'elemento di interesse.
+     * @return un riferimento all'elemento che si trova in posizione pos
+     */
+    T& at(unsigned int pos);
+
+    /**
+     * @brief ritorna un riferimento costante all'elemento che si trova in posizione pos nel vettore.
+     *  Fa controlli sui bound.
+     * @param pos: posizione dell'elemento di interesse.
+     * @return un riferimento costante all'elemento che si trova in posizione pos
+     */
+    const T& at(unsigned int) const;
+
+    /**
+     * @brief ritorna un riferimento all'elemento che si trova in posizione pos nel vettore.
+     *  Non fa alcun controllo sui bound.
+     * @param pos: posizione dell'elemento di interesse.
+     * @return un riferimento all'elemento che si trova in posizione pos
+     */
+    T& operator[](unsigned int pos);
+
+    /**
+     * @brief ritorna un riferimento costante all'elemento che si trova in posizione pos nel vettore.
+     *  Non fa alcun controllo sui bound.
+     * @param pos: posizione dell'elemento di interesse.
+     * @return un riferimento costante all'elemento che si trova in posizione pos
+     */
+    const T& operator[](unsigned int pos) const;
+
+    /**
+     * @brief Inserisce una copia dell'elemento t all'interno del vettore
+     */
+    void push_back(const T& t);
+
+    /**
+     * @brief Rimuove l'ultimo elemento del vettore
+     */
+    void pop_back();
+
+    /**
+     * @brief Inserisce una copia dell'elemento t nella posizione indica dall'iteratore it
+     *  (spostando di conseguenza gli elmenti successivi di una posizione in avanti)
+     * @param it: iteratore che indica la posizione in cui inserire il nuovo elemento
+     * @param t: valore da attribuire al nuovo elemento
+     * @return un iteratore che punta al nuovo elemento inserito
+     */
+    Iterator insert(const ConstIterator& it, const T& t);
+
+    /**
+     * @brief Inserisce number copie dell'elemento t dalla posizione indica dall'iteratore it
+     *  (spostando di conseguenza gli elmenti successivi di number posizioni in avanti)
+     * @param it: iteratore che indica la posizione da cui inserire i nuovi elementi
+     * @param number: numero di elementi da inserire
+     * @param t: valore da attribuire ad ognuno dei nuovi elementi
+     * @return un iteratore che punta al primo nuovo elemento inserito
+     */
+    Iterator insert(const ConstIterator& it, unsigned int number, const T& t);
+
+    /**
+     * @brief erase
+     * @return
+     */
     Iterator erase(const ConstIterator&);
-    Iterator erase(const ConstIterator&, const ConstIterator&);
-    void swap(Vector&); // fatto
-    void clear(); // fatto
 
-    // search
+    /**
+     * @brief erase
+     * @return
+     */
+    Iterator erase(const ConstIterator&, const ConstIterator&);
+
+    /**
+     * @brief Scambia lo stato del vettore attuale con quello del vettore v,
+     *  andando ad aggiornare anche _size e _capacity
+     */
+    void swap(Vector& v);
+
+    /**
+     * @brief Rimuove tutti gli elementi del vettore, aggiornando di conseguenza anche
+     *  _size e _capacity
+     */
+    void clear();
+
+    /**
+     * @brief find
+     * @return
+     */
     Iterator find(const T&);
+
+    /**
+     * @brief find
+     * @return
+     */
     ConstIterator find(const T&) const;
 
-    bool operator==(const Vector&) const; // fatto
-    bool operator!=(const Vector&) const; // fatto
-    bool operator<(const Vector&) const; // fatto
-    bool operator>(const Vector&) const; // fatto
-    bool operator<=(const Vector&) const; // fatto
-    bool operator>=(const Vector&) const; // fatto
+    /**
+     * @brief Operatore di uguaglianza
+     * @param v: vettore da confrontare con quello attuale
+     * @return true sse i due vettori presentano la stessa _size e tutti i loro elementi coincidono
+     */
+    bool operator==(const Vector& v) const;
+
+    /**
+     * @brief Operatore di disuguaglianza
+     * @param v: vettore da confrontare con quello attuale
+     * @return true sse i due vettori presentano _size diverse o se alcuni dei loro elementi non coincidono
+     */
+    bool operator!=(const Vector& v) const;
+
+    /**
+     * @brief Operatore di minore
+     * @param v: vettore da confrontare con quello attuale
+     * @return se il vettore è minore rispetto a v secondo un confronto lessicografico
+     */
+    bool operator<(const Vector& v) const;
+
+    /**
+     * @brief Operatore di maggiore
+     * @param v: vettore da confrontare con quello attuale
+     * @return se il vettore è maggiore rispetto a v secondo un confronto lessicografico
+     */
+    bool operator>(const Vector& v) const;
+
+    /**
+     * @brief Operatore di minore o uguale
+     * @param v: vettore da confrontare con quello attuale
+     * @return se il vettore è minore o uguale a v secondo un confronto lessicografico
+     */
+    bool operator<=(const Vector& v) const;
+
+    /**
+     * @brief Operatore di maggiore o uguale
+     * @param v: vettore da confrontare con quello attuale
+     * @return se il vettore è maggiore o uguale a v secondo un confronto lessicografico
+     */
+    bool operator>=(const Vector& v) const;
 };
 
 /**
@@ -339,16 +652,6 @@ void Vector<T>::reserve(unsigned int newCapacity) {
     }
 }
 
-/* If n is smaller than the current container size, the content is reduced to its first n elements,
- * removing those beyond (and destroying them).
-
-    If n is greater than the current container size, the content is expanded by inserting at the end
-    as many elements as needed to reach a size of n. If val is specified, the new elements are initialized
-    as copies of val, otherwise, they are value-initialized.
-
-    If n is also greater than the current container capacity, an automatic reallocation of the allocated storage
-    space takes place.
-*/
 template<typename T>
 void Vector<T>::resize(unsigned int newSize, const T& t) {
     if(newSize < _size)
