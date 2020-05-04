@@ -369,18 +369,6 @@ public:
     void clear();
 
     /**
-     * @brief find
-     * @return
-     */
-    Iterator find(const T&);
-
-    /**
-     * @brief find
-     * @return
-     */
-    ConstIterator find(const T&) const;
-
-    /**
      * @brief Operatore di uguaglianza
      * @param v: vettore da confrontare con quello attuale
      * @return true sse i due vettori presentano la stessa _size e tutti i loro elementi coincidono
