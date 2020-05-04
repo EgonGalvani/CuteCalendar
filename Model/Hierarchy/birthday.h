@@ -9,11 +9,16 @@ private:
 
     Date dataNascita;
 public:
-    virtual void serialize();
 
     BirthDay(Date x,std::string nome,std::string descr,std::string luogo,
              Date data,std::vector<std::string>* vettoreTag);
 
+    virtual void serialize();
+    virtual Time getDuration();
+    virtual bool isCompleted();
+
+
 };
+
 
 #endif // COMPLEANNO_H

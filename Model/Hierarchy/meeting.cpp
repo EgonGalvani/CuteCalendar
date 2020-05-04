@@ -16,5 +16,15 @@ Meeting::Meeting(std::vector<std::string> part, Time start,
 
 }
 
+void Meeting::serialize(){
+
+}
+Time Meeting::getDuration(){
+    return Time();
+}
+bool Meeting::isCompleted() {
+    return false;
+}
+
 //MANCA UN METODO PER MODIFICARE I VETTORI?
 

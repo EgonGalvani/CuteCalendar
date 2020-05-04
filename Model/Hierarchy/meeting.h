@@ -15,6 +15,8 @@ public:
             std::string luogo,Date data,std::vector<std::string>* vettoreTag);
     std::vector<std::string> getPartecipants();
     virtual void serialize();
+    virtual Time getDuration();
+    virtual bool isCompleted();
 
 };
 

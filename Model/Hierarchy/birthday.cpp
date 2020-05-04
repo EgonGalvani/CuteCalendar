@@ -1,9 +1,5 @@
 #include "birthday.h"
 
-void BirthDay::serialize() {
-
-}
-
 BirthDay::BirthDay(Date x, std::string nome,std::string descr,std::string luogo,
                    Date data,std::vector<std::string>* vettoreTag)
     : AllDayEvent (nome,descr,luogo,data,vettoreTag),
@@ -11,3 +7,14 @@ BirthDay::BirthDay(Date x, std::string nome,std::string descr,std::string luogo,
 {
 
 }
+
+void BirthDay::serialize() {
+
+}
+Time BirthDay::getDuration() {
+    return Time();
+}
+bool BirthDay::isCompleted() {
+    return false;
+}
+

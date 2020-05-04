@@ -11,4 +11,14 @@ Reminder::Reminder(int x,Time start,Time end,Time alert,bool rep,std::string nom
 
 }
 
+void Reminder::serialize() {
+
+}
+Time Reminder::getDuration() {
+    return Time();
+}
+bool Reminder::isCompleted() {
+    return false;
+}
+
 
