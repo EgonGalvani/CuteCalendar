@@ -23,14 +23,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+<<<<<<< HEAD
+=======
+    main.cpp \
+    View/mainwindow.cpp \
+    View/newevent.cpp \
+    View/mycalendar.cpp \
+>>>>>>> master
     View/viewallenamento.cpp \
     View/viewcompleanno.cpp \
     View/viewmeeting.cpp \
     View/viewpromemoria.cpp \
+<<<<<<< HEAD
     View/newevent.cpp \
     View/mainwindow.cpp \
     View/mycalendar.cpp \
     main.cpp \
+=======
+>>>>>>> master
     Model/DataType/time.cpp \
     Model/DataType/date.cpp \
     Model/DataType/formaterror.cpp \
