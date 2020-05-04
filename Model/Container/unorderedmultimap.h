@@ -13,27 +13,111 @@ private:
         Key _key;
         Vector<Value> _data;
 
-        Node(const Key&, Node* = nullptr, Node* = nullptr, Node* = nullptr); // fatto
-        ~Node() = default; // fatto -> non ci pensa lui ad eliminare i propri figli
+        /**
+         * @brief costruttore di Node
+         * @param k: chiave del nodo
+         * @param parent: nodo padre di quello corrente (usato per permettere iteratori bidirezionali)
+         * @param left: nodo che corrisponde al figlio sinistro
+         * @param right: nodo che corrisponde al figlio destro
+         */
+        Node(const Key& k, Node* parent = nullptr, Node* left = nullptr, Node* right = nullptr);
 
-        bool isLeft() const; // fatto // no controlli su parent
-        bool isRight() const;  // fatto // no controlli su parent
-        bool isRoot() const; // fatto
+        /**
+          * distruttore standard
+          */
+        ~Node() = default;
+
+        /**
+         * @brief verifica se il nodo è figlio sinistro del padre. Non vengono fatti controlli
+         *  sull'effettiva esistenza del padre.
+         * @return true sse il nodo corrente è sinistro destro di suo padre
+         */
+        bool isLeft() const;
+
+        /**
+         * @brief verifica se il nodo è figlio destro del padre. Non vengono fatti controlli
+         *  sull'esistenza del padre
+         * @return true sse il nodo corrente è figlio destro di suo padre
+         */
+        bool isRight() const;
+
+        /**
+         * @brief verifica se il nodo corrente è radice dell'albero, cioè se _root == nullptr
+         * @return true sse il nodo corrente è radice dell'albero
+         */
+        bool isRoot() const;
     };
 
     Node *_root;
 
-    unsigned int _bucketSize; // numero di chiavi
-    unsigned int _elementSize; // numero totale di elementi
+    /**
+     * @brief numero di chiavi (bucket) presenti all'interno del'albero
+     */
+    unsigned int _bucketSize;
 
-    static Node* copyTree(Node*); // fatto
-    static Node* successor(Node*); // da controllare
-    static Node* predecessor(Node*); // da controllare
-    static Node* create_bucket(Node*, const Key&); // fatto
-    static Node* tree_minimum(Node*); // fatto
-    static Node* tree_maximum(Node*); // fatto
-    void transplant(Node*, Node*);
-    static void delete_tree(Node*);
+    /**
+     * @brief numero di elementi totali presenti nel container
+     */
+    unsigned int _elementSize;
+
+    /**
+     * @brief copia profonda di un albero radicato in n
+     * @param n: radice dell'albero che si vuole copiare
+     * @return un puntatore al nuovo albero creato
+     */
+    static Node* copyTree(Node* n); // TODO: controllare che vengano aggiornati i padri
+
+    /**
+     * @brief permette di individuare il nodo successivo in una vista in-order dell'albero
+     * @param n: nodo di cui si vuole trovare il successor
+     * @return puntatore al successor di n
+     */
+    static Node* successor(Node* n);
+
+    /**
+     * @brief permette di individuare il nodo precedente in una vista in-order dell'albero
+     * @param n: nodo di cui si vuole trovare il predecessor
+     * @return puntatore al predecessor di n
+     */
+    static Node* predecessor(Node* n);
+
+    /**
+     * @brief permette di introdurre un nuovo elemento (bucket) nell'albero, che presenta come
+     *  chiave il valore di k
+     * @param n: radice dell'albero di interesse
+     * @param k: chiave che si vuole aggiungere all'albero
+     * @return un puntatore al nuovo bucket creato
+     */
+    static Node* create_bucket(Node* n, const Key& k);
+
+    /**
+     * @brief permette di individuare il minimo dell'albero radicato in n
+     * @param n: radice dell'albero di cui si vuole trovare il minimo
+     * @return un puntatore al nodo che rappresenta il minimo dell'albero radicato in n
+     */
+    static Node* tree_minimum(Node* n);
+
+    /**
+     * @brief permette di individuare il massimo dell'albero radicato in n
+     * @param n: radice dell'albero di cui si vuole trovare il massimo
+     * @return un puntatore al nodo che rappresenta il massimo dell'albero radicato in n
+     */
+    static Node* tree_maximum(Node* n);
+
+    /**
+     * @brief permette di sostituire il nodo u con il nodo v. Si occupa di aggiornare la
+     *  relazione con il padre, e non con i figli (( auqesto do)a questo dovrà pensare la funzione
+     *  chiamante)
+     * @param u: nodo da sostituire
+     * @param v: nodo che va a sostituire u
+     */
+    void transplant(Node* u, Node* v);
+
+    /**
+     * @brief permette l'eliminazione di un albero
+     * @param n: radice dell'albero da eliminare
+     */
+    static void delete_tree(Node* n);
 public:
 
     template<bool constness>
@@ -49,74 +133,289 @@ public:
         typedef typename std::conditional<constness, const Key&, Key&>::type reference;
         typedef typename std::conditional<constness, Key, Key>::type value_type;
 
-        reference operator*() const; // fatto
-        pointer operator->() const; // fatto
+        /**
+         * @brief peremtte di ottenere un riferimento (costante o meno a seconda dell'iteratore)
+         *  alla chiave del bucket corrente
+         * @return un riferimento alla chiave del bucket riferito dall'iteratore
+         */
+        reference operator*() const;
 
-        BaseIterator& operator++(); // fatto
-        BaseIterator operator++(int); // fatto
-        BaseIterator& operator--(); // fatto
-        BaseIterator operator--(int); // fatto
+        /**
+         * @brief peremtte di ottenere un puntatore (costante o meno a seconda dell'iteratore)
+         *  alla chiave del bucket corrente
+         * @return un puntatore alla chiave del bucket riferito dall'iteratore
+         */
+        pointer operator->() const;
 
-        bool operator<(const BaseIterator&) const; // fatto
-        bool operator>(const BaseIterator&) const; // fatto
-        bool operator<=(const BaseIterator&) const; // fatto
-        bool operator>=(const BaseIterator&) const; // fatto
-        bool operator==(const BaseIterator&) const; // fatto
-        bool operator!=(const BaseIterator&) const; // fatto
+        /**
+         * @brief incremento prefisso, permette di ottenere un iteratore al nodo successivo secondo
+         *  una vista in-order dell'albero
+         * @return riferimento all'iteratore incrementato
+         */
+        BaseIterator& operator++();
+
+        /**
+         * @brief incremento postfisso, permette di incrementare un iteratore secondo
+         *  una vista in-order dell'albero
+         * @return iteratore prima di essere incrementato
+         */
+        BaseIterator operator++(int);
+
+        /**
+         * @brief decremento postfisso, permette di decrementare un iteratore secondo
+         *  una vista in-order dell'albero
+         * @return riferimento all'iteratore decrementato
+         */
+        BaseIterator& operator--();
+
+        /**
+         * @brief decremento postfisso, permette di decrementare un iteratore secondo
+         *  una vista in-order dell'albero
+         * @return iteratore prima di essere decrementato
+         */
+        BaseIterator operator--(int);
+
+        /**
+         * @brief Operatore di minore
+         * @param it: iteratore da confrontare con quello attuale
+         * @return true sse l'iteratore attuale precede it secondo una vista in-order
+         */
+        bool operator<(const BaseIterator& it) const;
+
+        /**
+         * @brief operatore di maggiore
+         * @param it: iteratore da confrontare con quello attuale
+         * @return true sse l'iteratore attuale segue it secondo una vista in-order
+         */
+        bool operator>(const BaseIterator& it) const;
+
+        /**
+         * @brief operatore di minore o uguale
+         * @param it: iteratore da confrontare con quello attuale
+         * @return true sse l'iteratore attuale precede o coincide con it secondo una vista in-order
+         */
+        bool operator<=(const BaseIterator& it) const;
+
+        /**
+         * @brief operatore di maggiore o uguale
+         * @param it: iteratore da confrontare con quello attuale
+         * @return true sse l'iteratore attuale segue o coincide con it secondo una vista in-order
+         */
+        bool operator>=(const BaseIterator& it) const;
+
+        /**
+         * @brief operatore di uguaglianza
+         * @param it: iteratore da confrontare con quello attuale
+         * @return true sse i due iteratori si riferiscono al medesimo bucket
+         */
+        bool operator==(const BaseIterator& it) const;
+
+        /**
+         * @brief operatore di disuguaglianza
+         * @param it: iteratore da confrontare con quello attuale
+         * @return sse i due iteratori si riferiscono a due bucket distinti
+         */
+        bool operator!=(const BaseIterator& it) const;
      };
 
+    /**
+     * @brief: iteratori sulle chiavi del container
+     */
     using Iterator = BaseIterator<false>;
     using ConstIterator = BaseIterator<true>;
 
+    /**
+     * @brief: iteratori sugli elementi di una chiave
+     */
     using LocalIterator = typename Vector<Value>::Iterator;
     using LocalConstIterator = typename Vector<Value>::ConstIterator;
 
-    UnorderedMultimap(); // fatto
-    UnorderedMultimap(const UnorderedMultimap&); // fatto
-    ~UnorderedMultimap(); // fatto
+    /**
+     * @brief UnorderedMultimap
+     */
+    UnorderedMultimap();
 
-    // capacity
-    bool empty() const; // fatto
-    unsigned int size() const; // fatto
+    /**
+     * @brief UnorderedMultimap
+     */
+    UnorderedMultimap(const UnorderedMultimap&);
 
-    // iterator attraverso le chiavi dell'albero
-    Iterator begin(); // fatto // ritorna un iteratore al primo bucket
-    ConstIterator begin() const;  // fatto
-    ConstIterator cbegin() const;  // fatto
+    /**
+      *
+      */
+    ~UnorderedMultimap();
 
-    Iterator end(); // fatto // ritorna un iteratore all'ultimo bucket
-    ConstIterator end() const; // fatto
-    ConstIterator cend() const; // fatto
+    // TODO: ricontrollare idea di empty --> posso avere numero elementi == 0 ma nBucket != 0
+    /**
+     * @brief permette di verificare che il contenitore sia vuoto, cioè che il numero di bucket sia 0
+     * @return true sse il contenitore è vuoto
+     */
+    bool empty() const;
 
-    // buckets
-    unsigned int bucket_count() const; // fatto
-    unsigned int bucket_size(const Key&) const; // fatto
+    /**
+     * @brief permette di verificare il numero di elementi presenti nel container (_elementSize)
+     * @return numero di elementi del container
+     */
+    unsigned int size() const;
 
-    LocalIterator begin(const Key&); // ritorna un iteratore al primo elemento del bucket con chiave Key
-    LocalConstIterator begin(const Key&) const;
-    LocalConstIterator cbegin(const Key&) const;
+    /**
+     * @brief permette di ottenere un iteratore alla prima chiave dell'albero, se l'albero è
+     *  vuoto allora viene ritornato un iteratore che coincide con il past-the-end
+     * @return iteratore al primo bucket dell'albero
+     */
+    Iterator begin();
 
-    LocalIterator end(const Key&); // fatto // ritorna un iteratore al past the end del bucket con chiave key
-    LocalConstIterator end(const Key&) const; // fatto
-    LocalConstIterator cend(const Key&) const; // fatto
+    /**
+     * @brief permette di ottenere un iteratore costante alla prima chiave dell'albero, se l'albero è
+     *  vuoto allora viene ritornato un iteratore che coincide con il past-the-end
+     * @return iteratore costante al primo bucket dell'albero
+     */
+    ConstIterator begin() const;
 
-    // insert
-    Iterator insert(const Key&, const Value&); // fatto // ritorna un iterator al bucket in cui è stato inserito l'elemento
-    LocalIterator insert(const Iterator&, const Value&); // fatto // ritorna l'iteratore all'elemento inserito
+    /**
+     * @brief permette di ottenere un iteratore costante alla prima chiave dell'albero, se l'albero è
+     *  vuoto allora viene ritornato un iteratore che coincide con il past-the-end
+     * @return iteratore costante al primo bucket dell'albero
+     */
+    ConstIterator cbegin() const;
 
-    // delete all bucket
-    Iterator erase(Iterator);
-    unsigned int erase(const Key&);
+    /**
+     * @brief permette di ottenere un iteratore al bucket successivo all'ultimo bucket dell'albero
+     * @return iteratore past-the-end
+     */
+    Iterator end();
 
-    void clear(); // fatto
-    void swap(UnorderedMultimap&); // fatto
+    /**
+     * @brief permette di ottenere un iteratore costante al bucket successivo all'ultimo bucket dell'albero
+     * @return iteratore costante past-the-end
+     */
+    ConstIterator end() const;
 
-    // delete element inside bucket
-    LocalIterator erase(Iterator, LocalConstIterator); // fatto
-    LocalIterator erase(Iterator, LocalConstIterator, LocalConstIterator); // fatto
+    /**
+     * @brief permette di ottenere un iteratore costante al bucket successivo all'ultimo bucket dell'albero
+     * @return iteratore costante past-the-end
+     */
+    ConstIterator cend() const;
 
-    // search
-    Iterator find(const Key&) const; // fatto
+    /**
+     * @brief permette di individurare i numero di chiavi presenti all'interno dell'albero
+     * @return il numero di bucket dell'albero
+     */
+    unsigned int bucket_count() const;
+
+    /**
+     * @brief permette di identificare il numero di elementi del bucket con chiave k
+     * @param k: chiave del bucket di interesse
+     * @return numero di elementi del bucket con chiave k, se non è presente allora ritorna 0
+     */
+    unsigned int bucket_size(const Key& k) const;
+
+    /**
+     * @brief permette di individurare un iteratore al primo elemento del bucket con chiave k
+     * @param k: chiave del bucket di interesse
+     * @return iteratore al primo elemento del bucket con chiave k
+     */
+    LocalIterator begin(const Key& k);
+
+    /**
+     * @brief permette di individurare un iteratore costante al primo elemento del bucket con chiave k
+     * @param k: chiave del bucket di interesse
+     * @return iteratore costante al primo elemento del bucket con chiave k
+     */
+    LocalConstIterator begin(const Key& k) const;
+
+    /**
+     * @brief permette di individurare un iteratore costante al primo elemento del bucket con chiave k
+     * @param k: chiave del bucket di interesse
+     * @return iteratore costante al primo elemento del bucket con chiave k
+     */
+    LocalConstIterator cbegin(const Key& k) const;
+
+    /**
+     * @brief permette di individurare un iteratore all'elemento successivo all'ultimo elemento del bucket con chiave k
+     * @param k: chiave del bucket di interesse
+     * @return iteratore all'elemento successovo all'ultimo elemento del bucket con chiave k
+     */
+    LocalIterator end(const Key& k);
+
+    /**
+     * @brief permette di individurare un iteratore costante all'elemento successivo all'ultimo elemento del bucket con chiave k
+     * @param k: chiave del bucket di interesse
+     * @return iteratore costante all'elemento successovo all'ultimo elemento del bucket con chiave k
+     */
+    LocalConstIterator end(const Key& k) const;
+
+    /**
+     * @brief permette di individurare un iteratore costante all'elemento successivo all'ultimo elemento del bucket con chiave k
+     * @param k: chiave del bucket di interesse
+     * @return iteratore costante all'elemento successovo all'ultimo elemento del bucket con chiave k
+     */
+    LocalConstIterator cend(const Key& k) const;
+
+    /**
+     * @brief permette di inserire un nuovo valore nel bucket con chiave v; se il bucket non è presente allora viene creato
+     * @param k: chiave del bucket in cui inserire il valore
+     * @param v: valore da inserire
+     * @return iteratore al bucket in cui è stato inserito i valore
+     */
+    Iterator insert(const Key& k, const Value& v);
+
+    /**
+     * @brief permette di inserire un elemento all'interno di uno specifico bucket, di cui si ha già un iteratore
+     * @param it: iteratore al bucket in cui inserire l'elemento v
+     * @param v: valore del nuovo elmento da inserire
+     * @return iteratore all'elemento inserito
+     */
+    LocalIterator insert(const Iterator& it, const Value& v);
+
+    /**
+     * @brief permette di eliminare un bucket dal container (inclusi tutti gli elmenti da lui gestiti)
+     * @param it: iteratore al bucket di interesse
+     * @return iteratore al bucket che ha rimpiazzato quello considerato
+     */
+    Iterator erase(Iterator it);
+
+    /**
+     * @brief permette di eliminare un bucket dal container (inclusi tutti gli elmenti da lui gestiti)
+     * @param k: chiave del bucket da eliminare
+     * @return numero di elementi che erano presenti all'interno del bucket (e che quindi sono stati eliminati)
+     */
+    unsigned int erase(const Key& k);
+
+    /**
+     * @brief permette di eliminare tutti gli elementi del container
+     */
+    void clear();
+
+    /**
+     * @brief permette di scambiare gli elementi tra due container
+     * @param um: unorderedMultimap con cui scambiare gli elementi
+     */
+    void swap(UnorderedMultimap& um);
+
+    /**
+     * @brief permette di eliminare un elmento presente all'interno di un determinato bucket
+     * @param it: bucket considerato
+     * @param lit: elemento da eliminare
+     * @return un iteratore all'elemento successivo a quello eliminato all'interno del bucket
+     */
+    LocalIterator erase(Iterator it, LocalConstIterator lit);
+
+    /**
+     * @brief permette di eliminare un intervallo di elementi all'interno di un determinato bucket
+     * @param it: bucket considerato
+     * @param lit_first: primo elemento da eliminare
+     * @param lit_last: elemento successivo all'utlimo da eliminare
+     * @return iteratore all'elemento successivo all'ultimo elemento eliminato all'interno del bucket
+     */
+    LocalIterator erase(Iterator it, LocalConstIterator lit_first, LocalConstIterator lit_last);
+
+    /**
+     * @brief permette di ricercare un bucket con chiave k all'interno dell'albero
+     * @param k: chiave da ricerca
+     * @return un iteratore al bucket con chiave k
+     */
+    Iterator find(const Key& k) const;
 };
 
 /**
