@@ -1,11 +1,14 @@
 #include "time.h"
 
+#include "formaterror.h"
+
 #include <ctime>
 #include <regex>
 #include <string>
 #include <sstream>
+#include <stdexcept>
 
-unsigned int Time::_secondsInDay = 86400;
+unsigned int Time::SECONDS_IN_DAY = 86400;
 
 Time::Time() {
     std::time_t t = std::time(0);   // get time now
@@ -13,24 +16,44 @@ Time::Time() {
     _sec = now->tm_sec + now->tm_min * 60 + now->tm_hour * 3600;
 }
 
-// da aggiungere eccezioni (se es. hours > 23)
-Time::Time(unsigned int hours, unsigned int minutes, unsigned int seconds)
-    : _sec(hours*3600 + minutes*60 + seconds) {}
+Time::Time(unsigned short hours, unsigned short minutes, unsigned short seconds)
+    : _sec(hours*3600 + minutes*60 + seconds) {
+
+    if(hours > 23)
+        throw std::invalid_argument("Hours must be between 0 and 23");
+
+    if(minutes > 59)
+        throw std::invalid_argument("Minutes must be between 0 and 59");
+
+    if(seconds > 59)
+        throw std::invalid_argument("Seconds must be between 0 and 59");
+}
 
 void Time::addHours(unsigned int hours) {
-    _sec = (_sec + hours*3600) % _secondsInDay;
+    _sec = (_sec + hours*3600) % SECONDS_IN_DAY;
 }
 
 void Time::addMinutes(unsigned int minutes) {
-     _sec = (_sec + minutes*60) % _secondsInDay;
+     _sec = (_sec + minutes*60) % SECONDS_IN_DAY;
 }
 
 void Time::addSeconds(unsigned int seconds) {
-     _sec = (_sec + seconds) % _secondsInDay;
+     _sec = (_sec + seconds) % SECONDS_IN_DAY;
 }
 
 unsigned int Time::secSinceStartOfDay() const {
     return _sec;
+}
+
+unsigned short Time::hour() const {
+    return _sec / 3600;
+}
+
+unsigned short Time::minute() const {
+    return (_sec % 3600) / 60;
+}
+unsigned short Time::second() const {
+    return _sec % 60;
 }
 
 /*
@@ -44,9 +67,9 @@ unsigned int Time::secSinceStartOfDay() const {
 std::string Time::toString(const std::string& format) const {
     std::string aux(format);
 
-    unsigned int hours = _sec / 3600;
-    unsigned int minutes = (_sec % 3600) / 60;
-    unsigned int seconds = _sec - hours*3600 - minutes*60;
+    unsigned int hours = hour();
+    unsigned int minutes = minute();
+    unsigned int seconds = second();
 
     aux = std::regex_replace(aux, std::regex("hh"),
             hours < 10 ? "0" + std::to_string(hours) : std::to_string(hours));
@@ -87,8 +110,22 @@ bool Time::operator>=(const Time& t) const {
     return _sec >= t._sec;
 }
 
+Time Time::operator+(const Time& t) const {
+    Time aux;
+    aux._sec = (_sec + t._sec) % SECONDS_IN_DAY;
+    return aux;
+}
+
+Time Time::operator-(const Time& t) const {
+    Time aux;
+    aux._sec = (_sec >= t._sec)
+            ? _sec - t._sec
+            : SECONDS_IN_DAY - (t._sec - _sec);
+    return aux;
+}
+
 std::ostream& operator<<(std::ostream& out, const Time& t) {
-    return out << t.toString("hh:mm:ss");
+    return out << t.toString();
 }
 
 std::istream& operator>>(std::istream& in, Time& t) {
@@ -99,13 +136,13 @@ std::istream& operator>>(std::istream& in, Time& t) {
 
     std::size_t pos_h = value.find(':');
     if(pos_h == std::string::npos)
-        std::cout << "eccezione" << std::endl;
+        throw FormatError("Input must be in the form hours:minutes:seconds");
     std::istringstream (value.substr(0, pos_h)) >> hours;
     value = value.substr(pos_h+1);
 
     std::size_t pos_m = value.find(':');
     if(pos_m == std::string::npos)
-        std::cout << "eccezione" << std::endl;
+        throw FormatError("Input must be in the form hours:minutes:seconds");
     std::istringstream (value.substr(0, pos_m)) >> minutes;
     value = value.substr(pos_m+1);
 

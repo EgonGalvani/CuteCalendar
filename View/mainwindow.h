@@ -12,6 +12,8 @@
 #include <QDate>
 #include <QLabel>
 #include <QDateEdit>
+#include <QPushButton>
+#include <QScrollArea>
 
 
 class MainWindow : public QWidget
@@ -24,8 +26,12 @@ public:
 private slots:
     void seeEvent();
     void selectedDateChanged();
+    void addNewEvent();
 
 private:
+    //Elementi Menu
+    QVBoxLayout menu;
+
     //Elementi addCalendar
     QGroupBox *calendarBlock;
     QGridLayout *calendarLayout;
@@ -33,13 +39,17 @@ private:
 
     //Elementi addEventBox
     QGroupBox *eventBlock;
-    QGridLayout *eventLayout;
+    QVBoxLayout *eventLayout;
+    QHBoxLayout *eventLayoutTop;
+    QVBoxLayout *eventLayoutBot;
+    QScrollArea *areaEventi;
     QLabel *currentDateLabel;
     QDateEdit *currentDateEdit;
+    QPushButton *addEvent;
 
+    void addMenu();
     void addCalendar();
     void addEventBox();
-
 };
 
 #endif // MAINWINDOW_H

@@ -1,20 +1,27 @@
 #ifndef EVENTWITHDURATION_H
 #define EVENTWITHDURATION_H
 
-#include "timemanager.h"
+
 #include "event.h"
 
-class EventWithDuration : public Event,TimeManager {
-    QTime* startTime;
-    QTime* endTime;
+class EventWithDuration :virtual public Event {
+    Time startTime;
+    Time endTime;
+public:
+    virtual Time getDuration();
+    virtual bool isCompleted();
 
-    virtual QTime* getDuration();
+    EventWithDuration(Time start,Time end,std::string nome,std::string descr,
+                      std::string luogo, Date data,
+                      std::vector<std::string>* vettoreTag);
 
     //GETTER SETTER
-    QTime* getStartTime();
-    QTime* getEndTime();
-    void setStartTime(QTime* start);
-    void setEndTime(QTime* end);
+    Time getStartTime();
+    Time getEndTime();
+    void setStartTime(Time start);
+    void setEndTime(Time end);
+
+
 };
 
 #endif // EVENTWITHDURATION_H

@@ -22,49 +22,45 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-
 SOURCES += \
         main.cpp \
         View/mainwindow.cpp \
-    	Model/Container/invalidinterval.cpp \
-    Model/Hierarchy/uniqueevent.cpp \
-    Model/Hierarchy/eventwithduration.cpp \
-    Model/Hierarchy/recurrence.cpp \
-    Model/Hierarchy/recurrencerule.cpp \
-    Model/Hierarchy/event.cpp \
-    Model/Hierarchy/birthday.cpp \
-    Model/Hierarchy/training.cpp \
-    Model/Hierarchy/reminder.cpp \
-    Model/Hierarchy/meeting.cpp \
-    Model/Hierarchy/alldayevent.cpp \
-    Model/Hierarchy/datemanager.cpp \
-    Model/Hierarchy/timemanager.cpp \
+    Model/DataType/time.cpp \
     Model/Hierarchy/todolist.cpp \
-    Model/DataType/time.cpp
+    Model/Hierarchy/event.cpp \
+    Model/Hierarchy/workout.cpp \
+    Model/Hierarchy/eventwithduration.cpp \
+    Model/Hierarchy/alert.cpp \
+    Model/Hierarchy/reminder.cpp \
+    Model/Hierarchy/alldayevent.cpp \
+    Model/Hierarchy/birthday.cpp \
+    Model/Hierarchy/meeting.cpp
 
 HEADERS += \
-View/mainwindow.h \
-        Model/Hierarchy/datemanager.h \
-        Model/Container/intervaltree.h \
-        Model/Container/invalidinterval.h \
-        Model/DataType/date.h \
-        Model/DataType/time.h \
-    Model/Hierarchy/datemanager.h \
+    View/mainwindow.h \
+    View/newevent.h \
+    View/mycalendar.h \
+    View/viewallenamento.h \
+    View/viewcompleanno.h \
+    View/viewmeeting.h \
+    View/viewpromemoria.h \
+    Model/DataType/date.h \
+    Model/DataType/time.h \
     Model/Hierarchy/event.h \
-    Model/Hierarchy/timemanager.h \
-    Model/Hierarchy/recurrence.h \
-    Model/Hierarchy/recurrencerule.h \
-    Model/Hierarchy/weeklyrule.h \
-    Model/Hierarchy/yearlyrule.h \
     Model/Hierarchy/alldayevent.h \
     Model/Hierarchy/eventwithduration.h \
-    Model/Hierarchy/uniqueevent.h \
     Model/Hierarchy/birthday.h \
-    Model/Hierarchy/training.h \
     Model/Hierarchy/todolist.h \
-    Model/Hierarchy/preciseevent.h \
     Model/Hierarchy/meeting.h \
     Model/Hierarchy/reminder.h \
-    Model/Hierarchy/monthlyrule.h
+    Model/DataType/formaterror.h \
+    Model/DataType/deepptr.h \
+    Model/model.h \
+    Model/xmlfileio.h \
+    Model/fileio.h \
+    Model/Container/vector.h \
+    Model/Container/unorderedmultimap.h \
+    Model/Hierarchy/workout.h \
+    Model/Hierarchy/alert.h \
 
 FORMS +=

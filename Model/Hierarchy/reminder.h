@@ -1,19 +1,23 @@
 #ifndef REMINDER_H
 #define REMINDER_H
 
-#include "preciseevent.h"
+#include "eventwithduration.h"
+#include "alert.h"
 
-class Reminder : public PreciseEvent {
+class Reminder : public EventWithDuration, Alert {
     //DOVE METTERE GLI ENUM
 private:
-    enum Urgency {
-
+    enum urgency {
+        LOW = 0,
+        MEDIUM,
     };
 
-    Urgency urg;
+    urgency urg;
 public:
+    Reminder(int x,Time start,Time end,Time alert,bool rep,std::string nome,
+             std::string descr,std::string luogo,Date data,std::vector<std::string>* tag);
     virtual void serialize();
-    Urgency getUrgency();
+    urgency getUrgency();
 
 };
 

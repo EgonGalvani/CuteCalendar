@@ -1,17 +1,18 @@
 #ifndef COMPLEANNO_H
 #define COMPLEANNO_H
-#include "recurrence.h"
+
 #include "alldayevent.h"
 
-class BirthDay : public Recurrence,AllDayEvent {
+class BirthDay : public AllDayEvent {
 
 private:
 
-    QDate* dataNascita;
+    Date dataNascita;
 public:
-    //PERCHÈ BirthDay eredita getDuration?...
-    virtual QTime* getDuration();
     virtual void serialize();
+
+    BirthDay(Date x,std::string nome,std::string descr,std::string luogo,
+             Date data,std::vector<std::string>* vettoreTag);
 
 };
 

@@ -1,9 +1,8 @@
 #ifndef TODOLIST_H
 #define TODOLIST_H
 #include "alldayevent.h"
-#include "uniqueevent.h"
 
-class ToDoList : public AllDayEvent,UniqueEvent {
+class ToDoList : public AllDayEvent {
 
 private:
     //Non so se usarla come classe privata,
