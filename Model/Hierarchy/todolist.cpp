@@ -20,12 +20,18 @@ std::vector<ToDoList::ListItem> ToDoList::getItems() {
     return items;
 }
 
-
+ToDoList* ToDoList::clone() {
+    return new ToDoList(*this);
+}
 
 //Virtual methods
 //Controlla ogni elemento del vettore se è done;
 bool ToDoList::isCompleted() {
     return false;
+}
+
+Time ToDoList::getDuration() {
+    return Time();
 }
 
 void ToDoList::serialize() {

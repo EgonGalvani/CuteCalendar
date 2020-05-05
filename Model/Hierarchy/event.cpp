@@ -44,10 +44,6 @@ Event::Event(std::string nome,std::string descr,std::string luogo,Date dt,
              description(descr),place(luogo),tags(vettoreTag) {
 }
 
-Event* Event::clone() {
-    return nullptr;
-}
-
 //Destructor
 Event::~Event() {}
 

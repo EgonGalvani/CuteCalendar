@@ -12,7 +12,7 @@ private:
         std::string description;
         bool done;
     public:
-        ListItem(std::string = nullptr,bool = false);
+        ListItem(std::string = nullptr,bool = true);
         std::string getDescription();
         bool isDone();
         void setDone(bool);
@@ -27,13 +27,16 @@ public:
     //praticamente quando vado ad aggiungere
     //devo costruire un nuovo item
     //Ma devo mettere un id univoco?For reference chat telegram 21 aprile
-    void addItem();
+    void addItem(std::string x,bool done = false);
+
 
 
 
     //Virtual methods
-    virtual void serialize();
-    virtual bool isCompleted();
+    ToDoList* clone();
+    Time getDuration();
+    void serialize();
+    bool isCompleted();
 
 
 };

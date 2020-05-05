@@ -16,10 +16,15 @@ private:
 public:
     Reminder(int x,Time start,Time end,Time alert,bool rep,std::string nome,
              std::string descr,std::string luogo,Date data,std::vector<std::string>* tag);
-    virtual void serialize();
-    virtual Time getDuration();
-    virtual bool isCompleted();
+
     urgency getUrgency();
+
+    //virtual
+    void serialize();
+    Time getDuration();
+    bool isCompleted();
+    Reminder* clone();
+
 
 };
 

@@ -7,11 +7,8 @@
 class AllDayEvent :virtual public Event{
 private:
 public:
-    virtual Time getDuration() = 0;
-    virtual bool isCompleted() = 0;
-
-    AllDayEvent(std::string nome,std::string descr,std::string luogo,
-                Date data,std::vector<std::string>* vettoreTag);
+    Time getDuration();
+    bool isCompleted() = 0;
 
 };
 

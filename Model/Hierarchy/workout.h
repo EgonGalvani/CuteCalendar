@@ -22,7 +22,10 @@ public:
     activity getSport();
     void setSport(int x);
 
-    virtual void serialize();
+    //virtual methods
+    Workout* clone();
+    void serialize();
+    virtual ~Workout();
 
 };
 

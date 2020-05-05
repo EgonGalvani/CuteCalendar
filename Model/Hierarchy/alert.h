@@ -7,11 +7,13 @@ private:
     Time alertTime;
     bool repeat;
 public:
-    Alert(Time x,bool y,std::string nome,std::string descr,std::string luogo, Date data,
-          std::vector<std::string>* vettoreTag);
+    Alert(Time x,bool y);
 
     void setAlertTime(Time x);
     void setRepeat(bool x);
+
+    Time getDuration() = 0;
+    bool isCompleted() = 0;
 
     Time getAlertTime();
     bool doesRepeat();

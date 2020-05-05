@@ -10,13 +10,17 @@ private:
 
 public:
 
+    Meeting* clone();
+
     Meeting(std::vector<std::string> part, Time start,
             Time end, Time alert,bool repeat, std::string nome,std::string descr,
             std::string luogo,Date data,std::vector<std::string>* vettoreTag);
     std::vector<std::string> getPartecipants();
-    virtual void serialize();
-    virtual Time getDuration();
-    virtual bool isCompleted();
+
+    //virtual
+    void serialize();
+    Time getDuration();
+    bool isCompleted();
 
 };
 

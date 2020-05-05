@@ -8,18 +8,18 @@ class EventWithDuration :virtual public Event {
     Time startTime;
     Time endTime;
 public:
-    virtual Time getDuration();
-    virtual bool isCompleted();
+    //virtual
+    Time getDuration();
+    bool isCompleted();
 
-    EventWithDuration(Time start,Time end,std::string nome,std::string descr,
-                      std::string luogo, Date data,
-                      std::vector<std::string>* vettoreTag);
+    EventWithDuration(Time start,Time end);
 
     //GETTER SETTER
     Time getStartTime();
     Time getEndTime();
     void setStartTime(Time start);
     void setEndTime(Time end);
+
 
 
 };
