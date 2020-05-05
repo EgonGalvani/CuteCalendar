@@ -14,9 +14,6 @@ public:
     void setAlertTime(Time x);
     void setRepeat(bool x);
 
-    Time getDuration() = 0;
-    bool isCompleted() = 0;
-
     Time getAlertTime();
     bool doesRepeat();
 

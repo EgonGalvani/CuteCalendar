@@ -9,3 +9,4 @@ AllDayEvent::AllDayEvent(std::string nome,std::string descr
 Time AllDayEvent::getDuration() {
     return Time(23,59,59);
 }
+

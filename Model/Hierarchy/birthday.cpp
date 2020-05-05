@@ -18,10 +18,4 @@ BirthDay *BirthDay::clone() {
 void BirthDay::serialize() {
 
 }
-Time BirthDay::getDuration() {
-    return AllDayEvent::getDuration();
-}
-bool BirthDay::isCompleted() {
-    return dataNascita<Date();
-}
 

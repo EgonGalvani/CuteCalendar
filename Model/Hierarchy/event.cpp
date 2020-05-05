@@ -44,6 +44,10 @@ Event::Event(std::string nome,std::string descr,std::string luogo,Date dt,
              description(descr),place(luogo),tags(vettoreTag) {
 }
 
+bool Event::isCompleted() {
+    return data<Date();
+}
+
 //Destructor
 Event::~Event() {}
 

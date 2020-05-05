@@ -19,9 +19,6 @@ public:
 
     //virtual
     void serialize();
-    Time getDuration();
-    bool isCompleted();
-
 };
 
 #endif // MEETING_H

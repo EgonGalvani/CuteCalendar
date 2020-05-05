@@ -19,11 +19,5 @@ Reminder* Reminder::clone() {
 void Reminder::serialize() {
 
 }
-Time Reminder::getDuration() {
-    return EventWithDuration::getDuration();
-}
-bool Reminder::isCompleted() {
-    return EventWithDuration::isCompleted();
-}
 
 

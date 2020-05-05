@@ -17,13 +17,12 @@ public:
 
     Event(std::string nome,std::string descr,std::string luogo, Date data,
             std::vector<std::string>* vettoreTag);
-    //Event();
 
     //Pure virtual methods
     virtual Event* clone() = 0;
 
     virtual Time getDuration() = 0;
-    virtual bool isCompleted() = 0;
+    virtual bool isCompleted();
     virtual void serialize() = 0;
     static Event* parse();
 

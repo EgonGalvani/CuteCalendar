@@ -21,8 +21,6 @@ public:
 
     //virtual
     void serialize();
-    Time getDuration();
-    bool isCompleted();
     Reminder* clone();
 
 

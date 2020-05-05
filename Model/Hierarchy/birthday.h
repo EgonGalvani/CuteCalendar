@@ -15,9 +15,7 @@ public:
 
     BirthDay* clone();
 
-    virtual void serialize();
-    virtual Time getDuration();
-    virtual bool isCompleted();
+    void serialize();
 
 
 };

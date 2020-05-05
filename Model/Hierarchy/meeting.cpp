@@ -24,12 +24,5 @@ Meeting* Meeting::clone() {
 void Meeting::serialize(){
 
 }
-Time Meeting::getDuration(){
-    return EventWithDuration::getDuration();
-}
-bool Meeting::isCompleted() {
-    return EventWithDuration::isCompleted();
-}
-
 //MANCA UN METODO PER MODIFICARE I VETTORI?
 

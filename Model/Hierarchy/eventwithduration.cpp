@@ -20,7 +20,7 @@ Time EventWithDuration::getDuration() {
 }
 
 bool EventWithDuration::isCompleted() {
-    return endTime<*(new Time());
+    return Event::isCompleted() && endTime<Time();
 }
 
 //GETTER SETTER
@@ -28,3 +28,5 @@ Time EventWithDuration::getStartTime() {return  startTime;}
 Time EventWithDuration::getEndTime() {return endTime;}
 void EventWithDuration::setStartTime(Time start) {startTime=start;}
 void EventWithDuration::setEndTime(Time end) {endTime=end;}
+
+
