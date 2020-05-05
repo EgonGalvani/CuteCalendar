@@ -36,6 +36,7 @@ bool Event::hasTag(std::string tag) {
     for (std::vector<std::string>::iterator it = tags->begin();!found && it!=tags->end();++it) {
         found = *it==tag;
     }
+    return found;
 }
 
 Event::Event(std::string nome,std::string descr,std::string luogo,Date dt,
@@ -44,7 +45,7 @@ Event::Event(std::string nome,std::string descr,std::string luogo,Date dt,
 }
 
 Event* Event::clone() {
-
+    return nullptr;
 }
 
 //Destructor
