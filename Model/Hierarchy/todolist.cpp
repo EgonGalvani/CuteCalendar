@@ -25,7 +25,7 @@ std::vector<ToDoList::ListItem> ToDoList::getItems() {
 //Virtual methods
 //Controlla ogni elemento del vettore se è done;
 bool ToDoList::isCompleted() {
-
+    return false;
 }
 
 void ToDoList::serialize() {
