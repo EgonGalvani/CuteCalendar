@@ -7,7 +7,9 @@ private:
     Time alertTime;
     bool repeat;
 public:
-    Alert(Time x,bool y);
+    Alert(Time x,bool y,std::string nome = nullptr,std::string descr = nullptr
+            ,std::string luogo = nullptr, Date data = Date(),
+                             std::vector<std::string>* tags = nullptr);
 
     void setAlertTime(Time x);
     void setRepeat(bool x);

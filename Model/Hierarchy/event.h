@@ -8,7 +8,7 @@ class Event {
 
 private:
     std::string name;
-    Date data; //new
+    Date data;
     std::string description;
     std::string place;
     std::vector<std::string>* tags;

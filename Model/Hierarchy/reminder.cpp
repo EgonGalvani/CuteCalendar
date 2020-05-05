@@ -3,8 +3,8 @@
 Reminder::urgency Reminder::getUrgency() {return urg;}
 
 Reminder::Reminder(int x,Time start,Time end,Time alert,bool rep,std::string nome,
-                   std::string descr,std::string luogo,Date data,std::vector<std::string>* tag)
-    : Event(nome,descr,luogo,data,tag),
+                   std::string descr,std::string luogo,Date data,std::vector<std::string>* tags)
+    : Event(nome,descr,luogo,data,tags),
       EventWithDuration (start,end),
       Alert(alert,rep),
       urg(static_cast<urgency>(x))

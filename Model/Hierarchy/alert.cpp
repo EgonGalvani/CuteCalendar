@@ -1,7 +1,9 @@
 #include "alert.h"
 
-Alert::Alert(Time x, bool y)
-    : alertTime(x),repeat(y){}
+Alert::Alert(Time x, bool y,std::string nome,std::string descr,std::string luogo, Date data,
+             std::vector<std::string>* tags)
+    : Event(nome,descr,luogo,data,tags),
+      alertTime(x),repeat(y){}
 
 
 void Alert::setAlertTime(Time x) {alertTime=x;}

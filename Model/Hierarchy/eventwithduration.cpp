@@ -1,7 +1,10 @@
 #include "eventwithduration.h"
 
-EventWithDuration::EventWithDuration(Time start,Time end)
-    : startTime(start),endTime(end){}
+EventWithDuration::EventWithDuration(Time start, Time end,
+                                     std::string nome,std::string descr,std::string luogo,
+                                     Date data,std::vector<std::string> *tags)
+    : Event(nome,descr,luogo,data,tags),
+      startTime(start),endTime(end){}
 
 Time EventWithDuration::getDuration() {
     //POTREBBE ESSERCI UN METODO PIÙ EFFICACE,
