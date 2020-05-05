@@ -104,7 +104,7 @@ void MainWindow::selectedDateChanged() {
 
 void MainWindow::addNewEvent() {
     NewEvent * popup = new NewEvent();
-    popup->show();
+    popup->exec();
 }
 
 void MainWindow::addMenu() {

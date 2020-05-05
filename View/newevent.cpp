@@ -1,8 +1,8 @@
 #include "newevent.h"
 
 
-NewEvent::NewEvent(QWidget *parent) :
-    QWidget(parent) {
+NewEvent::NewEvent(QDialog *parent) :
+    QDialog(parent) {
 
     QLabel * prova=new QLabel(tr("Provone"));
     QVBoxLayout* layout = new QVBoxLayout();
