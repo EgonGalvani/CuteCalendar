@@ -17,10 +17,15 @@ void Model::saveInFile(const std::string& fileName) const {
     }*/
 }
 
-bool Model::hasEventInDate(const Date& d) const {
+bool Model::hasEvent(const Date& d) const {
     return _data.bucket_size(d) > 0;
 }
 
-void Model::insertEventInDate(const Date& d, Event* e) {
-    _data.insert(d, DeepPtr<Event>(e));
+Model::It Model::insertEvent(const Date& d, Event* e) {
+    return _data.insert(_data.find(d), DeepPtr<Event>(e));
 }
+
+void Model::removeEvent(const Date& date, const It& it) {
+    // _data.erase(_data.find(date), it);
+}
+

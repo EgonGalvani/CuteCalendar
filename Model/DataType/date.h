@@ -2,6 +2,7 @@
 #define DATE_H
 
 #include <iostream>
+#include <QDate>
 
 class Date {
 private:
@@ -13,6 +14,12 @@ public:
      * @brief Costruttore di default di Date. L'oggetto è creato in modo da riferirsi alla data attuale
      */
     Date();
+
+    /**
+     * @brief Costruttore ad un parametro, che permette la conversione implicita QDate => Date
+     * @param q: Qdate di cui si vuole ottenere un oggetto Date
+     */
+    Date(const QDate& q);
 
     /**
      * @brief Costruttore a tre parametri di Date, accetta rispetettivamente anno, mese e giorno

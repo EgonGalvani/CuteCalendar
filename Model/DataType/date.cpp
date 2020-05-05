@@ -15,6 +15,9 @@ Date::Date() {
     _day = now->tm_mday;
 }
 
+Date::Date(const QDate& qd) :
+    _year(qd.year()), _month(qd.month()), _day(qd.day()){}
+
 Date::Date(unsigned short day, unsigned short month, unsigned short year)
     : _year(year), _month(month), _day(day) {
 
