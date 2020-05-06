@@ -7,8 +7,8 @@
 class AllDayEvent :virtual public Event{
 private:
 public:
-    AllDayEvent(std::string nome = nullptr,std::string descr = nullptr
-            ,std::string luogo = nullptr, Date data = Date(),
+    AllDayEvent(std::string nome = "",std::string descr = ""
+            ,std::string luogo = "", Date data = Date(),
                              std::vector<std::string>* tags = nullptr);
     Time getDuration();
 

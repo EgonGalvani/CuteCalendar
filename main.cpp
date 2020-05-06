@@ -2,13 +2,35 @@
 
 #include "View/mainwindow.h"
 #include "Model/DataType/date.h"
+#include "Model/DataType/time.h"
 #include "Model/Container/unorderedmultimap.h"
+#include "Model/Hierarchy/event.h"
+#include "Model/Hierarchy/workout.h"
 
 int main(int argc, char *argv[]) {
+
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
     return a.exec();
+
+    /*
+    std::cout<<"a";
+    Time t1 = Time();
+    Time t2 = Time();
+    Date d1 = Date();
+    std::vector<std::string>* vettoreTag = new std::vector<std::string>();
+    vettoreTag->push_back("Fit");
+    vettoreTag->push_back("Insta");
+    vettoreTag->push_back("ValtonGay");
+    Event* e1 = new Workout(0,t1,t2,"palestra","sollevamento pesi","casa",d1,vettoreTag);
+    std::cout<<"a";
+    std::cout<<e1->getName();
+    */
+
+
+
 
   /*  UnorderedMultimap<Date, std::string> map;
     auto it = map.insert(Date(17, 11, 1999), "Egon");

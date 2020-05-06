@@ -12,8 +12,8 @@ public:
     Time getDuration();
     bool isCompleted();
 
-    EventWithDuration(Time start,Time end,std::string nome = nullptr,std::string descr = nullptr
-            ,std::string luogo = nullptr, Date data = Date(),
+    EventWithDuration(Time start,Time end,std::string nome = "",std::string descr = ""
+            ,std::string luogo = "", Date data = Date(),
                              std::vector<std::string>* tags = nullptr);
 
     //GETTER SETTER
