@@ -45,7 +45,7 @@ Event::Event(std::string nome,std::string descr,std::string luogo,Date dt,
 }
 
 bool Event::isCompleted() {
-    return data<Date();
+    return data<=Date();
 }
 
 //Destructor
