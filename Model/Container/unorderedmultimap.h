@@ -65,7 +65,7 @@ private:
      * @param n: radice dell'albero che si vuole copiare
      * @return un puntatore al nuovo albero creato
      */
-    static Node* copyTree(Node* n); // TODO: controllare che vengano aggiornati i padri
+    static Node* copyTree(Node* n);
 
     /**
      * @brief permette di individuare il nodo successivo in una vista in-order dell'albero
@@ -245,9 +245,10 @@ public:
       */
     ~UnorderedMultimap();
 
-    // TODO: ricontrollare idea di empty --> posso avere numero elementi == 0 ma nBucket != 0
     /**
-     * @brief permette di verificare che il contenitore sia vuoto, cioè che il numero di bucket sia 0
+     * @brief permette di verificare che il contenitore sia vuoto, cioè che il numero di elementi _elementSize
+     *  sia uguale a 0 (NOTA: è possibile che in questo caso siano comunque presenti dei bucket all'interno dell'albero,
+     *  che comunque saranno vuoti)
      * @return true sse il contenitore è vuoto
      */
     bool empty() const;
@@ -399,7 +400,7 @@ public:
      * @param lit: elemento da eliminare
      * @return un iteratore all'elemento successivo a quello eliminato all'interno del bucket
      */
-    LocalIterator erase(Iterator it, LocalConstIterator lit);
+    LocalIterator erase(Iterator it, LocalIterator lit);
 
     /**
      * @brief permette di eliminare un intervallo di elementi all'interno di un determinato bucket
@@ -408,7 +409,7 @@ public:
      * @param lit_last: elemento successivo all'utlimo da eliminare
      * @return iteratore all'elemento successivo all'ultimo elemento eliminato all'interno del bucket
      */
-    LocalIterator erase(Iterator it, LocalConstIterator lit_first, LocalConstIterator lit_last);
+    LocalIterator erase(Iterator it, LocalIterator lit_first, LocalIterator lit_last);
 
     /**
      * @brief permette di ricercare un bucket con chiave k all'interno dell'albero
@@ -558,8 +559,17 @@ bool UnorderedMultimap<K, V>::Node::isRoot() const {
 template<class K, class V>
 typename UnorderedMultimap<K, V>::Node*
 UnorderedMultimap<K, V>::copyTree(Node* n) {
-    if(n)
-        return new Node*(n->_key, n->_data, copyTree(n->_left), copyTree(n->_right));
+    if(n) {
+        Node* n = new Node(n->_key, n->_data, copyTree(n->_left), copyTree(n->_right));
+
+        if(n->_left)
+            n->_left->_parent = n;
+        if(n->_right)
+            n->_left->_parent = n;
+
+        return n;
+    }
+
     return nullptr;
 }
 
@@ -736,14 +746,14 @@ UnorderedMultimap<K, V>::cend(const K& k) const {
 
 template<class K, class V>
 typename UnorderedMultimap<K, V>::LocalIterator
-UnorderedMultimap<K, V>::erase(Iterator it, LocalConstIterator lit) {
+UnorderedMultimap<K, V>::erase(Iterator it, LocalIterator lit) {
     _elementSize--;
     return it._ptr->_data.erase(lit);
 }
 
 template<class K, class V>
 typename UnorderedMultimap<K, V>::LocalIterator
-UnorderedMultimap<K, V>::erase(Iterator it, LocalConstIterator lit_first, LocalConstIterator lit_last) {
+UnorderedMultimap<K, V>::erase(Iterator it, LocalIterator lit_first, LocalIterator lit_last) {
     unsigned int previousSize = it._ptr->_data.size();
     LocalIterator lit = it._ptr->_data.erase(lit_first, lit_last);
     _elementSize -= previousSize - it._ptr->_data.size();

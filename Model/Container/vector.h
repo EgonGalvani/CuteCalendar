@@ -348,13 +348,13 @@ public:
      * @brief erase
      * @return
      */
-    Iterator erase(const ConstIterator&);
+    Iterator erase(const Iterator&);
 
     /**
      * @brief erase
      * @return
      */
-    Iterator erase(const ConstIterator&, const ConstIterator&);
+    Iterator erase(const Iterator&, const Iterator&);
 
     /**
      * @brief Scambia lo stato del vettore attuale con quello del vettore v,
@@ -627,8 +627,8 @@ unsigned int Vector<T>::capacity() const {
 
 template<typename T>
 void Vector<T>::reserve(unsigned int newCapacity) {
-    // TODO if(newCapacity > max_size())
-    //     throw length_error
+    if(newCapacity > max_size())
+        throw std::length_error("Capacity exceeded max container size!");
 
     if(newCapacity > _capacity) {
         T* aux = new T[newCapacity];
@@ -775,13 +775,13 @@ typename Vector<T>::Iterator Vector<T>::insert(const ConstIterator& position, un
 }
 
 template<typename T>
-typename Vector<T>::Iterator Vector<T>::erase(const ConstIterator& position) {
+typename Vector<T>::Iterator Vector<T>::erase(const Iterator& position) {
     return erase(position, position+1);
 }
 
 // elimina gli elementi in [first, last)
 template<typename T>
-typename Vector<T>::Iterator Vector<T>::erase(const ConstIterator& first, const ConstIterator& last) {
+typename Vector<T>::Iterator Vector<T>::erase(const Iterator& first, const Iterator& last) {
     unsigned int number = static_cast<unsigned int>(last._ptr - first._ptr);
     unsigned int lastPosition = static_cast<unsigned int>(last._ptr - _vector);
     unsigned int firstPosition = static_cast<unsigned int>(first._ptr - _vector);
