@@ -2,6 +2,8 @@
 
 //METODI LIST ITEM
 
+//std::vector<ListItem> items;
+
 ToDoList::ListItem::ListItem(std::string x,bool y) : description(x),done(y) {}
 
 std::string ToDoList::ListItem::getDescription() {
@@ -27,7 +29,12 @@ ToDoList* ToDoList::clone() {
 //Virtual methods
 //Controlla ogni elemento del vettore se è done;
 bool ToDoList::isCompleted() {
-    return false;
+    bool found = true;
+    for (std::vector<ListItem>::iterator x= items.begin();x!=items.end() && found;++x) {
+        found = x->isDone();
+    }
+    return found;
+
 }
 
 Time ToDoList::getDuration() {
