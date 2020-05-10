@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QListWidget>
+#include <QListWidgetItem>
 
 class MainWindow : public QWidget {
     Q_OBJECT
@@ -16,9 +17,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow() = default;
 private slots:
-    void seeEvent();
     void selectedDateChanged();
     void showAddEventDialog();
+    void showEventDetailsDialog(QListWidgetItem*);
 
 private:
     // Elementi Menu
@@ -30,17 +31,18 @@ private:
 
     // Elementi sezione di destra
     QGroupBox *infoBlock;
-    QLabel *currentDateLabel;
-    QListWidget *eventPreviewList;
+    QLabel *selectedDateLabel;
+    QListWidget *eventList;
     QPushButton *addEventBtn;
 
-    void addMenu();
+    // void addMenu();
 
-    // init calendario principale
-    void initCalendar();
-
-    // init sezione di destra
+    // init calendario e
+    void initCalendarBox();
     void initInfoBox();
+
+    // gestione della lista
+    void refreshList(const QDate&);
 };
 
 #endif // MAINWINDOW_H

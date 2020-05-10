@@ -6,9 +6,12 @@
 #include <QTableView>
 #include <QGridLayout>
 #include <QColor>
+#include "eventwidget.h"
+
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
-    initCalendar();
+    initCalendarBox();
     initInfoBox();
 
     QHBoxLayout *layout = new QHBoxLayout;
@@ -18,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
     setLayout(layout);
 }
 
-void MainWindow::initCalendar() {
+void MainWindow::initCalendarBox() {
     calendarBlock = new QGroupBox(QString("Calendar"));
     calendar = new MyCalendar();
 
@@ -36,23 +39,24 @@ void MainWindow::initCalendar() {
 void MainWindow::initInfoBox() {
     infoBlock = new QGroupBox(QString("Info"));
 
-    // init current date label
-    currentDateLabel = new QLabel(QString("Current date: ")
+    // init selected date label
+    selectedDateLabel = new QLabel(QString("Selected date: ")
         .append(calendar->selectedDate().toString("dd/MM/yyyy")));
-    currentDateLabel->setAlignment(Qt::AlignCenter);
-    currentDateLabel->setFont(QFont("Lato", 13, QFont::Bold));
+    selectedDateLabel->setAlignment(Qt::AlignCenter);
+    selectedDateLabel->setFont(QFont("Lato", 13, QFont::Bold));
 
     // init preview list
-    eventPreviewList = new QListWidget();
+    eventList = new QListWidget();
     for(unsigned int i = 0; i < 10; i++) {
         QListWidgetItem *item =
-            new QListWidgetItem(QIcon(":/res/birthday.png"), "Compleanno Valton", eventPreviewList);
+            new EventWidget(QString("ciao"), QIcon(":/res/birthday.png"), "Compleanno Valton", eventList);
         item->setBackgroundColor(QColor(255, 204, 179));
-        eventPreviewList->addItem(item);
+        eventList->addItem(item);
     }
 
-     eventPreviewList->setSpacing(6);
-    eventPreviewList->setIconSize(QSize(64, 64));
+    eventList->setSpacing(6);
+    eventList->setIconSize(QSize(64, 64));
+    connect(eventList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(showEventDetailsDialog(QListWidgetItem*)));
 
     // init add event button
     addEventBtn = new QPushButton(tr("Add Event"));
@@ -60,8 +64,8 @@ void MainWindow::initInfoBox() {
 
     // aggiungo gli elementi al layout
     QVBoxLayout *infoLayout = new QVBoxLayout();
-    infoLayout->addWidget(currentDateLabel);
-    infoLayout->addWidget(eventPreviewList);
+    infoLayout->addWidget(selectedDateLabel);
+    infoLayout->addWidget(eventList);
     infoLayout->addWidget(addEventBtn);
 
     // design dell' info block
@@ -70,12 +74,26 @@ void MainWindow::initInfoBox() {
     infoBlock->setLayout(infoLayout);
 }
 
+void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
+    if(dynamic_cast<EventWidget*>(it)) {
+        EventWidget* currentEvent = static_cast<EventWidget*>(it);
+
+        // TODO: aggiornamento eventi
+        QMessageBox::information(
+        this,
+        tr("Application Name"),
+        currentEvent->getInfo());
+    } else
+        QMessageBox::critical(this, QString("Error"), QString("Error showing element details"));
+}
+
 void MainWindow::selectedDateChanged() {
     // aggiornamento label
-    currentDateLabel->setText(QString("Current date: ")
+    selectedDateLabel->setText(QString("Selected date: ")
         .append(calendar->selectedDate().toString("dd/MM/yyyy")));
 
-    // TODO: aggiornamento lista eventi
+    // aggiornamento lista
+    refreshList(calendar->selectedDate());
 }
 
 void MainWindow::showAddEventDialog() {
@@ -83,10 +101,8 @@ void MainWindow::showAddEventDialog() {
     popup->exec();
 }
 
-void MainWindow::addMenu() {
+void MainWindow::refreshList(const QDate& date) {
+    eventList->clear();
 
-}
-
-void MainWindow::seeEvent() {
-
+    // caricare eventi del giorno date
 }

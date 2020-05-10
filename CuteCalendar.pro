@@ -44,7 +44,8 @@ SOURCES += \
     Model/Hierarchy/eventwithduration.cpp \
     Model/Hierarchy/reminder.cpp \
     Model/Hierarchy/meeting.cpp \
-    Model/Hierarchy/birthday.cpp
+    Model/Hierarchy/birthday.cpp \
+    View/eventwidget.cpp
 
 HEADERS += \
     View/mainwindow.h \
@@ -72,6 +73,7 @@ HEADERS += \
     Model/fileio.h \
     Model/Container/vector.h \
     Model/Container/unorderedmultimap.h \
+    View/eventwidget.h
 
 FORMS +=
 
