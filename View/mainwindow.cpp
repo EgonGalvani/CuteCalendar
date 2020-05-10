@@ -39,14 +39,19 @@ void MainWindow::initInfoBox() {
     // init current date label
     currentDateLabel = new QLabel(QString("Current date: ")
         .append(calendar->selectedDate().toString("dd/MM/yyyy")));
+    currentDateLabel->setAlignment(Qt::AlignCenter);
+    currentDateLabel->setFont(QFont("Lato", 13, QFont::Bold));
 
     // init preview list
     eventPreviewList = new QListWidget();
-    QListWidgetItem *item =
+    for(unsigned int i = 0; i < 10; i++) {
+        QListWidgetItem *item =
             new QListWidgetItem(QIcon(":/res/birthday.png"), "Compleanno Valton", eventPreviewList);
-    item->setBackgroundColor(QColor(255, 204, 179));
-    eventPreviewList->addItem(item);
-    eventPreviewList->setSpacing(8);
+        item->setBackgroundColor(QColor(255, 204, 179));
+        eventPreviewList->addItem(item);
+    }
+
+     eventPreviewList->setSpacing(6);
     eventPreviewList->setIconSize(QSize(64, 64));
 
     // init add event button
@@ -55,7 +60,6 @@ void MainWindow::initInfoBox() {
 
     // aggiungo gli elementi al layout
     QVBoxLayout *infoLayout = new QVBoxLayout();
-    infoLayout->setAlignment(Qt::AlignHCenter);
     infoLayout->addWidget(currentDateLabel);
     infoLayout->addWidget(eventPreviewList);
     infoLayout->addWidget(addEventBtn);
