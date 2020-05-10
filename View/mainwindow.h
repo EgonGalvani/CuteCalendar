@@ -3,53 +3,44 @@
 
 #include <QMainWindow>
 #include <QVBoxLayout>
-#include <QMenuBar>
-#include <QMenu>
 #include <QCalendarWidget>
 #include <QGroupBox>
-#include <QTableView>
-#include <QGridLayout>
-#include <QDate>
 #include <QLabel>
-#include <QDateEdit>
 #include <QPushButton>
-#include <QScrollArea>
+#include <QListWidget>
 
-
-class MainWindow : public QWidget
-{
+class MainWindow : public QWidget {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    ~MainWindow() = default;
 private slots:
     void seeEvent();
     void selectedDateChanged();
-    void addNewEvent();
+    void showAddEventDialog();
 
 private:
-    //Elementi Menu
-    QVBoxLayout menu;
+    // Elementi Menu
+    // QVBoxLayout menu;
 
-    //Elementi addCalendar
+    // Elementi calendario
     QGroupBox *calendarBlock;
-    QGridLayout *calendarLayout;
     QCalendarWidget *calendar;
 
-    //Elementi addEventBox
-    QGroupBox *eventBlock;
-    QVBoxLayout *eventLayout;
-    QHBoxLayout *eventLayoutTop;
-    QVBoxLayout *eventLayoutBot;
-    QScrollArea *areaEventi;
+    // Elementi sezione di destra
+    QGroupBox *infoBlock;
     QLabel *currentDateLabel;
-    QDateEdit *currentDateEdit;
-    QPushButton *addEvent;
+    QListWidget *eventPreviewList;
+    QPushButton *addEventBtn;
 
     void addMenu();
-    void addCalendar();
-    void addEventBox();
+
+    // init calendario principale
+    void initCalendar();
+
+    // init sezione di destra
+    void initInfoBox();
 };
 
 #endif // MAINWINDOW_H

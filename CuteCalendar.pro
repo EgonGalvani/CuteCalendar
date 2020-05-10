@@ -74,3 +74,8 @@ HEADERS += \
     Model/Container/unorderedmultimap.h \
 
 FORMS +=
+
+RESOURCES += \
+    res.qrc
+
+DISTFILES +=

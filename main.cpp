@@ -11,7 +11,7 @@
 
 int main(int argc, char *argv[]) {
 
-    std::cout<<"a";
+   /* std::cout<<"a";
     Time t1 = Time();
     Time t2 = Time();
     Date d1 = Date();
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     std::cout<<e2->getDate()<<std::endl;
     std::cout<<e2->getName()<<std::endl;
     std::cout<<"Finito?" <<e2->isCompleted()<<std::endl;
-
+*/
 
 
     QApplication a(argc, argv);
