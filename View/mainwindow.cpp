@@ -10,7 +10,10 @@
 
 #include <QMessageBox>
 
-MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
+MainWindow::MainWindow(QWidget *parent)
+    : QWidget(parent), calendarBlock(new QGroupBox(QString("Calendar"))),
+        infoBlock(new QGroupBox(QString("Info"))), calendar(new MyCalendar()) {
+
     initCalendarBox();
     initInfoBox();
 
@@ -22,9 +25,6 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
 }
 
 void MainWindow::initCalendarBox() {
-    calendarBlock = new QGroupBox(QString("Calendar"));
-    calendar = new MyCalendar();
-
     calendar->setGridVisible(true);
     calendar->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
@@ -37,7 +37,6 @@ void MainWindow::initCalendarBox() {
 }
 
 void MainWindow::initInfoBox() {
-    infoBlock = new QGroupBox(QString("Info"));
 
     // init selected date label
     selectedDateLabel = new QLabel(QString("Selected date: ")
@@ -47,16 +46,10 @@ void MainWindow::initInfoBox() {
 
     // init preview list
     eventList = new QListWidget();
-    for(unsigned int i = 0; i < 10; i++) {
-        QListWidgetItem *item =
-            new EventWidget(QString("ciao"), QIcon(":/res/birthday.png"), "Compleanno Valton", eventList);
-        item->setBackgroundColor(QColor(255, 204, 179));
-        eventList->addItem(item);
-    }
-
     eventList->setSpacing(6);
     eventList->setIconSize(QSize(64, 64));
     connect(eventList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(showEventDetailsDialog(QListWidgetItem*)));
+    refreshList(calendar->selectedDate()); // aggiungo gli eventi della data corrente
 
     // init add event button
     addEventBtn = new QPushButton(tr("Add Event"));
@@ -82,7 +75,7 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
         QMessageBox::information(
         this,
         tr("Application Name"),
-        currentEvent->getInfo());
+        "placeholder"); //currentEvent->getInfo());
     } else
         QMessageBox::critical(this, QString("Error"), QString("Error showing element details"));
 }
@@ -105,4 +98,6 @@ void MainWindow::refreshList(const QDate& date) {
     eventList->clear();
 
     // caricare eventi del giorno date
+    for(auto it : model.getEvents(date))
+        eventList->addItem(new EventWidget(it, QIcon(":\res\birthday.png"), "Prova", eventList));
 }

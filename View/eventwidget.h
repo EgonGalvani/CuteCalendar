@@ -9,16 +9,14 @@
 
 class EventWidget : public QListWidgetItem {
 private:
-    // Model::It it;
-    QString info;
+    Model::It _data;
+
 public:
-    // EW(it, ...)
-
-    EventWidget(const QString info, const QIcon& icon, const QString& text,
+    EventWidget(const Model::It& info, const QIcon& icon, const QString& text,
             QListWidget* view = nullptr)
-        : QListWidgetItem(icon, text, view), info(info) {}
+        : QListWidgetItem(icon, text, view), _data(info) {}
 
-    QString getInfo() const { return info; }
+    Model::It getData() const { return _data; }
 };
 
 #endif // EVENTWIDGET_H

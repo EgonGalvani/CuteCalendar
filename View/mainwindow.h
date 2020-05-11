@@ -10,6 +10,8 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 
+#include "Model/model.h"
+
 class MainWindow : public QWidget {
     Q_OBJECT
 
@@ -22,6 +24,9 @@ private slots:
     void showEventDetailsDialog(QListWidgetItem*);
 
 private:
+    // Model
+    Model model;
+
     // Elementi Menu
     // QVBoxLayout menu;
 
