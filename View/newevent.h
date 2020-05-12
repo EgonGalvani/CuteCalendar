@@ -8,6 +8,7 @@
 #include <QTimeEdit>
 #include <QTextEdit>
 #include <QPushButton>
+#include <QCheckBox>
 
 class NewEvent : public QDialog {
     Q_OBJECT
@@ -30,7 +31,7 @@ private:
 
 
 
-
+    void deleteLayout(QLayout*);
     void initComboBox();
     void initAllenamento();
     void initCompleanno();
