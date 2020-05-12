@@ -64,7 +64,7 @@ QJsonObject Event::toJson() const {
         tagArray.append(QString::fromStdString(tag));
     }
     json["TAGS"] = tagArray;
-
+    return json;
 }
 
 //Destructor

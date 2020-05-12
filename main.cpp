@@ -7,11 +7,21 @@
 #include "Model/Hierarchy/event.h"
 #include "Model/Hierarchy/workout.h"
 #include "Model/Hierarchy/reminder.h"
+#include <QFileInfo>
 //#include <unistd.h>
-
+#include <QFile>
+#include <QJsonDocument>
+ void writeToDisk(const QString path,const QJsonDocument & obj) {
+     try {
+        QFile file;
+        file.setFileName(path);
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        file.write(obj.toJson());
+     }catch (...) {}
+}
 int main(int argc, char *argv[]) {
 
-   /* std::cout<<"a";
+    std::cout<<"a";
     Time t1 = Time();
     Time t2 = Time();
     Date d1 = Date();
@@ -25,10 +35,6 @@ int main(int argc, char *argv[]) {
     std::cout<<e1->hasTag("Fit")<<std::endl;
     e1->deleteTag("Fit");
     std::cout<<e1->hasTag("Fit")<<std::endl;
-    std::cout<<"Dormo"<<std::endl;
-    std::cout<<"Finito?" << e1->isCompleted()<<std::endl;
-    sleep(5);
-    std::cout<<"Sveglio"<<std::endl;
     std::cout<<"Finito?" << e1->isCompleted()<<std::endl;
     std::cout<<"Dur"<<e1->getDuration()<<std::endl;
 
@@ -45,10 +51,12 @@ int main(int argc, char *argv[]) {
                              dd1,tags);
     std::cout<<e2->getDate()<<std::endl;
     std::cout<<e2->getName()<<std::endl;
-    std::cout<<"Finito?" <<e2->isCompleted()<<std::endl;
-*/
 
-
+    QJsonObject json;
+    e2->serialize(json);
+    writeToDisk("test.persona",QJsonDocument(json));
+    e1->serialize(json);
+    writeToDisk("test.persona",QJsonDocument(json));
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
@@ -83,3 +91,5 @@ int main(int argc, char *argv[]) {
     return 0;
     */
 }
+
+
