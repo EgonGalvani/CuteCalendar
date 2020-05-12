@@ -3,53 +3,51 @@
 
 #include <QMainWindow>
 #include <QVBoxLayout>
-#include <QMenuBar>
-#include <QMenu>
 #include <QCalendarWidget>
 #include <QGroupBox>
-#include <QTableView>
-#include <QGridLayout>
-#include <QDate>
 #include <QLabel>
-#include <QDateEdit>
 #include <QPushButton>
-#include <QScrollArea>
+#include <QListWidget>
+#include <QListWidgetItem>
 
+#include "Model/model.h"
 
-class MainWindow : public QWidget
-{
+class MainWindow : public QWidget {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    ~MainWindow() = default;
 private slots:
-    void seeEvent();
     void selectedDateChanged();
-    void addNewEvent();
+    void showAddEventDialog();
+    void showEventDetailsDialog(QListWidgetItem*);
 
 private:
-    //Elementi Menu
-    QVBoxLayout menu;
+    // Model
+    Model model;
 
-    //Elementi addCalendar
+    // Elementi Menu
+    // QVBoxLayout menu;
+
+    // Elementi calendario
     QGroupBox *calendarBlock;
-    QGridLayout *calendarLayout;
     QCalendarWidget *calendar;
 
-    //Elementi addEventBox
-    QGroupBox *eventBlock;
-    QVBoxLayout *eventLayout;
-    QHBoxLayout *eventLayoutTop;
-    QVBoxLayout *eventLayoutBot;
-    QScrollArea *areaEventi;
-    QLabel *currentDateLabel;
-    QDateEdit *currentDateEdit;
-    QPushButton *addEvent;
+    // Elementi sezione di destra
+    QGroupBox *infoBlock;
+    QLabel *selectedDateLabel;
+    QListWidget *eventList;
+    QPushButton *addEventBtn;
 
-    void addMenu();
-    void addCalendar();
-    void addEventBox();
+    // void addMenu();
+
+    // init calendario e
+    void initCalendarBox();
+    void initInfoBox();
+
+    // gestione della lista
+    void refreshList(const QDate&);
 };
 
 #endif // MAINWINDOW_H

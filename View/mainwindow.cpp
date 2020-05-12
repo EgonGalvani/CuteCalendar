@@ -2,116 +2,102 @@
 #include "mycalendar.h"
 #include "newevent.h"
 
-MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
-    addCalendar();
-    addEventBox();
+#include <QFile>
+#include <QTableView>
+#include <QGridLayout>
+#include <QColor>
+#include "eventwidget.h"
+
+#include <QMessageBox>
+
+MainWindow::MainWindow(QWidget *parent)
+    : QWidget(parent), calendarBlock(new QGroupBox(QString("Calendar"))),
+        infoBlock(new QGroupBox(QString("Info"))), calendar(new MyCalendar()) {
+
+    initCalendarBox();
+    initInfoBox();
+
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(calendarBlock);
-    layout->addWidget(eventBlock);
+    layout->addWidget(infoBlock);
     setMinimumSize(QSize(900,500));
     setLayout(layout);
-    // calendarLayout->setRowMinimumHeight(0, calendar->sizeHint().height());
-    // calendarLayout->setColumnMinimumWidth(0, calendar->sizeHint().width());
 }
 
-MainWindow::~MainWindow() {
-
-}
-
-void MainWindow::addCalendar() {
-    calendarBlock = new QGroupBox(tr("Calendar"));
-    calendar = new MyCalendar();
-    //  calendar->setMinimumDate(QDate(1900, 1, 1));
-    //  calendar->setMaximumDate(QDate(3000, 1, 1));
+void MainWindow::initCalendarBox() {
     calendar->setGridVisible(true);
     calendar->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     calendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
-    /**   QTableView *view = calendar->findChild<QTableView*>("qt_calendar_calendarview");
 
-    if (view) {
-        QPalette pal = view->palette();
-        pal.setColor(QPalette::Button, Qt::black);
-        pal.setColor(QPalette::AlternateBase, Qt::green);
-        view->setPalette(pal);
-    }**/
+    connect(calendar, SIGNAL(selectionChanged()),this , SLOT(selectedDateChanged()));
 
-    // connect(calendar, &QCalendarWidget::currentPageChanged, this , &MainWindow::seeEvent );
-
-    calendarLayout = new QGridLayout;
+    QGridLayout *calendarLayout = new QGridLayout;
     calendarLayout->addWidget(calendar, 0, 0);
     calendarBlock->setLayout(calendarLayout);
 }
 
-void MainWindow::addEventBox() {
-    eventBlock = new QGroupBox(tr("Eventi"));
-    eventLayout= new QVBoxLayout;
-    eventLayoutTop = new QHBoxLayout;
-    eventLayoutBot= new QVBoxLayout;
-    eventLayout->setAlignment(Qt::AlignTop);
+void MainWindow::initInfoBox() {
 
-    //eventLayoutTop
-    currentDateEdit = new QDateEdit;
-    currentDateEdit->setDisplayFormat("dd MM yyyy");
-    currentDateEdit->setDate(calendar->selectedDate());
-    currentDateEdit->setDateRange(calendar->minimumDate(), calendar->maximumDate());
-    currentDateEdit->setFixedSize(QSize(100,20));
+    // init selected date label
+    selectedDateLabel = new QLabel(QString("Selected date: ")
+        .append(calendar->selectedDate().toString("dd/MM/yyyy")));
+    selectedDateLabel->setAlignment(Qt::AlignCenter);
+    selectedDateLabel->setFont(QFont("Lato", 13, QFont::Bold));
 
-    currentDateLabel = new QLabel(tr("Current Date"));
-    currentDateLabel->setBuddy(currentDateEdit);
+    // init preview list
+    eventList = new QListWidget();
+    eventList->setSpacing(6);
+    eventList->setIconSize(QSize(64, 64));
+    connect(eventList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(showEventDetailsDialog(QListWidgetItem*)));
+    refreshList(calendar->selectedDate()); // aggiungo gli eventi della data corrente
 
-    connect(currentDateEdit, &QDateEdit::dateChanged, calendar, &QCalendarWidget::setSelectedDate);
-    connect(calendar, &QCalendarWidget::selectionChanged, this , &MainWindow::selectedDateChanged);
+    // init add event button
+    addEventBtn = new QPushButton(tr("Add Event"));
+    connect(addEventBtn, SIGNAL(clicked(bool)), this, SLOT(showAddEventDialog()));
 
-    eventLayoutTop->setAlignment(Qt::AlignCenter);
-    eventLayoutTop->addWidget(currentDateLabel);
-    eventLayoutTop->addWidget(currentDateEdit);
+    // aggiungo gli elementi al layout
+    QVBoxLayout *infoLayout = new QVBoxLayout();
+    infoLayout->addWidget(selectedDateLabel);
+    infoLayout->addWidget(eventList);
+    infoLayout->addWidget(addEventBtn);
 
-    //eventLayoutBot
-    addEvent= new QPushButton(tr("Add Event"));
-    connect(addEvent, &QPushButton::clicked, this, &MainWindow::addNewEvent);
+    // design dell' info block
+    infoBlock->setMaximumWidth(400);
+    infoBlock->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+    infoBlock->setLayout(infoLayout);
+}
 
-    areaEventi = new QScrollArea();
-    eventLayoutBot->addWidget(areaEventi);
-    eventLayoutBot->addWidget(addEvent);
+void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
+    if(dynamic_cast<EventWidget*>(it)) {
+        EventWidget* currentEvent = static_cast<EventWidget*>(it);
 
-    auto * container = new QWidget();
-    //ScrollAreaFilling
-    QVBoxLayout * layoutArea = new QVBoxLayout(container);
-
-    auto * button1 = new QPushButton( "1", container);
-    auto * button2 = new QPushButton( "2", container);
-    auto * button3 = new QPushButton( "3", container);
-    layoutArea->addWidget( button1 );
-    layoutArea->addWidget( button2 );
-    layoutArea->addWidget( button3 );
-    areaEventi->setWidget( container );
-    areaEventi->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-
-    //aggiunta LayoutBot e Top a eventLayout
-
-    eventLayout->addLayout(eventLayoutTop);
-    eventLayout->addLayout(eventLayoutBot);
-    eventBlock->setMaximumWidth(400);
-    eventBlock->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Expanding);
-    eventBlock->setLayout(eventLayout);
+        // TODO: aggiornamento eventi
+        QMessageBox::information(
+        this,
+        tr("Application Name"),
+        "placeholder"); //currentEvent->getInfo());
+    } else
+        QMessageBox::critical(this, QString("Error"), QString("Error showing element details"));
 }
 
 void MainWindow::selectedDateChanged() {
-    currentDateEdit->setDate(calendar->selectedDate());
-    //   QPainter *painter = new QPainter;
-    // calendar->paintCell(painter,rect(),calendar->selectedDate());
+    // aggiornamento label
+    selectedDateLabel->setText(QString("Selected date: ")
+        .append(calendar->selectedDate().toString("dd/MM/yyyy")));
+
+    // aggiornamento lista
+    refreshList(calendar->selectedDate());
 }
 
-void MainWindow::addNewEvent() {
-    NewEvent * popup = new NewEvent();
+void MainWindow::showAddEventDialog() {
+    NewEvent* popup = new NewEvent();
     popup->exec();
 }
 
-void MainWindow::addMenu() {
+void MainWindow::refreshList(const QDate& date) {
+    eventList->clear();
 
-}
-
-
-void MainWindow::seeEvent() {
-
+    // caricare eventi del giorno date
+    for(auto it : model.getEvents(date))
+        eventList->addItem(new EventWidget(it, QIcon(":\res\birthday.png"), "Prova", eventList));
 }

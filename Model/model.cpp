@@ -15,8 +15,9 @@ void Model::removeEvent(const Date& date, const It& it) {
 std::vector<Model::It> Model::getEvents(const Date &d) {
     std::vector<It> its;
 
-    for(It it = _data.begin(d); it != _data.end(d); it++)
-        its.push_back(it);
+    if(hasEvent(d))
+        for(It it = _data.begin(d); it != _data.end(d); it++)
+            its.push_back(it);
     return its;
 }
 
