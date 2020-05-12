@@ -7,7 +7,7 @@
 #include "Model/Hierarchy/event.h"
 #include "Model/Hierarchy/workout.h"
 #include "Model/Hierarchy/reminder.h"
-#include <QFileInfo>
+#include "Model/Hierarchy/meeting.h"
 //#include <unistd.h>
 #include <QFile>
 #include <QJsonDocument>
@@ -51,12 +51,25 @@ int main(int argc, char *argv[]) {
                              dd1,tags);
     std::cout<<e2->getDate()<<std::endl;
     std::cout<<e2->getName()<<std::endl;
+    /*
+    Meeting(std::vector<std::string> part, Time start,
+            Time end, Time alert,bool repeat, std::string nome,std::string descr,
+            std::string luogo,Date data,std::vector<std::string>* vettoreTag);
+    */
+    std::vector<std::string> par = std::vector<std::string>();
+    par.push_back("danielegiachetto1999@gmail.com");
+    par.push_back("valtontahiraj@gmail.com");
+    Event* e3 = new Meeting(par,tt1,tt2,alert,true,"meet","incontro zoom",
+                            "casa",dd1,tags);
+
 
     QJsonObject json;
     e2->serialize(json);
-    writeToDisk("test.persona",QJsonDocument(json));
+    writeToDisk("test2.persona",QJsonDocument(json));
     e1->serialize(json);
-    writeToDisk("test.persona",QJsonDocument(json));
+    writeToDisk("test1.persona",QJsonDocument(json));
+    e3->serialize(json);
+    writeToDisk("test3.persona",QJsonDocument(json));
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

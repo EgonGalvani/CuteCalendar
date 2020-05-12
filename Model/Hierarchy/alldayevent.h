@@ -12,6 +12,8 @@ public:
                              std::vector<std::string>* tags = nullptr);
     Time getDuration() const;
 
+    void serialize(QJsonObject &json) const;
+
 };
 
 #endif // ALLDAYEVENT_H

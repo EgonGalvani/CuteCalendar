@@ -4,7 +4,7 @@ Workout::activity Workout::getSport()const  {return act;}
 void Workout::setSport(int x) {act = static_cast<activity>(x);}
 
 void Workout::serialize(QJsonObject &json) const {
-    json = Event::toJson();
+    EventWithDuration::serialize(json);
     json.insert("ID","2");
     json["ACTIVITY"] = act;
 }

@@ -22,10 +22,7 @@ public:
     void setStartTime(const Time start);
     void setEndTime(const Time end);
 
-    void toJson(QJsonObject &json) const;
-
-
-
+    void serialize(QJsonObject &json) const;
 };
 
 #endif // EVENTWITHDURATION_H

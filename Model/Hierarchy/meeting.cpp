@@ -23,7 +23,8 @@ Meeting* Meeting::clone() const {
 
 void Meeting::serialize(QJsonObject &json)const {
 
-    json = Event::toJson();
+    EventWithDuration::serialize(json);
+    Alert::serialize(json);
     json.insert("ID","3");
     QJsonArray partArray;
     foreach (const std::string part, partEmails) {

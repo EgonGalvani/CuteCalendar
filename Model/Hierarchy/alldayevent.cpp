@@ -10,3 +10,9 @@ Time AllDayEvent::getDuration() const {
     return Time(23,59,59);
 }
 
+void AllDayEvent::serialize(QJsonObject &json) const {
+
+    json = Event::toJson();
+
+}
+
