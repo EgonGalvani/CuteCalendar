@@ -20,7 +20,7 @@ public:
     urgency getUrgency()const ;
 
     //virtual
-    void serialize()const ;
+    void serialize(QJsonObject &json)const ;
     Reminder* clone()const ;
 
 

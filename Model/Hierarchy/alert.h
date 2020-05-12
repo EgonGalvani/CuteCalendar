@@ -17,6 +17,8 @@ public:
     Time getAlertTime() const;
     bool doesRepeat() const;
 
+    void serialize(QJsonObject &json) const;
+
 };
 
 #endif // ALERT_H

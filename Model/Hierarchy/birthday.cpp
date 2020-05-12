@@ -15,7 +15,10 @@ BirthDay *BirthDay::clone() const{
 
 }
 
-void BirthDay::serialize() const{
+void BirthDay::serialize(QJsonObject &json) const{
+    json = Event::toJson();
+    json.insert("ID","4");
+    json["Data_Nascita"] = QString::fromStdString(dataNascita.toString());
 
 }
 

@@ -21,7 +21,15 @@ Meeting* Meeting::clone() const {
     return new Meeting(*this);
 }
 
-void Meeting::serialize()const {
+void Meeting::serialize(QJsonObject &json)const {
+
+    json = Event::toJson();
+    json.insert("ID","3");
+    QJsonArray partArray;
+    foreach (const std::string part, partEmails) {
+        partArray.append(QString::fromStdString(part));
+    }
+    json["PARTECIPANTS"] = partArray;
 
 }
 //MANCA UN METODO PER MODIFICARE I VETTORI?

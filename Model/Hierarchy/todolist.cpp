@@ -41,6 +41,6 @@ Time ToDoList::getDuration() const {
     return Time();
 }
 
-void ToDoList::serialize() const {
+void ToDoList::serialize(QJsonObject &json) const {
 
 }

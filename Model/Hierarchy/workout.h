@@ -24,7 +24,7 @@ public:
 
     //virtual methods
     Workout* clone()const ;
-    void serialize()const ;
+    void serialize(QJsonObject &json)const ;
     virtual ~Workout();
 
 };

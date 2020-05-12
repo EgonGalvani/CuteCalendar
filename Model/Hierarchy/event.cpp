@@ -8,6 +8,8 @@ std::string Event::getPlace() const{return place;}
 
 Date Event::getDate() const{return data;}
 
+std::vector<std::string>* Event::getTags() const {return tags;}
+
 void Event::setDesc(const std::string desc) {description = desc;}
 
 void Event::setName(const std::string nome) {name = nome;}
@@ -46,6 +48,23 @@ Event::Event(std::string nome,std::string descr,std::string luogo,Date dt,
 
 bool Event::isCompleted() const {
     return data<=Date();
+}
+
+QJsonObject Event::toJson() const {
+    QJsonObject json = QJsonObject();
+    json["ID"] = 0;
+    json["NAME"] = QString::fromStdString(getName());
+    json["DATA"] = QString::fromStdString(getDate().toString());
+    json["DESCRIPTION"] = QString::fromStdString(getDesc());
+    json["PLACE"] = QString::fromStdString(getPlace());
+
+    std::vector<std::string> temp = *tags;
+    QJsonArray tagArray;
+    foreach (const std::string tag, temp) {
+        tagArray.append(QString::fromStdString(tag));
+    }
+    json["TAGS"] = tagArray;
+
 }
 
 //Destructor

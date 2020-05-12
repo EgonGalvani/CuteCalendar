@@ -22,6 +22,8 @@ public:
     void setStartTime(const Time start);
     void setEndTime(const Time end);
 
+    void toJson(QJsonObject &json) const;
+
 
 
 };

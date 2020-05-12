@@ -16,7 +16,11 @@ Reminder* Reminder::clone() const {
     return new Reminder(*this);
 }
 
-void Reminder::serialize() const {
+void Reminder::serialize(QJsonObject &json) const {
+
+    json = Event::toJson();
+    json.insert("ID","1");
+    json["URGENCY"] = urg;
 
 }
 

@@ -18,7 +18,7 @@ public:
     std::vector<std::string> getPartecipants();
 
     //virtual
-    void serialize()const ;
+    void serialize(QJsonObject &json)const ;
 };
 
 #endif // MEETING_H

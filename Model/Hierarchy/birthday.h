@@ -15,7 +15,7 @@ public:
 
     BirthDay* clone() const;
 
-    void serialize() const;
+    void serialize(QJsonObject &json) const;
 
 
 };

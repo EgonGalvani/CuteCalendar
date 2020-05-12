@@ -35,7 +35,7 @@ public:
     //Virtual methods
     ToDoList* clone()const ;
     Time getDuration()const ;
-    void serialize()const ;
+    void serialize(QJsonObject &json)const ;
     bool isCompleted()const ;
 
 

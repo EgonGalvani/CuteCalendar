@@ -3,8 +3,10 @@
 Workout::activity Workout::getSport()const  {return act;}
 void Workout::setSport(int x) {act = static_cast<activity>(x);}
 
-void Workout::serialize() const {
-
+void Workout::serialize(QJsonObject &json) const {
+    json = Event::toJson();
+    json.insert("ID","2");
+    json["ACTIVITY"] = act;
 }
 
 Workout::Workout(int x,Time start,Time end,std::string nome,std::string descr,
