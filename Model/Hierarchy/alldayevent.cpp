@@ -6,7 +6,7 @@ AllDayEvent::AllDayEvent(std::string nome,std::string descr
                          std::vector<std::string>* tags)
     :Event(nome,descr,luogo,data,tags) {}
 
-Time AllDayEvent::getDuration() {
+Time AllDayEvent::getDuration() const{
     return Time(23,59,59);
 }
 

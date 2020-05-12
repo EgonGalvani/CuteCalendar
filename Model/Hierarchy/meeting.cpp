@@ -17,11 +17,11 @@ Meeting::Meeting(std::vector<std::string> part, Time start,
 
 }
 
-Meeting* Meeting::clone() {
+Meeting* Meeting::clone() const {
     return new Meeting(*this);
 }
 
-void Meeting::serialize(){
+void Meeting::serialize()const {
 
 }
 //MANCA UN METODO PER MODIFICARE I VETTORI?

@@ -10,7 +10,7 @@ public:
     AllDayEvent(std::string nome = "",std::string descr = ""
             ,std::string luogo = "", Date data = Date(),
                              std::vector<std::string>* tags = nullptr);
-    Time getDuration();
+    Time getDuration() const;
 
 };
 

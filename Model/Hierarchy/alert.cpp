@@ -6,8 +6,8 @@ Alert::Alert(Time x, bool y,std::string nome,std::string descr,std::string luogo
       alertTime(x),repeat(y){}
 
 
-void Alert::setAlertTime(Time x) {alertTime=x;}
-void Alert::setRepeat(bool x) {repeat=x;}
+void Alert::setAlertTime(const Time x) {alertTime=x;}
+void Alert::setRepeat(const bool x) {repeat=x;}
 
-Time Alert::getAlertTime() {return alertTime;}
-bool Alert::doesRepeat() {return repeat;}
+Time Alert::getAlertTime() const{return alertTime;}
+bool Alert::doesRepeat() const{return repeat;}

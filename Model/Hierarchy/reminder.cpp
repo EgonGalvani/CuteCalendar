@@ -1,6 +1,6 @@
 #include "reminder.h"
 
-Reminder::urgency Reminder::getUrgency() {return urg;}
+Reminder::urgency Reminder::getUrgency() const {return urg;}
 
 Reminder::Reminder(int x,Time start,Time end,Time alert,bool rep,std::string nome,
                    std::string descr,std::string luogo,Date data,std::vector<std::string>* tags)
@@ -12,11 +12,11 @@ Reminder::Reminder(int x,Time start,Time end,Time alert,bool rep,std::string nom
 
 }
 
-Reminder* Reminder::clone() {
+Reminder* Reminder::clone() const {
     return new Reminder(*this);
 }
 
-void Reminder::serialize() {
+void Reminder::serialize() const {
 
 }
 

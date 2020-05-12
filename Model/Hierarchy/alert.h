@@ -11,11 +11,11 @@ public:
             ,std::string luogo = "", Date data = Date(),
                              std::vector<std::string>* tags = nullptr);
 
-    void setAlertTime(Time x);
-    void setRepeat(bool x);
+    void setAlertTime(const Time x);
+    void setRepeat(const bool x);
 
-    Time getAlertTime();
-    bool doesRepeat();
+    Time getAlertTime() const;
+    bool doesRepeat() const;
 
 };
 

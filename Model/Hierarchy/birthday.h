@@ -13,9 +13,9 @@ public:
     BirthDay(Date x,std::string nome,std::string descr,std::string luogo,
              Date data,std::vector<std::string>* vettoreTag);
 
-    BirthDay* clone();
+    BirthDay* clone() const;
 
-    void serialize();
+    void serialize() const;
 
 
 };

@@ -19,36 +19,36 @@ public:
             std::vector<std::string>* vettoreTag);
 
     //Pure virtual methods
-    virtual Event* clone() = 0;
+    virtual Event* clone() const = 0;
 
-    virtual Time getDuration() = 0;
-    virtual bool isCompleted();
-    virtual void serialize() = 0;
+    virtual Time getDuration() const = 0;
+    virtual bool isCompleted() const;
+    virtual void serialize() const = 0;
     static Event* parse();
 
     //Destructor
     virtual ~Event();
 
     //Getter
-    std::string getName();
-    std::string getDesc();
-    std::string getPlace();
-    Date getDate();
+    std::string getName() const ;
+    std::string getDesc() const ;
+    std::string getPlace() const ;
+    Date getDate() const ;
 
     //Setter
-    void setName(std::string x);
-    void setDesc(std::string x);
-    void setPlace(std::string x);
-    void setDate(Date x);
+    void setName(const std::string x);
+    void setDesc(const std::string x);
+    void setPlace(const std::string x);
+    void setDate(const Date x);
 
     //Vector manipulation methods
 
 
     //chiedere ad Egon se preferisce un bool per conferma o usiamo exeption
-    void addTag(std::string tag);
+    void addTag(const std::string tag);
     //restituire nuovo vettore?
-    std::vector<std::string>* deleteTag(std::string tag);
-    bool hasTag(std::string tag);
+    std::vector<std::string>* deleteTag(const std::string tag);
+    bool hasTag(const std::string tag)const ;
 
 };
 #endif // EVENTO_H

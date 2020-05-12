@@ -6,41 +6,41 @@
 
 ToDoList::ListItem::ListItem(std::string x,bool y) : description(x),done(y) {}
 
-std::string ToDoList::ListItem::getDescription() {
+std::string ToDoList::ListItem::getDescription() const {
     return description;
 }
-bool ToDoList::ListItem::isDone() {
+bool ToDoList::ListItem::isDone() const {
     return done;
 }
-void ToDoList::ListItem::setDone(bool x) {
+void ToDoList::ListItem::setDone(const bool x) {
     done = x;
 }
 
 
 //std::vector<ListItem*> getItems;
-std::vector<ToDoList::ListItem> ToDoList::getItems() {
+std::vector<ToDoList::ListItem> ToDoList::getItems()const  {
     return items;
 }
 
-ToDoList* ToDoList::clone() {
+ToDoList* ToDoList::clone() const {
     return new ToDoList(*this);
 }
 
 //Virtual methods
 //Controlla ogni elemento del vettore se è done;
-bool ToDoList::isCompleted() {
+bool ToDoList::isCompleted() const {
     bool found = true;
-    for (std::vector<ListItem>::iterator x= items.begin();x!=items.end() && found;++x) {
+    for (std::vector<ListItem>::const_iterator x= items.begin();x!=items.end() && found;++x) {
         found = x->isDone();
     }
     return found;
 
 }
 
-Time ToDoList::getDuration() {
+Time ToDoList::getDuration() const {
     return Time();
 }
 
-void ToDoList::serialize() {
+void ToDoList::serialize() const {
 
 }

@@ -10,7 +10,7 @@ private:
 
 public:
 
-    Meeting* clone();
+    Meeting* clone()const ;
 
     Meeting(std::vector<std::string> part, Time start,
             Time end, Time alert,bool repeat, std::string nome,std::string descr,
@@ -18,7 +18,7 @@ public:
     std::vector<std::string> getPartecipants();
 
     //virtual
-    void serialize();
+    void serialize()const ;
 };
 
 #endif // MEETING_H

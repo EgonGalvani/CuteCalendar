@@ -9,13 +9,13 @@ BirthDay::BirthDay(Date x, std::string nome,std::string descr,std::string luogo,
 
 }
 
-BirthDay *BirthDay::clone() {
+BirthDay *BirthDay::clone() const{
 
     return new BirthDay(*this);
 
 }
 
-void BirthDay::serialize() {
+void BirthDay::serialize() const{
 
 }
 

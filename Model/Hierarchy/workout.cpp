@@ -1,9 +1,9 @@
 #include "workout.h"
 
-Workout::activity Workout::getSport() {return act;}
+Workout::activity Workout::getSport()const  {return act;}
 void Workout::setSport(int x) {act = static_cast<activity>(x);}
 
-void Workout::serialize() {
+void Workout::serialize() const {
 
 }
 
@@ -17,7 +17,7 @@ Workout::Workout(int x,Time start,Time end,std::string nome,std::string descr,
     act = static_cast<activity>(x);
 }
 
-Workout* Workout::clone() {
+Workout* Workout::clone() const {
     return new Workout(*this);
 }
 

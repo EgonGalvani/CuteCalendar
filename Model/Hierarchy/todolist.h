@@ -13,30 +13,30 @@ private:
         bool done;
     public:
         ListItem(std::string = nullptr,bool = true);
-        std::string getDescription();
-        bool isDone();
-        void setDone(bool);
+        std::string getDescription()const ;
+        bool isDone()const ;
+        void setDone(const bool);
     };
 
     std::vector<ListItem> items;
 
 public:
     //getter setter
-    std::vector<ListItem> getItems();
+    std::vector<ListItem> getItems() const;
 
     //praticamente quando vado ad aggiungere
     //devo costruire un nuovo item
     //Ma devo mettere un id univoco?For reference chat telegram 21 aprile
-    void addItem(std::string x,bool done = false);
+    void addItem(const std::string x,const bool done = false);
 
 
 
 
     //Virtual methods
-    ToDoList* clone();
-    Time getDuration();
-    void serialize();
-    bool isCompleted();
+    ToDoList* clone()const ;
+    Time getDuration()const ;
+    void serialize()const ;
+    bool isCompleted()const ;
 
 
 };

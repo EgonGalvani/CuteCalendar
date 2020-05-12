@@ -6,7 +6,7 @@ EventWithDuration::EventWithDuration(Time start, Time end,
     : Event(nome,descr,luogo,data,tags),
       startTime(start),endTime(end){}
 
-Time EventWithDuration::getDuration() {
+Time EventWithDuration::getDuration() const {
     //POTREBBE ESSERCI UN METODO PIÙ EFFICACE,
     //Difference converted in seconds, e poi ricostruisco ora,minuti,secondi
 
@@ -19,14 +19,14 @@ Time EventWithDuration::getDuration() {
     return Time(hour,minutes,seconds);
 }
 
-bool EventWithDuration::isCompleted() {
+bool EventWithDuration::isCompleted() const {
     return Event::isCompleted() && endTime<Time();
 }
 
 //GETTER SETTER
-Time EventWithDuration::getStartTime() {return  startTime;}
-Time EventWithDuration::getEndTime() {return endTime;}
-void EventWithDuration::setStartTime(Time start) {startTime=start;}
-void EventWithDuration::setEndTime(Time end) {endTime=end;}
+Time EventWithDuration::getStartTime() const {return  startTime;}
+Time EventWithDuration::getEndTime() const {return endTime;}
+void EventWithDuration::setStartTime(const Time start) {startTime=start;}
+void EventWithDuration::setEndTime(const Time end) {endTime=end;}
 
 
