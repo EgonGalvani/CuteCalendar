@@ -5,7 +5,8 @@ bool Model::hasEvent(const Date& d) const {
 }
 
 Model::It Model::insertEvent(const Date& d, Event* e) {
-    return _data.insert(_data.find(d), DeepPtr<Event>(e));
+    _data.insert(d, DeepPtr<Event>(e));
+    return --_data.end(d);
 }
 
 void Model::removeEvent(const Date& date, const It& it) {

@@ -6,8 +6,8 @@
 class BirthDay : public AllDayEvent {
 
 private:
-
     Date dataNascita;
+
 public:
 
     BirthDay(Date x,std::string nome,std::string descr,std::string luogo,
@@ -16,8 +16,6 @@ public:
     BirthDay* clone() const;
 
     void serialize(QJsonObject &json) const;
-
-
 };
 
 

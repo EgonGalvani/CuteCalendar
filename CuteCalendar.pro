@@ -30,6 +30,7 @@ SOURCES += \
     View/newevent.cpp \
     View/mainwindow.cpp \
     View/mycalendar.cpp \
+    View/eventwidget.cpp \
     main.cpp \
     Model/DataType/time.cpp \
     Model/DataType/date.cpp \
@@ -45,7 +46,7 @@ SOURCES += \
     Model/Hierarchy/reminder.cpp \
     Model/Hierarchy/meeting.cpp \
     Model/Hierarchy/birthday.cpp \
-    View/eventwidget.cpp
+    View/eventwidgetbuilder.cpp
 
 HEADERS += \
     View/mainwindow.h \
@@ -55,6 +56,7 @@ HEADERS += \
     View/viewcompleanno.h \
     View/viewmeeting.h \
     View/viewpromemoria.h \
+    View/eventwidget.h \
     Model/DataType/date.h \
     Model/DataType/time.h \
     Model/Hierarchy/event.h \
@@ -73,11 +75,9 @@ HEADERS += \
     Model/fileio.h \
     Model/Container/vector.h \
     Model/Container/unorderedmultimap.h \
-    View/eventwidget.h
+    View/eventwidgetbuilder.h
 
 FORMS +=
 
 RESOURCES += \
     res.qrc
-
-DISTFILES +=

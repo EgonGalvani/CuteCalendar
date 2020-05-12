@@ -6,13 +6,28 @@
 #include <QTableView>
 #include <QGridLayout>
 #include <QColor>
+
 #include "eventwidget.h"
+#include "eventwidgetbuilder.h"
+
+#include "../Model/Hierarchy/birthday.h"
+#include "../Model/Hierarchy/meeting.h"
+#include "../Model/Hierarchy/reminder.h"
+#include "../Model/Hierarchy/todolist.h"
+#include "../Model/Hierarchy/workout.h"
 
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent), calendarBlock(new QGroupBox(QString("Calendar"))),
         infoBlock(new QGroupBox(QString("Info"))), calendar(new MyCalendar()) {
+
+    // evento di prova
+    model.insertEvent(Date(12, 5, 2020), new BirthDay(Date(12, 5, 2020), "Compleanno Valton", "Oggi è il compleanno di valton",
+                                                      "Padova", Date(12, 5, 1999), nullptr));
+
+    // eventi di prova...
+
 
     initCalendarBox();
     initInfoBox();
@@ -22,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(infoBlock);
     setMinimumSize(QSize(900,500));
     setLayout(layout);
+
 }
 
 void MainWindow::initCalendarBox() {
@@ -97,7 +113,16 @@ void MainWindow::showAddEventDialog() {
 void MainWindow::refreshList(const QDate& date) {
     eventList->clear();
 
-    // caricare eventi del giorno date
-    for(auto it : model.getEvents(date))
-        eventList->addItem(new EventWidget(it, QIcon(":\res\birthday.png"), "Prova", eventList));
+    for(auto it : model.getEvents(date)) {
+        if(dynamic_cast<BirthDay*>(&**it))
+            eventList->addItem(EventWidgetBuilder::buildBirthdayWidget(it, eventList));
+        else if(dynamic_cast<Meeting*>(&**it))
+            eventList->addItem(EventWidgetBuilder::buildMeetingWidget(it, eventList));
+        else if(dynamic_cast<Reminder*>(&**it))
+            eventList->addItem(EventWidgetBuilder::buildReminderWidget(it, eventList));
+        else if(dynamic_cast<ToDoList*>(&**it))
+            eventList->addItem(EventWidgetBuilder::buildTodoListWidget(it, eventList));
+        else
+            eventList->addItem(EventWidgetBuilder::buildWorkoutWidget(it, eventList));
+    }
 }

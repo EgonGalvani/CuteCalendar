@@ -12,11 +12,9 @@ private:
     Model::It _data;
 
 public:
-    EventWidget(const Model::It& info, const QIcon& icon, const QString& text,
-            QListWidget* view = nullptr)
-        : QListWidgetItem(icon, text, view), _data(info) {}
+    EventWidget(const Model::It& info, const QIcon& icon, QListWidget* view = nullptr);
 
-    Model::It getData() const { return _data; }
+    Model::It getData() const;
 };
 
 #endif // EVENTWIDGET_H
