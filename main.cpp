@@ -12,22 +12,34 @@
 #include <QFile>
 #include <QJsonDocument>
 
-void writeToDisk(const QString path,const QJsonDocument & obj) {
-     try {
-        QFile file;
-        file.setFileName(path);
-        file.open(QIODevice::WriteOnly | QIODevice::Text);
-        file.write(obj.toJson());
-     }catch (...) {}
-}
+  void writeToDisk(const QString path,const QJsonDocument & obj) {
+       try {
+          QFile file;
+          file.setFileName(path);
+          file.open(QIODevice::WriteOnly | QIODevice::Text);
+          file.write(obj.toJson());
+       }catch (...) {}
+  }
 
-int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+  QJsonDocument readFromDisk(const QString path) {
+      QFile loadFile(path);
+      if (!loadFile.open(QIODevice::ReadOnly)) {
+          qWarning("Couldn't open save file.");
+      }
+      QByteArray saveData = loadFile.readAll();
+      QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+      return loadDoc;
+  }
 
 
-}
+  int main(int argc, char *argv[]) {
+      QApplication a(argc, argv);
+      MainWindow w;
+      w.show();
+      return a.exec();
+
+
+  }
+
 
 
