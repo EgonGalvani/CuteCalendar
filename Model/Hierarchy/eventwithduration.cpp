@@ -25,6 +25,7 @@ bool EventWithDuration::isCompleted() const {
 
 void EventWithDuration::serialize(QJsonObject &json) const{
 
+    Event::serialize(json);
     json["START_TIME"] = QString::fromStdString(startTime.toString());
     json["END_TIME"] = QString::fromStdString(endTime.toString());
 
