@@ -6,6 +6,8 @@
 #include "../DataType/date.h"
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QFile>
+#include <QJsonDocument>
 class Event {
 
 private:
@@ -26,7 +28,7 @@ public:
     virtual Time getDuration() const = 0;
     virtual bool isCompleted() const;
     virtual void serialize(QJsonObject &json) const = 0;
-    static Event* parse();
+    static Event* parse(QJsonObject);
 
     //Destructor
     virtual ~Event();
@@ -37,7 +39,6 @@ public:
     std::string getPlace() const ;
     Date getDate() const ;
     std::vector<std::string>* getTags() const;
-    QJsonObject toJson() const;
 
     //Setter
     void setName(const std::string x);

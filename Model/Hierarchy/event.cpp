@@ -50,8 +50,7 @@ bool Event::isCompleted() const {
     return data<=Date();
 }
 
-QJsonObject Event::toJson() const {
-    QJsonObject json = QJsonObject();
+void Event::serialize(QJsonObject &json) const {
     json["ID"] = 0;
     json["NAME"] = QString::fromStdString(getName());
     json["DATA"] = QString::fromStdString(getDate().toString());
@@ -64,7 +63,22 @@ QJsonObject Event::toJson() const {
         tagArray.append(QString::fromStdString(tag));
     }
     json["TAGS"] = tagArray;
-    return json;
+}
+
+static Event* parse(QJsonObject json) {
+    return nullptr;
+    /*
+    int x = json["ID"].toInt();
+    switch (x) {
+    case 0:
+        break;
+    case 1:
+        Date dt = Date(json["ALERT_TIME"].toString().toStdString());
+    case 2:
+    case 3:
+    }
+    */
+
 }
 
 //Destructor
