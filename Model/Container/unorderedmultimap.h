@@ -831,7 +831,7 @@ template<class K, class V>
 typename UnorderedMultimap<K, V>::Iterator
 UnorderedMultimap<K, V>::erase(Iterator it) {
     if(!it._ptr || it._pastTheEnd)
-        return it;
+        throw std::logic_error("Trying to erase null bucket");
 
     Node* z = it._ptr, *w = nullptr;
     if(!z->_left) {
