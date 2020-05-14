@@ -2,7 +2,8 @@
 #define UNORDEREDMULTIMAP_H
 
 #include "vector.h"
-#include <iostream>
+
+#include <stdexcept>
 
 template<class Key, class Value>
 class UnorderedMultimap {
@@ -398,18 +399,24 @@ public:
      * @brief permette di eliminare un elmento presente all'interno di un determinato bucket
      * @param it: bucket considerato
      * @param lit: elemento da eliminare
-     * @return un iteratore all'elemento successivo a quello eliminato all'interno del bucket
+     * @return:
+     *  - se il bucket ha ancora qualche elemento, allora un iteratore al bucket stesso
+     *  - se gli elementi del bucket sono finiti, il bucket viene rimosso e viene ritornato
+     *   un iteratore al bucket successivo
      */
-    LocalIterator erase(Iterator it, LocalIterator lit);
+    Iterator erase(Iterator it, LocalIterator lit);
 
     /**
      * @brief permette di eliminare un intervallo di elementi all'interno di un determinato bucket
      * @param it: bucket considerato
      * @param lit_first: primo elemento da eliminare
      * @param lit_last: elemento successivo all'utlimo da eliminare
-     * @return iteratore all'elemento successivo all'ultimo elemento eliminato all'interno del bucket
+     * @return:
+     *  - se il bucket ha ancora qualche elemento, allora un iteratore al bucket stesso
+     *  - se gli elementi del bucket sono finiti, il bucket viene rimosso e viene ritornato
+     *   un iteratore al bucket successivo
      */
-    LocalIterator erase(Iterator it, LocalIterator lit_first, LocalIterator lit_last);
+    Iterator erase(Iterator it, LocalIterator lit_first, LocalIterator lit_last);
 
     /**
      * @brief permette di ricercare un bucket con chiave k all'interno dell'albero
@@ -647,6 +654,8 @@ UnorderedMultimap<K, V>::insert(const K& key, const V& value) {
 template<class K, class V>
 typename UnorderedMultimap<K, V>::LocalIterator
 UnorderedMultimap<K, V>::insert(const Iterator& it, const V& v) {
+    if(!it._ptr)
+        throw std::logic_error("Trying to add element on null bucket!");
     it._ptr->_data.push_back(v);
     _elementSize++;
     return --it._ptr->_data.end();
@@ -745,19 +754,34 @@ UnorderedMultimap<K, V>::cend(const K& k) const {
 }
 
 template<class K, class V>
-typename UnorderedMultimap<K, V>::LocalIterator
+typename UnorderedMultimap<K, V>::Iterator
 UnorderedMultimap<K, V>::erase(Iterator it, LocalIterator lit) {
+    if(!it._ptr)
+        throw std::logic_error("Trying to erase elements from null bucket");
     _elementSize--;
-    return it._ptr->_data.erase(lit);
+    it._ptr->_data.erase(lit);
+
+    // se non ho più elementi, elimino il bucket
+    if(it._ptr->_data.empty())
+        return erase(it);
+
+    return it;
 }
 
 template<class K, class V>
-typename UnorderedMultimap<K, V>::LocalIterator
+typename UnorderedMultimap<K, V>::Iterator
 UnorderedMultimap<K, V>::erase(Iterator it, LocalIterator lit_first, LocalIterator lit_last) {
+    if(!it._ptr)
+        throw std::logic_error("Trying to erase elements from null bucket");
     unsigned int previousSize = it._ptr->_data.size();
-    LocalIterator lit = it._ptr->_data.erase(lit_first, lit_last);
+    it._ptr->_data.erase(lit_first, lit_last);
     _elementSize -= previousSize - it._ptr->_data.size();
-    return lit;
+
+    // se non ho più elementi elimino il bucket
+    if(it._ptr->_data.empty())
+        return erase(it);
+
+    return it;
 }
 
 template<class K, class V>

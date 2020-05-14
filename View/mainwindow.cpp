@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(infoBlock);
     setMinimumSize(QSize(900,500));
     setLayout(layout);
-
 }
 
 void MainWindow::initCalendarBox() {
@@ -114,13 +113,14 @@ void MainWindow::refreshList(const QDate& date) {
     eventList->clear();
 
     for(auto it : model.getEvents(date)) {
-        if(dynamic_cast<BirthDay*>(&**it))
+        Event* currentEvent = &**it;
+        if(dynamic_cast<BirthDay*>(currentEvent))
             eventList->addItem(EventWidgetBuilder::buildBirthdayWidget(it, eventList));
-        else if(dynamic_cast<Meeting*>(&**it))
+        else if(dynamic_cast<Meeting*>(currentEvent))
             eventList->addItem(EventWidgetBuilder::buildMeetingWidget(it, eventList));
-        else if(dynamic_cast<Reminder*>(&**it))
+        else if(dynamic_cast<Reminder*>(currentEvent))
             eventList->addItem(EventWidgetBuilder::buildReminderWidget(it, eventList));
-        else if(dynamic_cast<ToDoList*>(&**it))
+        else if(dynamic_cast<ToDoList*>(currentEvent))
             eventList->addItem(EventWidgetBuilder::buildTodoListWidget(it, eventList));
         else
             eventList->addItem(EventWidgetBuilder::buildWorkoutWidget(it, eventList));
