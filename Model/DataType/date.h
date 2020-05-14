@@ -134,6 +134,6 @@ std::ostream& operator<<(std::ostream&, const Date&);
  * @brief Operatore di input
  * @return Permette di fare l'input di una data, essa si deve trovare nel formato giorno/mese/anno
  */
-std::istream& operator>>(std::ostream&, Date&);
+std::istream& operator>>(std::istream&, Date&);
 
 #endif // DATE_H

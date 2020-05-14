@@ -8,6 +8,9 @@
 #include <QJsonArray>
 #include <QFile>
 #include <QJsonDocument>
+#include <sstream>
+
+
 class Event {
 
 private:
@@ -28,7 +31,6 @@ public:
     virtual Time getDuration() const = 0;
     virtual bool isCompleted() const;
     virtual void serialize(QJsonObject &json) const = 0;
-    static Event* parse(QJsonObject);
 
     //Destructor
     virtual ~Event();
@@ -54,6 +56,78 @@ public:
     //restituire nuovo vettore?
     std::vector<std::string>* deleteTag(const std::string tag);
     bool hasTag(const std::string tag)const ;
+
+
+    static Event* parse(QJsonObject &json) {
+
+        QJsonDocument doc(json);
+        QString strJson(doc.toJson(QJsonDocument::Compact));
+        std::cout<<strJson.toStdString();
+
+        //USO stoi e non .toInt perchè toInt ritorna sempre valore di default
+        int x = std::stoi(json["ID"].toString().toStdString());
+        std::cout<<std::endl<<x<<std::endl;
+        std::string nome;
+        Date date;
+        std::string descr;
+        std::string place;
+        std::vector<std::string>* tags;
+        int urg;
+        int act;
+        std::vector<std::string> vectPart;
+        Time start;
+        Time end;
+        Date birth;
+        Time alert;
+        bool rep;
+        std::istringstream temp;
+        std::string me;
+        //MANCA TODOLIST
+
+        //
+        switch (x) {
+        case 0:
+            break;
+        case 1:
+            //REMINDER = 1
+             /* int x,Time start,Time end,Time alert,bool rep,std::string nome,
+                       std::string descr,std::string luogo,Date data,std::vector<std::string>* tags
+
+                       */
+            nome = json["NAME"].toString().toStdString();
+            descr = json["DESCRIPTION"].toString().toStdString();
+            place = json["PLACE"].toString().toStdString();
+            //conversione stringa -> data
+            std::cout<<std::endl<<json["DATA"].toString().toStdString()<<std::endl;
+            temp= std::istringstream(json["DATA"].toString().toStdString());
+            temp>>date;
+            //json["TAGS"].
+            me = json["TAGS"].toString().toStdString();
+            std::cout<<std::endl<<me<<std::endl;
+            rep = json["REPEAT"].toBool();
+            //conversione stringa -> time
+            temp= std::istringstream(json["START_TIME"].toString().toStdString());
+            temp>>start;
+            temp= std::istringstream(json["END_TIME"].toString().toStdString());
+            temp>>end;
+            temp= std::istringstream(json["ALERT_TIME"].toString().toStdString());
+            temp>>alert;
+            urg = json["URGENCY"].toInt();
+            tags = new std::vector<std::string>();
+            tags->push_back(me);
+            return nullptr;
+            //return new Reminder(urg,start,end,alert,rep,nome,descr,place,date,tags);
+            break;
+
+        case 2:
+            break;
+        case 3:
+            break;
+        }
+
+        return nullptr;
+    }
+
 
 };
 #endif // EVENTO_H

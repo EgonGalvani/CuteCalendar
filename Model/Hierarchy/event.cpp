@@ -65,22 +65,6 @@ void Event::serialize(QJsonObject &json) const {
     json["TAGS"] = tagArray;
 }
 
-static Event* parse(QJsonObject json) {
-    return nullptr;
-    /*
-    int x = json["ID"].toInt();
-    switch (x) {
-    case 0:
-        break;
-    case 1:
-        Date dt = Date(json["ALERT_TIME"].toString().toStdString());
-    case 2:
-    case 3:
-    }
-    */
-
-}
-
 //Destructor
 Event::~Event() {}
 
