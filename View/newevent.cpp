@@ -83,7 +83,7 @@ void NewEvent::initAllenamento()
     QTextEdit* txtNome = new QTextEdit();
     QTextEdit* txtDesc = new QTextEdit();
     QTextEdit* txtLuogo = new QTextEdit();
-    QTextEdit* txtTag = new QTextEdit();
+    QCheckBox* checkTag = new QCheckBox();
     QPushButton* addEvent = new QPushButton(tr("Aggiungi Evento"));
 
     eventLayout->addWidget(inizio);
@@ -97,7 +97,7 @@ void NewEvent::initAllenamento()
     eventLayout->addWidget(luogo);
     eventLayout->addWidget(txtLuogo);
     eventLayout->addWidget(tags);
-    eventLayout->addWidget(txtTag);
+    eventLayout->addWidget(checkTag);
     eventLayout->addWidget(addEvent);
 
 
@@ -114,8 +114,9 @@ void NewEvent::initCompleanno()
     QTextEdit* txtNome = new QTextEdit();
     QTextEdit* txtDesc = new QTextEdit();
     QTextEdit* txtLuogo = new QTextEdit();
-    QTextEdit* txtTag = new QTextEdit();
+    QCheckBox* checkTag = new QCheckBox();
     QPushButton* addEvent = new QPushButton(tr("Aggiungi Evento"));
+
     eventLayout->addWidget(nome);
     eventLayout->addWidget(txtNome);
     eventLayout->addWidget(desc);
@@ -123,7 +124,7 @@ void NewEvent::initCompleanno()
     eventLayout->addWidget(luogo);
     eventLayout->addWidget(txtLuogo);
     eventLayout->addWidget(tags);
-    eventLayout->addWidget(txtTag);
+    eventLayout->addWidget(checkTag);
     eventLayout->addWidget(addEvent);
 
 
@@ -143,7 +144,7 @@ void NewEvent::initMeeting()
     QTextEdit* txtNome = new QTextEdit();
     QTextEdit* txtDesc = new QTextEdit();
     QTextEdit* txtLuogo = new QTextEdit();
-    QTextEdit* txtTag = new QTextEdit();
+    QCheckBox* checkTag = new QCheckBox();
     QPushButton* addEvent = new QPushButton(tr("Aggiungi Evento"));
 
     eventLayout->addWidget(inizio);
@@ -157,7 +158,7 @@ void NewEvent::initMeeting()
     eventLayout->addWidget(luogo);
     eventLayout->addWidget(txtLuogo);
     eventLayout->addWidget(tags);
-    eventLayout->addWidget(txtTag);
+    eventLayout->addWidget(checkTag);
     eventLayout->addWidget(addEvent);
 
 }
@@ -179,6 +180,7 @@ void NewEvent::initPromemoria()
     QTextEdit* txtLuogo = new QTextEdit();
     QTextEdit* txtTag = new QTextEdit();
     QCheckBox* check = new QCheckBox();
+    QCheckBox* checkTag = new QCheckBox();
     QPushButton* addEvent = new QPushButton(tr("Aggiungi Evento"));
 
     eventLayout->addWidget(inizio);
@@ -194,7 +196,7 @@ void NewEvent::initPromemoria()
     eventLayout->addWidget(luogo);
     eventLayout->addWidget(txtLuogo);
     eventLayout->addWidget(tags);
-    eventLayout->addWidget(txtTag);
+    eventLayout->addWidget(checkTag);
     eventLayout->addWidget(addEvent);
 
 }

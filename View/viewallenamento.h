@@ -6,6 +6,7 @@
 class ViewAllenamento : public QWidget {
  Q_OBJECT
 
+
 public:
    explicit ViewAllenamento(QWidget *parent = 0);
     ~ViewAllenamento();
