@@ -156,13 +156,13 @@ std::istream& operator>>(std::istream& in, Date& d) {
 
     unsigned int day, month, year;
 
-    std::size_t pos_d = value.find(':');
+    std::size_t pos_d = value.find('/');
     if(pos_d == std::string::npos)
         throw FormatError("Input must be in the form day/month/year");
     std::istringstream (value.substr(0, pos_d)) >> day;
     value = value.substr(pos_d+1);
 
-    std::size_t pos_m = value.find(':');
+    std::size_t pos_m = value.find('/');
     if(pos_m == std::string::npos)
         throw FormatError("Input must be in the form day/month/year");
     std::istringstream (value.substr(0, pos_m)) >> month;
