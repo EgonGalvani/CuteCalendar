@@ -24,10 +24,8 @@ Date::Date(unsigned short day, unsigned short month, unsigned short year)
     if(month == 0 || month > 12)
         throw std::invalid_argument("Month must be between 1 and 12");
 
-    std::cout << "Day " << day << std::endl;
     if(day == 0 || day > daysInMonth(month, year))
         throw std::invalid_argument("Invalid day");
-
 }
 
 unsigned short Date::day() const {
