@@ -1,7 +1,7 @@
 #ifndef MODVIEW_H
 #define MODVIEW_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QTextEdit>
 #include <QLabel>
 #include <QCheckBox>
@@ -9,12 +9,12 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 
-class ModView : public QWidget
+class ModView : public QDialog
 {
     Q_OBJECT
 public:
-    explicit ModView(QWidget *parent = nullptr);
-    virtual ~ModView() = 0;
+    explicit ModView(QDialog *parent = nullptr);
+    virtual ~ModView()=0;
 
 
 protected slots:

@@ -1,7 +1,11 @@
 #include "modview.h"
 
-ModView::ModView(QWidget *parent) : QWidget(parent)
+ModView::ModView(QDialog *parent) : QDialog(parent)
 {
+    mainLayout = new QVBoxLayout(this);
+    editLayout = new QVBoxLayout();
+    buttomLayout = new QHBoxLayout();
+
    lTag = new QLabel("Tag");
    lNome= new QLabel("Nome");
    lDesc= new QLabel("Descrizione");
@@ -23,45 +27,65 @@ ModView::ModView(QWidget *parent) : QWidget(parent)
 
    checkTag->setEnabled(false);
 
-   btnConfirm->setHidden(true);
+   btnConfirm->setEnabled(false);
 
+
+
+   editLayout->addWidget(lNome);
+   editLayout->addWidget(txtNome);
+   editLayout->addWidget(lLuogo);
+   editLayout->addWidget(txtLuogo);
+   editLayout->addWidget(lDesc);
+   editLayout->addWidget(txtDesc);
+   editLayout->addWidget(lTag);
+   editLayout->addWidget(checkTag);
+
+   buttomLayout->addWidget(btnDelete);
+   buttomLayout->addWidget(btnModify);
+   buttomLayout->addWidget(btnConfirm);
 
    //connects
-
-   connect(btnDelete, SIGNAL(clicked(true)), this , SLOT(deletePushed()));
-   connect(btnModify, SIGNAL(clicked(true)), this, SLOT(modifyPushed()));
-   connect(btnConfirm,SIGNAL(clicked(true)), this, SLOT(confirmPushed()));
-
-   getInfo();
+   connect(btnModify, SIGNAL(clicked()), this, SLOT(modifyPushed()));
+   connect(btnDelete, SIGNAL(clicked()), this, SLOT(deletePushed()));
+   connect(btnConfirm, SIGNAL(clicked()), this, SLOT(confirmPushed()));
 
 
+   mainLayout->addLayout(editLayout);
+   mainLayout->addLayout(buttomLayout);
+  // setLayout(mainLayout);
+
+
+}
+
+ModView::~ModView()
+{
 
 }
 
 void ModView::modifyPushed()
 {
+
     txtDesc->setEnabled(true);
     txtNome->setEnabled(true);
     txtLuogo->setEnabled(true);
 
     checkTag->setEnabled(true);
 
-    btnConfirm->setHidden(false);
+    btnConfirm->setEnabled(true);
 
 
 }
 
-void ModView::confirmPushed()
+ void ModView::confirmPushed()
 {
 
 }
 
-void ModView::deletePushed()
+ void ModView::deletePushed()
 {
 
 }
-
-void ModView::getInfo()
+ void ModView::getInfo()
 {
 
 }
