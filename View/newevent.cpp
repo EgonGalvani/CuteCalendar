@@ -1,60 +1,37 @@
 #include "newevent.h"
 
+NewEvent::NewEvent(QDialog *parent) : QDialog(parent) {
+    mainLayout = new QVBoxLayout();
+    selLayout = new QVBoxLayout();
+    eventLayout = new QVBoxLayout();
 
-
-NewEvent::NewEvent(QDialog *parent) :
-    QDialog(parent) {
-
-   mainLayout = new QVBoxLayout();
-   selLayout = new QVBoxLayout();
-   eventLayout = new QVBoxLayout();
-
-   mainLayout->setAlignment(Qt::AlignTop);
-   initComboBox();
-
-
-
-
-
-   setMinimumSize(QSize(500,600));
-
-   setLayout(mainLayout);
-
+    mainLayout->setAlignment(Qt::AlignTop);
+    initComboBox();
+    setMinimumSize(QSize(500,600));
+    setLayout(mainLayout);
 }
 
-NewEvent::~NewEvent() {
-
-}
-
-void NewEvent::deleteLayout(QLayout* layout)
-{
+void NewEvent::deleteLayout(QLayout* layout) {
     QLayoutItem* child;
-       while ( layout->count() != 0 ) {
-           child = eventLayout->takeAt ( 0 );
-           if ( child->layout() != 0 ) {
-               deleteLayout( child->layout() );
-           } else if ( child->widget() != 0 ) {
-               delete child->widget();
-           }
 
-           delete child;
-       }
+    while(layout->count() > 0) {
+        child = eventLayout->takeAt(0);
 
+        if (child->layout() != 0)
+            deleteLayout(child->layout());
+        else if (child->widget() != 0)
+            delete child->widget();
+
+        delete child;
+    }
 }
 
-
-
-void NewEvent::initComboBox()
-
-{
-
-
+void NewEvent::initComboBox() {
     selEvento = new QComboBox();
     selEvento->addItem("Allenamento");
     selEvento->addItem("Compleanno");
     selEvento->addItem("Meeting");
     selEvento->addItem("Promemoria");
-
 
     connect(selEvento, SIGNAL(currentIndexChanged(int)), this , SLOT(changedSel(int)) );
 
@@ -62,16 +39,11 @@ void NewEvent::initComboBox()
     selLayout->addWidget(selEvento);
     mainLayout->addLayout(selLayout);
     mainLayout->addLayout(eventLayout);
-    initAllenamento();
 
+    initAllenamento(); // scelta di default
 }
 
-
-
-
-void NewEvent::initAllenamento()
-{
-    deleteLayout(eventLayout);
+void NewEvent::initAllenamento() {
     QLabel* inizio= new QLabel(tr("Inizio"));
     QLabel* fine= new QLabel(tr("Fine"));
     QLabel* nome= new QLabel(tr("Nome"));
@@ -99,14 +71,9 @@ void NewEvent::initAllenamento()
     eventLayout->addWidget(tags);
     eventLayout->addWidget(checkTag);
     eventLayout->addWidget(addEvent);
-
-
-
 }
 
-void NewEvent::initCompleanno()
-{
-    deleteLayout(eventLayout);
+void NewEvent::initCompleanno() {
     QLabel* nome= new QLabel(tr("Nome"));
     QLabel* desc= new QLabel(tr("Descrizione"));
     QLabel* luogo= new QLabel(tr("Luogo"));
@@ -126,13 +93,9 @@ void NewEvent::initCompleanno()
     eventLayout->addWidget(tags);
     eventLayout->addWidget(checkTag);
     eventLayout->addWidget(addEvent);
-
-
 }
 
-void NewEvent::initMeeting()
-{
-    deleteLayout(eventLayout);
+void NewEvent::initMeeting() {
     QLabel* inizio= new QLabel(tr("Inizio"));
     QLabel* fine= new QLabel(tr("Fine"));
     QLabel* nome= new QLabel(tr("Nome"));
@@ -160,12 +123,9 @@ void NewEvent::initMeeting()
     eventLayout->addWidget(tags);
     eventLayout->addWidget(checkTag);
     eventLayout->addWidget(addEvent);
-
 }
 
-void NewEvent::initPromemoria()
-{
-    deleteLayout(eventLayout);
+void NewEvent::initPromemoria() {
     QLabel* inizio= new QLabel(tr("Inizio"));
     QLabel* fine= new QLabel(tr("Fine"));
     QLabel* nome= new QLabel(tr("Nome"));
@@ -198,32 +158,23 @@ void NewEvent::initPromemoria()
     eventLayout->addWidget(tags);
     eventLayout->addWidget(checkTag);
     eventLayout->addWidget(addEvent);
-
 }
 
+void NewEvent::changedSel(int index) {
+    deleteLayout(eventLayout);
 
-
-
-void NewEvent::changedSel(int index)
-{
     switch(index){
-    case 0:
-       initAllenamento();
-    break;
-
-    case 1:
-        initCompleanno();
-    break;
-
-    case 2:
-        initMeeting();
-    break;
-
-    case 3:
-        initPromemoria();
-    break;
-
+        case 0:
+           initAllenamento();
+            break;
+        case 1:
+            initCompleanno();
+            break;
+        case 2:
+            initMeeting();
+            break;
+        case 3:
+            initPromemoria();
+            break;
     }
-
-
 }

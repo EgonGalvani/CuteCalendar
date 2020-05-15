@@ -149,6 +149,10 @@ unsigned short Date::daysInMonth(unsigned short month, unsigned short year) {
         : DAYS_OF_MONTH[month-1];
 }
 
+Date::operator QDate() const {
+    return QDate(_year, _month, _day);
+}
+
 std::istream& operator>>(std::istream& in, Date& d) {
     std::string value;
     in >> value;

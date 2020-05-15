@@ -10,27 +10,23 @@
 #include <QPushButton>
 #include <QCheckBox>
 
-
+#include "../Model/Hierarchy/event.h"
 
 class NewEvent : public QDialog {
     Q_OBJECT
 
-private slots:
-    void changedSel(int);
-
-
 public:
     explicit NewEvent(QDialog *parent = nullptr);
-    ~NewEvent();
+    ~NewEvent() = default;
+
+signals:
+    void newEventCreated(Event*);
 
 private:
     QVBoxLayout* mainLayout;
     QComboBox* selEvento;
     QVBoxLayout* selLayout ;
     QVBoxLayout* eventLayout;
-
-
-
 
     void deleteLayout(QLayout*);
     void initComboBox();
@@ -39,7 +35,8 @@ private:
     void initMeeting();
     void initPromemoria();
 
-
+private slots:
+    void changedSel(int);
 };
 
 #endif // NEWEVENT_H

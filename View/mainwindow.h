@@ -16,7 +16,6 @@ class MainWindow : public QWidget {
     Q_OBJECT
 
 public:
-
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow() = default;
 
@@ -25,6 +24,7 @@ private slots:
     void showAddEventDialog();
     void showEventDetailsDialog(QListWidgetItem*);
     void deleteEvent(Model::It);
+    void insertEvent(Event*);
 
 private:
     // Model
@@ -43,13 +43,8 @@ private:
     QListWidget *eventList;
     QPushButton *addEventBtn;
 
-    // void addMenu();
-
-    // init calendario e
     void initCalendarBox();
     void initInfoBox();
-
-    // gestione della lista
     void refreshList(const QDate&);
 };
 

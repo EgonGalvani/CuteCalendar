@@ -20,15 +20,16 @@
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QWidget(parent), calendarBlock(new QGroupBox(QString("Calendar"))),
-        infoBlock(new QGroupBox(QString("Info"))), calendar(new MyCalendar()) {
+    : QWidget(parent),
+      calendarBlock(new QGroupBox(QString("Calendar"))),
+      calendar(new MyCalendar()),
+      infoBlock(new QGroupBox(QString("Info"))) {
 
     // evento di prova
-    model.insertEvent(Date(12, 5, 2020), new BirthDay(Date(12, 5, 2020), "Compleanno Valton", "Oggi è il compleanno di valton",
-                                                      "Padova", Date(12, 5, 1999), nullptr));
+    model.insertEvent(new BirthDay(Date(12, 5, 2020), "Compleanno Valton", "Oggi è il compleanno di valton",
+        "Padova", Date(12, 5, 1999), nullptr));
 
     // eventi di prova...
-
 
     initCalendarBox();
     initInfoBox();
@@ -87,12 +88,6 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
     if(dynamic_cast<EventWidget*>(it)) {
         EventWidget* currentEvent = static_cast<EventWidget*>(it);
 
-        // TODO: aggiornamento eventi
-    /**    QMessageBox::information(
-        this,
-        tr("Application Name"),
-        "placeholder"); //currentEvent->getInfo());**/
-
         ViewAllenamento* prova = new ViewAllenamento(currentEvent->getData());
         connect(prova, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)) );
         prova->exec();
@@ -100,13 +95,15 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
         QMessageBox::critical(this, QString("Error"), QString("Error showing element details"));
 }
 
-void MainWindow::deleteEvent(Model::It ito)
-{
-    QMessageBox::information(
-            this,
-            tr("Application Name"),
-            "placeholder");
+void MainWindow::deleteEvent(Model::It it) {
+    try {
+        model.removeEvent(it);
+    } catch(...) {
+        QMessageBox::critical(this, QString("Error"), QString("Error deleting element"));
+    }
 
+    // gli iteratori non sono più validi a seguito di un'
+    refreshList(calendar->selectedDate());
 }
 
 void MainWindow::selectedDateChanged() {
@@ -119,8 +116,17 @@ void MainWindow::selectedDateChanged() {
 }
 
 void MainWindow::showAddEventDialog() {
-    NewEvent* popup = new NewEvent();
-    popup->exec();
+    NewEvent* addEventPopup = new NewEvent();
+    connect(addEventPopup, SIGNAL(newEventCreated(Event*)), this, SLOT(insertEvent(Event*)));
+    addEventPopup->exec();
+}
+
+void MainWindow::insertEvent(Event *e) {
+    // inserisco l'evento
+    model.insertEvent(e);
+
+    // aggiorno la lista
+    refreshList(e->getDate());
 }
 
 void MainWindow::refreshList(const QDate& date) {

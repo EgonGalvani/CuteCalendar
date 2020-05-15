@@ -4,13 +4,14 @@ bool Model::hasEvent(const Date& d) const {
     return _data.bucket_size(d) > 0;
 }
 
-Model::It Model::insertEvent(const Date& d, Event* e) {
-    _data.insert(d, DeepPtr<Event>(e));
-    return --_data.end(d);
+Model::It Model::insertEvent(Event* e) {
+    std::cout << e->getDate() << std::endl;
+    _data.insert(e->getDate(), DeepPtr<Event>(e));
+    return --_data.end(e->getDate());
 }
 
-void Model::removeEvent(const Date& date, const It& it) {
-    _data.erase(_data.find(date), it);
+void Model::removeEvent(const It& it) {
+    _data.erase(_data.find( (*it)->getDate()), it);
 }
 
 std::vector<Model::It> Model::getEvents(const Date &d) {

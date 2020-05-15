@@ -43,14 +43,14 @@ public:
      * @param e: evento da inserire
      * @return iteratore all'elemento inserito
      */
-    It insertEvent(const Date& d, Event* e);
+    It insertEvent(Event* e);
 
     /**
      * @brief permette di rimuovere un elemento dal container
      * @param d: data dell'evento
      * @param it: iteratore che si riferisce all'evento che si vuole rimuovere
      */
-    void removeEvent(const Date& d, const It& it);
+    void removeEvent(const It& it);
 };
 
 #endif // MODEL_H

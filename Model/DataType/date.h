@@ -111,6 +111,8 @@ public:
      */
     bool operator>=(const Date&) const;
 
+    operator QDate() const;
+
     /**
      * @brief Permette di verificare se un anno è bisestile o no
      * @return true sse l'anno indicato è bisestile
