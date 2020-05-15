@@ -22,7 +22,7 @@ void ViewPromemoria::deletePushed()
 
 }
 
-ViewPromemoria::ViewPromemoria(QDialog *parent) : ModView(parent)
+ViewPromemoria::ViewPromemoria(const Model::It& it,QDialog *parent) : ModView(it,parent)
 {
     inizio= new QTimeEdit();
     fine= new QTimeEdit();

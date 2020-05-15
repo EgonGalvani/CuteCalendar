@@ -20,7 +20,7 @@ void ViewMeeting::deletePushed()
 
 }
 
-ViewMeeting::ViewMeeting(QDialog *parent) : ModView(parent)
+ViewMeeting::ViewMeeting(const Model::It& it,QDialog *parent) : ModView(it,parent)
 {
     inizio= new QTimeEdit();
     fine= new QTimeEdit();

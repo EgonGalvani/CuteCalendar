@@ -12,12 +12,9 @@ void ViewAllenamento::confirmPushed()
 
 }
 
-void ViewAllenamento::deletePushed()
-{
 
-}
 
-ViewAllenamento::ViewAllenamento(QDialog *parent) : ModView(parent) {
+ViewAllenamento::ViewAllenamento(const Model::It& it,QDialog *parent) : ModView(it,parent) {
 
     inizio= new QTimeEdit();
     fine= new QTimeEdit();

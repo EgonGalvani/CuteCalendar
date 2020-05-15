@@ -10,10 +10,10 @@ class ViewAllenamento : public ModView {
 protected slots:
     virtual void modifyPushed() override;
     virtual void confirmPushed() override;
-    virtual void deletePushed() override;
+
 
 public:
-   explicit ViewAllenamento(QDialog *parent = 0);
+   explicit ViewAllenamento(const Model::It&,QDialog *parent = 0);
    ~ViewAllenamento();
 
    QTimeEdit* inizio;

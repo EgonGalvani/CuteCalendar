@@ -12,7 +12,7 @@ class ViewCompleanno : public ModView {
        virtual void deletePushed() override;
 
    public:
-      explicit ViewCompleanno(QDialog *parent = 0);
+      explicit ViewCompleanno(const Model::It&,QDialog *parent = 0);
       ~ViewCompleanno();
 
       void getInfo() override;

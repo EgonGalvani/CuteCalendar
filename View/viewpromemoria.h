@@ -14,7 +14,7 @@ class ViewPromemoria : public ModView {
        virtual void deletePushed() override;
 
    public:
-      explicit ViewPromemoria(QDialog *parent = 0);
+      explicit ViewPromemoria(const Model::It&,QDialog *parent = 0);
       ~ViewPromemoria();
 
       QTimeEdit* inizio;

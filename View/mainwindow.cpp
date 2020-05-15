@@ -92,10 +92,21 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
         this,
         tr("Application Name"),
         "placeholder"); //currentEvent->getInfo());**/
-        ViewAllenamento* prova = new ViewAllenamento();
+
+        ViewAllenamento* prova = new ViewAllenamento(currentEvent->getData());
+        connect(prova, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)) );
         prova->exec();
     } else
         QMessageBox::critical(this, QString("Error"), QString("Error showing element details"));
+}
+
+void MainWindow::deleteEvent(Model::It ito)
+{
+    QMessageBox::information(
+            this,
+            tr("Application Name"),
+            "placeholder");
+
 }
 
 void MainWindow::selectedDateChanged() {

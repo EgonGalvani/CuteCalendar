@@ -16,7 +16,7 @@ void ViewCompleanno::deletePushed()
 
 }
 
-ViewCompleanno::ViewCompleanno(QDialog *parent) : ModView(parent)
+ViewCompleanno::ViewCompleanno(const Model::It& it,QDialog *parent) : ModView(it,parent)
 {
     setLayout(mainLayout);
 }

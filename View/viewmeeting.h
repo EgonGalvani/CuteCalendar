@@ -13,7 +13,7 @@ class ViewMeeting : public ModView {
        virtual void deletePushed() override;
 
    public:
-      explicit ViewMeeting(QDialog *parent = 0);
+      explicit ViewMeeting(const Model::It&,QDialog *parent = 0);
       ~ViewMeeting();
 
       QTimeEdit* inizio;

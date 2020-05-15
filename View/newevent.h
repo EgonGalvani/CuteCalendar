@@ -10,6 +10,8 @@
 #include <QPushButton>
 #include <QCheckBox>
 
+
+
 class NewEvent : public QDialog {
     Q_OBJECT
 
@@ -20,7 +22,6 @@ private slots:
 public:
     explicit NewEvent(QDialog *parent = nullptr);
     ~NewEvent();
-
 
 private:
     QVBoxLayout* mainLayout;

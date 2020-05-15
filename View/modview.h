@@ -1,6 +1,9 @@
 #ifndef MODVIEW_H
 #define MODVIEW_H
 
+#include "Model/model.h"
+
+
 #include <QDialog>
 #include <QTextEdit>
 #include <QLabel>
@@ -13,9 +16,11 @@ class ModView : public QDialog
 {
     Q_OBJECT
 public:
-    explicit ModView(QDialog *parent = nullptr);
+    explicit ModView(const Model::It&, QDialog *parent = nullptr);
     virtual ~ModView()=0;
 
+signals:
+    void deleteEvent(Model::It);
 
 protected slots:
     virtual void modifyPushed();
@@ -23,6 +28,8 @@ protected slots:
     virtual void deletePushed();
 
 protected:
+    Model::It it;
+
     QVBoxLayout* mainLayout;
     QVBoxLayout* editLayout;
     QHBoxLayout* buttomLayout;

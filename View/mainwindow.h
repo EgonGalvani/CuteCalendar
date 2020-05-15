@@ -16,12 +16,15 @@ class MainWindow : public QWidget {
     Q_OBJECT
 
 public:
+
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow() = default;
+
 private slots:
     void selectedDateChanged();
     void showAddEventDialog();
     void showEventDetailsDialog(QListWidgetItem*);
+    void deleteEvent(Model::It);
 
 private:
     // Model
