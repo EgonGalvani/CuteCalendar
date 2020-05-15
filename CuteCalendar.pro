@@ -50,6 +50,7 @@ SOURCES += \
     View/eventwidgetbuilder.cpp
 
 HEADERS += \
+    Model/Hierarchy/factory.h \
     View/mainwindow.h \
     View/modview.h \
     View/newevent.h \

@@ -26,7 +26,6 @@ Date::Date(unsigned short day, unsigned short month, unsigned short year)
 
     if(day == 0 || day > daysInMonth(month, year))
         throw std::invalid_argument("Invalid day");
-
 }
 
 unsigned short Date::day() const {
@@ -169,7 +168,7 @@ std::istream& operator>>(std::istream& in, Date& d) {
     value = value.substr(pos_m+1);
 
     std::istringstream (value) >> year;
-    d = Date(year, month, day);
+    d = Date(day, month, year);
 
     return in;
 }
