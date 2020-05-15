@@ -26,3 +26,4 @@ void Reminder::serialize(QJsonObject &json) const {
 }
 
 
+

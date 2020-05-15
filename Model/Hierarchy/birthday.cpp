@@ -22,3 +22,7 @@ void BirthDay::serialize(QJsonObject &json) const{
 
 }
 
+Date BirthDay::getNascita() const {return dataNascita;}
+
+
+

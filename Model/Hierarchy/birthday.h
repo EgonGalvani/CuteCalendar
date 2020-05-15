@@ -10,6 +10,8 @@ private:
 
 public:
 
+    Date getNascita() const;
+
     BirthDay(Date x,std::string nome,std::string descr,std::string luogo,
              Date data,std::vector<std::string>* vettoreTag);
 

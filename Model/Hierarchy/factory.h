@@ -53,6 +53,8 @@ public:
             temp>>start;
             temp= std::istringstream(json["END_TIME"].toString().toStdString());
             temp>>end;
+            //FAR DIVENTARE UNA CONST IL 2
+            //CAMPO STATICO IN OGNI GERARCHIA CHE INDICA L'ID
             if (x!=2) {
                 rep = json["REPEAT"].toBool();
                 //conversione stringa -> time
