@@ -1,9 +1,32 @@
 #include "viewcompleanno.h"
 
-ViewCompleanno::ViewCompleanno(QWidget *parent) : QWidget(parent) {
+
+void ViewCompleanno::modifyPushed()
+{
+    ModView::modifyPushed();
+}
+
+void ViewCompleanno::confirmPushed()
+{
 
 }
 
-ViewCompleanno::~ViewCompleanno() {
+void ViewCompleanno::deletePushed()
+{
+
+}
+
+ViewCompleanno::ViewCompleanno(QDialog *parent) : ModView(parent)
+{
+    setLayout(mainLayout);
+}
+
+ViewCompleanno::~ViewCompleanno()
+{
+
+}
+
+void ViewCompleanno::getInfo()
+{
 
 }
