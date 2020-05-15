@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "mycalendar.h"
 #include "newevent.h"
+#include "viewallenamento.h"
 
 #include <QFile>
 #include <QTableView>
@@ -87,10 +88,12 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
         EventWidget* currentEvent = static_cast<EventWidget*>(it);
 
         // TODO: aggiornamento eventi
-        QMessageBox::information(
+    /**    QMessageBox::information(
         this,
         tr("Application Name"),
-        "placeholder"); //currentEvent->getInfo());
+        "placeholder"); //currentEvent->getInfo());**/
+        ViewAllenamento* prova = new ViewAllenamento();
+        prova->exec();
     } else
         QMessageBox::critical(this, QString("Error"), QString("Error showing element details"));
 }
