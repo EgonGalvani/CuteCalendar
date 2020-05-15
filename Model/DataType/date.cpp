@@ -24,6 +24,7 @@ Date::Date(unsigned short day, unsigned short month, unsigned short year)
     if(month == 0 || month > 12)
         throw std::invalid_argument("Month must be between 1 and 12");
 
+    std::cout << "Day " << day << std::endl;
     if(day == 0 || day > daysInMonth(month, year))
         throw std::invalid_argument("Invalid day");
 
@@ -169,7 +170,7 @@ std::istream& operator>>(std::istream& in, Date& d) {
     value = value.substr(pos_m+1);
 
     std::istringstream (value) >> year;
-    d = Date(year, month, day);
+    d = Date(day, month, year);
 
     return in;
 }

@@ -931,7 +931,6 @@ void UnorderedMultimap<K, V>::delete_tree(Node* n) {
     }
 }
 
-
 // sostituisco v ad u, non aggiorna v.left e v.right, questo è compito della procedura che chiama transplant
 template<class K, class V>
 void UnorderedMultimap<K, V>::transplant(Node* u, Node* v) {
