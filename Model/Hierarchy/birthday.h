@@ -10,6 +10,8 @@ private:
 
 public:
 
+    static const int ID = 4;
+
     Date getNascita() const;
 
     BirthDay(Date x,std::string nome,std::string descr,std::string luogo,

@@ -5,7 +5,6 @@
 #include "alert.h"
 
 class Reminder : public EventWithDuration,public Alert {
-    //DOVE METTERE GLI ENUM
 private:
     enum urgency {
         LOW = 0,
@@ -14,6 +13,9 @@ private:
 
     urgency urg;
 public:
+
+    static const int ID = 1;
+
     Reminder(int x,Time start,Time end,Time alert,bool rep,std::string nome,
              std::string descr,std::string luogo,Date data,std::vector<std::string>* tag);
 
