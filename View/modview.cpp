@@ -16,7 +16,7 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
     txtNome = new QTextEdit();
     txtLuogo = new QTextEdit();
 
-    txtNome->resize(50,100);
+
 
     checkTag= new QCheckBox();
 
@@ -24,9 +24,14 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
     btnModify = new QPushButton(tr("Modify"));
     btnConfirm= new QPushButton(tr("Confirm"));
 
-    txtDesc->setEnabled(false);
-    txtNome->setEnabled(false);
-    txtLuogo->setEnabled(false);
+    txtDesc->setReadOnly(true);
+    txtNome->setReadOnly(true);
+    txtLuogo->setReadOnly(true);
+
+
+
+
+
     checkTag->setEnabled(false);
     btnConfirm->setEnabled(false);
 
@@ -38,6 +43,8 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
     editLayout->addWidget(txtDesc);
     editLayout->addWidget(lTag);
     editLayout->addWidget(checkTag);
+
+
 
     buttomLayout->addWidget(btnDelete);
     buttomLayout->addWidget(btnModify);
@@ -51,17 +58,18 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
     mainLayout->addLayout(editLayout);
     mainLayout->addLayout(buttomLayout);
 
-    // setLayout(mainLayout);
-    setMinimumSize(500, 500);
+
+
 }
 
 ModView::~ModView() {}
 
 void ModView::modifyPushed() {
     // rendo tutti i campi editabili
-    txtDesc->setEnabled(true);
-    txtNome->setEnabled(true);
-    txtLuogo->setEnabled(true);
+    txtDesc->setReadOnly(false);
+    txtNome->setReadOnly(false);
+    txtLuogo->setReadOnly(false);
+
     checkTag->setEnabled(true);
     btnConfirm->setEnabled(true);
 }
