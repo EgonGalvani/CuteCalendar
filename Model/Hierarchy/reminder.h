@@ -4,7 +4,7 @@
 #include "eventwithduration.h"
 #include "alert.h"
 
-class Reminder : public EventWithDuration, Alert {
+class Reminder : public EventWithDuration,public Alert {
     //DOVE METTERE GLI ENUM
 private:
     enum urgency {
