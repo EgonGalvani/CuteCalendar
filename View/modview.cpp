@@ -16,6 +16,8 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
     txtNome = new QTextEdit();
     txtLuogo = new QTextEdit();
 
+    txtNome->resize(50,100);
+
     checkTag= new QCheckBox();
 
     btnDelete = new QPushButton(tr("Delete"));
