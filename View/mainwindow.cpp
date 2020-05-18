@@ -145,10 +145,10 @@ void MainWindow::showAddEventDialog() {
 
 void MainWindow::insertEvent(Event *e) {
     // inserisco l'evento
-    model.insertEvent(e);
+    model.insertEvent(e); // ritorna l'iteratore all'elemento inserito
 
-    // aggiorno la lista
-    refreshList(e->getDate());
+    // aggiorno la lista TODO: vedere se aggiugnere semplicemente un elemento alla lista
+    refreshList(calendar->selectedDate());
 }
 
 void MainWindow::refreshList(const QDate& date) {

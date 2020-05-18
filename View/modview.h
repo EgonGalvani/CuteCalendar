@@ -3,7 +3,6 @@
 
 #include "Model/model.h"
 
-
 #include <QDialog>
 #include <QTextEdit>
 #include <QLabel>
@@ -12,8 +11,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 
-class ModView : public QDialog
-{
+class ModView : public QDialog {
     Q_OBJECT
 public:
     explicit ModView(const Model::It&, QDialog *parent = nullptr);
@@ -49,8 +47,6 @@ protected:
     QPushButton* btnConfirm;
 
     virtual void getInfo();
-
-
 };
 
 #endif // MODVIEW_H

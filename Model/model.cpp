@@ -5,8 +5,13 @@ bool Model::hasEvent(const Date& d) const {
 }
 
 Model::It Model::insertEvent(Event* e) {
-    _data.insert(e->getDate(), DeepPtr<Event>(e));
-    return --_data.end(e->getDate());
+    const Date eventDate = e->getDate();
+
+    /* NOTA: quando il deepptr (temporaneo anonimo) viene distrutto
+        allora viene distrutto anche l'evento e. Nell'iteratore ci sarà
+        un oggetto ottenuto tramite una clone. Per questo è necessario mem*/
+    auto bucketIt = _data.insert(eventDate, DeepPtr<Event>(e));
+    return --_data.end(*bucketIt);
 }
 
 void Model::removeEvent(const It& it) {
