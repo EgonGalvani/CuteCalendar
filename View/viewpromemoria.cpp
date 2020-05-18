@@ -15,13 +15,16 @@ void ViewPromemoria::modifyPushed()
 
 void ViewPromemoria::confirmPushed()
 {
+    Reminder* currEve = dynamic_cast<Reminder*>(&**it);
+
+    currEve->setStartTime(inizio->time());
+    currEve->setEndTime(fine->time());
+    currEve->setRepeat(checkRep->isChecked());
+
+    ModView::confirmPushed();
 
 }
 
-void ViewPromemoria::deletePushed()
-{
-
-}
 
 ViewPromemoria::ViewPromemoria(const Model::It& it,QDialog *parent) : ModView(it,parent)
 {
@@ -47,6 +50,7 @@ ViewPromemoria::ViewPromemoria(const Model::It& it,QDialog *parent) : ModView(it
     editLayout->addWidget(checkRep);
 
 
+    getInfo();
 
     setLayout(mainLayout);
 

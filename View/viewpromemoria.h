@@ -11,7 +11,7 @@ class ViewPromemoria : public ModView {
    protected slots:
        virtual void modifyPushed() override;
        virtual void confirmPushed() override;
-       virtual void deletePushed() override;
+
 
    public:
       explicit ViewPromemoria(const Model::It&,QDialog *parent = 0);

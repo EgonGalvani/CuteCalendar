@@ -9,7 +9,7 @@ class ViewCompleanno : public ModView {
    protected slots:
        virtual void modifyPushed() override;
        virtual void confirmPushed() override;
-       virtual void deletePushed() override;
+
 
    public:
       explicit ViewCompleanno(const Model::It&,QDialog *parent = 0);

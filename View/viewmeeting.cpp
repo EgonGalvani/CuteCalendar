@@ -13,14 +13,16 @@ void ViewMeeting::modifyPushed()
 
 void ViewMeeting::confirmPushed()
 {
+    Meeting* currEve = dynamic_cast<Meeting*>(&**it);
+
+    currEve->setStartTime(inizio->time());
+    currEve->setEndTime(fine->time());
+
+    ModView::confirmPushed();
 
 
 }
 
-void ViewMeeting::deletePushed()
-{
-
-}
 
 ViewMeeting::ViewMeeting(const Model::It& it,QDialog *parent) : ModView(it,parent)
 {
@@ -38,7 +40,7 @@ ViewMeeting::ViewMeeting(const Model::It& it,QDialog *parent) : ModView(it,paren
     editLayout->addWidget(fine);
 
 
-
+    getInfo();
     setLayout(mainLayout);
 }
 
@@ -51,7 +53,7 @@ void ViewMeeting::getInfo()
 {
     ModView::getInfo();
     Meeting* currEve = dynamic_cast<Meeting*>(&**it);
-   // inizio->setTime(currEve->getStartTime());
-   // fine->setTime(currEve->getEndTime());
+    inizio->setTime(currEve->getStartTime());
+    fine->setTime(currEve->getEndTime());
 
 }

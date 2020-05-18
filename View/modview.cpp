@@ -66,7 +66,12 @@ void ModView::modifyPushed() {
 
 void ModView::confirmPushed() {
     // applicare modifiche all'elemento corrente
-
+    (*it)->setDesc((txtDesc->toPlainText()).toStdString());
+    txtDesc->toPlainText();
+    (*it)->setName((txtNome->toPlainText()).toStdString());
+    txtNome->toPlainText();
+    (*it)->setPlace((txtLuogo->toPlainText()).toStdString());
+    txtLuogo->toPlainText();
     // chiudo il dialog
     close();
 }

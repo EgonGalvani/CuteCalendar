@@ -9,16 +9,14 @@ void ViewCompleanno::modifyPushed()
 
 void ViewCompleanno::confirmPushed()
 {
-
+    ModView::confirmPushed();
 }
 
-void ViewCompleanno::deletePushed()
-{
 
-}
 
 ViewCompleanno::ViewCompleanno(const Model::It& it,QDialog *parent) : ModView(it,parent)
 {
+    getInfo();
     setLayout(mainLayout);
 }
 

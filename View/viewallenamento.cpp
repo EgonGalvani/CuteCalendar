@@ -9,6 +9,16 @@ void ViewAllenamento::modifyPushed() {
 
 void ViewAllenamento::confirmPushed() {
 
+    Workout* currEve = dynamic_cast<Workout*>(&**it);
+
+    currEve->setStartTime(inizio->time());
+    currEve->setEndTime(fine->time());
+
+    ModView::confirmPushed();
+
+
+
+
 }
 
 ViewAllenamento::ViewAllenamento(const Model::It& it,QDialog *parent) : ModView(it,parent) {
@@ -32,6 +42,7 @@ ViewAllenamento::ViewAllenamento(const Model::It& it,QDialog *parent) : ModView(
 }
 
 ViewAllenamento::~ViewAllenamento() {
+
 
 }
 
