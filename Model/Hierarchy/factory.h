@@ -8,61 +8,91 @@
 
 class Factory {
 
+private:
 
 
-public:
-    static Event* parse(QJsonObject &json) {
+    static QJsonObject json;
 
-        //Inizializzazione variabili
+    static Date date;
+    static std::string nome;
+    static std::string descr;
+    static std::string place;
+    static QJsonArray tmp;
+    static std::vector<std::string>* tags;
+    static int urg;
+    static int act;
+    static std::vector<std::string> vectPart;
+    static Time start;
+    static Time end;
+    static Date birth;
+    static Time alert;
+    static bool rep;
+    static std::istringstream temp;
 
-        Date date;
-        QJsonArray tmp;
-        std::vector<std::string>* tags = new std::vector<std::string>;
-        int urg;
-        int act;
-        std::vector<std::string> vectPart = std::vector<std::string>();
-        Time start;
-        Time end;
-        Date birth;
-        Time alert;
-        bool rep = false;
-        std::istringstream temp;
+    static void initializeVariables() {
 
-        QJsonDocument doc(json);
-        QString strJson(doc.toJson(QJsonDocument::Compact));
-        std::cout<<strJson.toStdString()<<std::endl;
+        date = Date();
+        tags =  new std::vector<std::string>;
+        vectPart = std::vector<std::string>();
+        start = Time();
+        end = Time();
+        birth = Date();
+        alert= Time();
+        rep = false;
+    }
 
-        //USO stoi e non .toInt perchè toInt ritorna sempre valore di default
-        int x = std::stoi(json["ID"].toString().toStdString());
+    static void firstParse() {
+
         //MANCA TODOLIST
         //Ricavo dei campi dati di evento
-        std::string nome = json["NAME"].toString().toStdString();
+        nome = json["NAME"].toString().toStdString();
         //conversione stringa -> data
         temp= std::istringstream(json["DATA"].toString().toStdString());
         std::cout<<std::endl<<"--DATA" <<json["DATA"].toString().toStdString()<<std::endl;
         temp>>date;
-        std::string descr = json["DESCRIPTION"].toString().toStdString();
-        std::string place = json["PLACE"].toString().toStdString();
+        descr = json["DESCRIPTION"].toString().toStdString();
+        place = json["PLACE"].toString().toStdString();
         //conversione jsonarray -> array stringhe
         tmp = json["TAGS"].toArray();
         for (QJsonArray::const_iterator it = tmp.begin();it!=tmp.end();++it) {
             tags->push_back(it->toString().toStdString());
         }
-        if (x!=BirthDay::ID) {
+
+    }
+
+    static void secondParse(int id) {
+
+        if (id!=BirthDay::ID) {
             temp= std::istringstream(json["START_TIME"].toString().toStdString());
             temp>>start;
             temp= std::istringstream(json["END_TIME"].toString().toStdString());
             temp>>end;
-            //FAR DIVENTARE UNA CONST IL 2
-            //CAMPO STATICO IN OGNI GERARCHIA CHE INDICA L'ID
-            if (x!=Workout::ID) {
+            if (id!=Workout::ID) {
                 rep = json["REPEAT"].toBool();
                 //conversione stringa -> time
                 temp= std::istringstream(json["ALERT_TIME"].toString().toStdString());
                 temp>>alert;
             }
         }
-        switch (x) {
+
+    }
+
+public:
+
+
+    static Event* parse(QJsonObject &js) {
+
+        json = js;
+
+        initializeVariables();
+
+        //USO stoi e non .toInt perchè toInt ritorna sempre valore di default
+        int id = std::stoi(json["ID"].toString().toStdString());
+
+        firstParse();
+        secondParse(id);
+
+        switch (id) {
         case Reminder::ID:
             //REMINDER = 1
             urg = json["URGENCY"].toInt();
