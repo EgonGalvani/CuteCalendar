@@ -80,10 +80,12 @@ private:
 
 public:
 
+    Factory(QJsonObject &js) : json(js) {}
 
-    Event* parse(QJsonObject &js) {
 
-        json = js;
+    Event* parse() {
+
+
 
         initializeVariables();
 
