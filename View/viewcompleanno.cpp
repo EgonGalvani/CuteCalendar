@@ -1,6 +1,7 @@
 #include "viewcompleanno.h"
 
 
+
 void ViewCompleanno::modifyPushed()
 {
     ModView::modifyPushed();
@@ -28,5 +29,7 @@ ViewCompleanno::~ViewCompleanno()
 
 void ViewCompleanno::getInfo()
 {
+    ModView::getInfo();
+
 
 }

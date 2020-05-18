@@ -1,4 +1,5 @@
 #include "viewpromemoria.h"
+#include "Model/Hierarchy/reminder.h"
 
 
 
@@ -57,5 +58,10 @@ ViewPromemoria::~ViewPromemoria() {
 
 void ViewPromemoria::getInfo()
 {
+    ModView::getInfo();
+    Reminder* currEve = dynamic_cast<Reminder*>(&**it);
+   // inizio->setTime(currEve->getStartTime());
+   // fine->setTime(currEve->getEndTime());
+    checkRep->setChecked(currEve->doesRepeat());
 
 }

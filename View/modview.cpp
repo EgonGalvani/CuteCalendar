@@ -55,6 +55,8 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
 
     mainLayout->addLayout(editLayout);
     mainLayout->addLayout(buttomLayout);
+
+
     // setLayout(mainLayout);
 
 
@@ -82,6 +84,7 @@ void ModView::modifyPushed()
  void ModView::confirmPushed()
 {
 
+
 }
 
  void ModView::deletePushed()
@@ -91,5 +94,10 @@ void ModView::modifyPushed()
 }
  void ModView::getInfo()
 {
+
+  txtDesc->setText(QString::fromStdString((*it)->getDesc()));
+  txtNome->setText(QString::fromStdString((*it)->getName()));
+  txtLuogo->setText(QString::fromStdString((*it)->getPlace()));
+    // TAG BOH ***
 
 }

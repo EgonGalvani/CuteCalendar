@@ -1,4 +1,5 @@
 #include "viewmeeting.h"
+#include "Model/Hierarchy/meeting.h"
 
 
 
@@ -12,6 +13,7 @@ void ViewMeeting::modifyPushed()
 
 void ViewMeeting::confirmPushed()
 {
+
 
 }
 
@@ -47,5 +49,9 @@ ViewMeeting::~ViewMeeting()
 
 void ViewMeeting::getInfo()
 {
+    ModView::getInfo();
+    Meeting* currEve = dynamic_cast<Meeting*>(&**it);
+   // inizio->setTime(currEve->getStartTime());
+   // fine->setTime(currEve->getEndTime());
 
 }

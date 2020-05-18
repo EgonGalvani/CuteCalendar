@@ -1,4 +1,6 @@
 #include "viewallenamento.h"
+#include "Model/Hierarchy/workout.h"
+
 
 void ViewAllenamento::modifyPushed()
 {
@@ -29,7 +31,7 @@ ViewAllenamento::ViewAllenamento(const Model::It& it,QDialog *parent) : ModView(
     editLayout->addWidget(end);
     editLayout->addWidget(fine);
 
-
+    getInfo();
 
     setLayout(mainLayout);
 }
@@ -40,7 +42,10 @@ ViewAllenamento::~ViewAllenamento() {
 
 void ViewAllenamento::getInfo()
 {
-
+    ModView::getInfo();
+    Workout* currEve = dynamic_cast<Workout*>(&**it);
+    //inizio->setTime(currEve->getStartTime());
+   // fine->setTime(currEve->getEndTime());
 }
 
 
