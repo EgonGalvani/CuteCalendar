@@ -11,25 +11,26 @@ class Factory {
 private:
 
 
-    static QJsonObject json;
+    QJsonObject json;
 
-    static Date date;
-    static std::string nome;
-    static std::string descr;
-    static std::string place;
-    static QJsonArray tmp;
-    static std::vector<std::string>* tags;
-    static int urg;
-    static int act;
-    static std::vector<std::string> vectPart;
-    static Time start;
-    static Time end;
-    static Date birth;
-    static Time alert;
-    static bool rep;
-    static std::istringstream temp;
+    Date date;
+    std::string nome;
+    std::string descr;
+    std::string place;
+    QJsonArray tmp;
+    std::vector<std::string>* tags;
+    int urg;
+    int act;
+    std::vector<std::string> vectPart;
+    Time start;
+    Time end;
+    Date birth;
+    Time alert;
+    bool rep;
+    std::istringstream temp;
+    int id;
 
-    static void initializeVariables() {
+    void initializeVariables() {
 
         date = Date();
         tags =  new std::vector<std::string>;
@@ -41,7 +42,7 @@ private:
         rep = false;
     }
 
-    static void firstParse() {
+    void firstParse() {
 
         //MANCA TODOLIST
         //Ricavo dei campi dati di evento
@@ -60,7 +61,7 @@ private:
 
     }
 
-    static void secondParse(int id) {
+    void secondParse() {
 
         if (id!=BirthDay::ID) {
             temp= std::istringstream(json["START_TIME"].toString().toStdString());
@@ -80,17 +81,17 @@ private:
 public:
 
 
-    static Event* parse(QJsonObject &js) {
+    Event* parse(QJsonObject &js) {
 
         json = js;
 
         initializeVariables();
 
         //USO stoi e non .toInt perchè toInt ritorna sempre valore di default
-        int id = std::stoi(json["ID"].toString().toStdString());
+        id = std::stoi(json["ID"].toString().toStdString());
 
         firstParse();
-        secondParse(id);
+        secondParse();
 
         switch (id) {
         case Reminder::ID:
