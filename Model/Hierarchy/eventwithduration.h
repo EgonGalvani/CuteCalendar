@@ -1,12 +1,12 @@
 #ifndef EVENTWITHDURATION_H
 #define EVENTWITHDURATION_H
 
-
 #include "event.h"
 
-class EventWithDuration :virtual public Event {
+class EventWithDuration : virtual public Event {
     Time startTime;
     Time endTime;
+
 public:
     //virtual
     Time getDuration()const ;
@@ -14,7 +14,7 @@ public:
 
     EventWithDuration(Time start,Time end,std::string nome = "",std::string descr = ""
             ,std::string luogo = "", Date data = Date(),
-                             std::vector<std::string>* tags = nullptr);
+             std::vector<std::string>* tags = nullptr);
 
     //GETTER SETTER
     Time getStartTime()const ;

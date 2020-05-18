@@ -22,17 +22,11 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
     btnModify = new QPushButton(tr("Modify"));
     btnConfirm= new QPushButton(tr("Confirm"));
 
-
-
     txtDesc->setEnabled(false);
     txtNome->setEnabled(false);
     txtLuogo->setEnabled(false);
-
     checkTag->setEnabled(false);
-
     btnConfirm->setEnabled(false);
-
-
 
     editLayout->addWidget(lNome);
     editLayout->addWidget(txtNome);
@@ -52,49 +46,40 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(deletePushed()));
     connect(btnConfirm, SIGNAL(clicked()), this, SLOT(confirmPushed()));
 
-
     mainLayout->addLayout(editLayout);
     mainLayout->addLayout(buttomLayout);
 
-
     // setLayout(mainLayout);
-
-
+    setMinimumSize(500, 500);
 }
 
-ModView::~ModView()
-{
+ModView::~ModView() {}
 
-}
-
-void ModView::modifyPushed()
-{
-
+void ModView::modifyPushed() {
+    // rendo tutti i campi editabili
     txtDesc->setEnabled(true);
     txtNome->setEnabled(true);
     txtLuogo->setEnabled(true);
-
     checkTag->setEnabled(true);
-
     btnConfirm->setEnabled(true);
-
-
 }
 
- void ModView::confirmPushed()
-{
+void ModView::confirmPushed() {
+    // applicare modifiche all'elemento corrente
 
-
+    // chiudo il dialog
+    close();
 }
 
- void ModView::deletePushed()
-{
-     emit deleteEvent(it);
+void ModView::deletePushed() {
+    // emetto un signal di eliminazione
+    emit deleteEvent(it);
 
+    // chiudo il dialog
+    close();
 }
- void ModView::getInfo()
-{
 
+void ModView::getInfo() {
   txtDesc->setText(QString::fromStdString((*it)->getDesc()));
   txtNome->setText(QString::fromStdString((*it)->getName()));
   txtLuogo->setText(QString::fromStdString((*it)->getPlace()));

@@ -88,33 +88,30 @@ void MainWindow::initInfoBox() {
 }
 
 void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
-    if(dynamic_cast<EventWidget*>(it)) {
-        EventWidget* currentEvent = static_cast<EventWidget*>(it);
-        if(dynamic_cast<BirthDay*>(currentEvent)){
-            ViewCompleanno* currView = new ViewCompleanno(currentEvent->getData());
-            connect(currView, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)) );
-            currView->exec();
-        }
-        else if(dynamic_cast<Meeting*>(currentEvent)){
-            ViewMeeting* currView = new ViewMeeting(currentEvent->getData());
-            connect(currView, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)) );
-            currView->exec();
-        }
-        else if(dynamic_cast<Reminder*>(currentEvent)){
-            ViewPromemoria* currView = new ViewPromemoria(currentEvent->getData());
-            connect(currView, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)) );
-            currView->exec();
-        }
-        else if(dynamic_cast<ToDoList*>(currentEvent)){
-           /** ViewAllenamento* prova = new ViewAllenamento(currentEvent->getData());
-            connect(prova, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)) );
-            prova->exec(); **/
-        }
-        else{
-            ViewAllenamento* currView = new ViewAllenamento(currentEvent->getData());
-            connect(currView, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)) );
-            currView->exec();
 
+    if(dynamic_cast<EventWidget*>(it)) {
+        EventWidget* currentEventWidget = dynamic_cast<EventWidget*>(it);
+        Model::It currentIterator = currentEventWidget->getData();
+        Event* currentEvent = &**currentIterator;
+
+        ModView* currentView = nullptr;
+
+        if(dynamic_cast<BirthDay*>(currentEvent))
+            currentView = new ViewCompleanno(currentIterator);
+        else if (dynamic_cast<Meeting*>(currentEvent))
+            currentView = new ViewMeeting(currentIterator);
+        else if(dynamic_cast<Reminder*>(currentEvent))
+            currentView = new ViewPromemoria(currentIterator);
+        else if(dynamic_cast<ToDoList*>(currentEvent))
+            currentView = new ViewAllenamento(currentIterator);
+        else if(dynamic_cast<Workout*>(currentEvent))
+            currentView = new ViewAllenamento(currentIterator);
+
+        if(!currentView)
+            QMessageBox::critical(this, QString("Error"), QString("Nessun tipo della gerarchia identificato"));
+        else {
+            connect(currentView, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)));
+            currentView->exec();
         }
     } else
         QMessageBox::critical(this, QString("Error"), QString("Error no valid type of ViewCreated"));
@@ -127,7 +124,7 @@ void MainWindow::deleteEvent(Model::It it) {
         QMessageBox::critical(this, QString("Error"), QString("Error deleting element"));
     }
 
-    // gli iteratori non sono più validi a seguito di un'
+    // gli iteratori non sono più validi a seguito di un'eliminazione
     refreshList(calendar->selectedDate());
 }
 
