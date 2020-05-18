@@ -151,3 +151,10 @@ std::istream& operator>>(std::istream& in, Time& t) {
 
     return in;
 }
+
+Time::Time(const QTime& t)
+    : Time(t.hour(), t.minute(), t.second()) {}
+
+Time::operator QTime() const {
+    return QTime(hour(), minute(), second());
+}

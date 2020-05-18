@@ -2,6 +2,7 @@
 #define TIME_H
 
 #include <iostream>
+#include <QTime>
 
 class Time {
 private:
@@ -19,6 +20,11 @@ public:
      * @brief Costruttore a tre parametri della classe Time, rispettivamente: ore, minuti e secondi
      */
     Time(unsigned short, unsigned short, unsigned short = 0);
+
+    /**
+      * @brief Conversione implicita QTime => Time
+      */
+    Time(const QTime&);
 
     /**
      * @brief Metodo che permette di aggiungere un certo numero di ore all'orario
@@ -113,6 +119,11 @@ public:
      * @return un orario ottenuto dalla sottrazione dei due considerati
      */
     Time operator-(const Time&) const;
+
+    /**
+      * @brief Conversione esplicita Time => QTime
+      */
+    operator QTime() const;
 };
 
 /**
