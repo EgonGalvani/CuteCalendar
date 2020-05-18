@@ -14,8 +14,8 @@ public:
 
     Date getNascita() const;
 
-    BirthDay(Date x,std::string nome,std::string descr,std::string luogo,
-             Date data,std::vector<std::string>* vettoreTag);
+    BirthDay(Date dataNasc,std::string nome,std::string descr,std::string luogo,
+             Date dataEvento,std::vector<std::string>* vettoreTag);
 
     BirthDay* clone() const;
 

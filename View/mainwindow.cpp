@@ -29,8 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
       infoBlock(new QGroupBox(QString("Info"))) {
 
     // evento di prova
-    model.insertEvent(new BirthDay(Date(12, 5, 2020), "Compleanno Valton", "Oggi è il compleanno di valton",
-        "Padova", Date(12, 5, 1999), nullptr));
+    model.insertEvent(new BirthDay(Date(12, 5, 1999), "Compleanno Valton", "Oggi è il compleanno di valton",
+        "Padova",Date(12, 5, 2020) , nullptr));
 
     // eventi di prova...
 
