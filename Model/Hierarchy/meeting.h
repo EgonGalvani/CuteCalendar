@@ -10,6 +10,8 @@ private:
 
 public:
 
+    static const int ID = 3;
+
     Meeting* clone()const ;
 
     Meeting(std::vector<std::string> part, Time start,

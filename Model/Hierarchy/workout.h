@@ -17,6 +17,8 @@ private:
 
 public:
 
+    static const int ID = 2;
+
     Workout(int x,Time start,Time end,std::string nome,std::string descr,
             std::string luogo,Date data,std::vector<std::string>* vettoreTag);
     activity getSport() const ;

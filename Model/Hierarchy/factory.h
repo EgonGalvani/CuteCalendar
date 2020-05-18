@@ -48,14 +48,14 @@ public:
         for (QJsonArray::const_iterator it = tmp.begin();it!=tmp.end();++it) {
             tags->push_back(it->toString().toStdString());
         }
-        if (x!=4) {
+        if (x!=BirthDay::ID) {
             temp= std::istringstream(json["START_TIME"].toString().toStdString());
             temp>>start;
             temp= std::istringstream(json["END_TIME"].toString().toStdString());
             temp>>end;
             //FAR DIVENTARE UNA CONST IL 2
             //CAMPO STATICO IN OGNI GERARCHIA CHE INDICA L'ID
-            if (x!=2) {
+            if (x!=Workout::ID) {
                 rep = json["REPEAT"].toBool();
                 //conversione stringa -> time
                 temp= std::istringstream(json["ALERT_TIME"].toString().toStdString());
@@ -63,22 +63,22 @@ public:
             }
         }
         switch (x) {
-        case 1:
+        case Reminder::ID:
             //REMINDER = 1
             urg = json["URGENCY"].toInt();
             return new Reminder(urg,start,end,alert,rep,nome,descr,place,date,tags);
-        case 2:
+        case Workout::ID:
             //WORKOUT int x,Time start,Time end
             act = json["ACTIVITY"].toInt();
             return new Workout(act,start,end,nome,descr,place,date,tags);
-        case 3:
+        case Meeting::ID:
             //MEETING
             tmp = json["PARTECIPANTS"].toArray();
             for (QJsonArray::const_iterator it = tmp.begin();it!=tmp.end();++it) {
                 vectPart.push_back(it->toString().toStdString());
             }
             return new Meeting(vectPart,start,end,alert,rep,nome,descr,place,date,tags);
-        case 4:
+        case BirthDay::ID:
             //BIRTHDAY
             temp= std::istringstream(json["DATA_NASCITA"].toString().toStdString());
             temp>>birth;
