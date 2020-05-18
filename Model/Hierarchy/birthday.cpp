@@ -1,10 +1,10 @@
 #include "birthday.h"
 
-BirthDay::BirthDay(Date x, std::string nome,std::string descr,std::string luogo,
-                   Date data,std::vector<std::string>* vettoreTag)
-    :Event(nome,descr,luogo,x,vettoreTag),
+BirthDay::BirthDay(Date dataNasc, std::string nome,std::string descr,std::string luogo,
+                   Date dataEvento,std::vector<std::string>* vettoreTag)
+    :Event(nome,descr,luogo,dataEvento,vettoreTag),
     AllDayEvent (),
-    dataNascita(x) {}
+    dataNascita(dataNasc) {}
 
 BirthDay *BirthDay::clone() const{
     return new BirthDay(*this);

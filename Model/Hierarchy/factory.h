@@ -30,18 +30,6 @@ private:
     std::istringstream temp;
     int id;
 
-    void initializeVariables() {
-
-        date = Date();
-        tags =  new std::vector<std::string>;
-        vectPart = std::vector<std::string>();
-        start = Time();
-        end = Time();
-        birth = Date();
-        alert= Time();
-        rep = false;
-    }
-
     void firstParse() {
 
         //MANCA TODOLIST
@@ -80,14 +68,14 @@ private:
 
 public:
 
-    Factory(QJsonObject &js) : json(js) {}
+    Factory(QJsonObject &js) : json(js) {
+        tags = new std::vector<std::string>();
+        vectPart = std::vector<std::string>();
+
+    }
 
 
     Event* parse() {
-
-
-
-        initializeVariables();
 
         //USO stoi e non .toInt perchè toInt ritorna sempre valore di default
         id = std::stoi(json["ID"].toString().toStdString());
