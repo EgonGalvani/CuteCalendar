@@ -1,9 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>res/birthday.png</file>
-        <file>res/meeting.png</file>
-        <file>res/remider.png</file>
+        <file>res/meeting.jpg</file>
         <file>res/todolist.png</file>
-        <file>res/workout.png</file>
+        <file>res/workout.jpg</file>
+        <file>res/reminder.png</file>
     </qresource>
 </RCC>

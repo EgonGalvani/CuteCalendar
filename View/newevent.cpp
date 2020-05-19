@@ -1,4 +1,5 @@
 #include "newevent.h"
+#include "tagpicker.h"
 
 NewEvent::NewEvent(QDialog *parent) : QDialog(parent) {
     mainLayout = new QVBoxLayout();
@@ -37,6 +38,16 @@ void NewEvent::initComboBox() {
 
     selLayout->setAlignment(Qt::AlignTop);
     selLayout->addWidget(selEvento);
+
+    // per i tag
+    auto tag = new TagPicker();
+    //tag->setEnabled(false);
+    tag->addTag("prova0");
+    tag->addTag("prova1");
+    tag->addTag("provaprovaprovaprovaprova,dl,weld,dllel");
+
+    selLayout->addWidget(tag);
+
     mainLayout->addLayout(selLayout);
     mainLayout->addLayout(eventLayout);
 

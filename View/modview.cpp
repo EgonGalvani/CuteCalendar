@@ -1,5 +1,6 @@
 #include "modview.h"
 
+#include "tagpicker.h"
 
 ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it){
 
@@ -16,8 +17,6 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
     txtNome = new QTextEdit();
     txtLuogo = new QTextEdit();
 
-
-
     checkTag= new QCheckBox();
 
     btnDelete = new QPushButton(tr("Delete"));
@@ -27,10 +26,6 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
     txtDesc->setReadOnly(true);
     txtNome->setReadOnly(true);
     txtLuogo->setReadOnly(true);
-
-
-
-
 
     checkTag->setEnabled(false);
     btnConfirm->setEnabled(false);
@@ -44,8 +39,6 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
     editLayout->addWidget(lTag);
     editLayout->addWidget(checkTag);
 
-
-
     buttomLayout->addWidget(btnDelete);
     buttomLayout->addWidget(btnModify);
     buttomLayout->addWidget(btnConfirm);
@@ -57,9 +50,6 @@ ModView::ModView(const Model::It& it, QDialog *parent) : QDialog(parent), it(it)
 
     mainLayout->addLayout(editLayout);
     mainLayout->addLayout(buttomLayout);
-
-
-
 }
 
 ModView::~ModView() {}

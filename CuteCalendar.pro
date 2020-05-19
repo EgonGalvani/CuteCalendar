@@ -47,7 +47,8 @@ SOURCES += \
     Model/Hierarchy/reminder.cpp \
     Model/Hierarchy/meeting.cpp \
     Model/Hierarchy/birthday.cpp \
-    View/eventwidgetbuilder.cpp
+    View/eventwidgetbuilder.cpp \
+    View/tagpicker.cpp
 
 HEADERS += \
     Model/Hierarchy/factory.h \
@@ -78,7 +79,8 @@ HEADERS += \
     Model/fileio.h \
     Model/Container/vector.h \
     Model/Container/unorderedmultimap.h \
-    View/eventwidgetbuilder.h
+    View/eventwidgetbuilder.h \
+    View/tagpicker.h
 
 FORMS +=
 
