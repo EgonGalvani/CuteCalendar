@@ -4,6 +4,7 @@
 #include "vector.h"
 
 #include <stdexcept>
+#include <QJsonObject>
 
 template<class Key, class Value>
 class UnorderedMultimap {
@@ -424,6 +425,12 @@ public:
      * @return un iteratore al bucket con chiave k
      */
     Iterator find(const Key& k) const;
+
+    /**
+     * @brief permette di rendere il contenitore serializzabile
+     * @return un oggetto json contenente tutte le informazioni del contenitore
+     */
+    QJsonObject serialize() const;
 };
 
 /**
@@ -942,6 +949,11 @@ void UnorderedMultimap<K, V>::transplant(Node* u, Node* v) {
 
     if(v)
         v->_parent = u->_parent;
+}
+
+template<class K, class V>
+QJsonObject UnorderedMultimap<K, V>::serialize() const {
+
 }
 
 #endif // UNORDEREDMULTIMAP_H
