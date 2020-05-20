@@ -23,6 +23,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    View/modifydialog.cpp \
     View/modview.cpp \
     View/viewallenamento.cpp \
     View/viewcompleanno.cpp \
@@ -53,6 +54,7 @@ SOURCES += \
 HEADERS += \
     Model/Hierarchy/factory.h \
     View/mainwindow.h \
+    View/modifydialog.h \
     View/modview.h \
     View/newevent.h \
     View/mycalendar.h \

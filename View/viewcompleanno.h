@@ -6,16 +6,11 @@
 class ViewCompleanno : public ModView {
     Q_OBJECT
 
-   protected slots:
-       virtual void modifyPushed() override;
-       virtual void confirmPushed() override;
-
-
    public:
-      explicit ViewCompleanno(const Model::It&,QDialog *parent = 0);
+      explicit ViewCompleanno(QWidget *parent = 0);
       ~ViewCompleanno();
 
-      void getInfo() override;
+
 };
 
 #endif // VIEWCOMPLEANNO_H

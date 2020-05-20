@@ -7,13 +7,11 @@
 class ViewAllenamento : public ModView {
  Q_OBJECT
 
-protected slots:
-    virtual void modifyPushed() override;
-    virtual void confirmPushed() override;
+
 
 
 public:
-   explicit ViewAllenamento(const Model::It&,QDialog *parent = 0);
+   explicit ViewAllenamento(QWidget *parent = 0);
    ~ViewAllenamento();
 
    QTimeEdit* inizio;
@@ -21,9 +19,9 @@ public:
    QLabel* start;
    QLabel* end;
 
-    //virtual
 
-    void getInfo() override;
+   void switchReadable() override;
+
 };
 
 #endif // VIEWALLENAMENTO_H

@@ -5,6 +5,7 @@
 #include "viewcompleanno.h"
 #include "viewmeeting.h"
 #include "viewpromemoria.h"
+#include "modifydialog.h"
 
 #include <QFile>
 #include <QTableView>
@@ -127,18 +128,18 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
         Model::It currentIterator = currentEventWidget->getData();
         Event* currentEvent = &**currentIterator;
 
-        ModView* currentView = nullptr;
+        ModifyDialog* currentView = nullptr;
 
         if(dynamic_cast<BirthDay*>(currentEvent))
-            currentView = new ViewCompleanno(currentIterator);
+            currentView = new ModifyDialog(currentIterator);
         else if (dynamic_cast<Meeting*>(currentEvent))
-            currentView = new ViewMeeting(currentIterator);
+            currentView = new ModifyDialog(currentIterator);
         else if(dynamic_cast<Reminder*>(currentEvent))
-            currentView = new ViewPromemoria(currentIterator);
+            currentView = new ModifyDialog(currentIterator);
         else if(dynamic_cast<ToDoList*>(currentEvent))
-            currentView = new ViewAllenamento(currentIterator);
+            currentView = new ModifyDialog(currentIterator);
         else if(dynamic_cast<Workout*>(currentEvent))
-            currentView = new ViewAllenamento(currentIterator);
+            currentView = new ModifyDialog(currentIterator);
 
         if(!currentView)
             QMessageBox::critical(this, QString("Error"), QString("Nessun tipo della gerarchia identificato"));

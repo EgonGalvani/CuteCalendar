@@ -3,30 +3,8 @@
 
 
 
-void ViewPromemoria::modifyPushed()
-{
-    ModView::modifyPushed();
-    inizio->setEnabled(true);
-    fine->setEnabled(true);
-    checkRep->setEnabled(true);
 
-
-}
-
-void ViewPromemoria::confirmPushed()
-{
-    Reminder* currEve = dynamic_cast<Reminder*>(&**it);
-
-    currEve->setStartTime(inizio->time());
-    currEve->setEndTime(fine->time());
-    currEve->setRepeat(checkRep->isChecked());
-
-    ModView::confirmPushed();
-
-}
-
-
-ViewPromemoria::ViewPromemoria(const Model::It& it,QDialog *parent) : ModView(it,parent)
+ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent)
 {
     inizio= new QTimeEdit();
     fine= new QTimeEdit();
@@ -42,15 +20,15 @@ ViewPromemoria::ViewPromemoria(const Model::It& it,QDialog *parent) : ModView(it
     fine->setEnabled(false);
     checkRep->setEnabled(false);
 
-    editLayout->addWidget(start);
-    editLayout->addWidget(inizio);
-    editLayout->addWidget(end);
-    editLayout->addWidget(fine);
-    editLayout->addWidget(rep);
-    editLayout->addWidget(checkRep);
+    mainLayout->addWidget(start);
+    mainLayout->addWidget(inizio);
+    mainLayout->addWidget(end);
+    mainLayout->addWidget(fine);
+    mainLayout->addWidget(rep);
+    mainLayout->addWidget(checkRep);
 
 
-    getInfo();
+
 
     setLayout(mainLayout);
 
@@ -60,12 +38,4 @@ ViewPromemoria::~ViewPromemoria() {
 
 }
 
-void ViewPromemoria::getInfo()
-{
-    ModView::getInfo();
-    Reminder* currEve = dynamic_cast<Reminder*>(&**it);
-   // inizio->setTime(currEve->getStartTime());
-   // fine->setTime(currEve->getEndTime());
-    checkRep->setChecked(currEve->doesRepeat());
 
-}

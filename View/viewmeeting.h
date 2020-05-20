@@ -7,13 +7,12 @@
 class ViewMeeting : public ModView {
     Q_OBJECT
 
-   protected slots:
-       virtual void modifyPushed() override;
-       virtual void confirmPushed() override;
+
+
 
 
    public:
-      explicit ViewMeeting(const Model::It&,QDialog *parent = 0);
+      explicit ViewMeeting(QWidget *parent = 0);
       ~ViewMeeting();
 
       QTimeEdit* inizio;
@@ -23,7 +22,6 @@ class ViewMeeting : public ModView {
 
        //virtual
 
-       void getInfo() override;
    };
 
 #endif // VIEWMEETING_H

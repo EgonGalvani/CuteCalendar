@@ -3,18 +3,16 @@
 
 #include "modview.h"
 #include <QTimeEdit>
-#include <QCheckBox>
+
 
 class ViewPromemoria : public ModView {
     Q_OBJECT
 
-   protected slots:
-       virtual void modifyPushed() override;
-       virtual void confirmPushed() override;
+
 
 
    public:
-      explicit ViewPromemoria(const Model::It&,QDialog *parent = 0);
+      explicit ViewPromemoria(QWidget *parent = 0);
       ~ViewPromemoria();
 
       QTimeEdit* inizio;
@@ -28,7 +26,7 @@ class ViewPromemoria : public ModView {
 
        //virtual
 
-       void getInfo() override;
+
    };
 
 #endif // VIEWPROMEMORIA_H
