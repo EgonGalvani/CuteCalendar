@@ -24,7 +24,9 @@ class ViewPromemoria : public ModView {
       QLabel* end;
       QLabel* rep;
 
-       //virtual
+      void switchReadable() override;
+      void pushSaves(Model::It) override;
+      void fillView(Model::It) override;
 
 
    };

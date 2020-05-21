@@ -132,15 +132,15 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
         ModifyDialog* currentView = nullptr;
 
         if(dynamic_cast<BirthDay*>(currentEvent))
-            currentView = new ModifyDialog(currentIterator);
+            currentView = new ModifyDialog(currentIterator,1);
         else if (dynamic_cast<Meeting*>(currentEvent))
-            currentView = new ModifyDialog(currentIterator);
+            currentView = new ModifyDialog(currentIterator,2);
         else if(dynamic_cast<Reminder*>(currentEvent))
-            currentView = new ModifyDialog(currentIterator);
+            currentView = new ModifyDialog(currentIterator,3);
         else if(dynamic_cast<ToDoList*>(currentEvent))
-            currentView = new ModifyDialog(currentIterator);
+            currentView = new ModifyDialog(currentIterator,5);
         else if(dynamic_cast<Workout*>(currentEvent))
-            currentView = new ModifyDialog(currentIterator);
+            currentView = new ModifyDialog(currentIterator,5);
 
         if(!currentView)
             QMessageBox::critical(this, QString("Error"), QString("Nessun tipo della gerarchia identificato"));

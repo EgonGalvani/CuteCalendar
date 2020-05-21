@@ -1,6 +1,6 @@
 #include "modview.h"
 
-#include "tagpicker.h"
+
 
 ModView::ModView(QWidget *parent) : QWidget(parent){
 
@@ -16,7 +16,7 @@ ModView::ModView(QWidget *parent) : QWidget(parent){
     txtDesc = new QTextEdit();
     txtNome = new QTextEdit();
     txtLuogo = new QTextEdit();
-    checkTag= new QCheckBox();
+    checkTag= new TagPicker();
 
 
     txtDesc->setReadOnly(true);
@@ -46,8 +46,27 @@ void ModView::switchReadable()
         txtDesc->setReadOnly(false);
         txtNome->setReadOnly(false);
         txtLuogo->setReadOnly(false);
-        checkTag->setEnabled(false);
+        checkTag->setEnabled(true);
 
+
+}
+
+void ModView::pushSaves(Model::It it)
+{
+    (*it)->setDesc((txtDesc->toPlainText()).toStdString());
+
+    (*it)->setName((txtNome->toPlainText()).toStdString());
+
+    (*it)->setPlace((txtLuogo->toPlainText()).toStdString());
+
+
+}
+
+void ModView::fillView(Model::It it)
+{
+    txtDesc->setText(QString::fromStdString((*it)->getDesc()));
+    txtNome->setText(QString::fromStdString((*it)->getName()));
+    txtLuogo->setText(QString::fromStdString((*it)->getPlace()));
 
 }
 

@@ -1,6 +1,6 @@
 #include "modifydialog.h"
 
-ModifyDialog::ModifyDialog(const Model::It &, QDialog *parent) :  QDialog(parent), it(it)
+ModifyDialog::ModifyDialog(const Model::It& it,int x,QDialog *parent) :  QDialog(parent), it(it)
 {
     layout= new QVBoxLayout(this);
     viewLayout= new QVBoxLayout();
@@ -14,10 +14,25 @@ ModifyDialog::ModifyDialog(const Model::It &, QDialog *parent) :  QDialog(parent
     btnConfirm->setEnabled(false);
 
 
+    switch (x) {
+    case 1:
+        view = new ViewCompleanno();
+        break;
+    case 2:
+        view = new ViewMeeting();
+    case 3:
+        view= new ViewPromemoria();
+    case 4:
+        //todolist
+        break;
+    case 5:
+        view = new ViewAllenamento();
+    }
 
-    view= new ViewAllenamento();
+
 
     viewLayout->addWidget(view);
+    getInfo(it);
 
 
     buttomLayout->addWidget(btnDelete);
@@ -33,6 +48,7 @@ ModifyDialog::ModifyDialog(const Model::It &, QDialog *parent) :  QDialog(parent
 
     layout->addLayout(viewLayout);
     layout->addLayout(buttomLayout);
+
     setLayout(layout);
 
 
@@ -54,17 +70,10 @@ void ModifyDialog::modifyPushed()
 
 void ModifyDialog::confirmPushed()
 {
-    /**  //applicare modifiche all'elemento corrente
-    (*it)->setDesc((txtDesc->toPlainText()).toStdString());
-    txtDesc->toPlainText();
-    (*it)->setName((txtNome->toPlainText()).toStdString());
-    txtNome->toPlainText();
-    (*it)->setPlace((txtLuogo->toPlainText()).toStdString());
-    txtLuogo->toPlainText();
 
+    view->pushSaves(it);
     close();
 
-**/
 
 }
 
@@ -81,13 +90,8 @@ void ModifyDialog::deletePushed()
 
 }
 
-void ModifyDialog::getInfo()
+void ModifyDialog::getInfo(Model::It it)
 {
-    /**
-    txtDesc->setText(QString::fromStdString((*it)->getDesc()));
-    txtNome->setText(QString::fromStdString((*it)->getName()));
-    txtLuogo->setText(QString::fromStdString((*it)->getPlace()));
-      // TAG BOH ***
-  **/
+    view->fillView(it);
 
 }

@@ -1,6 +1,9 @@
 #ifndef MODVIEW_H
 #define MODVIEW_H
 
+#include "Model/model.h"
+
+#include "tagpicker.h"
 
 #include <QWidget>
 #include <QTextEdit>
@@ -16,6 +19,8 @@ public:
     virtual ~ModView()=0;
 
     virtual void switchReadable();
+    virtual void pushSaves(Model::It);
+    virtual void fillView(Model::It);
 
 
 protected:
@@ -32,7 +37,7 @@ protected:
     QTextEdit* txtNome;
     QTextEdit* txtLuogo;
     QTextEdit* txtDesc;
-    QCheckBox* checkTag;
+    TagPicker* checkTag;
 
 
 

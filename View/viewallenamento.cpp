@@ -36,4 +36,29 @@ void ViewAllenamento::switchReadable()
 
 }
 
+void ViewAllenamento::pushSaves(Model::It it)
+{
+    ModView::pushSaves(it);
+
+    Workout* currEve = dynamic_cast<Workout*>(&**it);
+
+    currEve->setStartTime(inizio->time());
+    currEve->setEndTime(fine->time());
+
+
+}
+
+void ViewAllenamento::fillView(Model::It it)
+{
+    ModView::fillView(it);
+
+    Workout* currEve = dynamic_cast<Workout*>(&**it);
+
+    inizio->setTime(currEve->getStartTime());
+    fine->setTime(currEve->getEndTime());
+
+
+
+}
+
 
