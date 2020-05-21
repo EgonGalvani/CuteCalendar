@@ -1,97 +1,81 @@
+#include <QMessageBox>
+#include <stdexcept>
+
 #include "modifydialog.h"
 
-ModifyDialog::ModifyDialog(const Model::It& it,int x,QDialog *parent) :  QDialog(parent), it(it)
-{
+#include "../Model/Hierarchy/birthday.h"
+#include "../Model/Hierarchy/meeting.h"
+#include "../Model/Hierarchy/reminder.h"
+#include "../Model/Hierarchy/todolist.h"
+#include "../Model/Hierarchy/workout.h"
+
+#include "viewallenamento.h"
+#include "viewcompleanno.h"
+#include "viewmeeting.h"
+#include "viewpromemoria.h"
+
+ModifyDialog::ModifyDialog(const Model::It& it, QDialog *parent)
+    :  QDialog(parent), it(it), modifyEnabled(false) {
+
     layout= new QVBoxLayout(this);
     viewLayout= new QVBoxLayout();
     buttomLayout = new QHBoxLayout();
 
-
     btnDelete = new QPushButton(tr("Delete"));
     btnModify = new QPushButton(tr("Modify"));
-    btnConfirm = new QPushButton(tr("Confirm"));
 
-    btnConfirm->setEnabled(false);
-
-
-    switch (x) {
-    case 1:
-        view = new ViewCompleanno();
-        break;
-    case 2:
-        view = new ViewMeeting();
-    case 3:
-        view= new ViewPromemoria();
-    case 4:
-        //todolist
-        break;
-    case 5:
-        view = new ViewAllenamento();
-    }
-
-
+    Event* currentEvent = &**it;
+    if(dynamic_cast<BirthDay*>(currentEvent))
+        view = new ViewCompleanno(this);
+    else if (dynamic_cast<Meeting*>(currentEvent))
+        view = new ViewMeeting(this);
+    else if(dynamic_cast<Reminder*>(currentEvent))
+        view = new ViewPromemoria(this);
+    else if(dynamic_cast<ToDoList*>(currentEvent))
+        view = new ViewCompleanno(this);
+    else if(dynamic_cast<Workout*>(currentEvent))
+        view = new ViewCompleanno(this);
+    else
+        throw std::runtime_error("Nessun tipo valido individuato");
 
     viewLayout->addWidget(view);
-    getInfo(it);
-
+    view->fillView(it);
+    view->setEnabled(false);
 
     buttomLayout->addWidget(btnDelete);
     buttomLayout->addWidget(btnModify);
-    buttomLayout->addWidget(btnConfirm);
 
     //connects
     connect(btnModify, SIGNAL(clicked()), this, SLOT(modifyPushed()));
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(deletePushed()));
-    connect(btnConfirm, SIGNAL(clicked()), this, SLOT(confirmPushed()));
-
-
 
     layout->addLayout(viewLayout);
     layout->addLayout(buttomLayout);
 
     setLayout(layout);
-
-
-
-
 }
 
-ModifyDialog::~ModifyDialog()
-{
+void ModifyDialog::modifyPushed() {
+    if(!modifyEnabled) {
+        view->setEnabled(true);
+        btnModify->setText("Confirm");
+        modifyEnabled = true;
+    } else {
+        try {
+            view->pushSaves(it);
+            QMessageBox::information(this, QString("Successo"), QString("Le modifiche sono state apportate con successo"));
+        } catch(...) {
+            QMessageBox::critical(this, QString("Error"), QString("Si sono riscontrati dei problemi durante il salvataggio delle modifiche..."));
+        }
 
+        close();
+    }
 }
 
-void ModifyDialog::modifyPushed()
-{
-        view->switchReadable();
-        btnConfirm->setEnabled(true);
-
-}
-
-void ModifyDialog::confirmPushed()
-{
-
-    view->pushSaves(it);
-    close();
-
-
-}
-
-void ModifyDialog::deletePushed()
-{
-
+void ModifyDialog::deletePushed() {
     //emetto un signal di eliminazione
-      emit deleteEvent(it);
+    emit deleteEvent(it);
 
-      // chiudo il dialog
-      close();
-
-
-
-}
-
-void ModifyDialog::getInfo(Model::It it)
-{
-    view->fillView(it);
-
+    // chiudo il dialog
+    close();
 }

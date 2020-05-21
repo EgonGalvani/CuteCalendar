@@ -8,9 +8,7 @@ class ViewCompleanno : public ModView {
 
    public:
       explicit ViewCompleanno(QWidget *parent = 0);
-      ~ViewCompleanno();
-
-
+      ~ViewCompleanno() = default;
 };
 
 #endif // VIEWCOMPLEANNO_H

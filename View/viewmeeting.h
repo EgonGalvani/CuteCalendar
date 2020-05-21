@@ -7,23 +7,18 @@
 class ViewMeeting : public ModView {
     Q_OBJECT
 
-
-
-
-
    public:
       explicit ViewMeeting(QWidget *parent = 0);
-      ~ViewMeeting();
+      ~ViewMeeting() = default;
 
       QTimeEdit* inizio;
       QTimeEdit* fine;
       QLabel* start;
       QLabel* end;
 
-      void switchReadable() override;
+      void setEnabled(bool) override;
       void pushSaves(Model::It) override;
       void fillView(Model::It) override;
-
-   };
+};
 
 #endif // VIEWMEETING_H

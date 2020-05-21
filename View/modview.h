@@ -1,10 +1,6 @@
 #ifndef MODVIEW_H
 #define MODVIEW_H
 
-#include "Model/model.h"
-
-#include "tagpicker.h"
-
 #include <QWidget>
 #include <QTextEdit>
 #include <QLabel>
@@ -12,22 +8,25 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
+#include "Model/model.h"
+#include "tagpicker.h"
+
 class ModView : public QWidget {
     Q_OBJECT
+
 public:
     explicit ModView(QWidget *parent = nullptr);
-    virtual ~ModView()=0;
+    virtual ~ModView() = default;
 
-    virtual void switchReadable();
+    virtual void setEnabled(bool);
     virtual void pushSaves(Model::It);
     virtual void fillView(Model::It);
 
-
+    bool isEnabled() const;
 protected:
-
+    bool enabled;
 
     QVBoxLayout* mainLayout;
-
 
     QLabel* lNome;
     QLabel* lDesc;
@@ -38,9 +37,6 @@ protected:
     QTextEdit* txtLuogo;
     QTextEdit* txtDesc;
     TagPicker* checkTag;
-
-
-
 };
 
 #endif // MODVIEW_H

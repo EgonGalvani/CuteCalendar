@@ -5,25 +5,20 @@
 #include <QTimeEdit>
 
 class ViewAllenamento : public ModView {
- Q_OBJECT
-
-
-
+    Q_OBJECT
 
 public:
    explicit ViewAllenamento(QWidget *parent = 0);
-   ~ViewAllenamento();
+   ~ViewAllenamento() = default;
 
    QTimeEdit* inizio;
    QTimeEdit* fine;
    QLabel* start;
    QLabel* end;
 
-
-   void switchReadable() override;
+   void setEnabled(bool) override;
    void pushSaves(Model::It) override;
    void fillView(Model::It) override;
-
 };
 
 #endif // VIEWALLENAMENTO_H

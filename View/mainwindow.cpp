@@ -1,16 +1,14 @@
-#include "mainwindow.h"
-#include "mycalendar.h"
-#include "newevent.h"
-#include "viewallenamento.h"
-#include "viewcompleanno.h"
-#include "viewmeeting.h"
-#include "viewpromemoria.h"
-#include "modifydialog.h"
-
 #include <QFile>
 #include <QTableView>
 #include <QGridLayout>
 #include <QColor>
+#include <QMessageBox>
+
+#include "mainwindow.h"
+#include "mycalendar.h"
+#include "newevent.h"
+
+#include "modifydialog.h"
 
 #include "eventwidget.h"
 #include "eventwidgetbuilder.h"
@@ -21,7 +19,6 @@
 #include "../Model/Hierarchy/todolist.h"
 #include "../Model/Hierarchy/workout.h"
 
-#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent),
@@ -60,12 +57,6 @@ MainWindow::MainWindow(QWidget *parent)
     par.push_back("valtontahiraj@gmail.com");
     model.insertEvent(new Meeting(par,tt1,tt2,alert,true,"meet","incontro zoom",
                             "casa",d2,tags));
-
-
-
-
-
-
 
     // eventi di prova...
 
@@ -127,27 +118,15 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
     if(dynamic_cast<EventWidget*>(it)) {
         EventWidget* currentEventWidget = dynamic_cast<EventWidget*>(it);
         Model::It currentIterator = currentEventWidget->getData();
-        Event* currentEvent = &**currentIterator;
 
-        ModifyDialog* currentView = nullptr;
-
-        if(dynamic_cast<BirthDay*>(currentEvent))
-            currentView = new ModifyDialog(currentIterator,1);
-        else if (dynamic_cast<Meeting*>(currentEvent))
-            currentView = new ModifyDialog(currentIterator,2);
-        else if(dynamic_cast<Reminder*>(currentEvent))
-            currentView = new ModifyDialog(currentIterator,3);
-        else if(dynamic_cast<ToDoList*>(currentEvent))
-            currentView = new ModifyDialog(currentIterator,5);
-        else if(dynamic_cast<Workout*>(currentEvent))
-            currentView = new ModifyDialog(currentIterator,5);
-
-        if(!currentView)
+        try {
+            ModifyDialog* modifyDialog = new ModifyDialog(currentIterator);
+            connect(modifyDialog, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)));
+            modifyDialog->exec();
+        } catch(...) {
             QMessageBox::critical(this, QString("Error"), QString("Nessun tipo della gerarchia identificato"));
-        else {
-            connect(currentView, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)));
-            currentView->exec();
         }
+
     } else
         QMessageBox::critical(this, QString("Error"), QString("Error no valid type of ViewCreated"));
 }
@@ -155,6 +134,7 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
 void MainWindow::deleteEvent(Model::It it) {
     try {
         model.removeEvent(it);
+        QMessageBox::information(this, QString("Success"), QString("Evento rimosso con successo"));
     } catch(...) {
         QMessageBox::critical(this, QString("Error"), QString("Error deleting element"));
     }
