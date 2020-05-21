@@ -66,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
+
     // eventi di prova...
 
     initCalendarBox();

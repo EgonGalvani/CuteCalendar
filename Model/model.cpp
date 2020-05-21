@@ -27,4 +27,24 @@ std::vector<Model::It> Model::getEvents(const Date &d) {
     return its;
 }
 
+void Model::serialize(QJsonObject &json) const{
+
+    int i = 0;
+    //itero la mappa
+    for (auto it = _data.begin();it!=_data.end();++it,++i) {
+        auto key = *it;
+        QJsonArray arrayEvent = QJsonArray();
+        QString stringaEventi = QString();
+        arrayEvent.push_back(QString::fromStdString(key.toString()));
+        //Itero il vettore
+        for (auto vit = _data.begin(key);vit!=_data.end(key);++vit ) {
+            QJsonObject eventjson = QJsonObject();
+            (*(*vit)).serialize(eventjson);
+            arrayEvent.push_back(eventjson);
+        }
+        //Ogni riga sarà ID progressivo {data,evento1,evento2...,eventoN}
+        json[QString::number(i)] = arrayEvent;
+    }
+}
+
 

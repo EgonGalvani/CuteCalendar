@@ -5,6 +5,7 @@
 
 #include <stdexcept>
 #include <QJsonObject>
+#include <QJsonArray>
 
 template<class Key, class Value>
 class UnorderedMultimap {
@@ -430,8 +431,9 @@ public:
      * @brief permette di rendere il contenitore serializzabile
      * @return un oggetto json contenente tutte le informazioni del contenitore
      */
-    QJsonObject serialize() const;
 };
+
+
 
 /**
   * Iterator
@@ -951,9 +953,5 @@ void UnorderedMultimap<K, V>::transplant(Node* u, Node* v) {
         v->_parent = u->_parent;
 }
 
-template<class K, class V>
-QJsonObject UnorderedMultimap<K, V>::serialize() const {
-
-}
 
 #endif // UNORDEREDMULTIMAP_H

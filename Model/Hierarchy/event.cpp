@@ -57,10 +57,13 @@ void Event::serialize(QJsonObject &json) const {
     json["DESCRIPTION"] = QString::fromStdString(getDesc());
     json["PLACE"] = QString::fromStdString(getPlace());
 
-    std::vector<std::string> temp = *tags;
     QJsonArray tagArray;
-    foreach (const std::string tag, temp) {
-        tagArray.append(QString::fromStdString(tag));
+    if (tags!=nullptr) {
+        std::vector<std::string> temp = *tags;
+
+        foreach (const std::string tag, temp) {
+            tagArray.append(QString::fromStdString(tag));
+        }
     }
     json["TAGS"] = tagArray;
 }
