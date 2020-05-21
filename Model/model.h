@@ -4,7 +4,7 @@
 #include "DataType/deepptr.h"
 #include "DataType/date.h"
 #include "Container/vector.h"
-#include "Hierarchy/event.h"
+#include "Hierarchy/factory.h"
 #include "Container/unorderedmultimap.h"
 
 #include <vector>
@@ -53,6 +53,8 @@ public:
     void removeEvent(const It& it);
 
     void serialize(QJsonObject &json) const;
+
+    void parse(QJsonObject &json);
 };
 
 #endif // MODEL_H

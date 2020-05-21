@@ -47,4 +47,32 @@ void Model::serialize(QJsonObject &json) const{
     }
 }
 
+void Model::parse(QJsonObject &json)  {
+
+    //Prima prendo la lista delle chiavi
+
+
+    QStringList k = json.keys();
+    QStringList keys = json.keys();
+    //itero le chiavi,keyit poi è QList<QString>, dereferenziando ottengo qstring che uso per
+    //"accedere" al json
+    for (auto keyit = keys.begin();keyit!=keys.end();++keyit) {
+        QJsonArray item = json[*keyit].toArray();
+        Date data;
+        for (auto it = item.begin();it!=item.end();++it) {
+            if (it==item.begin()) {
+                //Forse aggiungere su date
+                std::istringstream temp = std::istringstream((*it).toString().toStdString());
+                temp>>data;
+            }else {
+                QJsonObject tmp = (*it).toObject();
+                Factory f1 = Factory(tmp);
+                _data.insert(data,DeepPtr<Event>(f1.parse()));
+            }
+        }
+
+    }
+
+}
+
 
