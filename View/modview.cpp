@@ -1,12 +1,9 @@
 #include "modview.h"
 
-#include "tagpicker.h"
-
-ModView::ModView(QWidget *parent) : QWidget(parent){
+ModView::ModView(QWidget *parent)
+        : QWidget(parent), enabled(true) {
 
     mainLayout = new QVBoxLayout(this);
-
-
 
     lTag = new QLabel("Tag");
     lNome= new QLabel("Nome");
@@ -16,14 +13,7 @@ ModView::ModView(QWidget *parent) : QWidget(parent){
     txtDesc = new QTextEdit();
     txtNome = new QTextEdit();
     txtLuogo = new QTextEdit();
-    checkTag= new QCheckBox();
-
-
-    txtDesc->setReadOnly(true);
-    txtNome->setReadOnly(true);
-    txtLuogo->setReadOnly(true);
-
-    checkTag->setEnabled(false);
+    checkTag= new TagPicker();
 
     mainLayout->addWidget(lNome);
     mainLayout->addWidget(txtNome);
@@ -33,24 +23,29 @@ ModView::ModView(QWidget *parent) : QWidget(parent){
     mainLayout->addWidget(txtDesc);
     mainLayout->addWidget(lTag);
     mainLayout->addWidget(checkTag);
-
-
-
-
-
 }
 
-void ModView::switchReadable()
-{
+void ModView::setEnabled(bool e) {
+    enabled = e;
 
-        txtDesc->setReadOnly(false);
-        txtNome->setReadOnly(false);
-        txtLuogo->setReadOnly(false);
-        checkTag->setEnabled(false);
-
-
+    txtDesc->setReadOnly(!e);
+    txtNome->setReadOnly(!e);
+    txtLuogo->setReadOnly(!e);
+    checkTag->setEnabled(e);
 }
 
-ModView::~ModView() {}
+bool ModView::isEnabled() const {
+    return enabled;
+}
 
+void ModView::pushSaves(Model::It it) {
+    (*it)->setDesc((txtDesc->toPlainText()).toStdString());
+    (*it)->setName((txtNome->toPlainText()).toStdString());
+    (*it)->setPlace((txtLuogo->toPlainText()).toStdString());
+}
 
+void ModView::fillView(Model::It it) {
+    txtDesc->setText(QString::fromStdString((*it)->getDesc()));
+    txtNome->setText(QString::fromStdString((*it)->getName()));
+    txtLuogo->setText(QString::fromStdString((*it)->getPlace()));
+}
