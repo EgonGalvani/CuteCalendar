@@ -1,7 +1,8 @@
 #include "alert.h"
 
-Alert::Alert(Time alertTime, bool ripete,std::string nome,std::string descr,std::string luogo, Date data,
-             std::vector<std::string>* tags)
+Alert::Alert(const Time& alertTime,const bool& ripete,const std::string& nome,
+             const std::string& descr,const std::string& luogo,const Date& data,
+             const std::vector<std::string>& tags)
     : Event(nome,descr,luogo,data,tags),
       alertTime(alertTime),repeat(ripete){}
 

@@ -14,9 +14,11 @@ public:
 
     Meeting* clone()const ;
 
-    Meeting(std::vector<std::string> part, Time start,
-            Time end, Time alert,bool repeat, std::string nome,std::string descr,
-            std::string luogo,Date data,std::vector<std::string>* vettoreTag);
+    Meeting(const std::vector<std::string>& part,const Time& start,
+            const Time& end,const Time& alert,const bool& repeat,
+            const std::string& nome,const std::string& descr,
+            const std::string& luogo,const Date& data,
+            const std::vector<std::string>& vettoreTag);
     std::vector<std::string> getPartecipants();
 
     //virtual

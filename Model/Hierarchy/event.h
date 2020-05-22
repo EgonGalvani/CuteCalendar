@@ -18,12 +18,12 @@ private:
     Date data;
     std::string description;
     std::string place;
-    std::vector<std::string>* tags;
+    std::vector<std::string> tags;
 
 public:
 
-    Event(std::string nome,std::string descr,std::string luogo, Date date,
-            std::vector<std::string>* vettoreTag);
+    Event(const std::string& nome,const std::string& descr,const std::string& luogo,
+          const Date& date,const std::vector<std::string>& vettoreTag);
 
     //Pure virtual methods
     virtual Event* clone() const = 0;
@@ -40,7 +40,7 @@ public:
     std::string getDesc() const ;
     std::string getPlace() const ;
     Date getDate() const ;
-    std::vector<std::string>* getTags() const;
+    std::vector<std::string> getTags() const;
 
     //Setter
     void setName(const std::string x);
@@ -54,7 +54,7 @@ public:
     //chiedere ad Egon se preferisce un bool per conferma o usiamo exeption
     void addTag(const std::string tag);
     //restituire nuovo vettore?
-    std::vector<std::string>* deleteTag(const std::string tag);
+    std::vector<std::string> deleteTag(const std::string tag);
     bool hasTag(const std::string tag)const ;
 
 

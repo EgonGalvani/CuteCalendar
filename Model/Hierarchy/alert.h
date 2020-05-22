@@ -8,9 +8,9 @@ private:
     bool repeat;
 public:
 
-    Alert(Time alertTime,bool repeat,std::string nome = "",std::string descr = ""
-            ,std::string luogo = "", Date data = Date(),
-                             std::vector<std::string>* tags = nullptr);
+    Alert(const Time& alertTime,const bool& repeat,const std::string& nome = "",
+          const std::string& descr = "",const std::string& luogo = "",const Date& data = Date(),
+                             const std::vector<std::string>& tags = std::vector<std::string>());
 
     void setAlertTime(const Time alertTime);
     void setRepeat(const bool repeat);

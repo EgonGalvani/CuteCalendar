@@ -12,9 +12,10 @@ public:
     Time getDuration()const ;
     bool isCompleted()const ;
 
-    EventWithDuration(Time start,Time end,std::string nome = "",std::string descr = ""
-            ,std::string luogo = "", Date data = Date(),
-             std::vector<std::string>* tags = nullptr);
+    EventWithDuration(const Time& start,const Time& end,
+                      const std::string& nome = "",const std::string& descr = "",
+                      const std::string& luogo = "",const Date& data = Date(),
+                      const std::vector<std::string>& tags = std::vector<std::string>());
 
     //GETTER SETTER
     Time getStartTime()const ;

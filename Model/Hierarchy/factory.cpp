@@ -15,7 +15,7 @@ void Factory::firstParse() {
     //conversione jsonarray -> array stringhe
     tmp = json["TAGS"].toArray();
     for (QJsonArray::const_iterator it = tmp.begin();it!=tmp.end();++it) {
-        tags->push_back(it->toString().toStdString());
+        tags.push_back(it->toString().toStdString());
     }
 
 }
@@ -38,7 +38,7 @@ void Factory::secondParse() {
 }
 
 Factory::Factory(QJsonObject &js) : json(js) {
-    tags = new std::vector<std::string>();
+    tags = std::vector<std::string>();
     vectPart = std::vector<std::string>();
 
 }

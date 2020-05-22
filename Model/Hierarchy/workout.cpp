@@ -9,8 +9,17 @@ void Workout::serialize(QJsonObject &json) const {
     json["ACTIVITY"] = act;
 }
 
-Workout::Workout(int attivita,Time start,Time end,std::string nome,std::string descr,
-                 std::string luogo,Date data,std::vector<std::string>* tags)
+/*
+ *
+ * const int& attivita,const Time& end,const std::string& nome,
+            const std::string& descr,const std::string& luogo,const Time& start,
+            const Date& data,const std::vector<std::string>& vettoreTag
+            */
+
+Workout::Workout(const int& attivita,const Time& start,const Time& end,
+                 const std::string& nome,const std::string& descr,
+                 const std::string& luogo,const Date& data,
+                 const std::vector<std::string>& tags)
       : Event(nome,descr,luogo,data,tags),
         EventWithDuration (start,end)
 

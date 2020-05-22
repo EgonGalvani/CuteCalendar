@@ -8,7 +8,7 @@ std::string Event::getPlace() const{return place;}
 
 Date Event::getDate() const{return data;}
 
-std::vector<std::string>* Event::getTags() const {return tags;}
+std::vector<std::string> Event::getTags() const {return tags;}
 
 void Event::setDesc(const std::string desc) {description = desc;}
 
@@ -19,14 +19,14 @@ void Event::setPlace(const std::string posto) {place = posto;}
 void Event::setDate(const Date x) {data = x;}
 
 void Event::addTag(const std::string tag) {
-    tags->push_back(tag);
+    tags.push_back(tag);
 }
 //restituire nuovo vettore?
-std::vector<std::string>* Event::deleteTag(const std::string tag) {
-    std::vector<std::string>::iterator it = tags->begin();
-    while (it!=tags->end()) {
+std::vector<std::string> Event::deleteTag(const std::string tag) {
+    std::vector<std::string>::iterator it = tags.begin();
+    while (it!=tags.end()) {
         if ((*it)==tag) {
-            it = tags->erase(it);
+            it = tags.erase(it);
         }else {
             ++it;
         }
@@ -35,14 +35,14 @@ std::vector<std::string>* Event::deleteTag(const std::string tag) {
 }
 bool Event::hasTag(const std::string tag) const {
     bool found = false;
-    for (std::vector<std::string>::iterator it = tags->begin();!found && it!=tags->end();++it) {
+    for (std::vector<std::string>::const_iterator it = tags.begin();!found && it!=tags.end();++it) {
         found = *it==tag;
     }
     return found;
 }
 
-Event::Event(std::string nome,std::string descr,std::string luogo,Date date,
-             std::vector<std::string>* vettoreTag) : name(nome),data(date),
+Event::Event(const std::string& nome,const std::string& descr,const std::string& luogo,
+             const Date& date,const std::vector<std::string>& vettoreTag) : name(nome),data(date),
              description(descr),place(luogo),tags(vettoreTag) {
 }
 
@@ -58,8 +58,8 @@ void Event::serialize(QJsonObject &json) const {
     json["PLACE"] = QString::fromStdString(getPlace());
 
     QJsonArray tagArray;
-    if (tags!=nullptr) {
-        std::vector<std::string> temp = *tags;
+    if (!tags.empty()) {
+        std::vector<std::string> temp = tags;
 
         foreach (const std::string tag, temp) {
             tagArray.append(QString::fromStdString(tag));

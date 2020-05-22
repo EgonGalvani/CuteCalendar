@@ -4,7 +4,7 @@
 
 //std::vector<ListItem> items;
 
-ToDoList::ListItem::ListItem(std::string x,bool y) : description(x),done(y) {}
+ToDoList::ListItem::ListItem(const std::string& x,const bool& y) : description(x),done(y) {}
 
 std::string ToDoList::ListItem::getDescription() const {
     return description;

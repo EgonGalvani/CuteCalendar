@@ -2,8 +2,10 @@
 
 Reminder::urgency Reminder::getUrgency() const {return urg;}
 
-Reminder::Reminder(int urgenza,Time start,Time end,Time alert,bool rep,std::string nome,
-                   std::string descr,std::string luogo,Date data,std::vector<std::string>* tags)
+Reminder::Reminder(const int& urgenza,const Time& start,const Time& end,
+                   const Time& alert,const bool& rep,const std::string& nome,
+                   const std::string& descr,const std::string& luogo,
+                   const Date& data,const std::vector<std::string>& tags)
     : Event(nome,descr,luogo,data,tags),
       EventWithDuration (start,end),
       Alert(alert,rep),

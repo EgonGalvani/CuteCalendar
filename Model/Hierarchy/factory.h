@@ -18,7 +18,7 @@ private:
     std::string descr;
     std::string place;
     QJsonArray tmp;
-    std::vector<std::string>* tags;
+    std::vector<std::string>tags;
     int urg;
     int act;
     std::vector<std::string> vectPart;

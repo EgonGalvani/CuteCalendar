@@ -12,7 +12,7 @@ private:
         std::string description;
         bool done;
     public:
-        ListItem(std::string = nullptr,bool = true);
+        ListItem(const std::string& = "",const bool& = true);
         std::string getDescription()const ;
         bool isDone()const ;
         void setDone(const bool);
