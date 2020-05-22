@@ -11,8 +11,9 @@ ModView::ModView(QWidget *parent)
     lLuogo = new QLabel("Luogo");
 
     txtDesc = new QTextEdit();
-    txtNome = new QTextEdit();
-    txtLuogo = new QTextEdit();
+    txtNome = new QLineEdit();
+    txtLuogo = new QLineEdit();
+
     checkTag= new TagPicker();
 
     mainLayout->addWidget(lNome);
@@ -40,8 +41,8 @@ bool ModView::isEnabled() const {
 
 void ModView::pushSaves(Model::It it) {
     (*it)->setDesc((txtDesc->toPlainText()).toStdString());
-    (*it)->setName((txtNome->toPlainText()).toStdString());
-    (*it)->setPlace((txtLuogo->toPlainText()).toStdString());
+    (*it)->setName((txtNome->text()).toStdString());
+    (*it)->setPlace((txtLuogo->text()).toStdString());
 }
 
 void ModView::fillView(Model::It it) {
