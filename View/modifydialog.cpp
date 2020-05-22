@@ -25,18 +25,16 @@ ModifyDialog::ModifyDialog(const Model::It& it, QDialog *parent)
     btnModify = new QPushButton(tr("Modify"));
 
     Event* currentEvent = &**it;
-    if(dynamic_cast<BirthDay*>(currentEvent))
+    if(dynamic_cast<Workout*>(currentEvent))
+        view = new ViewAllenamento(this);
+    else if(dynamic_cast<BirthDay*>(currentEvent))
         view = new ViewCompleanno(this);
-    else if (dynamic_cast<Meeting*>(currentEvent))
-        view = new ViewMeeting(this);
     else if(dynamic_cast<Reminder*>(currentEvent))
         view = new ViewPromemoria(this);
-    else if(dynamic_cast<ToDoList*>(currentEvent))
-        view = new ViewCompleanno(this);
-    else if(dynamic_cast<Workout*>(currentEvent))
-        view = new ViewCompleanno(this);
+    else if(dynamic_cast<Meeting*>(currentEvent))
+        view = new ViewMeeting(this);
     else
-        throw std::runtime_error("Nessun tipo valido individuato");
+        throw std::runtime_error("Il tipo considerato non rappresenta un evento valido");
 
     viewLayout->addWidget(view);
     view->fillView(it);

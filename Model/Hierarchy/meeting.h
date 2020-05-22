@@ -4,7 +4,7 @@
 #include "eventwithduration.h"
 #include "alert.h"
 
-class Meeting : public EventWithDuration,public Alert {
+class Meeting : public EventWithDuration, public Alert {
 private:
     std::vector<std::string> partEmails;
 

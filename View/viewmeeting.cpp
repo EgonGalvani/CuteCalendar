@@ -37,7 +37,7 @@ void ViewMeeting::fillView(Model::It it) {
     ModView::fillView(it);
 
     Meeting* currEve = dynamic_cast<Meeting*>(&**it);
-    if(!currEve) {
+    if(currEve) {
         inizio->setTime(currEve->getStartTime());
         fine->setTime(currEve->getEndTime());
     } else
