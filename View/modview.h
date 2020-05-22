@@ -2,6 +2,7 @@
 #define MODVIEW_H
 
 #include <QWidget>
+#include <QLineEdit>
 #include <QTextEdit>
 #include <QLabel>
 #include <QCheckBox>
@@ -9,7 +10,6 @@
 #include <QHBoxLayout>
 
 #include "Model/model.h"
-
 #include "tagpicker.h"
 #include "../Model/Hierarchy/event.h"
 
@@ -36,8 +36,8 @@ protected:
     QLabel* lLuogo;
     QLabel* lTag;
 
-    QTextEdit* txtNome;
-    QTextEdit* txtLuogo;
+    QLineEdit* txtNome;
+    QLineEdit* txtLuogo;
     QTextEdit* txtDesc;
     TagPicker* checkTag;
 };

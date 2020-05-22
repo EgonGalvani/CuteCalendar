@@ -6,6 +6,7 @@
 #include <iostream>
 #include <QScrollBar>
 #include <QMessageBox>
+#include <QSizePolicy>
 
 void EnterLineEdit::keyPressEvent(QKeyEvent* event) {
     if(event->key() == Qt::Key_Return)
@@ -32,6 +33,7 @@ TagPicker::TagPicker(QWidget* parent) : QWidget(parent), enabled(true) {
     list->setStyleSheet(style);
 
     setLayout(layout);
+    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 
     connect(txtEdit, SIGNAL(enterKeyPressed()), this, SLOT(addNewTag()));
     connect(list, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(deleteTag(QListWidgetItem*)));

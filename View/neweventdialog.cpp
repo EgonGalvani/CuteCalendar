@@ -9,6 +9,7 @@ NewEventDialog::NewEventDialog(QDialog *parent) : QDialog(parent) {
     mainLayout->setAlignment(Qt::AlignTop);
     initComboBox();
 
+    resize(450, height());
     setLayout(mainLayout);
 }
 
@@ -74,5 +75,12 @@ void NewEventDialog::changedSel(int index) {
 }
 
 void NewEventDialog::addPushed() {
+    /* try {
+     *  emit newEventCreated(view->createEvent())
+     * } catch(SyntaxException se) {
+     *  QMessageBox::critical(this, QString("Error"), se.getMessage()));
+     * }
+    */
+
     std::cout<< "Bottone Premuto" << std::endl;
 }
