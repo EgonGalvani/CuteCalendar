@@ -2,6 +2,8 @@
 #define VIEWALLENAMENTO_H
 
 #include "modview.h"
+#include "../Model/Hierarchy/workout.h"
+
 #include <QTimeEdit>
 
 class ViewAllenamento : public ModView {
@@ -19,6 +21,7 @@ public:
    void setEnabled(bool) override;
    void pushSaves(Model::It) override;
    void fillView(Model::It) override;
+   // Workout* createEvent() override;
 };
 
 #endif // VIEWALLENAMENTO_H

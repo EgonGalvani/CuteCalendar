@@ -44,3 +44,7 @@ void ViewAllenamento::fillView(Model::It it) {
     } else
         throw std::logic_error("Tipo errato per essere mostrato come allenamento");
 }
+
+/*Workout* ViewAllenamento::createEvent() {
+    return new Workout()
+}*/
