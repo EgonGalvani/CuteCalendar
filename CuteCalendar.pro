@@ -30,7 +30,6 @@ SOURCES += \
     View/viewcompleanno.cpp \
     View/viewmeeting.cpp \
     View/viewpromemoria.cpp \
-    View/newevent.cpp \
     View/mainwindow.cpp \
     View/mycalendar.cpp \
     View/eventwidget.cpp \
@@ -50,14 +49,14 @@ SOURCES += \
     Model/Hierarchy/meeting.cpp \
     Model/Hierarchy/birthday.cpp \
     View/eventwidgetbuilder.cpp \
-    View/tagpicker.cpp
+    View/tagpicker.cpp \
+    View/neweventdialog.cpp
 
 HEADERS += \
     Model/Hierarchy/factory.h \
     View/mainwindow.h \
     View/modifydialog.h \
     View/modview.h \
-    View/newevent.h \
     View/mycalendar.h \
     View/viewallenamento.h \
     View/viewcompleanno.h \
@@ -83,7 +82,8 @@ HEADERS += \
     Model/Container/vector.h \
     Model/Container/unorderedmultimap.h \
     View/eventwidgetbuilder.h \
-    View/tagpicker.h
+    View/tagpicker.h \
+    View/neweventdialog.h
 
 FORMS +=
 

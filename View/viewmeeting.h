@@ -1,8 +1,10 @@
 #ifndef VIEWMEETING_H
 #define VIEWMEETING_H
 
-#include "modview.h"
 #include <QTimeEdit>
+
+#include "modview.h"
+#include "../Model/Hierarchy/meeting.h"
 
 class ViewMeeting : public ModView {
     Q_OBJECT
@@ -19,6 +21,7 @@ class ViewMeeting : public ModView {
       void setEnabled(bool) override;
       void pushSaves(Model::It) override;
       void fillView(Model::It) override;
+      // Meeting* createEvent() override;
 };
 
 #endif // VIEWMEETING_H

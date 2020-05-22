@@ -18,12 +18,12 @@
 
 #include "../Model/Hierarchy/event.h"
 
-class NewEvent : public QDialog {
+class NewEventDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit NewEvent(QDialog *parent = nullptr);
-    ~NewEvent() = default;
+    explicit NewEventDialog(QDialog *parent = nullptr);
+    ~NewEventDialog() = default;
 
 signals:
     void newEventCreated(Event*);
@@ -36,14 +36,8 @@ private:
 
     ModView* view;
 
-
-
-    void deleteLayout(QLayout*);
     void initComboBox();
-    void initAllenamento();
-    void initCompleanno();
-    void initMeeting();
-    void initPromemoria();
+    void deleteLayout(QLayout*);
 
 private slots:
     void changedSel(int);

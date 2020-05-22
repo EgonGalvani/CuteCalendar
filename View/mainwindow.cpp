@@ -6,7 +6,7 @@
 
 #include "mainwindow.h"
 #include "mycalendar.h"
-#include "newevent.h"
+#include "neweventdialog.h"
 
 #include "modifydialog.h"
 
@@ -153,9 +153,9 @@ void MainWindow::selectedDateChanged() {
 }
 
 void MainWindow::showAddEventDialog() {
-    NewEvent* addEventPopup = new NewEvent();
-    connect(addEventPopup, SIGNAL(newEventCreated(Event*)), this, SLOT(insertEvent(Event*)));
-    addEventPopup->exec();
+    NewEventDialog* addEventDialog = new NewEventDialog();
+    connect(addEventDialog, SIGNAL(newEventCreated(Event*)), this, SLOT(insertEvent(Event*)));
+    addEventDialog->exec();
 }
 
 void MainWindow::insertEvent(Event *e) {

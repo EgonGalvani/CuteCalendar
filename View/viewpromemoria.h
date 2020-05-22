@@ -1,8 +1,10 @@
 #ifndef VIEWPROMEMORIA_H
 #define VIEWPROMEMORIA_H
 
-#include "modview.h"
 #include <QTimeEdit>
+
+#include "modview.h"
+#include "../Model/Hierarchy/reminder.h"
 
 class ViewPromemoria : public ModView {
     Q_OBJECT
@@ -23,6 +25,7 @@ public:
     void setEnabled(bool) override;
     void pushSaves(Model::It) override;
     void fillView(Model::It) override;
+    // virtual Reminder* createEvent() = 0;
 };
 
 #endif // VIEWPROMEMORIA_H

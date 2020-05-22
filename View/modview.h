@@ -9,7 +9,9 @@
 #include <QHBoxLayout>
 
 #include "Model/model.h"
+
 #include "tagpicker.h"
+#include "../Model/Hierarchy/event.h"
 
 class ModView : public QWidget {
     Q_OBJECT
@@ -21,6 +23,7 @@ public:
     virtual void setEnabled(bool);
     virtual void pushSaves(Model::It);
     virtual void fillView(Model::It);
+    // virtual Event* createEvent() = 0;
 
     bool isEnabled() const;
 protected:
