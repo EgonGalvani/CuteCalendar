@@ -6,12 +6,17 @@
 #include "Container/vector.h"
 #include "Hierarchy/factory.h"
 #include "Container/unorderedmultimap.h"
+#include <QJsonDocument>
 
 #include <vector>
 
 class Model {
 private:
     UnorderedMultimap<Date, DeepPtr<Event>> _data;
+
+    void parse(QJsonObject &json);
+
+    void serialize(QJsonObject &json) const;
 
 public:
     // per costruttori e distruttori vanno bene quelli standard
@@ -20,8 +25,8 @@ public:
     // tipo di iteratore usato all'esterno del model
     using It = UnorderedMultimap<Date, DeepPtr<Event>>::LocalIterator;
 
-    void loadFromFile(const std::string&);
-    void saveInFile(const std::string&) const;
+    void loadFromFile(const QString& = "model.dat");
+    void saveInFile(const QString& = "model.dat") const;
 
     /**
      * @brief permette di verificare la presenza di eventi per una data specificata
@@ -52,9 +57,9 @@ public:
      */
     void removeEvent(const It& it);
 
-    void serialize(QJsonObject &json) const;
 
-    void parse(QJsonObject &json);
+
+
 };
 
 #endif // MODEL_H
