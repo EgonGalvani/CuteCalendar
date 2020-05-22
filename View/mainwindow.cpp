@@ -3,6 +3,7 @@
 #include <QGridLayout>
 #include <QColor>
 #include <QMessageBox>
+#include <stdexcept>
 
 #include "mainwindow.h"
 #include "mycalendar.h"
@@ -123,10 +124,9 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
             ModifyDialog* modifyDialog = new ModifyDialog(currentIterator);
             connect(modifyDialog, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)));
             modifyDialog->exec();
-        } catch(...) {
-            QMessageBox::critical(this, QString("Error"), QString("Nessun tipo della gerarchia identificato"));
+        } catch(std::exception& e) {
+            QMessageBox::critical(this, QString("Error"), QString::fromStdString(e.what()));
         }
-
     } else
         QMessageBox::critical(this, QString("Error"), QString("Error no valid type of ViewCreated"));
 }
