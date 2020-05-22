@@ -33,7 +33,6 @@ void Model::serialize(QJsonObject &json) const{
     for (auto it = _data.begin();it!=_data.end();++it) {
         auto key = *it;
         QJsonArray arrayEvent = QJsonArray();
-        arrayEvent.push_back(QString::fromStdString(key.toString()));
         //Itero il vettore
         for (auto vit = _data.begin(key);vit!=_data.end(key);++vit ) {
             QJsonObject eventjson = QJsonObject();
