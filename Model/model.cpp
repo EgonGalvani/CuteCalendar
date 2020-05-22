@@ -29,12 +29,10 @@ std::vector<Model::It> Model::getEvents(const Date &d) {
 
 void Model::serialize(QJsonObject &json) const{
 
-    int i = 0;
     //itero la mappa
-    for (auto it = _data.begin();it!=_data.end();++it,++i) {
+    for (auto it = _data.begin();it!=_data.end();++it) {
         auto key = *it;
         QJsonArray arrayEvent = QJsonArray();
-        QString stringaEventi = QString();
         arrayEvent.push_back(QString::fromStdString(key.toString()));
         //Itero il vettore
         for (auto vit = _data.begin(key);vit!=_data.end(key);++vit ) {
@@ -43,7 +41,7 @@ void Model::serialize(QJsonObject &json) const{
             arrayEvent.push_back(eventjson);
         }
         //Ogni riga sarà ID progressivo {data,evento1,evento2...,eventoN}
-        json[QString::number(i)] = arrayEvent;
+        json[QString::fromStdString(key.toString())] = arrayEvent;
     }
 }
 
@@ -59,20 +57,38 @@ void Model::parse(QJsonObject &json)  {
     for (auto keyit = keys.begin();keyit!=keys.end();++keyit) {
         QJsonArray item = json[*keyit].toArray();
         Date data;
+        std::istringstream temp = std::istringstream((*keyit).toStdString());
+        temp>>data;
         for (auto it = item.begin();it!=item.end();++it) {
-            if (it==item.begin()) {
-                //Forse aggiungere su date
-                std::istringstream temp = std::istringstream((*it).toString().toStdString());
-                temp>>data;
-            }else {
-                QJsonObject tmp = (*it).toObject();
-                Factory f1 = Factory(tmp);
-                _data.insert(data,DeepPtr<Event>(f1.parse()));
-            }
+            QJsonObject tmp = (*it).toObject();
+            Factory f1 = Factory(tmp);
+            _data.insert(data,DeepPtr<Event>(f1.parse()));
         }
+    }
+}
 
+void Model::loadFromFile(const QString & path) {
+    QFile loadFile(path);
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open save file.");
     }
 
+    QByteArray saveData = loadFile.readAll();
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+    QJsonObject json;
+    parse(json);
+}
+
+void Model::saveInFile(const QString & path) const {
+    QJsonObject obj;
+    serialize(obj);
+    QJsonDocument doc = QJsonDocument(obj);
+    try {
+        QFile file;
+        file.setFileName(path);
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        file.write(doc.toJson());
+    }catch (...) {}
 }
 
 
