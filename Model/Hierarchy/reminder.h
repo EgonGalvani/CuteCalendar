@@ -16,7 +16,7 @@ public:
 
     static const int ID = 1;
 
-    Reminder(int x,Time start,Time end,Time alert,bool rep,std::string nome,
+    Reminder(int urgency,Time start,Time end,Time alert,bool rep,std::string nome,
              std::string descr,std::string luogo,Date data,std::vector<std::string>* tag);
 
     urgency getUrgency()const ;

@@ -41,8 +41,8 @@ bool Event::hasTag(const std::string tag) const {
     return found;
 }
 
-Event::Event(std::string nome,std::string descr,std::string luogo,Date dt,
-             std::vector<std::string>* vettoreTag) : name(nome),data(dt),
+Event::Event(std::string nome,std::string descr,std::string luogo,Date date,
+             std::vector<std::string>* vettoreTag) : name(nome),data(date),
              description(descr),place(luogo),tags(vettoreTag) {
 }
 

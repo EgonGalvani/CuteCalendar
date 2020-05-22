@@ -9,14 +9,14 @@ void Workout::serialize(QJsonObject &json) const {
     json["ACTIVITY"] = act;
 }
 
-Workout::Workout(int x,Time start,Time end,std::string nome,std::string descr,
+Workout::Workout(int attivita,Time start,Time end,std::string nome,std::string descr,
                  std::string luogo,Date data,std::vector<std::string>* tags)
       : Event(nome,descr,luogo,data,tags),
         EventWithDuration (start,end)
 
 
 {
-    act = static_cast<activity>(x);
+    act = static_cast<activity>(attivita);
 }
 
 Workout* Workout::clone() const {

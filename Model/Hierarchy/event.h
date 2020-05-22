@@ -22,7 +22,7 @@ private:
 
 public:
 
-    Event(std::string nome,std::string descr,std::string luogo, Date data,
+    Event(std::string nome,std::string descr,std::string luogo, Date date,
             std::vector<std::string>* vettoreTag);
 
     //Pure virtual methods
