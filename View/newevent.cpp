@@ -8,7 +8,7 @@ NewEvent::NewEvent(QDialog *parent) : QDialog(parent) {
 
     mainLayout->setAlignment(Qt::AlignTop);
     initComboBox();
-    setMinimumSize(QSize(500,600));
+
     setLayout(mainLayout);
 }
 
@@ -39,136 +39,64 @@ void NewEvent::initComboBox() {
     selLayout->setAlignment(Qt::AlignTop);
     selLayout->addWidget(selEvento);
 
-    // per i tag
-    auto tag = new TagPicker();
-    //tag->setEnabled(false);
-    tag->addTag("prova0");
-    tag->addTag("prova1");
-    tag->addTag("provaprovaprovaprovaprova,dl,weld,dllel");
 
-    selLayout->addWidget(tag);
 
     mainLayout->addLayout(selLayout);
     mainLayout->addLayout(eventLayout);
+
 
     initAllenamento(); // scelta di default
 }
 
 void NewEvent::initAllenamento() {
-    QLabel* inizio= new QLabel(tr("Inizio"));
-    QLabel* fine= new QLabel(tr("Fine"));
-    QLabel* nome= new QLabel(tr("Nome"));
-    QLabel* desc= new QLabel(tr("Descrizione"));
-    QLabel* luogo= new QLabel(tr("Luogo"));
-    QLabel* tags= new QLabel(tr("Tags"));
-    QTimeEdit* start= new QTimeEdit();
-    QTimeEdit* end= new QTimeEdit();
-    QTextEdit* txtNome = new QTextEdit();
-    QTextEdit* txtDesc = new QTextEdit();
-    QTextEdit* txtLuogo = new QTextEdit();
-    QCheckBox* checkTag = new QCheckBox();
-    QPushButton* addEvent = new QPushButton(tr("Aggiungi Evento"));
+   deleteLayout(eventLayout);
+   // Possibile memory leak DA RISOLVERE
+   view = new ViewAllenamento(this);
 
-    eventLayout->addWidget(inizio);
-    eventLayout->addWidget(start);
-    eventLayout->addWidget(fine);
-    eventLayout->addWidget(end);
-    eventLayout->addWidget(nome);
-    eventLayout->addWidget(txtNome);
-    eventLayout->addWidget(desc);
-    eventLayout->addWidget(txtDesc);
-    eventLayout->addWidget(luogo);
-    eventLayout->addWidget(txtLuogo);
-    eventLayout->addWidget(tags);
-    eventLayout->addWidget(checkTag);
-    eventLayout->addWidget(addEvent);
+   eventLayout->addWidget(view);
+   //TRovare modo più bello per non ripetere codice
+   QPushButton* addEvent= new QPushButton(tr("Aggiungi Evento"));
+   connect(addEvent,SIGNAL(clicked(bool)),this, SLOT(addPushed()));
+   eventLayout->addWidget(addEvent);
+
+
 }
 
 void NewEvent::initCompleanno() {
-    QLabel* nome= new QLabel(tr("Nome"));
-    QLabel* desc= new QLabel(tr("Descrizione"));
-    QLabel* luogo= new QLabel(tr("Luogo"));
-    QLabel* tags= new QLabel(tr("Tags"));
-    QTextEdit* txtNome = new QTextEdit();
-    QTextEdit* txtDesc = new QTextEdit();
-    QTextEdit* txtLuogo = new QTextEdit();
-    QCheckBox* checkTag = new QCheckBox();
-    QPushButton* addEvent = new QPushButton(tr("Aggiungi Evento"));
 
-    eventLayout->addWidget(nome);
-    eventLayout->addWidget(txtNome);
-    eventLayout->addWidget(desc);
-    eventLayout->addWidget(txtDesc);
-    eventLayout->addWidget(luogo);
-    eventLayout->addWidget(txtLuogo);
-    eventLayout->addWidget(tags);
-    eventLayout->addWidget(checkTag);
+    deleteLayout(eventLayout);
+    // Possibile memory leak DA RISOLVERE
+    view = new ViewCompleanno(this);
+    eventLayout->addWidget(view);
+    //TRovare modo più bello per non ripetere codice
+    QPushButton* addEvent= new QPushButton(tr("Aggiungi Evento"));
+    connect(addEvent,SIGNAL(clicked(bool)),this, SLOT(addPushed()));
     eventLayout->addWidget(addEvent);
+
 }
 
 void NewEvent::initMeeting() {
-    QLabel* inizio= new QLabel(tr("Inizio"));
-    QLabel* fine= new QLabel(tr("Fine"));
-    QLabel* nome= new QLabel(tr("Nome"));
-    QLabel* desc= new QLabel(tr("Descrizione"));
-    QLabel* luogo= new QLabel(tr("Luogo"));
-    QLabel* tags= new QLabel(tr("Tags"));
-    QTimeEdit* start= new QTimeEdit();
-    QTimeEdit* end= new QTimeEdit();
-    QTextEdit* txtNome = new QTextEdit();
-    QTextEdit* txtDesc = new QTextEdit();
-    QTextEdit* txtLuogo = new QTextEdit();
-    QCheckBox* checkTag = new QCheckBox();
-    QPushButton* addEvent = new QPushButton(tr("Aggiungi Evento"));
-
-    eventLayout->addWidget(inizio);
-    eventLayout->addWidget(start);
-    eventLayout->addWidget(fine);
-    eventLayout->addWidget(end);
-    eventLayout->addWidget(nome);
-    eventLayout->addWidget(txtNome);
-    eventLayout->addWidget(desc);
-    eventLayout->addWidget(txtDesc);
-    eventLayout->addWidget(luogo);
-    eventLayout->addWidget(txtLuogo);
-    eventLayout->addWidget(tags);
-    eventLayout->addWidget(checkTag);
+    deleteLayout(eventLayout);
+    // Possibile memory leak DA RISOLVERE
+    view = new ViewMeeting(this);
+    eventLayout->addWidget(view);
+    //TRovare modo più bello per non ripetere codice
+    QPushButton* addEvent= new QPushButton(tr("Aggiungi Evento"));
+    connect(addEvent,SIGNAL(clicked(bool)),this, SLOT(addPushed()));
     eventLayout->addWidget(addEvent);
 }
 
 void NewEvent::initPromemoria() {
-    QLabel* inizio= new QLabel(tr("Inizio"));
-    QLabel* fine= new QLabel(tr("Fine"));
-    QLabel* nome= new QLabel(tr("Nome"));
-    QLabel* desc= new QLabel(tr("Descrizione"));
-    QLabel* luogo= new QLabel(tr("Luogo"));
-    QLabel* tags= new QLabel(tr("Tags"));
-    QLabel* rep= new QLabel(tr("Ripetizione"));
-    QTimeEdit* start= new QTimeEdit();
-    QTimeEdit* end= new QTimeEdit();
-    QTextEdit* txtNome = new QTextEdit();
-    QTextEdit* txtDesc = new QTextEdit();
-    QTextEdit* txtLuogo = new QTextEdit();
-    QTextEdit* txtTag = new QTextEdit();
-    QCheckBox* check = new QCheckBox();
-    QCheckBox* checkTag = new QCheckBox();
-    QPushButton* addEvent = new QPushButton(tr("Aggiungi Evento"));
 
-    eventLayout->addWidget(inizio);
-    eventLayout->addWidget(start);
-    eventLayout->addWidget(fine);
-    eventLayout->addWidget(end);
-    eventLayout->addWidget(rep);
-    eventLayout->addWidget(check);
-    eventLayout->addWidget(nome);
-    eventLayout->addWidget(txtNome);
-    eventLayout->addWidget(desc);
-    eventLayout->addWidget(txtDesc);
-    eventLayout->addWidget(luogo);
-    eventLayout->addWidget(txtLuogo);
-    eventLayout->addWidget(tags);
-    eventLayout->addWidget(checkTag);
+    deleteLayout(eventLayout);
+    // Possibile memory leak DA RISOLVERE
+    view = new ViewPromemoria(this);
+    eventLayout->addWidget(view);
+    //TRovare modo più bello per non ripetere codice
+    QPushButton* addEvent= new QPushButton(tr("Aggiungi Evento"));
+    connect(addEvent,SIGNAL(clicked(bool)),this, SLOT(addPushed()));
     eventLayout->addWidget(addEvent);
+
 }
 
 void NewEvent::changedSel(int index) {
@@ -188,4 +116,9 @@ void NewEvent::changedSel(int index) {
             initPromemoria();
             break;
     }
+}
+
+void NewEvent::addPushed()
+{
+ std::cout<< "Bottone Premuto" << std::endl;
 }

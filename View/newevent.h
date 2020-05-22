@@ -1,6 +1,12 @@
 #ifndef NEWEVENT_H
 #define NEWEVENT_H
 
+#include "viewallenamento.h"
+#include "viewcompleanno.h"
+#include "viewmeeting.h"
+#include "viewpromemoria.h"
+#include "modview.h"
+
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -28,6 +34,10 @@ private:
     QVBoxLayout* selLayout ;
     QVBoxLayout* eventLayout;
 
+    ModView* view;
+
+
+
     void deleteLayout(QLayout*);
     void initComboBox();
     void initAllenamento();
@@ -37,6 +47,7 @@ private:
 
 private slots:
     void changedSel(int);
+    void addPushed();
 };
 
 #endif // NEWEVENT_H
