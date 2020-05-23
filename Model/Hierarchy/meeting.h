@@ -19,7 +19,7 @@ public:
             const std::string& nome,const std::string& descr,
             const std::string& luogo,const Date& data,
             const std::vector<std::string>& vettoreTag);
-    std::vector<std::string> getPartecipants();
+    std::vector<std::string> getPartecipants() const;
 
     //virtual
     void serialize(QJsonObject &json)const ;

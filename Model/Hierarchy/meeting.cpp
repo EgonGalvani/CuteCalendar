@@ -1,6 +1,6 @@
 #include "meeting.h"
 
-std::vector<std::string> Meeting::getPartecipants() {
+std::vector<std::string> Meeting::getPartecipants() const{
     return partEmails;
 }
 

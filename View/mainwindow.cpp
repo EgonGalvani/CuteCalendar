@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent)
       infoBlock(new QGroupBox(QString("Info"))) {
 
     // evento di prova
+
+    /*
     model.insertEvent(new BirthDay(Date(12, 5, 1999), "Compleanno Valton", "Oggi è il compleanno di valton",
         "Padova",Date(12, 5, 2020) , std::vector<std::string>()));
 
@@ -59,7 +61,16 @@ MainWindow::MainWindow(QWidget *parent)
     model.insertEvent(new Meeting(par,tt1,tt2,alert,true,"meet","incontro zoom",
                             "casa",d2,tags));
 
+
     // eventi di prova...
+
+
+    */
+    //model.saveInFile();
+    model.loadFromFile();
+    //model.saveInFile("modello.dat");
+
+
 
     initCalendarBox();
     initInfoBox();

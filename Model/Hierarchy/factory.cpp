@@ -37,6 +37,8 @@ void Factory::secondParse() {
 
 }
 
+
+
 Factory::Factory(QJsonObject &js) : json(js) {
     tags = std::vector<std::string>();
     vectPart = std::vector<std::string>();

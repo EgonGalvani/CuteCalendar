@@ -38,7 +38,6 @@ public:
 
     Factory(QJsonObject &js);
 
-
     Event* parse();
 };
 

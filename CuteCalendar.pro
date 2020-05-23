@@ -38,7 +38,6 @@ SOURCES += \
     Model/DataType/date.cpp \
     Model/DataType/formaterror.cpp \
     Model/model.cpp \
-    Model/xmlfileio.cpp \
     Model/Hierarchy/todolist.cpp \
     Model/Hierarchy/event.cpp \
     Model/Hierarchy/workout.cpp \
@@ -77,8 +76,6 @@ HEADERS += \
     Model/DataType/formaterror.h \
     Model/DataType/deepptr.h \
     Model/model.h \
-    Model/xmlfileio.h \
-    Model/fileio.h \
     Model/Container/vector.h \
     Model/Container/unorderedmultimap.h \
     View/eventwidgetbuilder.h \
