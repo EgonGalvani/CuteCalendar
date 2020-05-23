@@ -41,6 +41,10 @@ bool Event::hasTag(const std::string tag) const {
     return found;
 }
 
+bool Event::atLeastOneTag() const {
+    return !tags.empty();
+}
+
 Event::Event(const std::string& nome,const std::string& descr,const std::string& luogo,
              const Date& date,const std::vector<std::string>& vettoreTag) : name(nome),data(date),
              description(descr),place(luogo),tags(vettoreTag) {
@@ -68,6 +72,4 @@ void Event::serialize(QJsonObject &json) const {
     json["TAGS"] = tagArray;
 }
 
-//Destructor
-Event::~Event() {}
 

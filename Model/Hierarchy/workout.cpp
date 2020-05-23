@@ -1,20 +1,13 @@
 #include "workout.h"
 
-Workout::activity Workout::getSport()const  {return act;}
-void Workout::setSport(int x) {act = static_cast<activity>(x);}
+Workout::activity Workout::getActivity() const  {return act;}
+void Workout::setActivity(int x) {act = static_cast<activity>(x);}
 
 void Workout::serialize(QJsonObject &json) const {
     EventWithDuration::serialize(json);
     json.insert("ID","2");
     json["ACTIVITY"] = act;
 }
-
-/*
- *
- * const int& attivita,const Time& end,const std::string& nome,
-            const std::string& descr,const std::string& luogo,const Time& start,
-            const Date& data,const std::vector<std::string>& vettoreTag
-            */
 
 Workout::Workout(const int& attivita,const Time& start,const Time& end,
                  const std::string& nome,const std::string& descr,
@@ -31,5 +24,3 @@ Workout::Workout(const int& attivita,const Time& start,const Time& end,
 Workout* Workout::clone() const {
     return new Workout(*this);
 }
-
-Workout::~Workout() {}

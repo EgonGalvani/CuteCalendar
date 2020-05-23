@@ -33,9 +33,28 @@ public:
 
 
     //Virtual methods
+    /**
+     * @brief permette di clonare l'oggetto
+     * @return il nuovo oggetto clone
+     */
     ToDoList* clone()const ;
+
+    /**
+     * @brief permette di ottenere la durata tramite l'oggetto Time
+     * @return la durata dell'evento in Time
+     */
     Time getDuration()const ;
+
+    /**
+     * @brief permette di serializzare l'oggetto e le sue eventuali classe basi in formato json
+     * @param json object che conterrà al suo interno la serializzazione
+    */
     void serialize(QJsonObject &json)const ;
+
+    /**
+     * @brief permette di sapere se l'evento è già avvenuto(quindi è già passata la data)
+     * @return true se l'evento è già avvenuto
+     */
     bool isCompleted()const ;
 
 

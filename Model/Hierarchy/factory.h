@@ -30,14 +30,28 @@ private:
     std::istringstream temp;
     int id;
 
+    /**
+     * @brief primo passaggio del parse
+     */
     void firstParse();
 
+    /**
+     * @brief secondo passaggio del parse
+     */
     void secondParse();
 
 public:
 
+    /**
+     * @brief Costruttore di Factory
+     * @param il json dal quale estrapolare l'evento
+     */
     Factory(QJsonObject &js);
 
+    /**
+     * @brief funzione che permette di estrapolare l'evento dal json passato nel costruttore
+     * @return un puntatore all'evento estrapolato
+     */
     Event* parse();
 };
 

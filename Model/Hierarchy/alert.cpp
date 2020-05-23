@@ -20,3 +20,4 @@ void Alert::serialize(QJsonObject &json) const{
     json["REPEAT"] = repeat;
 
 }
+
