@@ -12,9 +12,21 @@ private:
         std::string description;
         bool done;
     public:
+
         ListItem(const std::string& = "",const bool& = true);
+        /**
+         * @brief permette di ottenere la descrizione dell'item
+         * @return la descrizione dell'item
+         */
         std::string getDescription()const ;
+        /**
+         * @brief permette di capire se l'item della lista è completato
+         * @return true se è completato
+         */
         bool isDone()const ;
+        /**
+         * @brief permette di impostare se l'item della lista è completato
+         */
         void setDone(const bool);
     };
 
@@ -27,7 +39,7 @@ public:
     //praticamente quando vado ad aggiungere
     //devo costruire un nuovo item
     //Ma devo mettere un id univoco?For reference chat telegram 21 aprile
-    void addItem(const std::string x,const bool done = false);
+    void addItem(const std::string itemDescr,const bool done = false);
 
 
 
