@@ -14,8 +14,16 @@ class Model {
 private:
     UnorderedMultimap<Date, DeepPtr<Event>> _data;
 
+    /**
+     * @brief permette di estrapolare dal json il contenuto del model
+     * @param l'oggetto contenente i dati da estrapolare
+     */
     void parse(QJsonObject &json);
 
+    /**
+     * @brief permette di serializzare il model e salvare i dati nel json
+     * @param oggetto nel quale viene salvato il contenuto del model
+     */
     void serialize(QJsonObject &json) const;
 
 public:
@@ -25,7 +33,16 @@ public:
     // tipo di iteratore usato all'esterno del model
     using It = UnorderedMultimap<Date, DeepPtr<Event>>::LocalIterator;
 
+    /**
+     * @brief permette di riempire il model di eventi presi dal file
+     * @param  la destinazione del file dal quale caricare i dati
+     */
     void loadFromFile(const QString& = "model.dat");
+
+    /**
+     * @brief permette di salvare su file il contenuto del model(serialize & salvataggio su disco)
+     * @param la destinazione del file nel quale salvare
+     */
     void saveInFile(const QString& = "model.dat") const;
 
     /**
