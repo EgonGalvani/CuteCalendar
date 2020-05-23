@@ -47,8 +47,6 @@ void Model::serialize(QJsonObject &json) const{
 void Model::parse(QJsonObject &json)  {
 
     //Prima prendo la lista delle chiavi
-
-
     QStringList k = json.keys();
     QStringList keys = json.keys();
     //itero le chiavi,keyit poi è QList<QString>, dereferenziando ottengo qstring che uso per
@@ -65,19 +63,6 @@ void Model::parse(QJsonObject &json)  {
         }
     }
 }
-
-void Model::loadFromFile(const QString & path) {
-    QFile loadFile(path);
-    if (!loadFile.open(QIODevice::ReadOnly)) {
-        qWarning("Couldn't open save file.");
-    }
-
-    QByteArray saveData = loadFile.readAll();
-    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
-    QJsonObject json;
-    parse(json);
-}
-
 void Model::saveInFile(const QString & path) const {
     QJsonObject obj;
     serialize(obj);
@@ -88,6 +73,18 @@ void Model::saveInFile(const QString & path) const {
         file.open(QIODevice::WriteOnly | QIODevice::Text);
         file.write(doc.toJson());
     }catch (...) {}
+}
+
+void Model::loadFromFile(const QString & path) {
+    QFile loadFile(path);
+    if (!loadFile.open(QIODevice::ReadOnly)) {
+        qWarning("Couldn't open save file.");
+    }
+
+    QByteArray saveData = loadFile.readAll();
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+    QJsonObject json = loadDoc.object();
+    parse(json);
 }
 
 
