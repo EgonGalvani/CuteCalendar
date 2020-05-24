@@ -72,8 +72,7 @@ Event* Factory::parse() {
         return new Meeting(vectPart,start,end,alert,rep,nome,descr,place,date,tags);
     case BirthDay::ID:
         //BIRTHDAY
-        temp= std::istringstream(json["DATA_NASCITA"].toString().toStdString());
-        temp>>birth;
+        birth = (json["ANNO_NASCITA"].toInt());
         return new BirthDay(birth,nome,descr,place,date,tags);
     }
     return nullptr;

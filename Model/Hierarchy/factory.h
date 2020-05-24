@@ -24,7 +24,7 @@ private:
     std::vector<std::string> vectPart;
     Time start;
     Time end;
-    Date birth;
+    unsigned short birth;
     Time alert;
     bool rep;
     std::istringstream temp;

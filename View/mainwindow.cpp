@@ -29,8 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // evento di prova
 
-    /*
-    model.insertEvent(new BirthDay(Date(12, 5, 1999), "Compleanno Valton", "Oggi è il compleanno di valton",
+    model.insertEvent(new BirthDay(1999, "Compleanno Valton", "Oggi è il compleanno di valton",
         "Padova",Date(12, 5, 2020) , std::vector<std::string>()));
 
 
@@ -65,10 +64,8 @@ MainWindow::MainWindow(QWidget *parent)
     // eventi di prova...
 
 
-    */
     //model.saveInFile();
     model.loadFromFile();
-    //model.saveInFile("modello.dat");
 
 
 
