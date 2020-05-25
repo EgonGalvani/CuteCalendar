@@ -84,7 +84,7 @@ HEADERS += \
     View/neweventdialog.h \
     View/checklist.h \
     View/viewtodolist.h \
-    View/enterlineedit.h
+    View/enterlineedit.h \
     View/viewreminder.h \
     View/viewworkout.h
 
