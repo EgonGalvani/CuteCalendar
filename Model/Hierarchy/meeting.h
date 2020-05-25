@@ -15,12 +15,10 @@ public:
      */
     static const int ID = 3;
 
-
-
-    Meeting(const std::vector<std::string>& part,const Time& start,
-            const Time& end,const Time& alert,const bool& repeat,
-            const std::string& nome,const std::string& descr,
-            const std::string& luogo,const Date& data,
+    Meeting(const std::vector<std::string>& part, const Time& start,
+            const Time& end, const Time& alert, bool repeat,
+            const std::string& nome, const std::string& descr,
+            const std::string& luogo, const Date& data,
             const std::vector<std::string>& vettoreTag);
 
     /**
@@ -29,26 +27,25 @@ public:
      */
     std::vector<std::string> getPartecipants() const;
 
-
     /**
      * @brief permette di aggiungere un nuovo partecipante al vettore di evento
      * @param il nuovo partecipante da inserire
      */
-    void addPartecipant(const std::string tag);
+    void addPartecipant(const std::string&);
 
     /**
      * @brief permette di eliminare un partecipante
      * @param il partecipante da eliminare
      * @return il nuovo vettore con l'elemento rimosso
      */
-    std::vector<std::string> deletePartecipant(const std::string tag);
+    std::vector<std::string> deletePartecipant(const std::string&);
 
     /**
      * @brief permette di sapere se il vettore contiene il partecipante richiesto
      * @param il partecipante da ricercare
      * @return true se il partecipante richiesto è all'interno del vettore
      */
-    bool hasPartecipant(const std::string tag)const ;
+    bool hasPartecipant(const std::string&)const ;
 
     /**
      * @brief permette di sapere se il vettore dei tag contiene almeno un partecipante (Quindi non è vuoto)
@@ -57,7 +54,6 @@ public:
     bool atLeastOnePartecipant() const;
 
     //virtual
-
     /**
      * @brief permette di clonare l'oggetto
      * @return il nuovo oggetto clone

@@ -22,9 +22,9 @@ public:
      */
     static const int ID = 2;
 
-    Workout(const int& attivita,const Time& start,const Time& end,
-            const std::string& nome,const std::string& descr,
-            const std::string& luogo,const Date& data,
+    Workout(int attivita, const Time& start, const Time& end,
+            const std::string& nome, const std::string& descr,
+            const std::string& luogo, const Date& data,
             const std::vector<std::string>& tags);
 
     /**
@@ -32,7 +32,6 @@ public:
      * @return l'attività del workout
      */
     activity getActivity() const ;
-
 
     /**
      * @brief permette di impostare l'attività del workout
@@ -57,7 +56,6 @@ public:
      * @brief Distruttore che si occupa di deallocare il necessario
      */
     virtual ~Workout() = default;
-
 };
 
 

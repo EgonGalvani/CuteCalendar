@@ -16,10 +16,9 @@ public:
     static const int ID = 4;
 
 
-
-    BirthDay(const Date& dataNasc,const std::string& nome,const std::string& descr,
-             const std::string& luogo,
-             const Date& dataEvento,const std::vector<std::string>& vettoreTag);
+    BirthDay(const Date& dataNasc, const std::string& nome, const std::string& descr,
+             const std::string& luogo, const Date& dataEvento,
+             const std::vector<std::string>& vettoreTag);
 
     /**
      * @brief permette di ottenere la data di nascita
@@ -33,7 +32,6 @@ public:
      * @return il nuovo oggetto clone
      */
     BirthDay* clone() const;
-
 
     /**
      * @brief permette di serializzare l'oggetto e le sue eventuali classe basi in formato json
