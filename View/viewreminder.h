@@ -10,7 +10,7 @@ class ViewPromemoria : public ModView {
     Q_OBJECT
 
 public:
-    explicit ViewPromemoria(QWidget *parent = 0);
+    explicit ViewPromemoria(QDate date,QWidget *parent = 0);
     ~ViewPromemoria() = default;
 
     QTimeEdit* inizio;

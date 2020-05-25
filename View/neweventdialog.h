@@ -18,7 +18,7 @@ class NewEventDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit NewEventDialog(QDialog *parent = nullptr);
+    explicit NewEventDialog(QDate date,QDialog *parent = nullptr);
     ~NewEventDialog() = default;
 
 signals:
@@ -29,6 +29,8 @@ private:
     QComboBox* selEvento;
     QVBoxLayout* selLayout ;
     QVBoxLayout* eventLayout;
+
+    QDate date;
 
     ModView* view;
 

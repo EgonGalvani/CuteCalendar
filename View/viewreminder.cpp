@@ -3,7 +3,7 @@
 #include "viewreminder.h"
 #include "Model/Hierarchy/reminder.h"
 
-ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
+ViewPromemoria::ViewPromemoria(QDate date,QWidget *parent) : ModView(date,parent) {
 
     inizio= new QTimeEdit();
     fine= new QTimeEdit();

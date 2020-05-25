@@ -4,8 +4,8 @@
 #include <QMessageBox>
 #include <QLabel>
 
-ViewToDoList::ViewToDoList(QWidget* parent)
-    : ModView(parent), checkList(new CheckList(this)),
+ViewToDoList::ViewToDoList(QDate date,QWidget* parent)
+    : ModView(date,parent), checkList(new CheckList(this)),
       inputLine(new EnterLineEdit(this)){
 
     inputLine->setPlaceholderText("Inserisci testo del task e premi invio");

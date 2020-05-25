@@ -7,7 +7,7 @@
 #include "viewreminder.h"
 #include "viewtodolist.h"
 
-NewEventDialog::NewEventDialog(QDialog *parent) : QDialog(parent) {
+NewEventDialog::NewEventDialog(QDate date,QDialog *parent) : QDialog(parent), date(date) {
     mainLayout = new QVBoxLayout();
     selLayout = new QVBoxLayout();
     eventLayout = new QVBoxLayout();
@@ -59,19 +59,19 @@ void NewEventDialog::changedSel(int index) {
     // Possibile memory leak DA RISOLVERE
     switch(index){
         case 0:
-            view = new ViewAllenamento(this);
+            view = new ViewAllenamento(date,this);
             break;
         case 1:
-            view = new ViewCompleanno(this);
+            view = new ViewCompleanno(date,this);
             break;
         case 2:
-            view = new ViewMeeting(this);
+            view = new ViewMeeting(date,this);
             break;
         case 3:
-            view = new ViewPromemoria(this);
+            view = new ViewPromemoria(date,this);
             break;
         case 4:
-            view = new ViewToDoList(this);
+            view = new ViewToDoList(date,this);
 
         // default:
             // ERRORE

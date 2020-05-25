@@ -15,7 +15,7 @@
 #include "viewtodolist.h"
 #include "viewreminder.h"
 
-ModifyDialog::ModifyDialog(const Model::It& it, QDialog *parent)
+ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     :  QDialog(parent), it(it), modifyEnabled(false) {
 
     layout= new QVBoxLayout(this);
@@ -27,15 +27,15 @@ ModifyDialog::ModifyDialog(const Model::It& it, QDialog *parent)
 
     Event* currentEvent = &**it;
     if(dynamic_cast<Workout*>(currentEvent))
-        view = new ViewAllenamento(this);
+        view = new ViewAllenamento(date,this);
     else if(dynamic_cast<BirthDay*>(currentEvent))
-        view = new ViewCompleanno(this);
+        view = new ViewCompleanno(date,this);
     else if(dynamic_cast<Reminder*>(currentEvent))
-        view = new ViewPromemoria(this);
+        view = new ViewPromemoria(date,this);
     else if(dynamic_cast<Meeting*>(currentEvent))
-        view = new ViewMeeting(this);
+        view = new ViewMeeting(date,this);
     else if(dynamic_cast<ToDoList*>(currentEvent))
-        view = new ViewToDoList(this);
+        view = new ViewToDoList(date,this);
     else
         throw std::runtime_error("Il tipo considerato non rappresenta un evento valido");
 

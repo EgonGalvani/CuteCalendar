@@ -10,7 +10,7 @@ class ViewMeeting : public ModView {
     Q_OBJECT
 
    public:
-      explicit ViewMeeting(QWidget *parent = 0);
+      explicit ViewMeeting(QDate date,QWidget *parent = 0);
       ~ViewMeeting() = default;
 
       QTimeEdit* inizio;

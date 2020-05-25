@@ -8,6 +8,7 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QDate>
 
 #include "Model/model.h"
 #include "tagpicker.h"
@@ -17,13 +18,13 @@ class ModView : public QWidget {
     Q_OBJECT
 
 public:
-    explicit ModView(QWidget *parent = nullptr);
+    explicit ModView(QDate date,QWidget *parent = nullptr);
     virtual ~ModView() = default;
 
     virtual void setEnabled(bool);
     virtual void pushSaves(Model::It);
     virtual void fillView(Model::It);
-     virtual Event* createEvent() = 0;
+    virtual Event* createEvent() = 0;
 
     bool isEnabled() const;
 protected:
@@ -35,6 +36,8 @@ protected:
     QLabel* lDesc;
     QLabel* lLuogo;
     QLabel* lTag;
+
+    QDate date;
 
     QLineEdit* txtNome;
     QLineEdit* txtLuogo;

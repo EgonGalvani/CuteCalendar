@@ -1,7 +1,7 @@
 #include "viewbirthday.h"
 
-ViewCompleanno::ViewCompleanno(QWidget *parent)
-    : ModView(parent) {
+ViewCompleanno::ViewCompleanno(QDate date,QWidget *parent)
+    : ModView(date,parent) {
 
     nascita = new QLabel("Anno di Nascita");
     annoNascita = new QSpinBox(this);
@@ -16,6 +16,7 @@ ViewCompleanno::ViewCompleanno(QWidget *parent)
 
 BirthDay *ViewCompleanno::createEvent()
 {
+    //CHieder a egon la conversione da QDate a Date domani <3
     BirthDay* ritorno = new BirthDay(annoNascita->text().toUShort(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(12, 5, 2020), checkTag->getTags());
     return ritorno;
 }
@@ -41,6 +42,7 @@ void ViewCompleanno::pushSaves(Model::It it)
 
 void ViewCompleanno::fillView(Model::It it)
 {
+    ModView::fillView(it);
      BirthDay* currEve = dynamic_cast< BirthDay*>(&**it);
     if(currEve) {
         annoNascita->setValue(currEve->getNascita());

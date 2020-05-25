@@ -9,7 +9,7 @@ class ViewCompleanno : public ModView {
     Q_OBJECT
 
     public:
-      explicit ViewCompleanno(QWidget *parent = 0);
+      explicit ViewCompleanno(QDate date,QWidget *parent = 0);
       ~ViewCompleanno() = default;
 
        BirthDay* createEvent() override;

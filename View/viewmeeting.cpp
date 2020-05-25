@@ -3,7 +3,7 @@
 #include "viewmeeting.h"
 #include "Model/Hierarchy/meeting.h"
 
-ViewMeeting::ViewMeeting(QWidget *parent) : ModView(parent) {
+ViewMeeting::ViewMeeting(QDate date,QWidget *parent) : ModView(date,parent) {
 
     inizio= new QTimeEdit(this);
     fine= new QTimeEdit(this);

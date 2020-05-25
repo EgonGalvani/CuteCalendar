@@ -1,7 +1,7 @@
 #include "modview.h"
 
-ModView::ModView(QWidget *parent)
-        : QWidget(parent), enabled(true) {
+ModView::ModView(QDate date,QWidget *parent)
+        : QWidget(parent), enabled(true), date(date) {
 
     mainLayout = new QVBoxLayout(this);
 

@@ -129,7 +129,7 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
         Model::It currentIterator = currentEventWidget->getData();
 
         try {
-            ModifyDialog* modifyDialog = new ModifyDialog(currentIterator);
+            ModifyDialog* modifyDialog = new ModifyDialog(calendar->selectedDate(),currentIterator);
             connect(modifyDialog, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)));
             modifyDialog->exec();
         } catch(std::exception& e) {
@@ -161,7 +161,7 @@ void MainWindow::selectedDateChanged() {
 }
 
 void MainWindow::showAddEventDialog() {
-    NewEventDialog* addEventDialog = new NewEventDialog();
+    NewEventDialog* addEventDialog = new NewEventDialog(calendar->selectedDate());
     connect(addEventDialog, SIGNAL(newEventCreated(Event*)), this, SLOT(insertEvent(Event*)));
     addEventDialog->exec();
 }

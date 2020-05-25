@@ -19,7 +19,7 @@ class ModifyDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit ModifyDialog(const Model::It&, QDialog *parent = nullptr);
+    explicit ModifyDialog(QDate date,const Model::It&, QDialog *parent = nullptr);
     virtual ~ModifyDialog() = default;
 
 signals:

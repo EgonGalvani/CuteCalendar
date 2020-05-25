@@ -3,8 +3,8 @@
 #include "viewworkout.h"
 #include "Model/Hierarchy/workout.h"
 
-ViewAllenamento::ViewAllenamento(QWidget *parent)
-        : ModView(parent) {
+ViewAllenamento::ViewAllenamento(QDate date,QWidget *parent)
+        : ModView(date,parent) {
 
     inizio= new QTimeEdit();
     fine= new QTimeEdit();

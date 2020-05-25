@@ -12,7 +12,7 @@ class ViewToDoList : public ModView {
     CheckList* checkList;
     EnterLineEdit* inputLine;
 public:
-    explicit ViewToDoList(QWidget *parent = 0);
+    explicit ViewToDoList(QDate date,QWidget *parent = 0);
     ~ViewToDoList() = default;
 
     void setEnabled(bool) override;

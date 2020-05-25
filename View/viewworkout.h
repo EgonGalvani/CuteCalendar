@@ -10,7 +10,7 @@ class ViewAllenamento : public ModView {
     Q_OBJECT
 
 public:
-   explicit ViewAllenamento(QWidget *parent = 0);
+   explicit ViewAllenamento(QDate date,QWidget *parent = 0);
    ~ViewAllenamento() = default;
 
    QTimeEdit* inizio;
