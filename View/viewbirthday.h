@@ -12,7 +12,7 @@ class ViewCompleanno : public ModView {
       explicit ViewCompleanno(QWidget *parent = 0);
       ~ViewCompleanno() = default;
 
-      // BirthDay* createEvent() override;
+       BirthDay* createEvent() override;
        QSpinBox* annoNascita;
        QLabel* nascita;
        void setEnabled(bool) override;

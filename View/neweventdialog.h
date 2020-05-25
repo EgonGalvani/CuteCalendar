@@ -1,10 +1,10 @@
 #ifndef NEWEVENT_H
 #define NEWEVENT_H
 
-#include "viewallenamento.h"
-#include "viewcompleanno.h"
+#include "viewworkout.h"
+#include "viewbirthday.h"
 #include "viewmeeting.h"
-#include "viewpromemoria.h"
+#include "viewreminder.h"
 #include "modview.h"
 
 #include <QDialog>

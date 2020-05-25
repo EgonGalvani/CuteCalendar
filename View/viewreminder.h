@@ -15,9 +15,11 @@ public:
 
     QTimeEdit* inizio;
     QTimeEdit* fine;
+    QTimeEdit* alert;
 
     QCheckBox* checkRep;
 
+    QLabel* alertL;
     QLabel* start;
     QLabel* end;
     QLabel* rep;
@@ -25,7 +27,7 @@ public:
     void setEnabled(bool) override;
     void pushSaves(Model::It) override;
     void fillView(Model::It) override;
-    // virtual Reminder* createEvent() = 0;
+    virtual Reminder* createEvent() override;
 };
 
 #endif // VIEWPROMEMORIA_H

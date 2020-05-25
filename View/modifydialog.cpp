@@ -9,10 +9,10 @@
 #include "../Model/Hierarchy/todolist.h"
 #include "../Model/Hierarchy/workout.h"
 
-#include "viewallenamento.h"
-#include "viewcompleanno.h"
+#include "viewworkout.h"
+#include "viewbirthday.h"
 #include "viewmeeting.h"
-#include "viewpromemoria.h"
+#include "viewreminder.h"
 
 ModifyDialog::ModifyDialog(const Model::It& it, QDialog *parent)
     :  QDialog(parent), it(it), modifyEnabled(false) {

@@ -21,7 +21,7 @@ public:
    void setEnabled(bool) override;
    void pushSaves(Model::It) override;
    void fillView(Model::It) override;
-   // Workout* createEvent() override;
+   Workout *createEvent() override;
 };
 
 #endif // VIEWALLENAMENTO_H

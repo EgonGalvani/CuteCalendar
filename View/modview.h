@@ -23,7 +23,7 @@ public:
     virtual void setEnabled(bool);
     virtual void pushSaves(Model::It);
     virtual void fillView(Model::It);
-    // virtual Event* createEvent() = 0;
+     virtual Event* createEvent() = 0;
 
     bool isEnabled() const;
 protected:

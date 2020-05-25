@@ -26,13 +26,13 @@ SOURCES += \
     Model/Hierarchy/factory.cpp \
     View/modifydialog.cpp \
     View/modview.cpp \
-    View/viewallenamento.cpp \
-    View/viewcompleanno.cpp \
+    View/viewbirthday.cpp \
     View/viewmeeting.cpp \
-    View/viewpromemoria.cpp \
     View/mainwindow.cpp \
     View/mycalendar.cpp \
     View/eventwidget.cpp \
+    View/viewreminder.cpp \
+    View/viewworkout.cpp \
     main.cpp \
     Model/DataType/time.cpp \
     Model/DataType/date.cpp \
@@ -57,10 +57,8 @@ HEADERS += \
     View/modifydialog.h \
     View/modview.h \
     View/mycalendar.h \
-    View/viewallenamento.h \
-    View/viewcompleanno.h \
+    View/viewbirthday.h \
     View/viewmeeting.h \
-    View/viewpromemoria.h \
     View/eventwidget.h \
     Model/DataType/date.h \
     Model/DataType/time.h \
@@ -80,7 +78,9 @@ HEADERS += \
     Model/Container/unorderedmultimap.h \
     View/eventwidgetbuilder.h \
     View/tagpicker.h \
-    View/neweventdialog.h
+    View/neweventdialog.h \
+    View/viewreminder.h \
+    View/viewworkout.h
 
 FORMS +=
 

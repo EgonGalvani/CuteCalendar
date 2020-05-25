@@ -1,6 +1,6 @@
 #include <stdexcept>
 
-#include "viewallenamento.h"
+#include "viewworkout.h"
 #include "Model/Hierarchy/workout.h"
 
 ViewAllenamento::ViewAllenamento(QWidget *parent)
@@ -45,6 +45,11 @@ void ViewAllenamento::fillView(Model::It it) {
         throw std::logic_error("Tipo errato per essere mostrato come allenamento");
 }
 
-/*Workout* ViewAllenamento::createEvent() {
-    return new Workout()
-}*/
+Workout *ViewAllenamento::createEvent()
+{
+    //manca attivita data etc
+    Workout* ritorno = new Workout(12,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(12,12,2000),checkTag->getTags());
+    return ritorno;
+}
+
+
