@@ -8,12 +8,6 @@
 #include <QMessageBox>
 #include <QSizePolicy>
 
-void EnterLineEdit::keyPressEvent(QKeyEvent* event) {
-    if(event->key() == Qt::Key_Return)
-        emit enterKeyPressed();
-    else QLineEdit::keyPressEvent(event);
-}
-
 TagPicker::TagPicker(QWidget* parent) : QWidget(parent), enabled(true) {
 
     QVBoxLayout *layout = new QVBoxLayout(this);

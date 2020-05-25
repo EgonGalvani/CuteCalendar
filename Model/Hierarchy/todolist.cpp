@@ -47,3 +47,11 @@ Time ToDoList::getDuration() const {
 void ToDoList::serialize(QJsonObject &json) const {
 
 }
+
+void ToDoList::clear() {
+    items.clear();
+}
+
+void ToDoList::addItem(const std::string &, bool) {
+    // TODO
+}

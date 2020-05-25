@@ -1,6 +1,12 @@
 #include "neweventdialog.h"
 #include "tagpicker.h"
 
+#include "viewallenamento.h"
+#include "viewcompleanno.h"
+#include "viewmeeting.h"
+#include "viewpromemoria.h"
+#include "viewtodolist.h"
+
 NewEventDialog::NewEventDialog(QDialog *parent) : QDialog(parent) {
     mainLayout = new QVBoxLayout();
     selLayout = new QVBoxLayout();
@@ -34,6 +40,7 @@ void NewEventDialog::initComboBox() {
     selEvento->addItem("Compleanno");
     selEvento->addItem("Meeting");
     selEvento->addItem("Promemoria");
+    selEvento->addItem("Todo List");
 
     connect(selEvento, SIGNAL(currentIndexChanged(int)), this , SLOT(changedSel(int)) );
 
@@ -63,6 +70,9 @@ void NewEventDialog::changedSel(int index) {
         case 3:
             view = new ViewPromemoria(this);
             break;
+        case 4:
+            view = new ViewToDoList(this);
+
         // default:
             // ERRORE
     }

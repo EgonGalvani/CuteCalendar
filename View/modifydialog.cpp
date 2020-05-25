@@ -13,6 +13,7 @@
 #include "viewcompleanno.h"
 #include "viewmeeting.h"
 #include "viewpromemoria.h"
+#include "viewtodolist.h"
 
 ModifyDialog::ModifyDialog(const Model::It& it, QDialog *parent)
     :  QDialog(parent), it(it), modifyEnabled(false) {
@@ -33,6 +34,8 @@ ModifyDialog::ModifyDialog(const Model::It& it, QDialog *parent)
         view = new ViewPromemoria(this);
     else if(dynamic_cast<Meeting*>(currentEvent))
         view = new ViewMeeting(this);
+    else if(dynamic_cast<ToDoList*>(currentEvent))
+        view = new ViewToDoList(this);
     else
         throw std::runtime_error("Il tipo considerato non rappresenta un evento valido");
 

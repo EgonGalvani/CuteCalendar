@@ -4,18 +4,8 @@
 #include <QWidget>
 #include <QListWidget>
 #include <QListWidgetItem>
-#include <QLineEdit>
 #include <vector>
-
-class EnterLineEdit : public QLineEdit {
-    Q_OBJECT
-
-public:
-    virtual void keyPressEvent(QKeyEvent*);
-
-signals:
-    void enterKeyPressed();
-};
+#include "enterlineedit.h"
 
 class TagPicker : public QWidget {
     Q_OBJECT

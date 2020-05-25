@@ -14,7 +14,7 @@ private:
         bool done;
     public:
 
-        ListItem(const std::string& = "", bool = true);
+        ListItem(const std::string&, bool = true);
 
         /**
          * @brief permette di ottenere la descrizione dell'item
@@ -68,7 +68,9 @@ public:
      * @brief permette di sapere se l'evento è già avvenuto(quindi è già passata la data)
      * @return true se l'evento è già avvenuto
      */
-    bool isCompleted()const ;
+    bool isCompleted() const;
+
+    void clear();
 };
 
 #endif // TODOLIST_H

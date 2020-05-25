@@ -49,7 +49,10 @@ SOURCES += \
     Model/Hierarchy/birthday.cpp \
     View/eventwidgetbuilder.cpp \
     View/tagpicker.cpp \
-    View/neweventdialog.cpp
+    View/neweventdialog.cpp \
+    View/checklist.cpp \
+    View/viewtodolist.cpp \
+    View/enterlineedit.cpp
 
 HEADERS += \
     Model/Hierarchy/factory.h \
@@ -80,7 +83,10 @@ HEADERS += \
     Model/Container/unorderedmultimap.h \
     View/eventwidgetbuilder.h \
     View/tagpicker.h \
-    View/neweventdialog.h
+    View/neweventdialog.h \
+    View/checklist.h \
+    View/viewtodolist.h \
+    View/enterlineedit.h
 
 FORMS +=
 
