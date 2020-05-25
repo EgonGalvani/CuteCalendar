@@ -4,6 +4,7 @@
 #include "modview.h"
 #include "checklist.h"
 #include "enterlineedit.h"
+#include "../Model/Hierarchy/todolist.h"
 
 class ViewToDoList : public ModView {
     Q_OBJECT
@@ -18,6 +19,7 @@ public:
     void pushSaves(Model::It) override;
     void fillView(Model::It) override;
 
+    virtual ToDoList* createEvent();
 private slots:
     void addItem();
 };

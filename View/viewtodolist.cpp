@@ -54,3 +54,8 @@ void ViewToDoList::addItem() {
 
     inputLine->clear();
 }
+
+// TODO
+ToDoList* ViewToDoList::createEvent() {
+    return nullptr;
+}
