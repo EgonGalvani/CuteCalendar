@@ -1,16 +1,23 @@
-#include "viewcompleanno.h"
+#include "viewbirthday.h"
 
 ViewCompleanno::ViewCompleanno(QWidget *parent)
     : ModView(parent) {
 
     nascita = new QLabel("Anno di Nascita");
     annoNascita = new QSpinBox(this);
+
     annoNascita->setRange(1900,2100);
-    annoNascita->setReadOnly(true);
+
     mainLayout->addWidget(nascita);
     mainLayout->addWidget(annoNascita);
 
 
+}
+
+BirthDay *ViewCompleanno::createEvent()
+{
+    BirthDay* ritorno = new BirthDay(annoNascita->text().toUShort(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(12, 5, 2020), checkTag->getTags());
+    return ritorno;
 }
 
 void ViewCompleanno::setEnabled(bool e)

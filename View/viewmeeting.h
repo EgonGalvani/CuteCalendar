@@ -15,13 +15,21 @@ class ViewMeeting : public ModView {
 
       QTimeEdit* inizio;
       QTimeEdit* fine;
+      QTimeEdit* alert;
+      QTextEdit* emails;
+
+      QCheckBox* checkRep;
+
+      QLabel* alertL;
+      QLabel* emailLabel;
       QLabel* start;
       QLabel* end;
+      QLabel* rep;
 
       void setEnabled(bool) override;
       void pushSaves(Model::It) override;
       void fillView(Model::It) override;
-      // Meeting* createEvent() override;
+      Meeting* createEvent() override;
 };
 
 #endif // VIEWMEETING_H

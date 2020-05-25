@@ -1,10 +1,10 @@
 #include "neweventdialog.h"
 #include "tagpicker.h"
 
-#include "viewallenamento.h"
-#include "viewcompleanno.h"
+#include "viewworkout.h"
+#include "viewbirthday.h"
 #include "viewmeeting.h"
-#include "viewpromemoria.h"
+#include "viewreminder.h"
 #include "viewtodolist.h"
 
 NewEventDialog::NewEventDialog(QDialog *parent) : QDialog(parent) {

@@ -10,10 +10,10 @@
 
 #include "Model/model.h"
 #include "modview.h"
-#include "viewallenamento.h"
-#include "viewcompleanno.h"
+#include "viewworkout.h"
+#include "viewbirthday.h"
 #include "viewmeeting.h"
-#include "viewpromemoria.h"
+#include "viewreminder.h"
 
 class ModifyDialog : public QDialog {
     Q_OBJECT
