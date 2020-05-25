@@ -6,7 +6,7 @@
 class BirthDay : public AllDayEvent {
 
 private:
-    Date dataNascita;
+    unsigned short annoNascita;
 
 public:
 
@@ -15,16 +15,15 @@ public:
      */
     static const int ID = 4;
 
-
-    BirthDay(const Date& dataNasc, const std::string& nome, const std::string& descr,
-             const std::string& luogo, const Date& dataEvento,
-             const std::vector<std::string>& vettoreTag);
+    BirthDay(unsigned short annoNasc,const std::string& nome,const std::string& descr,
+             const std::string& luogo,
+             const Date& dataEvento,const std::vector<std::string>& vettoreTag);
 
     /**
-     * @brief permette di ottenere la data di nascita
-     * @return data di nascita
+     * @brief permette di ottenere l'anno di nascita
+     * @return anno di nascita
      */
-    Date getNascita() const;
+    unsigned short getNascita() const;
 
     //virtuali
     /**
