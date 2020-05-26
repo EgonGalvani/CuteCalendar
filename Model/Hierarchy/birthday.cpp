@@ -20,3 +20,5 @@ void BirthDay::serialize(QJsonObject &json) const{
 unsigned short BirthDay::getNascita() const {
     return annoNascita;
 }
+
+void BirthDay::setNascita(const unsigned short& anno) {annoNascita=anno;}

@@ -25,6 +25,11 @@ public:
      */
     unsigned short getNascita() const;
 
+    /**
+     * @brief permette di impostare l'anno di nascita
+     */
+    void setNascita(const unsigned short& anno);
+
     //virtuali
     /**
      * @brief permette di clonare l'oggetto
@@ -42,6 +47,8 @@ public:
      * @brief Distruttore che si occupa di deallocare il necessario
      */
     virtual ~BirthDay() = default;
+
+
 };
 
 
