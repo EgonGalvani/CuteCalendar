@@ -20,7 +20,6 @@
 #include "../Model/Hierarchy/todolist.h"
 #include "../Model/Hierarchy/workout.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent),
       calendarBlock(new QGroupBox(QString("Calendar"))),
@@ -28,10 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
       infoBlock(new QGroupBox(QString("Info"))) {
 
     // evento di prova
-
     model.insertEvent(new BirthDay(1999, "Compleanno Valton", "Oggi è il compleanno di valton",
         "Padova",Date(12, 5, 2020) , std::vector<std::string>()));
-
 
     Time t1 = Time();
     Time t2 = Time();
@@ -62,13 +59,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     // eventi di prova...
-
-
-    //model.saveInFile();
-    model.loadFromFile();
-
-
-
+    // model.saveInFile();
+    // model.loadFromFile();
     initCalendarBox();
     initInfoBox();
 
