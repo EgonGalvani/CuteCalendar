@@ -3,6 +3,7 @@
 
 #include <QTimeEdit>
 
+
 #include "modview.h"
 #include "../Model/Hierarchy/reminder.h"
 
@@ -10,7 +11,7 @@ class ViewPromemoria : public ModView {
     Q_OBJECT
 
 public:
-    explicit ViewPromemoria(QDate date,QWidget *parent = 0);
+    explicit ViewPromemoria(QDate date, QWidget *parent = 0);
     ~ViewPromemoria() = default;
 
     QTimeEdit* inizio;

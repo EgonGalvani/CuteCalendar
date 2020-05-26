@@ -3,19 +3,32 @@
 #include "viewmeeting.h"
 #include "Model/Hierarchy/meeting.h"
 
-ViewMeeting::ViewMeeting(QDate date,QWidget *parent) : ModView(date,parent) {
+#include <regex>
+#include <QMessageBox>
+
+bool ViewMeeting::isEmail(const std::string& email) {
+   // define a regular expression
+   const std::regex pattern
+      ("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+
+   // try to match the string with the regular expression
+   return std::regex_match(email, pattern);
+}
+
+ViewMeeting::ViewMeeting(QDate date,QWidget *parent)
+    : ModView(date, parent), emailLineEdit(new EnterLineEdit(this)), emailList(new QListWidget(this)) {
+
+    emailLineEdit->setPlaceholderText("Inserisci un'email e premi invio");
 
     inizio= new QTimeEdit(this);
     fine= new QTimeEdit(this);
-    emails = new QTextEdit(this);
     alert = new QTimeEdit(this);
-    checkRep= new QCheckBox(this);
+    checkRep= new QCheckBox("Ripeti avviso all'inizio dell'evento", this);
 
-    emailLabel= new QLabel("Emails");
-    alertL= new QLabel("Alert");
-    start = new QLabel("Inizio");
-    end = new QLabel("Fine");
-    rep = new QLabel("Ripeti");
+    emailLabel= new QLabel("Emails", this);
+    alertL= new QLabel("Notifica", this);
+    start = new QLabel("Inizio", this);
+    end = new QLabel("Fine", this);
 
     mainLayout->addWidget(start);
     mainLayout->addWidget(inizio);
@@ -23,11 +36,40 @@ ViewMeeting::ViewMeeting(QDate date,QWidget *parent) : ModView(date,parent) {
     mainLayout->addWidget(fine);
     mainLayout->addWidget(alertL);
     mainLayout->addWidget(alert);
+    mainLayout->addWidget(checkRep);
+    mainLayout->addWidget(emailLabel);
+    mainLayout->addWidget(emailLineEdit);
+    mainLayout->addWidget(emailList);
+
+    connect(emailLineEdit, SIGNAL(enterKeyPressed()), this, SLOT(addEmail()));
+}
+
+bool ViewMeeting::hasEmail(const QString& email) const {
+    bool found = false;
+    for(int i = 0; i < emailList->count() && !found; i++)
+        found = emailList->item(i)->text() == email;
+    return found;
+}
+
+void ViewMeeting::addEmail() {
+    QString email = emailLineEdit->text().trimmed();
+    if(email.isEmpty())
+        QMessageBox::critical(this, QString("Error"), "Il campo non può essere vuoto");
+    else
+        if(!isEmail(email.toStdString()))
+            QMessageBox::critical(this, QString("Error"), "Inserire una email valida");
+        else if(hasEmail(email))
+            QMessageBox::critical(this, QString("Error"), "Email già presente nella lista");
+        else {
+            emailList->addItem(new QListWidgetItem(email, emailList));
+            emailLineEdit->clear();
+        }
 }
 
 void ViewMeeting::setEnabled(bool b) {
     ModView::setEnabled(b);
-    emails->setReadOnly(!b);
+    emailLineEdit->setReadOnly(!b);
+    emailList->setEnabled(b);
     inizio->setEnabled(b);
     fine->setEnabled(b);
     alert->setEnabled(b);

@@ -3,20 +3,32 @@
 
 #include <QTimeEdit>
 
+#include <QListWidget>
+#include "enterlineedit.h"
+
 #include "modview.h"
 #include "../Model/Hierarchy/meeting.h"
 
 class ViewMeeting : public ModView {
     Q_OBJECT
 
-   public:
+private slots:
+    void addEmail();
+
+private:
+    static bool isEmail(const std::string&);
+    bool hasEmail(const QString&) const;
+
+public:
       explicit ViewMeeting(QDate date,QWidget *parent = 0);
       ~ViewMeeting() = default;
 
       QTimeEdit* inizio;
       QTimeEdit* fine;
       QTimeEdit* alert;
-      QTextEdit* emails;
+
+      EnterLineEdit* emailLineEdit;
+      QListWidget* emailList;
 
       QCheckBox* checkRep;
 
@@ -24,7 +36,6 @@ class ViewMeeting : public ModView {
       QLabel* emailLabel;
       QLabel* start;
       QLabel* end;
-      QLabel* rep;
 
       void setEnabled(bool) override;
       void pushSaves(Model::It) override;
