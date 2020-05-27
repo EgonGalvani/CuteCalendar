@@ -43,6 +43,7 @@ void ModView::pushSaves(Model::It it) {
     (*it)->setDesc((txtDesc->toPlainText()).toStdString());
     (*it)->setName((txtNome->text()).toStdString());
     (*it)->setPlace((txtLuogo->text()).toStdString());
+    (*it)->clearTags();
     for (auto tag: checkTag->getTags()){
        (*it)->addTag(tag);
     }
