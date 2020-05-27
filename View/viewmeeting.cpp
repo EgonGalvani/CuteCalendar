@@ -109,7 +109,14 @@ void ViewMeeting::pushSaves(Model::It it) {
         delete currInizio;
          //memory leak t2?
 
-        //Conversione EditText -> vector
+        for(auto email : getEmails()){
+            currEve->addPartecipant(email);
+        }
+
+
+
+
+
     } else
         throw std::logic_error("Tipo errato per la modifica di una view meeting");
 }
@@ -130,6 +137,10 @@ void ViewMeeting::fillView(Model::It it) {
         delete currAlert;
         checkRep->setChecked(currEve->doesRepeat());
 
+        for(auto email : currEve->getPartecipants()){
+           // if(!hasEmail(QString::fromStdString(email)))
+            emailList->addItem(QString::fromStdString(email));
+        }
 
 
 
