@@ -43,10 +43,16 @@ void ModView::pushSaves(Model::It it) {
     (*it)->setDesc((txtDesc->toPlainText()).toStdString());
     (*it)->setName((txtNome->text()).toStdString());
     (*it)->setPlace((txtLuogo->text()).toStdString());
+    for (auto tag: checkTag->getTags()){
+       (*it)->addTag(tag);
+    }
 }
 
 void ModView::fillView(Model::It it) {
     txtDesc->setText(QString::fromStdString((*it)->getDesc()));
     txtNome->setText(QString::fromStdString((*it)->getName()));
     txtLuogo->setText(QString::fromStdString((*it)->getPlace()));
+    for (auto tag: (*it)->getTags()){
+        checkTag->addTag(tag);
+    }
 }
