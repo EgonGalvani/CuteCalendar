@@ -3,8 +3,8 @@
 #include "viewworkout.h"
 #include "Model/Hierarchy/workout.h"
 
-ViewAllenamento::ViewAllenamento(QDate date,QWidget *parent)
-        : ModView(date,parent) {
+ViewAllenamento::ViewAllenamento(QWidget *parent)
+        : ModView(parent) {
 
     inizio= new QTimeEdit();
     fine= new QTimeEdit();
@@ -45,10 +45,10 @@ void ViewAllenamento::fillView(Model::It it) {
         throw std::logic_error("Tipo errato per essere mostrato come allenamento");
 }
 
-Workout *ViewAllenamento::createEvent()
+Workout *ViewAllenamento::createEvent(QDate date)
 {
     //manca attivita data etc
-    Workout* ritorno = new Workout(12,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(12,12,2000),checkTag->getTags());
+    Workout* ritorno = new Workout(12,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
     return ritorno;
 }
 

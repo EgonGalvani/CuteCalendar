@@ -1,7 +1,7 @@
 #include "viewbirthday.h"
 
-ViewCompleanno::ViewCompleanno(QDate date,QWidget *parent)
-    : ModView(date,parent) {
+ViewCompleanno::ViewCompleanno(QWidget *parent)
+    : ModView(parent) {
 
     nascita = new QLabel("Anno di Nascita");
     annoNascita = new QSpinBox(this);
@@ -14,10 +14,10 @@ ViewCompleanno::ViewCompleanno(QDate date,QWidget *parent)
 
 }
 
-BirthDay *ViewCompleanno::createEvent()
+BirthDay *ViewCompleanno::createEvent(QDate date)
 {
     //CHieder a egon la conversione da QDate a Date domani <3
-    BirthDay* ritorno = new BirthDay(annoNascita->text().toUShort(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(12, 5, 2020), checkTag->getTags());
+    BirthDay* ritorno = new BirthDay(annoNascita->text().toUShort(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
     return ritorno;
 }
 

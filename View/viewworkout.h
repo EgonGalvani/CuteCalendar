@@ -10,7 +10,7 @@ class ViewAllenamento : public ModView {
     Q_OBJECT
 
 public:
-   explicit ViewAllenamento(QDate date,QWidget *parent = 0);
+   explicit ViewAllenamento(QWidget *parent = 0);
    ~ViewAllenamento() = default;
 
    QTimeEdit* inizio;
@@ -21,7 +21,7 @@ public:
    void setEnabled(bool) override;
    void pushSaves(Model::It) override;
    void fillView(Model::It) override;
-   Workout *createEvent() override;
+   Workout *createEvent(QDate date) override;
 };
 
 #endif // VIEWALLENAMENTO_H

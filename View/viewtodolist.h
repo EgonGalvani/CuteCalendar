@@ -12,14 +12,14 @@ class ViewToDoList : public ModView {
     CheckList* checkList;
     EnterLineEdit* inputLine;
 public:
-    explicit ViewToDoList(QDate date,QWidget *parent = 0);
+    explicit ViewToDoList(QWidget *parent = 0);
     ~ViewToDoList() = default;
 
     void setEnabled(bool) override;
     void pushSaves(Model::It) override;
     void fillView(Model::It) override;
 
-    virtual ToDoList* createEvent();
+    virtual ToDoList* createEvent(QDate date);
 private slots:
     void addItem();
 };

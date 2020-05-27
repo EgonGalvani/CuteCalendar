@@ -4,6 +4,7 @@
 #include <QTimeEdit>
 
 #include <QListWidget>
+#include <QSpinBox>
 #include "enterlineedit.h"
 
 #include "modview.h"
@@ -20,12 +21,12 @@ private:
     bool hasEmail(const QString&) const;
 
 public:
-      explicit ViewMeeting(QDate date,QWidget *parent = 0);
+      explicit ViewMeeting(QWidget *parent = 0);
       ~ViewMeeting() = default;
 
       QTimeEdit* inizio;
       QTimeEdit* fine;
-      QTimeEdit* alert;
+      QSpinBox* alert;
 
       EnterLineEdit* emailLineEdit;
       QListWidget* emailList;
@@ -40,7 +41,7 @@ public:
       void setEnabled(bool) override;
       void pushSaves(Model::It) override;
       void fillView(Model::It) override;
-      Meeting* createEvent() override;
+      Meeting* createEvent(QDate date) override;
 };
 
 #endif // VIEWMEETING_H

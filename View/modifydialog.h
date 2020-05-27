@@ -38,6 +38,8 @@ private:
     QVBoxLayout* viewLayout;
     QHBoxLayout* buttomLayout;
 
+    QDate date;
+
     QPushButton* btnModify;
     QPushButton* btnDelete;
 };

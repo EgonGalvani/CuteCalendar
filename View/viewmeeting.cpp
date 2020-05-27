@@ -15,15 +15,18 @@ bool ViewMeeting::isEmail(const std::string& email) {
    return std::regex_match(email, pattern);
 }
 
-ViewMeeting::ViewMeeting(QDate date,QWidget *parent)
-    : ModView(date, parent), emailLineEdit(new EnterLineEdit(this)), emailList(new QListWidget(this)) {
+ViewMeeting::ViewMeeting(QWidget *parent)
+    : ModView(parent), emailLineEdit(new EnterLineEdit(this)), emailList(new QListWidget(this)) {
 
     emailLineEdit->setPlaceholderText("Inserisci un'email e premi invio");
 
     inizio= new QTimeEdit(this);
     fine= new QTimeEdit(this);
-    alert = new QTimeEdit(this);
+    alert = new QSpinBox(this);
     checkRep= new QCheckBox("Ripeti avviso all'inizio dell'evento", this);
+
+    alert->setRange(5,60);
+    alert->setSingleStep(5);
 
     emailLabel= new QLabel("Emails", this);
     alertL= new QLabel("Notifica", this);
@@ -83,8 +86,16 @@ void ViewMeeting::pushSaves(Model::It it) {
     if(currEve) {
         currEve->setStartTime(inizio->time());
         currEve->setEndTime(fine->time());
-        currEve->setAlertTime(alert->time());
+
+        QTime* currInizio = new QTime(inizio->time());
+
+        QTime t2 =currInizio->addSecs(alert->value()*(-60));
+
+        currEve->setAlertTime(t2);
         currEve->setRepeat(checkRep->isChecked());
+
+        delete currInizio;
+         //memory leak t2?
 
         //Conversione EditText -> vector
     } else
@@ -98,7 +109,17 @@ void ViewMeeting::fillView(Model::It it) {
     if(currEve) {
         inizio->setTime(currEve->getStartTime());
         fine->setTime(currEve->getEndTime());
-        alert->setTime(currEve->getAlertTime());
+
+        QTime* currInizio = new QTime(inizio->time());
+        QTime* currAlert = new QTime(currEve->getAlertTime());
+        int secs = currInizio->secsTo(*currAlert);
+
+
+
+        alert->setValue(secs/-60);
+
+        delete currInizio;
+        delete currAlert;
         checkRep->setChecked(currEve->doesRepeat());
         //conversione vector-> EditText
 
@@ -106,9 +127,13 @@ void ViewMeeting::fillView(Model::It it) {
         throw std::logic_error("Tipo errato per essere mostrato in una view meeting");
 }
 
-Meeting *ViewMeeting::createEvent()
+Meeting *ViewMeeting::createEvent(QDate date)
 {
     //manca emails e data
-    Meeting* ritorno = new Meeting(checkTag->getTags(),inizio->time(),fine->time(), alert->time() , checkRep->isChecked() , txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(12,12,2000),checkTag->getTags());
+    QTime* currInizio = new QTime(inizio->time());
+    currInizio->addSecs(alert->value()*-60);
+
+    Meeting* ritorno = new Meeting(checkTag->getTags(),inizio->time(),fine->time(), *currInizio, checkRep->isChecked() , txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
+    delete currInizio;
     return ritorno;
 }
