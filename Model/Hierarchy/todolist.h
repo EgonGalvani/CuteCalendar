@@ -9,6 +9,7 @@ private:
     //Non so se usarla come classe privata,
     //il getter potrebbe rovinare il tutto
     class ListItem {
+        friend ToDoList;
     private:
         std::string description;
         bool done;
@@ -32,11 +33,19 @@ private:
          * @brief permette di impostare se l'item della lista è completato
          */
         void setDone(const bool);
+
+        /**
+         * @brief permette di serializzare l'oggetto e le sue eventuali classe basi in formato json
+         * @param json object che conterrà al suo interno la serializzazione
+        */
+        void serialize(QJsonObject& json) const;
     };
 
     std::vector<ListItem> items;
 
 public:
+
+    static const int ID = 5;
     //getter setter
     std::vector<ListItem> getItems() const;
 
@@ -69,6 +78,10 @@ public:
      * @return true se l'evento è già avvenuto
      */
     bool isCompleted() const;
+
+    ToDoList(const std::string& nome,const std::string& descr,
+             const std::string& luogo,
+             const Date& dataEvento,const std::vector<std::string>& vettoreTag);
 
     void clear();
 };

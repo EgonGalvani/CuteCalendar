@@ -18,6 +18,13 @@ void ToDoList::ListItem::setDone(const bool x) {
     done = x;
 }
 
+void ToDoList::ListItem::serialize(QJsonObject &json) const {
+
+    json["item_description"] = QString::fromStdString(description);
+    json["item_isdone"] = isDone();
+
+}
+
 //std::vector<ListItem*> getItems;
 std::vector<ToDoList::ListItem> ToDoList::getItems() const  {
     return items;
@@ -33,7 +40,6 @@ bool ToDoList::isCompleted() const {
     bool found = true;
     for (std::vector<ListItem>::const_iterator x= items.begin();
          x!=items.end() && found;++x) {
-
         found = x->isDone();
     }
 
@@ -46,12 +52,34 @@ Time ToDoList::getDuration() const {
 
 void ToDoList::serialize(QJsonObject &json) const {
 
+    AllDayEvent::serialize(json);
+    json.insert("ID",ToDoList::ID);
+    //Rappresenterà tutta la todolist,verrà inserito come campo dentro il json originale
+    //es {"TODOLIST" : { [ {ciao,0},{addio,1}, ...}
+    QJsonObject listjson;
+    QJsonArray arrayToDo = QJsonArray();
+    for (auto it = items.begin();it!=items.end();++it) {
+        QJsonObject itemjson = QJsonObject();
+        (*it).serialize(itemjson);
+        arrayToDo.push_back(itemjson);
+    }
+    json["TODOLIST"] = arrayToDo;
+
 }
 
 void ToDoList::clear() {
     items.clear();
 }
 
-void ToDoList::addItem(const std::string &, bool) {
-    // TODO
+void ToDoList::addItem(const std::string & x, bool y) {
+    items.push_back(ListItem(x,y));
 }
+
+ToDoList::ToDoList(const std::string& nome,const std::string& descr,
+                   const std::string& luogo,
+                   const Date& dataEvento,const std::vector<std::string>& vettoreTag)
+    :Event(nome,descr,luogo,dataEvento,vettoreTag),
+    AllDayEvent () {
+    items = std::vector<ToDoList::ListItem>();
+}
+

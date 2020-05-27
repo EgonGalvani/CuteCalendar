@@ -22,7 +22,7 @@ void Factory::firstParse() {
 
 void Factory::secondParse() {
 
-    if (id!=BirthDay::ID) {
+    if (id!=BirthDay::ID && id!=ToDoList::ID) {
         temp= std::istringstream(json["START_TIME"].toString().toStdString());
         temp>>start;
         temp= std::istringstream(json["END_TIME"].toString().toStdString());
@@ -48,8 +48,7 @@ Factory::Factory(QJsonObject &js) : json(js) {
 
 Event* Factory::parse() {
 
-    //USO stoi e non .toInt perchè toInt ritorna sempre valore di default
-    id = std::stoi(json["ID"].toString().toStdString());
+    id = json["ID"].toInt();
 
     firstParse();
     secondParse();
@@ -74,6 +73,13 @@ Event* Factory::parse() {
         //BIRTHDAY
         birth = (json["ANNO_NASCITA"].toInt());
         return new BirthDay(birth,nome,descr,place,date,tags);
+    case ToDoList::ID:
+        ToDoList* temp = new ToDoList(nome,descr,place,date,tags);
+        tmp = json["TODOLIST"].toArray();
+        for (QJsonArray::const_iterator it = tmp.begin();it!=tmp.end();++it) {
+            temp->addItem((*it)["item_description"].toString().toStdString(),(*it)["item_isdone"].toBool());
+        }
+        return temp;
     }
     return nullptr;
 }

@@ -15,7 +15,6 @@ bool Alert::doesRepeat() const{return repeat;}
 
 void Alert::serialize(QJsonObject &json) const{
     Event::serialize(json);
-    json.insert("ID","5");
     json["ALERT_TIME"] = QString::fromStdString(alertTime.toString());
     json["REPEAT"] = repeat;
 

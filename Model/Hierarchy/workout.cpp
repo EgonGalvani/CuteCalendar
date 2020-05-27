@@ -24,6 +24,6 @@ void Workout::setActivity(int x) {
 
 void Workout::serialize(QJsonObject &json) const {
     EventWithDuration::serialize(json);
-    json.insert("ID","2");
+    json.insert("ID",Workout::ID);
     json["ACTIVITY"] = act;
 }

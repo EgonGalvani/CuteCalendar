@@ -19,6 +19,6 @@ Reminder* Reminder::clone() const {
 void Reminder::serialize(QJsonObject &json) const {
     EventWithDuration::serialize(json);
     Alert::serialize(json);
-    json.insert("ID","1");
+    json.insert("ID",Reminder::ID);
     json["URGENCY"] = urg;
 }

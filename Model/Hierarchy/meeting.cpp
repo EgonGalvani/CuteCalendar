@@ -53,7 +53,7 @@ void Meeting::serialize(QJsonObject &json)const {
 
     EventWithDuration::serialize(json);
     Alert::serialize(json);
-    json.insert("ID","3");
+    json.insert("ID",Meeting::ID);
     QJsonArray partArray;
     foreach (const std::string part, partEmails) {
         partArray.append(QString::fromStdString(part));

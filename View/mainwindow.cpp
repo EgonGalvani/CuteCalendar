@@ -57,10 +57,15 @@ MainWindow::MainWindow(QWidget *parent)
     model.insertEvent(new Meeting(par,tt1,tt2,alert,true,"meet","incontro zoom",
                             "casa",d2,tags));
 
+    ToDoList* list = new ToDoList("nome","desc","eraclea",Date(10,05,2020),std::vector<std::string>());
+    list->addItem("ciao",false);
+    list->addItem("addio",true);
+    model.insertEvent(list);
+
 
     // eventi di prova...
-    // model.saveInFile();
-    // model.loadFromFile();
+    //model.saveInFile();
+    //model.loadFromFile();
     initCalendarBox();
     initInfoBox();
 

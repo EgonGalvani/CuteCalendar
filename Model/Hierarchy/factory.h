@@ -5,6 +5,7 @@
 #include "meeting.h"
 #include "reminder.h"
 #include "workout.h"
+#include "todolist.h"
 
 class Factory {
 
