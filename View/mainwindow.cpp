@@ -4,6 +4,7 @@
 #include <QColor>
 #include <QMessageBox>
 #include <stdexcept>
+#include <QCloseEvent>
 
 #include "mainwindow.h"
 #include "mycalendar.h"
@@ -26,46 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
       calendar(new MyCalendar()),
       infoBlock(new QGroupBox(QString("Info"))) {
 
-    // evento di prova
-    model.insertEvent(new BirthDay(1999, "Compleanno Valton", "Oggi è il compleanno di valton",
-        "Padova",Date(12, 5, 2020) , std::vector<std::string>()));
+    // caricamento dati da file
+    model.loadFromFile();
 
-    Time t1 = Time();
-    Time t2 = Time();
-    Date d1 = Date(19,2,2020);
-    Date d2 = Date(12, 5, 2020);
-    std::vector<std::string> vettoreTag = std::vector<std::string>();
-    vettoreTag.push_back("Fit");
-    vettoreTag.push_back("Insta");
-    vettoreTag.push_back("ValtonGay");
-    model.insertEvent(new Workout(1,t1,t2,"palestra","sollevamento pesi","casa",d1,vettoreTag));
-
-    Time tt1 = Time(10,30,30);
-    Time tt2 = Time(12,30,30);
-    Time alert = Time(9,30,30);
-    Date dd1 = Date();
-    std::vector<std::string> tags = std::vector<std::string>();
-    tags.push_back("Bambino");
-    tags.push_back("Scuola");
-    tags.push_back("Genitore");
-    model.insertEvent(new Reminder(1,tt1,tt2,alert,true,"Figlio","prendere bambino a scuola","Scuola",
-                             dd1,tags));
-
-    std::vector<std::string> par = std::vector<std::string>();
-    par.push_back("danielegiachetto1999@gmail.com");
-    par.push_back("valtontahiraj@gmail.com");
-    model.insertEvent(new Meeting(par,tt1,tt2,alert,true,"meet","incontro zoom",
-                            "casa",d2,tags));
-
-    ToDoList* list = new ToDoList("nome","desc","eraclea",Date(10,05,2020),std::vector<std::string>());
-    list->addItem("ciao",false);
-    list->addItem("addio",true);
-    model.insertEvent(list);
-
-
-    // eventi di prova...
-    //model.saveInFile();
-    //loadFromFile();
+    // init grafica
     initCalendarBox();
     initInfoBox();
 
@@ -187,4 +152,8 @@ void MainWindow::refreshList(const QDate& date) {
         else
             eventList->addItem(EventWidgetBuilder::buildWorkoutWidget(it, eventList));
     }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    model.saveInFile();
 }

@@ -26,12 +26,12 @@ private slots:
     void deleteEvent(Model::It);
     void insertEvent(Event*);
 
+protected:
+    void closeEvent(QCloseEvent *event);
+
 private:
     // Model
     Model model;
-
-    // Elementi Menu
-    // QVBoxLayout menu;
 
     // Elementi calendario
     QGroupBox *calendarBlock;

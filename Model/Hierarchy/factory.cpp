@@ -2,13 +2,10 @@
 
 
 void Factory::firstParse() {
-
-    //MANCA TODOLIST
     //Ricavo dei campi dati di evento
     nome = json["NAME"].toString().toStdString();
     //conversione stringa -> data
     temp= std::istringstream(json["DATA"].toString().toStdString());
-    std::cout<<std::endl<<"--DATA" <<json["DATA"].toString().toStdString()<<std::endl;
     temp>>date;
     descr = json["DESCRIPTION"].toString().toStdString();
     place = json["PLACE"].toString().toStdString();
@@ -20,7 +17,6 @@ void Factory::firstParse() {
         if (!tag.empty())
             tags.push_back(it->toString().toStdString());
     }
-
 }
 
 void Factory::firstCheck() const {
@@ -29,7 +25,6 @@ void Factory::firstCheck() const {
 }
 
 void Factory::secondParse() {
-
     if (id!=BirthDay::ID && id!=ToDoList::ID) {
         //Check autonomamente in time o date
         temp= std::istringstream(json["START_TIME"].toString().toStdString());
@@ -44,17 +39,12 @@ void Factory::secondParse() {
             temp>>alert;
         }
     }
-
 }
-
-
 
 Factory::Factory(QJsonObject &js) : json(js) {
     tags = std::vector<std::string>();
     vectPart = std::vector<std::string>();
-
 }
-
 
 Event* Factory::parse() {
 
@@ -66,7 +56,6 @@ Event* Factory::parse() {
     secondParse();
 
     switch (id) {
-
     case Reminder::ID:
         //REMINDER = 1
         urg = json["URGENCY"].toInt();
@@ -110,6 +99,7 @@ Event* Factory::parse() {
         }
         return temp;
     }
+
     return nullptr;
 }
 

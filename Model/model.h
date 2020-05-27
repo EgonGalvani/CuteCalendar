@@ -73,10 +73,6 @@ public:
      * @param it: iteratore che si riferisce all'evento che si vuole rimuovere
      */
     void removeEvent(const It& it);
-
-
-
-
 };
 
 #endif // MODEL_H
