@@ -3,12 +3,12 @@
 #include "viewreminder.h"
 #include "Model/Hierarchy/reminder.h"
 
-ViewPromemoria::ViewPromemoria(QDate date,QWidget *parent) : ModView(date,parent) {
+ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
 
-    inizio= new QTimeEdit();
-    fine= new QTimeEdit();
-    alert = new QTimeEdit(this);
-    checkRep= new QCheckBox();
+    inizio= new QTimeEdit(this);
+    fine= new QTimeEdit(this);
+    alert = new QSpinBox(this);
+    checkRep= new QCheckBox(this);
 
     start = new QLabel("Inizio");
     end = new QLabel("Fine");
@@ -41,7 +41,17 @@ void ViewPromemoria::pushSaves(Model::It it) {
     if(currEve) {
         currEve->setStartTime(inizio->time());
         currEve->setEndTime(fine->time());
-        currEve->setAlertTime(alert->time());
+
+
+        QTime* currInizio = new QTime(inizio->time());
+
+        QTime t2 =currInizio->addSecs(alert->value()*(-60));
+
+        currEve->setAlertTime(t2);
+        currEve->setRepeat(checkRep->isChecked());
+
+        delete currInizio;
+
         currEve->setRepeat(checkRep->isChecked());
      } else
         throw std::logic_error("Tipo errato per apportare le modifiche del reminder");
@@ -54,15 +64,30 @@ void ViewPromemoria::fillView(Model::It it) {
     if(currEve) {
         inizio->setTime(currEve->getStartTime());
         fine->setTime(currEve->getEndTime());
-        alert->setTime(currEve->getAlertTime());
+
+        QTime* currInizio = new QTime(inizio->time());
+        QTime* currAlert = new QTime(currEve->getAlertTime());
+        int secs = currInizio->secsTo(*currAlert);
+
+
+
+        alert->setValue(secs/-60);
+
+        delete currInizio;
+        delete currAlert;
+
         checkRep->setChecked(currEve->doesRepeat());
     } else {
         throw std::logic_error("Tipo errato per essere mostrato come reminder");
     }
 }
 
-Reminder *ViewPromemoria::createEvent()
+Reminder *ViewPromemoria::createEvent(QDate date)
 {
-    Reminder* ritorno = new Reminder(10,inizio->time(),fine->time(),alert->time(),checkRep->isChecked(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(12,12,2000),checkTag->getTags());
+    QTime* currInizio = new QTime(inizio->time());
+    currInizio->addSecs(alert->value()*-60);
+
+    Reminder* ritorno = new Reminder(10,inizio->time(),fine->time(),*currInizio,checkRep->isChecked(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
+    delete currInizio;
     return ritorno;
 }

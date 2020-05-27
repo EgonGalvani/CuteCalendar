@@ -59,19 +59,19 @@ void NewEventDialog::changedSel(int index) {
     // Possibile memory leak DA RISOLVERE
     switch(index){
         case 0:
-            view = new ViewAllenamento(date,this);
+            view = new ViewAllenamento(this);
             break;
         case 1:
-            view = new ViewCompleanno(date,this);
+            view = new ViewCompleanno(this);
             break;
         case 2:
-            view = new ViewMeeting(date,this);
+            view = new ViewMeeting(this);
             break;
         case 3:
-            view = new ViewPromemoria(date,this);
+            view = new ViewPromemoria(this);
             break;
         case 4:
-            view = new ViewToDoList(date,this);
+            view = new ViewToDoList(this);
 
         // default:
             // ERRORE
@@ -85,12 +85,15 @@ void NewEventDialog::changedSel(int index) {
 }
 
 void NewEventDialog::addPushed() {
-    /* try {
-     *  emit newEventCreated(view->createEvent())
-     * } catch(SyntaxException se) {
-     *  QMessageBox::critical(this, QString("Error"), se.getMessage()));
-     * }
-    */
 
-    std::cout<< "Bottone Premuto" << std::endl;
+
+    try {
+        emit newEventCreated(view->createEvent(date));
+        QMessageBox::information(this, QString("Successo"), QString("L'inserimento ha avuto successo"));
+    } catch(...) {
+        QMessageBox::critical(this, QString("Error"),"Fallito inserimento"/**, se.getMessage()**/);
+    }
+
+    close();
+
 }

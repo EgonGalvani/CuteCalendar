@@ -2,6 +2,7 @@
 #define VIEWPROMEMORIA_H
 
 #include <QTimeEdit>
+#include <QSpinBox>
 
 
 #include "modview.h"
@@ -11,12 +12,12 @@ class ViewPromemoria : public ModView {
     Q_OBJECT
 
 public:
-    explicit ViewPromemoria(QDate date, QWidget *parent = 0);
+    explicit ViewPromemoria(QWidget *parent = 0);
     ~ViewPromemoria() = default;
 
     QTimeEdit* inizio;
     QTimeEdit* fine;
-    QTimeEdit* alert;
+    QSpinBox* alert;
 
     QCheckBox* checkRep;
 
@@ -28,7 +29,7 @@ public:
     void setEnabled(bool) override;
     void pushSaves(Model::It) override;
     void fillView(Model::It) override;
-    virtual Reminder* createEvent() override;
+    virtual Reminder* createEvent(QDate date) override;
 };
 
 #endif // VIEWPROMEMORIA_H

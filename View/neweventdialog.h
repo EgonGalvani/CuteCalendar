@@ -11,6 +11,8 @@
 #include <QTextEdit>
 #include <QPushButton>
 #include <QCheckBox>
+#include <QMessageBox>
+
 
 #include "../Model/Hierarchy/event.h"
 
