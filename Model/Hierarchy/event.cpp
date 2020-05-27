@@ -29,9 +29,11 @@ void Event::clearTags() {
 //restituire nuovo vettore?
 std::vector<std::string> Event::deleteTag(const std::string tag) {
     std::vector<std::string>::iterator it = tags.begin();
-    while (it!=tags.end()) {
+    bool found = false;
+    while (it!=tags.end() && !found) {
         if ((*it)==tag) {
             it = tags.erase(it);
+            found = true;
         }else {
             ++it;
         }
