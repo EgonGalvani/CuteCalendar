@@ -75,11 +75,23 @@ void ToDoList::addItem(const std::string & x, bool y) {
     items.push_back(ListItem(x,y));
 }
 
+void ToDoList::addItems(std::vector<std::pair<std::string, bool> > *vecItems) {
+    for (std::vector<std::pair<std::string,bool>>::const_iterator it = vecItems->begin();
+         it!=vecItems->end();++it) {
+        items.push_back(ListItem((*it).first,(*it).second));
+
+    }
+}
+
 ToDoList::ToDoList(const std::string& nome,const std::string& descr,
                    const std::string& luogo,
-                   const Date& dataEvento,const std::vector<std::string>& vettoreTag)
+                   const Date& dataEvento,const std::vector<std::string>& vettoreTag,
+                   std::vector<std::pair<std::string,bool>>* vecItems)
     :Event(nome,descr,luogo,dataEvento,vettoreTag),
     AllDayEvent () {
     items = std::vector<ToDoList::ListItem>();
+    if (vecItems!=nullptr) {
+        addItems(vecItems);
+    }
 }
 

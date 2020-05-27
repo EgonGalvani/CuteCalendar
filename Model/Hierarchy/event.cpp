@@ -19,7 +19,7 @@ void Event::setPlace(const std::string posto) {place = posto;}
 void Event::setDate(const Date x) {data = x;}
 
 void Event::addTag(const std::string tag) {
-    tags.push_back(tag);
+    if (!hasTag(tag)) tags.push_back(tag);
 }
 //restituire nuovo vettore?
 std::vector<std::string> Event::deleteTag(const std::string tag) {

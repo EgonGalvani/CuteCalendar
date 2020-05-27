@@ -47,12 +47,26 @@ public:
 
     static const int ID = 5;
     //getter setter
+
+    /**
+     * @brief getItems get every item inside the todolist
+     * @return a vector containing listitem
+     */
     std::vector<ListItem> getItems() const;
 
-    //praticamente quando vado ad aggiungere
-    //devo costruire un nuovo item
-    //Ma devo mettere un id univoco?For reference chat telegram 21 aprile
+    /**
+     * @brief addItem a single item to the todolist
+     */
     void addItem(const std::string&, bool = false);
+
+
+    /**
+     * @brief addItems a vector of items to the todolist
+     * @param items vector <string,bool>
+     */
+    void addItems(std::vector<std::pair<std::string,bool>>* items);
+
+    void clear();
 
     //Virtual methods
     /**
@@ -81,9 +95,9 @@ public:
 
     ToDoList(const std::string& nome,const std::string& descr,
              const std::string& luogo,
-             const Date& dataEvento,const std::vector<std::string>& vettoreTag);
+             const Date& dataEvento,const std::vector<std::string>& vettoreTag,
+             std::vector<std::pair<std::string,bool>>* items = nullptr);
 
-    void clear();
 };
 
 #endif // TODOLIST_H
