@@ -21,6 +21,11 @@ void Event::setDate(const Date x) {data = x;}
 void Event::addTag(const std::string tag) {
     if (!hasTag(tag)) tags.push_back(tag);
 }
+
+void Event::clearTags() {
+    tags.clear();
+}
+
 //restituire nuovo vettore?
 std::vector<std::string> Event::deleteTag(const std::string tag) {
     std::vector<std::string>::iterator it = tags.begin();
