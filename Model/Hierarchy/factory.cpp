@@ -46,6 +46,15 @@ Factory::Factory(QJsonObject &js) : json(js) {
     vectPart = std::vector<std::string>();
 }
 
+bool Factory::isEmail(const std::string& email) const{
+   // define a regular expression
+   const std::regex pattern
+      ("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+
+   // try to match the string with the regular expression
+   return std::regex_match(email, pattern);
+}
+
 Event* Factory::parse() {
 
     id = json["ID"].toInt();
@@ -77,7 +86,7 @@ Event* Factory::parse() {
             std::string mail = it->toString().toStdString();
             //manca un check di validità di mail
             //Check se email sono empty(formato sbagliato es)
-            if (!mail.empty())
+            if (!mail.empty() && isEmail(mail))
                 vectPart.push_back(mail);
         }
         return new Meeting(vectPart,start,end,alert,rep,nome,descr,place,date,tags);

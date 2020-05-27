@@ -6,6 +6,7 @@
 #include "reminder.h"
 #include "workout.h"
 #include "todolist.h"
+#include <regex>
 
 class Factory {
 
@@ -45,6 +46,13 @@ private:
      * @brief checks if the json object has invalid fields,can throw exception
      */
     void firstCheck() const;
+
+    /**
+     * @brief isEmail checks if the email has a valid format (es dgiac@gmail.com)
+     * @param email to check
+     * @return true if email has a valid format
+     */
+    bool isEmail(const std::string& email) const;
 
 public:
 
