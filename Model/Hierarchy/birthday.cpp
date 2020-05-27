@@ -14,7 +14,7 @@ BirthDay *BirthDay::clone() const{
 void BirthDay::serialize(QJsonObject &json) const{
     AllDayEvent::serialize(json);
     json.insert("ID",BirthDay::ID);
-    json["ANNO_NASCITA"] = QString::number(annoNascita);
+    json["ANNO_NASCITA"] = annoNascita;
 }
 
 unsigned short BirthDay::getNascita() const {

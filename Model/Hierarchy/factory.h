@@ -41,6 +41,11 @@ private:
      */
     void secondParse();
 
+    /**
+     * @brief checks if the json object has invalid fields,can throw exception
+     */
+    void firstCheck() const;
+
 public:
 
     /**

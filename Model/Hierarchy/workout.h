@@ -7,7 +7,8 @@ class Workout : public EventWithDuration {
 private:
 
     enum activity {
-        Calcio = 0,
+        Error = 0,
+        Calcio = 1,
         Pallavolo,
         Nuoto,
         Palestra,

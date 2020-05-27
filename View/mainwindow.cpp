@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     vettoreTag.push_back("Fit");
     vettoreTag.push_back("Insta");
     vettoreTag.push_back("ValtonGay");
-    model.insertEvent(new Workout(0,t1,t2,"palestra","sollevamento pesi","casa",d1,vettoreTag));
+    model.insertEvent(new Workout(1,t1,t2,"palestra","sollevamento pesi","casa",d1,vettoreTag));
 
     Time tt1 = Time(10,30,30);
     Time tt2 = Time(12,30,30);
@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     tags.push_back("Bambino");
     tags.push_back("Scuola");
     tags.push_back("Genitore");
-    model.insertEvent(new Reminder(0,tt1,tt2,alert,true,"Figlio","prendere bambino a scuola","Scuola",
+    model.insertEvent(new Reminder(1,tt1,tt2,alert,true,"Figlio","prendere bambino a scuola","Scuola",
                              dd1,tags));
 
     std::vector<std::string> par = std::vector<std::string>();
@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // eventi di prova...
     //model.saveInFile();
-    //model.loadFromFile();
+    //loadFromFile();
     initCalendarBox();
     initInfoBox();
 

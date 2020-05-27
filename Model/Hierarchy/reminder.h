@@ -10,8 +10,10 @@ private:
      * @brief l'urgency enum rappresenta la priorità/urgenza dell'evento
      */
     enum urgency {
-        LOW = 0,
+        Error = 0,
+        LOW = 1,
         MEDIUM,
+        HIGH
     };
 
     urgency urg;
