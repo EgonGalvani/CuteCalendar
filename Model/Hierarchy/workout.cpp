@@ -18,7 +18,7 @@ Workout::activity Workout::getActivity() const {
     return act;
 }
 
-void Workout::setActivity(int x) {
+void Workout::setActivity(const int &x) {
     act = static_cast<activity>(x);
 }
 

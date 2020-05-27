@@ -18,6 +18,7 @@ private:
 
 public:
 
+
     /**
      * @brief ID univoco dell'evento
      */
@@ -38,7 +39,7 @@ public:
      * @brief permette di impostare l'attività del workout
      * @param l'attività da impostare
      */
-    void setActivity(const int activity);
+    void setActivity(const int& activity);
 
     //virtual methods
     /**

@@ -22,3 +22,7 @@ void Reminder::serialize(QJsonObject &json) const {
     json.insert("ID",Reminder::ID);
     json["URGENCY"] = urg;
 }
+
+void Reminder::setUrgency(const int &urgenza) {
+    urg = static_cast<urgency>(urgenza);
+}

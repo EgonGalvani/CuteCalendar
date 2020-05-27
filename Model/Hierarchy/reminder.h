@@ -19,6 +19,8 @@ private:
     urgency urg;
 public:
 
+    void setUrgency(const int& urg);
+
     /**
      * @brief ID univoco dell'evento
      */
