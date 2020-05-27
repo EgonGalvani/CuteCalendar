@@ -103,9 +103,10 @@ Event* Factory::parse() {
         ToDoList* temp = new ToDoList(nome,descr,place,date,tags);
         tmp = json["TODOLIST"].toArray();
         for (QJsonArray::const_iterator it = tmp.begin();it!=tmp.end();++it) {
-            std::string item_desc = (*it) ["item_description"].toString().toStdString();
+            QJsonObject itemObject = (*it).toObject();
+            std::string item_desc = itemObject["item_description"].toString().toStdString();
             if (!item_desc.empty())
-                temp->addItem(item_desc,(*it)["item_isdone"].toBool());
+                temp->addItem(item_desc,itemObject["item_isdone"].toBool());
         }
         return temp;
     }
