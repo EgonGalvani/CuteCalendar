@@ -138,7 +138,7 @@ void ViewMeeting::fillView(Model::It it) {
         checkRep->setChecked(currEve->doesRepeat());
 
         for(auto email : currEve->getPartecipants()){
-           // if(!hasEmail(QString::fromStdString(email)))
+            if(!hasEmail(QString::fromStdString(email)))
             emailList->addItem(QString::fromStdString(email));
         }
 

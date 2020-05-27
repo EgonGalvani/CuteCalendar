@@ -23,6 +23,7 @@ void MyCalendar::paintCell(QPainter *painter, const QRect &rect, const QDate &da
             } else { // if our conditions are not matching, show the default way.
                 QCalendarWidget::paintCell(painter, rect, date);
             }
+
 }
 
 
