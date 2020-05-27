@@ -57,5 +57,7 @@ void ViewToDoList::addItem() {
 
 // TODO
 ToDoList* ViewToDoList::createEvent(QDate date) {
-    return nullptr;
+
+    ToDoList* ritorno = new ToDoList(txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
+    return ritorno;
 }

@@ -34,9 +34,9 @@ void ViewCompleanno::pushSaves(Model::It it)
 
     BirthDay* currEve = dynamic_cast<BirthDay*>(&**it);
     if(currEve) {
-        //currEve->setNascita(annoNascita->value());
+        currEve->setNascita(annoNascita->value());
     } else
-        throw std::logic_error("Tipo errato per la modifica di un allenamento");
+        throw std::logic_error("Tipo errato per la modifica di un Compleanno");
 
 }
 
@@ -47,7 +47,7 @@ void ViewCompleanno::fillView(Model::It it)
     if(currEve) {
         annoNascita->setValue(currEve->getNascita());
     } else
-        throw std::logic_error("Tipo errato per essere mostrato come allenamento");
+        throw std::logic_error("Tipo errato per essere mostrato come Compleanno");
 }
 
 

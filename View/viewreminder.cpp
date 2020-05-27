@@ -52,7 +52,7 @@ void ViewPromemoria::pushSaves(Model::It it) {
     if(currEve) {
         currEve->setStartTime(inizio->time());
         currEve->setEndTime(fine->time());
-        //currEve->setUrgency(urgency->text());
+        currEve->setUrgency(urgency->value());
 
 
         QTime* currInizio = new QTime(inizio->time());
