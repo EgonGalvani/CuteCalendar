@@ -54,6 +54,18 @@ bool ViewMeeting::hasEmail(const QString& email) const {
     return found;
 }
 
+std::vector<std::string> ViewMeeting::getEmails() const
+{
+
+        std::vector<std::string> retEmails;
+        for(int i = 0; i < emailList->count(); i++)
+            retEmails.push_back(emailList->item(i)->text().toStdString());
+
+        return retEmails;
+
+}
+
+
 void ViewMeeting::addEmail() {
     QString email = emailLineEdit->text().trimmed();
     if(email.isEmpty())
@@ -112,16 +124,16 @@ void ViewMeeting::fillView(Model::It it) {
 
         QTime* currInizio = new QTime(inizio->time());
         QTime* currAlert = new QTime(currEve->getAlertTime());
-        int secs = currInizio->secsTo(*currAlert);
-
-
-
+        int secs = currInizio->secsTo(*currAlert);        
         alert->setValue(secs/-60);
-
         delete currInizio;
         delete currAlert;
         checkRep->setChecked(currEve->doesRepeat());
-        //conversione vector-> EditText
+
+
+
+
+
 
     } else
         throw std::logic_error("Tipo errato per essere mostrato in una view meeting");
@@ -131,9 +143,11 @@ Meeting *ViewMeeting::createEvent(QDate date)
 {
     //manca emails e data
     QTime* currInizio = new QTime(inizio->time());
-    currInizio->addSecs(alert->value()*-60);
+    QTime t2 =currInizio->addSecs(alert->value()*-60);
 
-    Meeting* ritorno = new Meeting(checkTag->getTags(),inizio->time(),fine->time(), *currInizio, checkRep->isChecked() , txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
+
+
+    Meeting* ritorno = new Meeting(getEmails(),inizio->time(),fine->time(), t2, checkRep->isChecked() , txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
     delete currInizio;
     return ritorno;
 }

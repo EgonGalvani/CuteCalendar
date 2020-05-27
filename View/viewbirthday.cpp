@@ -16,7 +16,7 @@ ViewCompleanno::ViewCompleanno(QWidget *parent)
 
 BirthDay *ViewCompleanno::createEvent(QDate date)
 {
-    //CHieder a egon la conversione da QDate a Date domani <3
+
     BirthDay* ritorno = new BirthDay(annoNascita->text().toUShort(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
     return ritorno;
 }

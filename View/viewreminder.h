@@ -18,9 +18,11 @@ public:
     QTimeEdit* inizio;
     QTimeEdit* fine;
     QSpinBox* alert;
+    QSpinBox* urgency;
 
     QCheckBox* checkRep;
 
+    QLabel* urg;
     QLabel* alertL;
     QLabel* start;
     QLabel* end;

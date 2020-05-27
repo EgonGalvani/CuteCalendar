@@ -19,6 +19,7 @@ private slots:
 private:
     static bool isEmail(const std::string&);
     bool hasEmail(const QString&) const;
+    std::vector<std::string> getEmails() const;
 
 public:
       explicit ViewMeeting(QWidget *parent = 0);
