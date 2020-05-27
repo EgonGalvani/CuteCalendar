@@ -1,8 +1,8 @@
 #include "mycalendar.h"
 
 
-MyCalendar::MyCalendar(QWidget *parent)
-    : QCalendarWidget(parent)
+MyCalendar::MyCalendar(const Model* m,QWidget *parent)
+    : QCalendarWidget(parent) , model(m)
 {
 
 }
@@ -14,7 +14,7 @@ MyCalendar::~MyCalendar()
 
 void MyCalendar::paintCell(QPainter *painter, const QRect &rect, const QDate &date) const
 {
-    if (QCalendarWidget::selectedDate() == date) { // our conditions
+    if ( model->hasEvent(date) ) { // our conditions
                 // When the conditions are matched, passed QDate is drawn as we like.
                 painter->save();
                 painter->fillRect(rect,Qt::yellow);
@@ -23,6 +23,7 @@ void MyCalendar::paintCell(QPainter *painter, const QRect &rect, const QDate &da
             } else { // if our conditions are not matching, show the default way.
                 QCalendarWidget::paintCell(painter, rect, date);
             }
+
 
 }
 

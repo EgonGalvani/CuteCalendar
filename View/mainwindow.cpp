@@ -24,7 +24,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent),
       calendarBlock(new QGroupBox(QString("Calendar"))),
-      calendar(new MyCalendar()),
+      calendar(new MyCalendar(&model,this)),
       infoBlock(new QGroupBox(QString("Info"))) {
 
     // caricamento dati da file
