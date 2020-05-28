@@ -37,13 +37,13 @@ public:
      * @brief permette di riempire il model di eventi presi dal file
      * @param  la destinazione del file dal quale caricare i dati
      */
-    void loadFromFile(const QString& = "model.dat");
+    void loadFromFile(const QString& = "data.json");
 
     /**
      * @brief permette di salvare su file il contenuto del model(serialize & salvataggio su disco)
      * @param la destinazione del file nel quale salvare
      */
-    void saveInFile(const QString& = "model.dat") const;
+    void saveInFile(const QString& = "data.json") const;
 
     /**
      * @brief permette di verificare la presenza di eventi per una data specificata
