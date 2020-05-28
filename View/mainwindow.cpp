@@ -28,9 +28,9 @@ MainWindow::MainWindow(QWidget *parent)
       infoBlock(new QGroupBox(QString("Info"))) {
 
     // caricamento dati da file
-    //Filè ha indentato qui
-    try { model.loadFromFile(); } catch(std::exception& e) { std::cout << e.what(); }
-
+    try { model.loadFromFile(); }
+    catch(std::exception& e) { std::cout << e.what(); }
+    catch(...) { std::cout << "Eccrzione" << std::endl; }
 
     // init grafica
     initCalendarBox();
