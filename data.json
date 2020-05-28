@@ -1,0 +1,284 @@
+{
+    "01/05/2020": [
+        {
+            "ALERT_TIME": "23:55:00",
+            "DATA": "01/05/2020",
+            "DESCRIPTION": "Festa del lavoro (giorno di riposo!)",
+            "END_TIME": "00:00:00",
+            "ID": 1,
+            "NAME": "Festa del Lavoro",
+            "PLACE": "Italia",
+            "REPEAT": false,
+            "START_TIME": "00:00:00",
+            "TAGS": [
+                "Riposo",
+                "Festa",
+                "Lavoro"
+            ],
+            "URGENCY": 1
+        }
+    ],
+    "01/06/2020": [
+        {
+            "ALERT_TIME": "17:55:00",
+            "DATA": "01/06/2020",
+            "DESCRIPTION": "Meeting per il progetto di P2, ultimi bug da risolvere ",
+            "END_TIME": "19:00:00",
+            "ID": 3,
+            "NAME": "Meeting P2",
+            "PARTECIPANTS": [
+                "daniele.giachetto@studenti.unipd.it",
+                "valtontahiraj@gmail.com",
+                "egon.galvani@studenti.unipd.it"
+            ],
+            "PLACE": "Eraclea",
+            "REPEAT": true,
+            "START_TIME": "18:00:00",
+            "TAGS": [
+                "Progetto",
+                "P2",
+                "Meeting"
+            ]
+        }
+    ],
+    "01/11/2020": [
+        {
+            "ALERT_TIME": "23:55:00",
+            "DATA": "01/11/2020",
+            "DESCRIPTION": "Festa di tutti i santi",
+            "END_TIME": "00:00:00",
+            "ID": 1,
+            "NAME": "Tutti i Santi",
+            "PLACE": "Italia",
+            "REPEAT": false,
+            "START_TIME": "00:00:00",
+            "TAGS": [
+                "Festa",
+                "Riposo"
+            ],
+            "URGENCY": 1
+        }
+    ],
+    "02/06/2020": [
+        {
+            "ALERT_TIME": "23:55:00",
+            "DATA": "02/06/2020",
+            "DESCRIPTION": "Festa della repubblica italiana!",
+            "END_TIME": "00:00:00",
+            "ID": 1,
+            "NAME": "Festa della repubblica",
+            "PLACE": "Italia",
+            "REPEAT": false,
+            "START_TIME": "00:00:00",
+            "TAGS": [
+                "Riposo",
+                "Repubblica",
+                "Italia",
+                "Festa"
+            ],
+            "URGENCY": 1
+        }
+    ],
+    "06/06/2020": [
+        {
+            "ACTIVITY": 2,
+            "DATA": "06/06/2020",
+            "DESCRIPTION": "Prima lezione di pallavolo!",
+            "END_TIME": "18:00:00",
+            "ID": 2,
+            "NAME": "Lezione pallavolo",
+            "PLACE": "Jesolo",
+            "START_TIME": "17:00:00",
+            "TAGS": [
+                "Pallavolo",
+                "Allenamento",
+                "Jesolo"
+            ]
+        }
+    ],
+    "10/10/2020": [
+        {
+            "ANNO_NASCITA": 1999,
+            "DATA": "10/10/2020",
+            "DESCRIPTION": "Compleanno del magnifico Daniele, fiero portatore del 19 in analisi e 18 in P2",
+            "ID": 4,
+            "NAME": "Compleanno Daniele",
+            "PLACE": "Eraclea",
+            "TAGS": [
+                "Daniele",
+                "Compleanno",
+                "Eraclea"
+            ]
+        }
+    ],
+    "15/08/2020": [
+        {
+            "ALERT_TIME": "23:55:00",
+            "DATA": "15/08/2020",
+            "DESCRIPTION": "Grigliata con amici!",
+            "END_TIME": "00:00:00",
+            "ID": 1,
+            "NAME": "Ferragosto",
+            "PLACE": "Jesolo",
+            "REPEAT": false,
+            "START_TIME": "00:00:00",
+            "TAGS": [
+                "Jesolo",
+                "Grigliata",
+                "Riposo"
+            ],
+            "URGENCY": 1
+        }
+    ],
+    "16/01/2020": [
+        {
+            "ANNO_NASCITA": 2000,
+            "DATA": "16/01/2020",
+            "DESCRIPTION": "Compleanno del raro esemplare di Valton difficilmente avvistabile in mezzo ai banchi universitari",
+            "ID": 4,
+            "NAME": "Compleanno Valton",
+            "PLACE": "Padova",
+            "TAGS": [
+                "Compleanno",
+                "Valton",
+                "Padova"
+            ]
+        }
+    ],
+    "17/11/2020": [
+        {
+            "ANNO_NASCITA": 1999,
+            "DATA": "17/11/2020",
+            "DESCRIPTION": "Compleanno del 3 in 2, Egon. ",
+            "ID": 4,
+            "NAME": "Compleanno Egon",
+            "PLACE": "Padova",
+            "TAGS": [
+                "Compleanno",
+                "Egon",
+                "Padova"
+            ]
+        }
+    ],
+    "18/06/2020": [
+        {
+            "DATA": "18/06/2020",
+            "DESCRIPTION": "Lista della spesa per festa",
+            "ID": 5,
+            "NAME": "Lista spesa ",
+            "PLACE": "Jesolo",
+            "TAGS": [
+                "Festa",
+                "Spesa",
+                "Jesolo"
+            ],
+            "TODOLIST": [
+                {
+                    "item_description": "Salsiccia",
+                    "item_isdone": false
+                },
+                {
+                    "item_description": "Costicine",
+                    "item_isdone": false
+                },
+                {
+                    "item_description": "Salsa barbecue",
+                    "item_isdone": false
+                },
+                {
+                    "item_description": "Zucchine",
+                    "item_isdone": false
+                }
+            ]
+        }
+    ],
+    "25/12/2020": [
+        {
+            "ALERT_TIME": "23:55:00",
+            "DATA": "25/12/2020",
+            "DESCRIPTION": "Festa di Natale!",
+            "END_TIME": "00:00:00",
+            "ID": 1,
+            "NAME": "Natale",
+            "PLACE": "Mondo",
+            "REPEAT": false,
+            "START_TIME": "00:00:00",
+            "TAGS": [
+                "Festa",
+                "Riposo",
+                "Vacanza"
+            ],
+            "URGENCY": 1
+        }
+    ],
+    "27/06/2020": [
+        {
+            "ACTIVITY": 1,
+            "DATA": "27/06/2020",
+            "DESCRIPTION": "Partita di calcetto in patronato con amici",
+            "END_TIME": "18:00:00",
+            "ID": 2,
+            "NAME": "Calcetto con amici",
+            "PLACE": "Eraclea",
+            "START_TIME": "16:00:00",
+            "TAGS": [
+                "Eraclea",
+                "Calcio"
+            ]
+        }
+    ],
+    "29/05/2020": [
+        {
+            "ALERT_TIME": "17:55:00",
+            "DATA": "29/05/2020",
+            "DESCRIPTION": "Ultimo meeting nel quale si aggiornerà codice,da ora in poi solo bug testing & fixing e documentazione",
+            "END_TIME": "19:00:00",
+            "ID": 3,
+            "NAME": "Meeting conclusivo CuteCalendar",
+            "PARTECIPANTS": [
+                "valtontahiraj@gmail.com",
+                "daniele.giachetto@studenti.unipd.it",
+                "egon.galvani@studenti.unipd.it"
+            ],
+            "PLACE": "Eraclea",
+            "REPEAT": true,
+            "START_TIME": "18:00:00",
+            "TAGS": [
+                "Lavoro",
+                "Progetto",
+                "P2",
+                "Gruppo"
+            ]
+        }
+    ],
+    "30/05/2020": [
+        {
+            "DATA": "30/05/2020",
+            "DESCRIPTION": "Lista della spesa per sabato",
+            "ID": 5,
+            "NAME": "Lista spesa",
+            "PLACE": "Eraclea",
+            "TAGS": [
+                "Spesa"
+            ],
+            "TODOLIST": [
+                {
+                    "item_description": "Insalata",
+                    "item_isdone": false
+                },
+                {
+                    "item_description": "Hamburger",
+                    "item_isdone": false
+                },
+                {
+                    "item_description": "Tonno",
+                    "item_isdone": false
+                },
+                {
+                    "item_description": "Pomodori",
+                    "item_isdone": false
+                }
+            ]
+        }
+    ]
+}
