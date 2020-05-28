@@ -5,6 +5,7 @@
 #include "../Model/Hierarchy/workout.h"
 
 #include <QTimeEdit>
+#include <QComboBox>
 
 class ViewAllenamento : public ModView {
     Q_OBJECT
@@ -17,6 +18,8 @@ public:
    QTimeEdit* fine;
    QLabel* start;
    QLabel* end;
+   QComboBox* attivita;
+
 
    void setEnabled(bool) override;
    void pushSaves(Model::It) override;

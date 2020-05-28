@@ -10,7 +10,17 @@ ViewAllenamento::ViewAllenamento(QWidget *parent)
     fine= new QTimeEdit();
     start = new QLabel("Inizio");
     end = new QLabel("Fine");
+    attivita = new QComboBox(this);
 
+    attivita->addItem("Calcio");
+    attivita->addItem("Pallavolo");
+    attivita->addItem("Nuoto");
+    attivita->addItem("Piscina");
+    attivita->addItem("Palestra");
+
+
+
+    mainLayout->addWidget(attivita);
     mainLayout->addWidget(start);
     mainLayout->addWidget(inizio);
     mainLayout->addWidget(end);
@@ -21,6 +31,8 @@ void ViewAllenamento::setEnabled(bool e) {
     ModView::setEnabled(e);
     inizio->setEnabled(e);
     fine->setEnabled(e);
+    attivita->setEnabled(e);
+
 }
 
 void ViewAllenamento::pushSaves(Model::It it) {
@@ -30,6 +42,7 @@ void ViewAllenamento::pushSaves(Model::It it) {
     if(currEve) {
         currEve->setStartTime(inizio->time());
         currEve->setEndTime(fine->time());
+        currEve->setActivity(attivita->currentIndex()+1);
     } else
         throw std::logic_error("Tipo errato per la modifica di un allenamento");
 }
@@ -41,14 +54,16 @@ void ViewAllenamento::fillView(Model::It it) {
     if(currEve) {
         inizio->setTime(currEve->getStartTime());
         fine->setTime(currEve->getEndTime());
+        attivita->setCurrentIndex(currEve->getActivity()-1);
     } else
         throw std::logic_error("Tipo errato per essere mostrato come allenamento");
 }
 
 Workout *ViewAllenamento::createEvent(QDate date)
 {
-    //manca attivita data etc
-    Workout* ritorno = new Workout(12,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
+
+
+    Workout* ritorno = new Workout(attivita->currentIndex()+1,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
     return ritorno;
 }
 
