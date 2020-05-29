@@ -166,16 +166,31 @@ void MainWindow::refreshList(const QDate& date) {
 }
 
 void MainWindow::ontimerout() {
+
     for(auto it : model.getEvents(QDate::currentDate())) {
         Alert* currentAlert = dynamic_cast<Alert*>(&**it);
         if(currentAlert) {
-           if(QTime::currentTime().secsTo(currentAlert->getAlertTime()) <= 60)
-                QMessageBox::information(this, QString("Success"), QString("L'evento ") + QString::fromStdString(currentAlert->getName()) + QString(" sta per iniziare!"));
+           int diff = QTime::currentTime().secsTo(currentAlert->getAlertTime());
+
+           if(diff > 0 && diff <= 60) {
+                QMessageBox* alertMsg = new QMessageBox(this);
+                alertMsg->setText(QString("L'evento ") + QString::fromStdString(currentAlert->getName()) + QString(" sta per iniziare!"));
+                alertMsg->setInformativeText("success");
+                alertMsg->setModal(false);
+                alertMsg->show();
+           }
 
            EventWithDuration* eventWithDuration = dynamic_cast<EventWithDuration*>(&**it);
            if(currentAlert->doesRepeat() && eventWithDuration) {
-               if(QTime::currentTime().secsTo(eventWithDuration->getStartTime()) <= 60)
-                   QMessageBox::information(this, QString("Success"), QString("L'evento ") + QString::fromStdString(currentAlert->getName()) + QString(" è iniziato!"));
+               diff = QTime::currentTime().secsTo(eventWithDuration->getStartTime());
+
+               if(diff > 0 && diff <= 60) {
+                   QMessageBox* startMsg = new QMessageBox(this);
+                   startMsg->setText(QString("L'evento ") + QString::fromStdString(currentAlert->getName()) + QString(" è iniziato!"));
+                   startMsg->setInformativeText("success");
+                   startMsg->setModal(false);
+                   startMsg->show();
+               }
            }
         }
     }
