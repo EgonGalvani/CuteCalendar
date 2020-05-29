@@ -96,26 +96,27 @@ void ViewMeeting::pushSaves(Model::It it) {
 
     Meeting* currEve = dynamic_cast<Meeting*>(&**it);
     if(currEve) {
-        currEve->setStartTime(inizio->time());
-        currEve->setEndTime(fine->time());
+        if (checkPushable()){
+            currEve->setStartTime(inizio->time());
+            currEve->setEndTime(fine->time());
 
-        QTime* currInizio = new QTime(inizio->time());
+            QTime* currInizio = new QTime(inizio->time());
 
-        QTime t2 =currInizio->addSecs(alert->value()*(-60));
+            QTime t2 =currInizio->addSecs(alert->value()*(-60));
 
-        currEve->setAlertTime(t2);
-        currEve->setRepeat(checkRep->isChecked());
+            currEve->setAlertTime(t2);
+            currEve->setRepeat(checkRep->isChecked());
 
-        delete currInizio;
-         //memory leak t2?
+            delete currInizio;
+            //memory leak t2?
+            for(auto email : getEmails()){
+                currEve->addPartecipant(email);
+            }
 
-        for(auto email : getEmails()){
-            currEve->addPartecipant(email);
+        }else {
+            QMessageBox::critical(this, QString("Error"), "Qualche campo vuoto non ho tempo di fare tutti i vari check quindi arrangiati fratellì");
+            throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
         }
-
-
-
-
 
     } else
         throw std::logic_error("Tipo errato per la modifica di una view meeting");
@@ -150,15 +151,18 @@ void ViewMeeting::fillView(Model::It it) {
         throw std::logic_error("Tipo errato per essere mostrato in una view meeting");
 }
 
+bool ViewMeeting::checkPushable()
+{
+    return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && alert->value()%5==0 && emailList->count()!=0;
+}
+
 Meeting *ViewMeeting::createEvent(QDate date)
 {
-    //manca emails e data
-    QTime* currInizio = new QTime(inizio->time());
-    QTime t2 =currInizio->addSecs(alert->value()*-60);
-
-
-
-    Meeting* ritorno = new Meeting(getEmails(),inizio->time(),fine->time(), t2, checkRep->isChecked() , txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
-    delete currInizio;
-    return ritorno;
+    if(checkPushable()){
+        QTime* currInizio = new QTime(inizio->time());
+        QTime t2 =currInizio->addSecs(alert->value()*-60);
+        Meeting* ritorno = new Meeting(getEmails(),inizio->time(),fine->time(), t2, checkRep->isChecked() , txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
+        delete currInizio;
+        return ritorno;
+    }else throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
 }

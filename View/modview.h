@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QVBoxLayout>
+#include <QMessageBox>
 
 
 
@@ -24,6 +25,7 @@ public:
     virtual void setEnabled(bool);
     virtual void pushSaves(Model::It);
     virtual void fillView(Model::It);
+    virtual bool checkPushable();
     virtual Event* createEvent(QDate date) = 0;
 
     bool isEnabled() const;

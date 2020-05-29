@@ -40,9 +40,13 @@ void ViewAllenamento::pushSaves(Model::It it) {
 
     Workout* currEve = dynamic_cast<Workout*>(&**it);
     if(currEve) {
-        currEve->setStartTime(inizio->time());
-        currEve->setEndTime(fine->time());
-        currEve->setActivity(attivita->currentIndex()+1);
+        if(checkPushable()){
+            currEve->setStartTime(inizio->time());
+            currEve->setEndTime(fine->time());
+            currEve->setActivity(attivita->currentIndex()+1);
+        } else {
+            QMessageBox::critical(this, QString("Error"), "Qualche campo vuoto non ho tempo di fare tutti i vari check quindi arrangiati fratellì");
+            throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");}
     } else
         throw std::logic_error("Tipo errato per la modifica di un allenamento");
 }
@@ -59,12 +63,19 @@ void ViewAllenamento::fillView(Model::It it) {
         throw std::logic_error("Tipo errato per essere mostrato come allenamento");
 }
 
+bool ViewAllenamento::checkPushable(){
+
+    return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && !attivita->currentText().isEmpty();
+}
+
 Workout *ViewAllenamento::createEvent(QDate date)
 {
 
+    if(checkPushable()){
+        Workout* ritorno = new Workout(attivita->currentIndex()+1,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
+        return ritorno;
+    } else throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
 
-    Workout* ritorno = new Workout(attivita->currentIndex()+1,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
-    return ritorno;
 }
 
 

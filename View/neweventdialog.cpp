@@ -90,10 +90,11 @@ void NewEventDialog::addPushed() {
     try {
         emit newEventCreated(view->createEvent(date));
         QMessageBox::information(this, QString("Successo"), QString("L'inserimento ha avuto successo"));
+        close();
     } catch(...) {
         QMessageBox::critical(this, QString("Error"),"Fallito inserimento"/**, se.getMessage()**/);
     }
-
-    close();
+    //Qua chiuderei solo se il push è corretto tho
+    //close();
 
 }

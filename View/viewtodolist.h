@@ -18,8 +18,9 @@ public:
     void setEnabled(bool) override;
     void pushSaves(Model::It) override;
     void fillView(Model::It) override;
+    bool checkPushable() override;
 
-    virtual ToDoList* createEvent(QDate date);
+    virtual ToDoList* createEvent(QDate date) override;
 private slots:
     void addItem();
 };
