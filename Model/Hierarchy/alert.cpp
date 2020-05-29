@@ -17,6 +17,5 @@ void Alert::serialize(QJsonObject &json) const{
     Event::serialize(json);
     json["ALERT_TIME"] = QString::fromStdString(alertTime.toString());
     json["REPEAT"] = repeat;
-
 }
 

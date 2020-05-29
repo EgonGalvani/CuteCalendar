@@ -5,6 +5,8 @@
 #include <QMessageBox>
 #include <stdexcept>
 #include <QCloseEvent>
+#include <QDate>
+#include <QTime>
 
 #include "mainwindow.h"
 #include "mycalendar.h"
@@ -20,6 +22,8 @@
 #include "../Model/Hierarchy/reminder.h"
 #include "../Model/Hierarchy/todolist.h"
 #include "../Model/Hierarchy/workout.h"
+#include "../Model/Hierarchy/alert.h"
+#include "../Model/Hierarchy/eventwithduration.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent),
@@ -35,6 +39,12 @@ MainWindow::MainWindow(QWidget *parent)
     // init grafica
     initCalendarBox();
     initInfoBox();
+
+    // init timer per avviso eventi
+    QTimer *timer = new QTimer(this);
+    timer->setInterval(1000*60);
+    connect(timer, SIGNAL(timeout()), this, SLOT(ontimerout()));
+    timer->start();
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(calendarBlock);
@@ -132,9 +142,8 @@ void MainWindow::showAddEventDialog() {
 
 void MainWindow::insertEvent(Event *e) {
     // inserisco l'evento
-    model.insertEvent(e); // ritorna l'iteratore all'elemento inserito
+    model.insertEvent(e);
 
-    // aggiorno la lista TODO: vedere se aggiugnere semplicemente un elemento alla lista
     refreshList(calendar->selectedDate());
 }
 
@@ -153,6 +162,22 @@ void MainWindow::refreshList(const QDate& date) {
             eventList->addItem(EventWidgetBuilder::buildTodoListWidget(it, eventList));
         else
             eventList->addItem(EventWidgetBuilder::buildWorkoutWidget(it, eventList));
+    }
+}
+
+void MainWindow::ontimerout() {
+    for(auto it : model.getEvents(QDate::currentDate())) {
+        Alert* currentAlert = dynamic_cast<Alert*>(&**it);
+        if(currentAlert) {
+           if(QTime::currentTime().secsTo(currentAlert->getAlertTime()) <= 60)
+                QMessageBox::information(this, QString("Success"), QString("L'evento ") + QString::fromStdString(currentAlert->getName()) + QString(" sta per iniziare!"));
+
+           EventWithDuration* eventWithDuration = dynamic_cast<EventWithDuration*>(&**it);
+           if(currentAlert->doesRepeat() && eventWithDuration) {
+               if(QTime::currentTime().secsTo(eventWithDuration->getStartTime()) <= 60)
+                   QMessageBox::information(this, QString("Success"), QString("L'evento ") + QString::fromStdString(currentAlert->getName()) + QString(" è iniziato!"));
+           }
+        }
     }
 }
 

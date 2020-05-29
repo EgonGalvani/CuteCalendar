@@ -9,6 +9,8 @@
 #include <QPushButton>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <unordered_map>
+#include <QTimer>
 
 #include "Model/model.h"
 
@@ -46,6 +48,9 @@ private:
     void initCalendarBox();
     void initInfoBox();
     void refreshList(const QDate&);
+
+private slots:
+    void ontimerout();
 };
 
 #endif // MAINWINDOW_H
