@@ -1,5 +1,6 @@
 #include "modview.h"
 
+
 ModView::ModView(QWidget *parent)
         : QWidget(parent), enabled(true){
 
@@ -56,4 +57,9 @@ void ModView::fillView(Model::It it) {
     for (auto tag: (*it)->getTags()){
         checkTag->addTag(tag);
     }
+}
+
+bool ModView::checkPushable()
+{
+    return !txtDesc->toPlainText().isEmpty() && !txtNome->text().isEmpty() && !txtLuogo->text().isEmpty();
 }

@@ -31,6 +31,7 @@ public:
     void setEnabled(bool) override;
     void pushSaves(Model::It) override;
     void fillView(Model::It) override;
+    bool checkPushable() override;
     virtual Reminder* createEvent(QDate date) override;
 };
 

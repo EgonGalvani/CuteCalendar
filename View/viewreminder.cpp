@@ -18,9 +18,9 @@ ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
 
     start = new QLabel("Inizio");
     end = new QLabel("Fine");
-    alertL= new QLabel("Alert");
+    alertL= new QLabel("Notifica");
     rep = new QLabel("Ripeti");
-    urg= new QLabel("Urgency");
+    urg= new QLabel("Urgenza");
 
     mainLayout->addWidget(start);
     mainLayout->addWidget(inizio);
@@ -50,20 +50,24 @@ void ViewPromemoria::pushSaves(Model::It it) {
 
     Reminder* currEve = dynamic_cast<Reminder*>(&**it);
     if(currEve) {
-        currEve->setStartTime(inizio->time());
-        currEve->setEndTime(fine->time());
-        currEve->setUrgency(urgency->value());
+        if (checkPushable()){
+            currEve->setStartTime(inizio->time());
+            currEve->setEndTime(fine->time());
+            currEve->setUrgency(urgency->value());
 
 
-        QTime* currInizio = new QTime(inizio->time());
+            QTime* currInizio = new QTime(inizio->time());
 
-        QTime t2 =currInizio->addSecs(alert->value()*(-60));
+            QTime t2 =currInizio->addSecs(alert->value()*(-60));
 
-        currEve->setAlertTime(t2);
-        currEve->setRepeat(checkRep->isChecked());
+            currEve->setAlertTime(t2);
+            currEve->setRepeat(checkRep->isChecked());
 
-        delete currInizio;
-
+            delete currInizio;
+        }else {
+            QMessageBox::critical(this, QString("Error"), "Qualche campo vuoto non ho tempo di fare tutti i vari check quindi arrangiati fratellì");
+            throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
+        }
 
      } else
         throw std::logic_error("Tipo errato per apportare le modifiche del reminder");
@@ -95,13 +99,19 @@ void ViewPromemoria::fillView(Model::It it) {
     }
 }
 
+bool ViewPromemoria::checkPushable()
+{
+    return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && alert->value()%5==0 ;
+}
+
 Reminder *ViewPromemoria::createEvent(QDate date)
 {
-    QTime* currInizio = new QTime(inizio->time());
-    QTime t2 =currInizio->addSecs(alert->value()*-60);
+    if(checkPushable()){
 
-
-    Reminder* ritorno = new Reminder(urgency->value(),inizio->time(),fine->time(),t2,checkRep->isChecked(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
-    delete currInizio;
-    return ritorno;
+        QTime* currInizio = new QTime(inizio->time());
+        QTime t2 =currInizio->addSecs(alert->value()*-60);
+        Reminder* ritorno = new Reminder(urgency->value(),inizio->time(),fine->time(),t2,checkRep->isChecked(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
+        delete currInizio;
+        return ritorno;
+    }else throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
 }

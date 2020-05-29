@@ -66,11 +66,12 @@ void ModifyDialog::modifyPushed() {
         try {
             view->pushSaves(it);
             QMessageBox::information(this, QString("Successo"), QString("Le modifiche sono state apportate con successo"));
+            close();
         } catch(...) {
             QMessageBox::critical(this, QString("Error"), QString("Si sono riscontrati dei problemi durante il salvataggio delle modifiche..."));
         }
-
-        close();
+    //QUA CHIUDEREI SOLO SE LA PUSH HA AVUTO SUCCESSO
+      // close();
     }
 }
 

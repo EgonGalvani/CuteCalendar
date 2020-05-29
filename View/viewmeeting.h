@@ -42,6 +42,7 @@ public:
       void setEnabled(bool) override;
       void pushSaves(Model::It) override;
       void fillView(Model::It) override;
+      bool checkPushable() override;
       Meeting* createEvent(QDate date) override;
 };
 

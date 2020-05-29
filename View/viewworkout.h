@@ -24,6 +24,7 @@ public:
    void setEnabled(bool) override;
    void pushSaves(Model::It) override;
    void fillView(Model::It) override;
+   bool checkPushable() override;
    Workout *createEvent(QDate date) override;
 };
 

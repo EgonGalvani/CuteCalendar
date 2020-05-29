@@ -27,9 +27,13 @@ void ViewToDoList::pushSaves(Model::It it) {
 
     ToDoList* currEve = dynamic_cast<ToDoList*>(&**it);
     if(currEve) {
-        currEve->clear();
-        for(auto item : checkList->getStatus())
-            currEve->addItem(item.first, item.second);
+        if(checkPushable()){
+            currEve->clear();
+            for(auto item : checkList->getStatus())
+                currEve->addItem(item.first, item.second);
+        } else {
+            QMessageBox::critical(this, QString("Error"), "Qualche campo vuoto non ho tempo di fare tutti i vari check quindi arrangiati fratellì");
+            throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");}
     } else
         throw std::logic_error("Tipo errato per salvataggio da view todolist");
 }
@@ -45,6 +49,11 @@ void ViewToDoList::fillView(Model::It it) {
         throw std::logic_error("Tipo errato per essere mostrato in una view todolist");
 }
 
+bool ViewToDoList::checkPushable()
+{
+    return ModView::checkPushable() && checkList->getStatus().size()!=0;
+}
+
 void ViewToDoList::addItem() {
     try {
         checkList->addItem(inputLine->text());
@@ -57,7 +66,10 @@ void ViewToDoList::addItem() {
 
 // TODO
 ToDoList* ViewToDoList::createEvent(QDate date) {
-
-    ToDoList* ritorno = new ToDoList(txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
-    return ritorno;
+    if(checkPushable()){
+        ToDoList* ritorno = new ToDoList(txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
+        for(auto item : checkList->getStatus())
+            ritorno->addItem(item.first, item.second);
+        return ritorno;
+    }else throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
 }
