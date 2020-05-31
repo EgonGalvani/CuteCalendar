@@ -28,6 +28,11 @@ ViewMeeting::ViewMeeting(QWidget *parent)
     alert->setRange(5,60);
     alert->setSingleStep(5);
 
+    inizio->setTime(QTime::currentTime());
+    if(inizio->time().hour()<23)
+        fine->setTime(inizio->time().addSecs(3600));
+    else fine->setTime(QTime::fromString("23:59:99"));
+
     emailLabel= new QLabel("Emails", this);
     alertL= new QLabel("Notifica", this);
     start = new QLabel("Inizio", this);

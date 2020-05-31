@@ -15,6 +15,11 @@ ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
     alert->setRange(5,60);
     alert->setSingleStep(5);
 
+    inizio->setTime(QTime::currentTime());
+    if(inizio->time().hour()<23)
+        fine->setTime(inizio->time().addSecs(3600));
+    else fine->setTime(QTime::fromString("23:59:99"));
+
 
     start = new QLabel("Inizio");
     end = new QLabel("Fine");
