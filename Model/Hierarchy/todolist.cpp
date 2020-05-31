@@ -42,7 +42,6 @@ bool ToDoList::isCompleted() const {
          x!=items.end() && found;++x) {
         found = x->isDone();
     }
-
     return found;
 }
 

@@ -10,7 +10,6 @@ EventWithDuration::EventWithDuration(const Time& start,const Time& end,
 Time EventWithDuration::getDuration() const {
     //POTREBBE ESSERCI UN METODO PIÙ EFFICACE,
     //Difference converted in seconds, e poi ricostruisco ora,minuti,secondi
-
     unsigned short x = (endTime - startTime).second();
     unsigned short hour = x / 3600;
     x %= 3600;

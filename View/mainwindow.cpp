@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     // caricamento dati da file
     try { model.loadFromFile(); }
     catch(std::exception& e) { std::cout << e.what(); }
-    catch(...) { std::cout << "Eccrzione" << std::endl; }
+    catch(...) { std::cout << "Eccezione" << std::endl; }
 
     // init grafica
     initCalendarBox();
