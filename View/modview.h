@@ -38,6 +38,7 @@ protected:
     QLabel* lDesc;
     QLabel* lLuogo;
     QLabel* lTag;
+    QLabel* completato;
 
 
 
