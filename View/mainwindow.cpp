@@ -15,7 +15,6 @@
 #include "modifydialog.h"
 
 #include "eventwidget.h"
-#include "eventwidgetbuilder.h"
 
 #include "../Model/Hierarchy/birthday.h"
 #include "../Model/Hierarchy/meeting.h"
@@ -142,28 +141,43 @@ void MainWindow::showAddEventDialog() {
 
 void MainWindow::insertEvent(Event *e) {
     // inserisco l'evento
-    model.insertEvent(e);
-
-    refreshList(calendar->selectedDate());
+    auto it = model.insertEvent(e);
+    eventList->addItem(createEventWidget(it));
 }
 
 void MainWindow::refreshList(const QDate& date) {
     eventList->clear();
 
-    for(auto it : model.getEvents(date)) {
-        Event* currentEvent = &**it;
-        if(dynamic_cast<BirthDay*>(currentEvent))
-            eventList->addItem(EventWidgetBuilder::buildBirthdayWidget(it, eventList));
-        else if(dynamic_cast<Meeting*>(currentEvent))
-            eventList->addItem(EventWidgetBuilder::buildMeetingWidget(it, eventList));
-        else if(dynamic_cast<Reminder*>(currentEvent))
-            eventList->addItem(EventWidgetBuilder::buildReminderWidget(it, eventList));
-        else if(dynamic_cast<ToDoList*>(currentEvent))
-            eventList->addItem(EventWidgetBuilder::buildTodoListWidget(it, eventList));
-        else
-            eventList->addItem(EventWidgetBuilder::buildWorkoutWidget(it, eventList));
-    }
+    for(auto it : model.getEvents(date))
+        eventList->addItem(createEventWidget(it));
 }
+
+EventWidget* MainWindow::createEventWidget(const Model::It& it, QListWidget *parent) {
+    Event* currentEvent = &**it;
+
+    // evento di default -> birthday
+    QIcon eventIcon = QIcon(":/res/birthday.png");
+    QColor widgetColor = QColor(Qt::green);
+
+    if(dynamic_cast<Meeting*>(currentEvent)) {
+        eventIcon = QIcon(":/res/meeting.jpg");
+        widgetColor = QColor(Qt::yellow);
+    } else if(dynamic_cast<Reminder*>(currentEvent)) {
+        eventIcon = QIcon(":/res/reminder.png");
+        widgetColor = QColor(Qt::cyan);
+    } else if(dynamic_cast<ToDoList*>(currentEvent)) {
+        eventIcon = QIcon(":/res/todolist.png");
+        widgetColor = QColor(Qt::green);
+    } else {
+        eventIcon = QIcon(":/res/workout.jpg");
+        widgetColor = QColor(Qt::lightGray);
+    }
+
+    EventWidget* e = new EventWidget(it, eventIcon, parent);
+    e->setBackgroundColor(widgetColor);
+    return e;
+}
+
 
 void MainWindow::ontimerout() {
 

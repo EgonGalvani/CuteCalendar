@@ -13,6 +13,7 @@
 #include <QTimer>
 
 #include "Model/model.h"
+#include "eventwidget.h"
 
 class MainWindow : public QWidget {
     Q_OBJECT
@@ -49,6 +50,7 @@ private:
     void initInfoBox();
     void refreshList(const QDate&);
 
+    static EventWidget* createEventWidget(const Model::It&, QListWidget* = nullptr);
 private slots:
     void ontimerout();
 };

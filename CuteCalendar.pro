@@ -47,7 +47,6 @@ SOURCES += \
     Model/Hierarchy/reminder.cpp \
     Model/Hierarchy/meeting.cpp \
     Model/Hierarchy/birthday.cpp \
-    View/eventwidgetbuilder.cpp \
     View/tagpicker.cpp \
     View/neweventdialog.cpp \
     View/checklist.cpp \
@@ -79,7 +78,6 @@ HEADERS += \
     Model/model.h \
     Model/Container/vector.h \
     Model/Container/unorderedmultimap.h \
-    View/eventwidgetbuilder.h \
     View/tagpicker.h \
     View/neweventdialog.h \
     View/checklist.h \
