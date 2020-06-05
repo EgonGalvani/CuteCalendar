@@ -50,7 +50,6 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     connect(btnModify, SIGNAL(clicked()), this, SLOT(modifyPushed()));
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(deletePushed()));
 
-
     layout->addLayout(viewLayout);
     layout->addLayout(buttomLayout);
 
@@ -61,6 +60,7 @@ void ModifyDialog::modifyPushed() {
     if(!modifyEnabled) {
         view->setEnabled(true);
         btnModify->setText("Confirm");
+        btnModify->setFocus();
         modifyEnabled = true;
     } else {
         try {

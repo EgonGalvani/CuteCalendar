@@ -12,6 +12,8 @@ ModView::ModView(QWidget *parent)
     lLuogo = new QLabel("Luogo");
     completato = new QLabel("Completato");
 
+    completato->setAlignment(Qt::AlignCenter);
+
     txtDesc = new QTextEdit();
     txtNome = new QLineEdit();
     txtLuogo = new QLineEdit();
@@ -50,8 +52,6 @@ void ModView::pushSaves(Model::It it) {
     for (auto tag: checkTag->getTags()){
        (*it)->addTag(tag);
     }
-
-
 }
 
 void ModView::fillView(Model::It it) {
@@ -61,8 +61,14 @@ void ModView::fillView(Model::It it) {
     for (auto tag: (*it)->getTags()){
         checkTag->addTag(tag);
     }
-    std::cout<< (*it)->isCompleted() << std::endl;
-    (*it)->isCompleted() ? completato->setStyleSheet("QLabel { background-color : green;}") : completato->setStyleSheet("QLabel { background-color : red;}");
+
+    if((*it)->isCompleted()) {
+        completato->setText("Completato");
+        completato->setStyleSheet("QLabel { color: #fff; padding: 4px; background-color : green;}");
+    } else {
+        completato->setText("Non completato");
+        completato->setStyleSheet("QLabel { color: #fff; padding: 4px; color: #fff; background-color : red;}");
+    }
 }
 
 bool ModView::checkPushable()
