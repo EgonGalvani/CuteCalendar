@@ -117,15 +117,11 @@ public:
 
     //Vector manipulation methods
 
-
-    //chiedere ad Egon se preferisce un bool per conferma o usiamo exeption
-
     /**
      * @brief permette di aggiungere un nuovo tag al vettore di evento
      * @param il nuovo tag da inserire
      */
     void addTag(const std::string tag);
-    //restituire nuovo vettore?
 
     /**
      * @brief permette di eliminare un tag
