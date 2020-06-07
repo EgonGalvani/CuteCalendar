@@ -6,21 +6,21 @@ ModView::ModView(QWidget *parent)
 
     mainLayout = new QVBoxLayout(this);
 
-    lTag = new QLabel("Tag");
-    lNome= new QLabel("Nome");
-    lDesc= new QLabel("Descrizione");
-    lLuogo = new QLabel("Luogo");
-    completato = new QLabel("Completato");
+    lTag = new QLabel("Tag",this);
+    lNome= new QLabel("Nome",this);
+    lDesc= new QLabel("Descrizione",this);
+    lLuogo = new QLabel("Luogo",this);
 
-    completato->setAlignment(Qt::AlignCenter);
 
-    txtDesc = new QTextEdit();
-    txtNome = new QLineEdit();
-    txtLuogo = new QLineEdit();
 
-    checkTag= new TagPicker();
 
-    mainLayout->addWidget(completato);
+    txtDesc = new QTextEdit(this);
+    txtNome = new QLineEdit(this);
+    txtLuogo = new QLineEdit(this);
+
+    checkTag= new TagPicker(this);
+
+
     mainLayout->addWidget(lNome);
     mainLayout->addWidget(txtNome);
     mainLayout->addWidget(lLuogo);
@@ -62,13 +62,7 @@ void ModView::fillView(Model::It it) {
         checkTag->addTag(tag);
     }
 
-    if((*it)->isCompleted()) {
-        completato->setText("Completato");
-        completato->setStyleSheet("QLabel { color: #fff; padding: 4px; background-color : green;}");
-    } else {
-        completato->setText("Non completato");
-        completato->setStyleSheet("QLabel { color: #fff; padding: 4px; color: #fff; background-color : red;}");
-    }
+
 }
 
 bool ModView::checkPushable()

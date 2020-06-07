@@ -12,8 +12,8 @@ TagPicker::TagPicker(QWidget* parent) : QWidget(parent), enabled(true) {
 
     QVBoxLayout *layout = new QVBoxLayout(this);
 
-    txtEdit = new EnterLineEdit();
-    list = new QListWidget();
+    txtEdit = new EnterLineEdit(this);
+    list = new QListWidget(this);
 
     txtEdit->setPlaceholderText("Inserire tag e premere invio");
 

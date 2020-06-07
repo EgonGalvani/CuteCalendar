@@ -37,7 +37,7 @@ private:
     QVBoxLayout* layout;
     QVBoxLayout* viewLayout;
     QHBoxLayout* buttomLayout;
-
+    QLabel* completato;
     QDate date;
 
     QPushButton* btnModify;

@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     initCalendarBox();
     initInfoBox();
 
-    QHBoxLayout *layout = new QHBoxLayout;
+    QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(calendarBlock);
     layout->addWidget(infoBlock);
     setMinimumSize(QSize(900,500));
@@ -74,18 +74,18 @@ void MainWindow::initInfoBox() {
     selectedDateLabel->setFont(QFont("Lato", 13, QFont::Bold));
 
     // init preview list
-    eventList = new QListWidget();
+    eventList = new QListWidget(this);
     eventList->setSpacing(6);
     eventList->setIconSize(QSize(64, 64));
     connect(eventList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(showEventDetailsDialog(QListWidgetItem*)));
     refreshList(calendar->selectedDate()); // aggiungo gli eventi della data corrente
 
     // init add event button
-    addEventBtn = new QPushButton(tr("Add Event"));
+    addEventBtn = new QPushButton(tr("Add Event"),this);
     connect(addEventBtn, SIGNAL(clicked(bool)), this, SLOT(showAddEventDialog()));
 
     // aggiungo gli elementi al layout
-    QVBoxLayout *infoLayout = new QVBoxLayout();
+    QVBoxLayout *infoLayout = new QVBoxLayout(this);
     infoLayout->addWidget(selectedDateLabel);
     infoLayout->addWidget(eventList);
     infoLayout->addWidget(addEventBtn);

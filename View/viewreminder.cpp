@@ -21,11 +21,11 @@ ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
     else fine->setTime(QTime::fromString("23:59:99"));
 
 
-    start = new QLabel("Inizio");
-    end = new QLabel("Fine");
-    alertL= new QLabel("Notifica");
-    rep = new QLabel("Ripeti");
-    urg= new QLabel("Urgenza");
+    start = new QLabel("Inizio",this);
+    end = new QLabel("Fine",this);
+    alertL= new QLabel("Notifica",this);
+    rep = new QLabel("Ripeti",this);
+    urg= new QLabel("Urgenza",this);
 
     mainLayout->addWidget(start);
     mainLayout->addWidget(inizio);

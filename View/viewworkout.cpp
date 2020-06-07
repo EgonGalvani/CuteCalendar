@@ -6,10 +6,10 @@
 ViewAllenamento::ViewAllenamento(QWidget *parent)
         : ModView(parent) {
 
-    inizio= new QTimeEdit();
-    fine= new QTimeEdit();
-    start = new QLabel("Inizio");
-    end = new QLabel("Fine");
+    inizio= new QTimeEdit(this);
+    fine= new QTimeEdit(this);
+    start = new QLabel("Inizio",this);
+    end = new QLabel("Fine",this);
     attivita = new QComboBox(this);
 
     attivita->addItem("Calcio");

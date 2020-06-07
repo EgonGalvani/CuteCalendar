@@ -19,11 +19,11 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     :  QDialog(parent), it(it), modifyEnabled(false), date(date) {
 
     layout= new QVBoxLayout(this);
-    viewLayout= new QVBoxLayout();
-    buttomLayout = new QHBoxLayout();
-
-    btnDelete = new QPushButton(tr("Delete"));
-    btnModify = new QPushButton(tr("Modify"));
+    viewLayout= new QVBoxLayout(this);
+    buttomLayout = new QHBoxLayout(this);
+    completato = new QLabel("Completato",this);
+    btnDelete = new QPushButton(tr("Delete"),this);
+    btnModify = new QPushButton(tr("Modify"),this);
 
     Event* currentEvent = &**it;
     if(dynamic_cast<Workout*>(currentEvent))
@@ -39,8 +39,19 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     else
         throw std::runtime_error("Il tipo considerato non rappresenta un evento valido");
 
+    completato->setAlignment(Qt::AlignCenter);
+    viewLayout->addWidget(completato);
+
+
     viewLayout->addWidget(view);
     view->fillView(it);
+    if((*it)->isCompleted()) {
+        completato->setText("Completato");
+        completato->setStyleSheet("QLabel { color: #fff; padding: 4px; background-color : green;}");
+    } else {
+        completato->setText("Non completato");
+        completato->setStyleSheet("QLabel { color: #fff; padding: 4px; color: #fff; background-color : red;}");
+    }
     view->setEnabled(false);
 
     buttomLayout->addWidget(btnDelete);
@@ -70,8 +81,7 @@ void ModifyDialog::modifyPushed() {
         } catch(...) {
             QMessageBox::critical(this, QString("Error"), QString("Si sono riscontrati dei problemi durante il salvataggio delle modifiche..."));
         }
-    //QUA CHIUDEREI SOLO SE LA PUSH HA AVUTO SUCCESSO
-      // close();
+
     }
 }
 

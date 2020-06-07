@@ -8,9 +8,9 @@
 #include "viewtodolist.h"
 
 NewEventDialog::NewEventDialog(QDate date,QDialog *parent) : QDialog(parent), date(date) {
-    mainLayout = new QVBoxLayout();
-    selLayout = new QVBoxLayout();
-    eventLayout = new QVBoxLayout();
+    mainLayout = new QVBoxLayout(this);
+    selLayout = new QVBoxLayout(this);
+    eventLayout = new QVBoxLayout(this);
 
     mainLayout->setAlignment(Qt::AlignTop);
     initComboBox();
