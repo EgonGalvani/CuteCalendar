@@ -14,6 +14,7 @@
 
 #include "Model/model.h"
 #include "eventwidget.h"
+#include "msgscheduler.h"
 
 class MainWindow : public QWidget {
     Q_OBJECT
@@ -36,6 +37,9 @@ private:
     // Model
     Model model;
 
+    // Scheduler for messages to show to use r
+    MsgScheduler *scheduler;
+
     // Elementi calendario
     QGroupBox *calendarBlock;
     QCalendarWidget *calendar;
@@ -49,10 +53,12 @@ private:
     void initCalendarBox();
     void initInfoBox();
     void refreshList(const QDate&);
+    void checkAndAddMemo(Event* e);
 
     static EventWidget* createEventWidget(const Model::It&, QListWidget* = nullptr);
+
 private slots:
-    void ontimerout();
+    void ontimeout(std::string);
 };
 
 #endif // MAINWINDOW_H

@@ -8,12 +8,11 @@
 #include <QDate>
 #include <QTime>
 
+#include "msgscheduler.h"
 #include "mainwindow.h"
 #include "mycalendar.h"
 #include "neweventdialog.h"
-
 #include "modifydialog.h"
-
 #include "eventwidget.h"
 
 #include "../Model/Hierarchy/birthday.h"
@@ -33,17 +32,19 @@ MainWindow::MainWindow(QWidget *parent)
     // caricamento dati da file
     try { model.loadFromFile(); }
     catch(std::exception& e) { std::cout << e.what(); }
-    catch(...) { std::cout << "Eccezione" << std::endl; }
+
+    // scheduler di messaggi
+    scheduler = new MsgScheduler(this);
+    connect(scheduler, SIGNAL(timeout(std::string)),
+            this, SLOT(ontimeout(std::string)));
+
+    // aggiungo un memo per ogni evento con avviso del giorno corrente
+    for(auto it : model.getEvents(QDate::currentDate()))
+        checkAndAddMemo(&**it);
 
     // init grafica
     initCalendarBox();
     initInfoBox();
-
-    // init timer per avviso eventi
-    QTimer *timer = new QTimer(this);
-    timer->setInterval(1000*60);
-    connect(timer, SIGNAL(timeout()), this, SLOT(ontimerout()));
-    timer->start();
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget(calendarBlock);
@@ -98,11 +99,10 @@ void MainWindow::initInfoBox() {
 void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
 
     if(dynamic_cast<EventWidget*>(it)) {
-        EventWidget* currentEventWidget = dynamic_cast<EventWidget*>(it);
-        Model::It currentIterator = currentEventWidget->getData();
+        Model::It currentIterator = (dynamic_cast<EventWidget*>(it))->getData();
 
         try {
-            ModifyDialog* modifyDialog = new ModifyDialog(calendar->selectedDate(),currentIterator);
+            ModifyDialog* modifyDialog = new ModifyDialog(calendar->selectedDate(), currentIterator);
             connect(modifyDialog, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)));
             modifyDialog->exec();
         } catch(std::exception& e) {
@@ -113,6 +113,12 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
 }
 
 void MainWindow::deleteEvent(Model::It it) {
+
+    // ottengo informazioni relative all'evento prima che questo venga eliminato
+    bool isAlert = dynamic_cast<Alert*>(&**it);
+    bool isToday = (**it).getDate() == QDate::currentDate();
+
+    // elimino dal model l'elemento considerato
     try {
         model.removeEvent(it);
         QMessageBox::information(this, QString("Success"), QString("Evento rimosso con successo"));
@@ -120,8 +126,15 @@ void MainWindow::deleteEvent(Model::It it) {
         QMessageBox::critical(this, QString("Error"), QString("Error deleting element"));
     }
 
-    // gli iteratori non sono più validi a seguito di un'eliminazione
+    // aggiorno la lista di eventi mostrata nel calendar
     refreshList(calendar->selectedDate());
+
+    // se l'evento eliminato aveva dei memo allora li aggiorno
+    if(isAlert && isToday) {
+        scheduler->clear();
+        for(auto e : model.getEvents(QDate::currentDate()))
+            checkAndAddMemo(&**e);
+    }
 }
 
 void MainWindow::selectedDateChanged() {
@@ -133,18 +146,44 @@ void MainWindow::selectedDateChanged() {
     refreshList(calendar->selectedDate());
 }
 
+// mostro il dialog di inserimento di un evento
 void MainWindow::showAddEventDialog() {
     NewEventDialog* addEventDialog = new NewEventDialog(calendar->selectedDate());
     connect(addEventDialog, SIGNAL(newEventCreated(Event*)), this, SLOT(insertEvent(Event*)));
     addEventDialog->exec();
 }
 
-void MainWindow::insertEvent(Event *e) {
-    // inserisco l'evento
+// inserisco un nuovo evento nel model, aggiorno la lista di elementi mostrati nel calendar
+// e in caso anche la lista degli avvisi
+void MainWindow::insertEvent(Event *e) { // TODO: controlla gestione memoria nell'insert
+    // inserisco l'evento nel model
     auto it = model.insertEvent(e);
+
+    // viene inserito in coda un nuovo elmento
     eventList->addItem(createEventWidget(it));
+
+    if(e->getDate() == QDate::currentDate())
+        checkAndAddMemo(e);
 }
 
+// controlla che l'evento passato sia di tipo alert e di conseguenza
+// inserisce degli avvisi nello scheduler
+void MainWindow::checkAndAddMemo(Event *e) {
+    Alert* currentAlert = dynamic_cast<Alert*>(e);
+    if(currentAlert) {
+        int diff = QTime::currentTime().msecsTo(currentAlert->getAlertTime());
+        if(diff > 0) {
+            scheduler->addMsg("L'evento " + e->getName() + " sta per iniziare", diff);
+
+            if(currentAlert->doesRepeat()) {
+                scheduler->addMsg("Manca sempre meno all'inizio dell'evento " + e->getName(),
+                                    diff + 5*60*1000);
+            }
+        }
+    }
+}
+
+// fa il refresh della lista di eventi mostrati nel calendar
 void MainWindow::refreshList(const QDate& date) {
     eventList->clear();
 
@@ -152,6 +191,8 @@ void MainWindow::refreshList(const QDate& date) {
         eventList->addItem(createEventWidget(it));
 }
 
+// crea un widget adeguato a seconda dell'evento considerato (il widget verrà utilizzato
+// per essere mostrato nella lista di eventi del calendario
 EventWidget* MainWindow::createEventWidget(const Model::It& it, QListWidget *parent) {
     Event* currentEvent = &**it;
 
@@ -178,38 +219,19 @@ EventWidget* MainWindow::createEventWidget(const Model::It& it, QListWidget *par
     return e;
 }
 
-
-void MainWindow::ontimerout() {
-
-    for(auto it : model.getEvents(QDate::currentDate())) {
-        Alert* currentAlert = dynamic_cast<Alert*>(&**it);
-        if(currentAlert) {
-           int diff = QTime::currentTime().secsTo(currentAlert->getAlertTime());
-
-           if(diff > 0 && diff <= 60) {
-                QMessageBox* alertMsg = new QMessageBox(this);
-                alertMsg->setText(QString("L'evento ") + QString::fromStdString(currentAlert->getName()) + QString(" sta per iniziare!"));
-                alertMsg->setInformativeText("success");
-                alertMsg->setModal(false);
-                alertMsg->show();
-           }
-
-           EventWithDuration* eventWithDuration = dynamic_cast<EventWithDuration*>(&**it);
-           if(currentAlert->doesRepeat() && eventWithDuration) {
-               diff = QTime::currentTime().secsTo(eventWithDuration->getStartTime());
-
-               if(diff > 0 && diff <= 60) {
-                   QMessageBox* startMsg = new QMessageBox(this);
-                   startMsg->setText(QString("L'evento ") + QString::fromStdString(currentAlert->getName()) + QString(" è iniziato!"));
-                   startMsg->setInformativeText("success");
-                   startMsg->setModal(false);
-                   startMsg->show();
-               }
-           }
-        }
-    }
+// quando un avviso deve essere mostrato, lo scheduler emette un signal,
+// che viene ricevuto da questo slot, che si occupa di mostrare l'avviso
+void MainWindow::ontimeout(std::string msg) {
+    QMessageBox* alertMsg = new QMessageBox(this);
+    alertMsg->setText(QString::fromStdString(msg));
+    alertMsg->setInformativeText("success");
+    alertMsg->setModal(false);
+    alertMsg->show();
 }
 
+// alla chiusura dell'applicativo esso si occuperà di
+// salvare tutte le informazioni del model in un file, in modo che esse
+// possano essere caricate correttamente alla prossima esecuzione
 void MainWindow::closeEvent(QCloseEvent *event) {
     model.saveInFile();
 }

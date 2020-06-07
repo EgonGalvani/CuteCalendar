@@ -51,7 +51,8 @@ SOURCES += \
     View/neweventdialog.cpp \
     View/checklist.cpp \
     View/viewtodolist.cpp \
-    View/enterlineedit.cpp
+    View/enterlineedit.cpp \
+    View/msgscheduler.cpp
 
 HEADERS += \
     Model/Hierarchy/factory.h \
@@ -84,7 +85,8 @@ HEADERS += \
     View/viewtodolist.h \
     View/enterlineedit.h \
     View/viewreminder.h \
-    View/viewworkout.h
+    View/viewworkout.h \
+    View/msgscheduler.h
 
 FORMS +=
 
