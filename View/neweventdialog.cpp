@@ -8,15 +8,23 @@
 #include "viewtodolist.h"
 
 NewEventDialog::NewEventDialog(QDate date,QDialog *parent) : QDialog(parent), date(date) {
-    mainLayout = new QVBoxLayout(this);
-    selLayout = new QVBoxLayout(this);
-    eventLayout = new QVBoxLayout(this);
+    mainLayout = new QVBoxLayout();
+    selLayout = new QVBoxLayout();
+    eventLayout = new QVBoxLayout();
 
     mainLayout->setAlignment(Qt::AlignTop);
     initComboBox();
 
     resize(450, height());
     setLayout(mainLayout);
+    setMinimumSize(200,600);
+}
+
+NewEventDialog::~NewEventDialog()
+{
+    delete mainLayout;
+    delete selLayout;
+    delete eventLayout;
 }
 
 void NewEventDialog::deleteLayout(QLayout* layout) {

@@ -9,18 +9,17 @@
 #include "../Model/Hierarchy/todolist.h"
 #include "../Model/Hierarchy/workout.h"
 
-#include "viewworkout.h"
-#include "viewbirthday.h"
-#include "viewmeeting.h"
-#include "viewtodolist.h"
-#include "viewreminder.h"
+
 
 ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     :  QDialog(parent), it(it), modifyEnabled(false), date(date) {
 
-    layout= new QVBoxLayout(this);
-    viewLayout= new QVBoxLayout(this);
-    buttomLayout = new QHBoxLayout(this);
+
+    layout= new QVBoxLayout;
+
+    viewLayout= new QVBoxLayout;
+
+    buttomLayout = new QHBoxLayout;
     completato = new QLabel("Completato",this);
     btnDelete = new QPushButton(tr("Delete"),this);
     btnModify = new QPushButton(tr("Modify"),this);
@@ -62,9 +61,19 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(deletePushed()));
 
     layout->addLayout(viewLayout);
+
     layout->addLayout(buttomLayout);
 
     setLayout(layout);
+    setMinimumSize(200,600);
+
+}
+
+ModifyDialog::~ModifyDialog()
+{
+    delete layout;
+    delete viewLayout;
+    delete buttomLayout;
 }
 
 void ModifyDialog::modifyPushed() {

@@ -21,7 +21,7 @@ class NewEventDialog : public QDialog {
 
 public:
     explicit NewEventDialog(QDate date,QDialog *parent = nullptr);
-    ~NewEventDialog() = default;
+    ~NewEventDialog();
 
 signals:
     void newEventCreated(Event*);

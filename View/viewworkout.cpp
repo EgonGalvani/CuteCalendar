@@ -21,7 +21,7 @@ ViewAllenamento::ViewAllenamento(QWidget *parent)
     inizio->setTime(QTime::currentTime());
     if(inizio->time().hour()<23)
         fine->setTime(inizio->time().addSecs(3600));
-    else fine->setTime(QTime::fromString("23:59:99"));
+    else fine->setTime(QTime::fromString("23:59:00"));
 
 
 

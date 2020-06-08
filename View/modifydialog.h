@@ -14,13 +14,14 @@
 #include "viewbirthday.h"
 #include "viewmeeting.h"
 #include "viewreminder.h"
+#include "viewtodolist.h"
 
 class ModifyDialog : public QDialog {
     Q_OBJECT
 
 public:
     explicit ModifyDialog(QDate date,const Model::It&, QDialog *parent = nullptr);
-    virtual ~ModifyDialog() = default;
+    virtual ~ModifyDialog();
 
 signals:
     void deleteEvent(Model::It);
