@@ -20,7 +20,7 @@ Time EventWithDuration::getDuration() const {
 }
 
 bool EventWithDuration::isCompleted() const {
-    return Event::isCompleted() && endTime<Time();
+    return Event::isCompleted() || (getDate() == Date() && endTime<Time());
 }
 
 void EventWithDuration::serialize(QJsonObject &json) const{
