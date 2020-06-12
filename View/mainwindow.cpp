@@ -24,10 +24,7 @@
 #include "../Model/Hierarchy/eventwithduration.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QWidget(parent),
-      calendarBlock(new QGroupBox(QString("Calendar"))),
-      calendar(new MyCalendar(&model,this)),
-      infoBlock(new QGroupBox(QString("Info"))) {
+    : QWidget(parent) {
 
     // caricamento dati da file
     try { model.loadFromFile(); }
@@ -43,9 +40,11 @@ MainWindow::MainWindow(QWidget *parent)
         checkAndAddMemo(&**it);
 
     // init grafica
+    calendarBlock = new QGroupBox(QString("Calendar"));
+    calendar = new MyCalendar(&model,this);
+    infoBlock = new QGroupBox(QString("Info"));
     initCalendarBox();
     initInfoBox();
-
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(calendarBlock);
     layout->addWidget(infoBlock);
@@ -53,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     setLayout(layout);
 }
 
+// inizializzazione grafica della parte della view che mostra il calendario
 void MainWindow::initCalendarBox() {
     calendar->setGridVisible(true);
     calendar->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
@@ -65,6 +65,8 @@ void MainWindow::initCalendarBox() {
     calendarBlock->setLayout(calendarLayout);
 }
 
+// inizializzazione grafica della parte della view che mostra la lista
+// di eventi presenti nel giorno selezionato
 void MainWindow::initInfoBox() {
 
     // init selected date label
@@ -96,12 +98,15 @@ void MainWindow::initInfoBox() {
     infoBlock->setLayout(infoLayout);
 }
 
+// mostra un dialog che permette la visualizzazione e modifica dei dettagli
+// di un specifico evento
 void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
 
-    if(dynamic_cast<EventWidget*>(it)) {
+    if(dynamic_cast<EventWidget*>(it)) { // controllo che l'evento considerato sia valido
         Model::It currentIterator = (dynamic_cast<EventWidget*>(it))->getData();
 
         try {
+            // creo e mostro il dialog
             ModifyDialog* modifyDialog = new ModifyDialog(calendar->selectedDate(), currentIterator);
             connect(modifyDialog, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)));
             modifyDialog->exec();
@@ -112,6 +117,7 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
         QMessageBox::critical(this, QString("Error"), QString("Error no valid type of ViewCreated"));
 }
 
+// richiede al model di eliminare un evento e aggiorna di conseguenza la view
 void MainWindow::deleteEvent(Model::It it) {
 
     // ottengo informazioni relative all'evento prima che questo venga eliminato
@@ -137,6 +143,8 @@ void MainWindow::deleteEvent(Model::It it) {
     }
 }
 
+// vengono aggiornate le informazioni mostrate all'utente
+// (poichè è cambiato il giorno selezionato, dovranno essere visualizzati gli eventi di quel giorno)
 void MainWindow::selectedDateChanged() {
     // aggiornamento label
     selectedDateLabel->setText(QString("Selected date: ")
@@ -146,7 +154,7 @@ void MainWindow::selectedDateChanged() {
     refreshList(calendar->selectedDate());
 }
 
-// mostro il dialog di inserimento di un evento
+// viene mostrato un dialog che permette l'inserimento di un nuovo evento
 void MainWindow::showAddEventDialog() {
     NewEventDialog* addEventDialog = new NewEventDialog(calendar->selectedDate());
     connect(addEventDialog, SIGNAL(newEventCreated(Event*)), this, SLOT(insertEvent(Event*)));
