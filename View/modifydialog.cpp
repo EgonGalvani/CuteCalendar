@@ -61,7 +61,6 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
 
     setLayout(layout);
     setMinimumSize(200,600);
-
 }
 
 ModifyDialog::~ModifyDialog()
@@ -81,6 +80,7 @@ void ModifyDialog::modifyPushed() {
         try {
             view->pushSaves(it);
             QMessageBox::information(this, QString("Successo"), QString("Le modifiche sono state apportate con successo"));
+            emit modifiedEvent(it);
             close();
         } catch(...) {
             QMessageBox::critical(this, QString("Error"), QString("Si sono riscontrati dei problemi durante il salvataggio delle modifiche..."));

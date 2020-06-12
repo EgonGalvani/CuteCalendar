@@ -1,4 +1,3 @@
-#include <QFile>
 #include <QTableView>
 #include <QGridLayout>
 #include <QColor>
@@ -109,6 +108,7 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
             // creo e mostro il dialog
             ModifyDialog* modifyDialog = new ModifyDialog(calendar->selectedDate(), currentIterator);
             connect(modifyDialog, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)));
+            connect(modifyDialog, SIGNAL(modifiedEvent(Model::It)), this , SLOT(onModifiedEvent(Model::It)));
             modifyDialog->exec();
         } catch(std::exception& e) {
             QMessageBox::critical(this, QString("Error"), QString::fromStdString(e.what()));
@@ -163,7 +163,7 @@ void MainWindow::showAddEventDialog() {
 
 // inserisco un nuovo evento nel model, aggiorno la lista di elementi mostrati nel calendar
 // e in caso anche la lista degli avvisi
-void MainWindow::insertEvent(Event *e) { // TODO: controlla gestione memoria nell'insert
+void MainWindow::insertEvent(Event *e) {
     // inserisco l'evento nel model
     auto it = model.insertEvent(e);
 
@@ -184,8 +184,7 @@ void MainWindow::checkAndAddMemo(Event *e) {
             scheduler->addMsg("L'evento " + e->getName() + " sta per iniziare", diff);
 
             if(currentAlert->doesRepeat()) {
-                scheduler->addMsg("Manca sempre meno all'inizio dell'evento " + e->getName(),
-                                    diff + 5*60*1000);
+                scheduler->addMsg("Manca sempre meno all'inizio dell'evento " + e->getName(), diff + 5*60*1000);
             }
         }
     }
@@ -202,7 +201,7 @@ void MainWindow::refreshList(const QDate& date) {
 // crea un widget adeguato a seconda dell'evento considerato (il widget verrà utilizzato
 // per essere mostrato nella lista di eventi del calendario
 EventWidget* MainWindow::createEventWidget(const Model::It& it, QListWidget *parent) {
-    Event* currentEvent = &**it;
+    Event* currentEvent = &**it; // ottengo direttamente l'evento dall'iteratore
 
     // evento di default -> birthday
     QIcon eventIcon = QIcon(":/res/birthday.png");
@@ -237,7 +236,23 @@ void MainWindow::ontimeout(std::string msg) {
     alertMsg->show();
 }
 
-// alla chiusura dell'applicativo esso si occuperà di
+void MainWindow::onModifiedEvent(Model::It it) {
+
+    // aggiorno la lista degli eventi mostrati nel giorno selezionato
+    if((*it)->getDate() == calendar->selectedDate())
+        refreshList(calendar->selectedDate());
+
+    // se il giorno dell'evento è quello corrente, controllo se l'evento
+    // prevede di mostrare degli avvisi all'utente e in questo caso li aggiorno
+    if((*it)->getDate() == QDate::currentDate() && dynamic_cast<Alert*>(&**it)) {
+        scheduler->clear();
+
+        for(auto it : model.getEvents(QDate::currentDate()))
+            checkAndAddMemo(&**it);
+    }
+}
+
+// alla chiusura dell'applicativo (e quindi della mainwindow) esso si occuperà di
 // salvare tutte le informazioni del model in un file, in modo che esse
 // possano essere caricate correttamente alla prossima esecuzione
 void MainWindow::closeEvent(QCloseEvent *event) {

@@ -2,7 +2,7 @@
 #define ALERT_H
 #include "event.h"
 
-class Alert :virtual public Event{
+class Alert : virtual public Event {
 private:
     Time alertTime;
     bool repeat;

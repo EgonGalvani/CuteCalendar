@@ -29,6 +29,7 @@ private slots:
     void showEventDetailsDialog(QListWidgetItem*);
     void deleteEvent(Model::It);
     void insertEvent(Event*);
+    void onModifiedEvent(Model::It);
 
 protected:
     void closeEvent(QCloseEvent *event);

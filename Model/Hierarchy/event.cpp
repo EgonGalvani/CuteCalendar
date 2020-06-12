@@ -58,7 +58,7 @@ Event::Event(const std::string& nome,const std::string& descr,const std::string&
 }
 
 bool Event::isCompleted() const {
-    return data<=Date();
+    return data < Date();
 }
 
 void Event::serialize(QJsonObject &json) const {
