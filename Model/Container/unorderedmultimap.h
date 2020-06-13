@@ -655,7 +655,10 @@ UnorderedMultimap<K, V>::insert(const K& key, const V& value) {
     }
 
     // aggiungo l'elemento
+    // importante: push_back crea una copia di value --> viene chimato il costruttore
+    // di copia di value
     it._ptr->_data.push_back(value);
+
     _elementSize++;
     return it;
 }

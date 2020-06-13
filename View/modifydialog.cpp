@@ -9,17 +9,13 @@
 #include "../Model/Hierarchy/todolist.h"
 #include "../Model/Hierarchy/workout.h"
 
-
-
 ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     :  QDialog(parent), it(it), modifyEnabled(false), date(date) {
 
-
     layout= new QVBoxLayout;
-
     viewLayout= new QVBoxLayout;
-
     buttomLayout = new QHBoxLayout;
+
     completato = new QLabel("Completato",this);
     btnDelete = new QPushButton(tr("Delete"),this);
     btnModify = new QPushButton(tr("Modify"),this);
@@ -41,9 +37,9 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     completato->setAlignment(Qt::AlignCenter);
     viewLayout->addWidget(completato);
 
-
     viewLayout->addWidget(view);
     view->fillView(it);
+
     if((*it)->isCompleted()) {
         completato->setText("Completato");
         completato->setStyleSheet("QLabel { color: #fff; padding: 4px; background-color : green;}");
@@ -61,12 +57,10 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(deletePushed()));
 
     layout->addLayout(viewLayout);
-
     layout->addLayout(buttomLayout);
 
     setLayout(layout);
     setMinimumSize(200,600);
-
 }
 
 ModifyDialog::~ModifyDialog()
@@ -86,11 +80,11 @@ void ModifyDialog::modifyPushed() {
         try {
             view->pushSaves(it);
             QMessageBox::information(this, QString("Successo"), QString("Le modifiche sono state apportate con successo"));
+            emit modifiedEvent(it);
             close();
         } catch(...) {
             QMessageBox::critical(this, QString("Error"), QString("Si sono riscontrati dei problemi durante il salvataggio delle modifiche..."));
         }
-
     }
 }
 

@@ -8,10 +8,21 @@ class DeepPtr {
 private:
     T* _ptr;
 public:
+
+    /* costruttore che non crea una copia profonda, si occupa semplicemente
+        di gestire il puntatore passato */
     explicit DeepPtr(T* = nullptr);
+
+    // costruttore di copia profonda
     DeepPtr(const DeepPtr&);
+
+    // distruzione polimorfa, viene sfruttato il distruttore virtuale di T
+    // cioè nel caso di questo progetto: di Event e classi da lui derivate
     ~DeepPtr();
+
+    // operatore di assegnazione profonda
     DeepPtr& operator=(const DeepPtr&);
+
     T& operator*();
     const T& operator*() const;
     T* operator->();
@@ -19,6 +30,7 @@ public:
 
     void swap(DeepPtr&);
 
+    // vengono confrontati gli indirizzi delle aree di memoria puntate, e non il contenuto
     bool operator==(const DeepPtr&) const;
     bool operator!=(const DeepPtr&) const;
 };

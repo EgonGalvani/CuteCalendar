@@ -1,6 +1,5 @@
 #include "modview.h"
 
-
 ModView::ModView(QWidget *parent)
         : QWidget(parent), enabled(true){
 
@@ -10,16 +9,10 @@ ModView::ModView(QWidget *parent)
     lNome= new QLabel("Nome",this);
     lDesc= new QLabel("Descrizione",this);
     lLuogo = new QLabel("Luogo",this);
-
-
-
-
     txtDesc = new QTextEdit(this);
     txtNome = new QLineEdit(this);
     txtLuogo = new QLineEdit(this);
-
     checkTag= new TagPicker(this);
-
 
     mainLayout->addWidget(lNome);
     mainLayout->addWidget(txtNome);
@@ -61,11 +54,8 @@ void ModView::fillView(Model::It it) {
     for (auto tag: (*it)->getTags()){
         checkTag->addTag(tag);
     }
-
-
 }
 
-bool ModView::checkPushable()
-{
+bool ModView::checkPushable() {
     return !txtDesc->toPlainText().isEmpty() && !txtNome->text().isEmpty() && !txtLuogo->text().isEmpty();
 }

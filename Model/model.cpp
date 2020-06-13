@@ -1,23 +1,25 @@
 #include "model.h"
 
+// controllo se sono presenti eventi per la data considerata
 bool Model::hasEvent(const Date& d) const {
     return _data.bucket_size(d) > 0;
 }
 
+// inserisco un nuovo evento nel model
 Model::It Model::insertEvent(Event* e) {
-    const Date eventDate = e->getDate();
-
-    /* NOTA: quando il deepptr (temporaneo anonimo) viene distrutto
-        allora viene distrutto anche l'evento e. Nell'iteratore ci sarà
-        un oggetto ottenuto tramite una clone. Per questo è necessario mem*/
-    auto bucketIt = _data.insert(eventDate, DeepPtr<Event>(e));
+    /* quando il deepptr (temporaneo anonimo) viene distrutto
+        allora viene chiamato il distruttore virtuale dell'evento e.
+        Nell'iteratore ci sarà un oggetto ottenuto tramite una clone */
+    auto bucketIt = _data.insert(e->getDate(), DeepPtr<Event>(e));
     return --_data.end(*bucketIt);
 }
 
+// rimuovo un evento
 void Model::removeEvent(const It& it) {
     _data.erase(_data.find( (*it)->getDate()), it);
 }
 
+// ottengo tutti gli eventi pianificati per una determinata data
 std::vector<Model::It> Model::getEvents(const Date &d) {
     std::vector<It> its;
 
@@ -27,6 +29,7 @@ std::vector<Model::It> Model::getEvents(const Date &d) {
     return its;
 }
 
+// serializzazione del model in json
 void Model::serialize(QJsonObject &json) const{
 
     //itero la mappa
@@ -44,6 +47,7 @@ void Model::serialize(QJsonObject &json) const{
     }
 }
 
+// parsing di un model da json
 void Model::parse(QJsonObject &json)  {
 
     //Prima prendo la lista delle chiavi
@@ -63,6 +67,8 @@ void Model::parse(QJsonObject &json)  {
         }
     }
 }
+
+// serializzazione del model e salvataggio su file
 void Model::saveInFile(const QString & path) const {
     QJsonObject obj;
     serialize(obj);
@@ -75,6 +81,7 @@ void Model::saveInFile(const QString & path) const {
     }catch (...) {}
 }
 
+// lettura dei dati del model da file e relativo parsing
 void Model::loadFromFile(const QString & path) {
     QFile loadFile(path);
     if (!loadFile.open(QIODevice::ReadOnly)) {

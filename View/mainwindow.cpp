@@ -1,4 +1,3 @@
-#include <QFile>
 #include <QTableView>
 #include <QGridLayout>
 #include <QColor>
@@ -24,10 +23,7 @@
 #include "../Model/Hierarchy/eventwithduration.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QWidget(parent),
-      calendarBlock(new QGroupBox(QString("Calendar"))),
-      calendar(new MyCalendar(&model,this)),
-      infoBlock(new QGroupBox(QString("Info"))) {
+    : QWidget(parent) {
 
     // caricamento dati da file
     try { model.loadFromFile(); }
@@ -43,9 +39,11 @@ MainWindow::MainWindow(QWidget *parent)
         checkAndAddMemo(&**it);
 
     // init grafica
+    calendarBlock = new QGroupBox(QString("Calendar"));
+    calendar = new MyCalendar(&model,this);
+    infoBlock = new QGroupBox(QString("Info"));
     initCalendarBox();
     initInfoBox();
-
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(calendarBlock);
     layout->addWidget(infoBlock);
@@ -53,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
     setLayout(layout);
 }
 
+// inizializzazione grafica della parte della view che mostra il calendario
 void MainWindow::initCalendarBox() {
     calendar->setGridVisible(true);
     calendar->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
@@ -65,6 +64,8 @@ void MainWindow::initCalendarBox() {
     calendarBlock->setLayout(calendarLayout);
 }
 
+// inizializzazione grafica della parte della view che mostra la lista
+// di eventi presenti nel giorno selezionato
 void MainWindow::initInfoBox() {
 
     // init selected date label
@@ -96,14 +97,18 @@ void MainWindow::initInfoBox() {
     infoBlock->setLayout(infoLayout);
 }
 
+// mostra un dialog che permette la visualizzazione e modifica dei dettagli
+// di un specifico evento
 void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
 
-    if(dynamic_cast<EventWidget*>(it)) {
+    if(dynamic_cast<EventWidget*>(it)) { // controllo che l'evento considerato sia valido
         Model::It currentIterator = (dynamic_cast<EventWidget*>(it))->getData();
 
         try {
+            // creo e mostro il dialog
             ModifyDialog* modifyDialog = new ModifyDialog(calendar->selectedDate(), currentIterator);
             connect(modifyDialog, SIGNAL(deleteEvent(Model::It)) , this , SLOT(deleteEvent(Model::It)));
+            connect(modifyDialog, SIGNAL(modifiedEvent(Model::It)), this , SLOT(onModifiedEvent(Model::It)));
             modifyDialog->exec();
         } catch(std::exception& e) {
             QMessageBox::critical(this, QString("Error"), QString::fromStdString(e.what()));
@@ -112,6 +117,7 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
         QMessageBox::critical(this, QString("Error"), QString("Error no valid type of ViewCreated"));
 }
 
+// richiede al model di eliminare un evento e aggiorna di conseguenza la view
 void MainWindow::deleteEvent(Model::It it) {
 
     // ottengo informazioni relative all'evento prima che questo venga eliminato
@@ -137,6 +143,8 @@ void MainWindow::deleteEvent(Model::It it) {
     }
 }
 
+// vengono aggiornate le informazioni mostrate all'utente
+// (poichè è cambiato il giorno selezionato, dovranno essere visualizzati gli eventi di quel giorno)
 void MainWindow::selectedDateChanged() {
     // aggiornamento label
     selectedDateLabel->setText(QString("Selected date: ")
@@ -146,7 +154,7 @@ void MainWindow::selectedDateChanged() {
     refreshList(calendar->selectedDate());
 }
 
-// mostro il dialog di inserimento di un evento
+// viene mostrato un dialog che permette l'inserimento di un nuovo evento
 void MainWindow::showAddEventDialog() {
     NewEventDialog* addEventDialog = new NewEventDialog(calendar->selectedDate());
     connect(addEventDialog, SIGNAL(newEventCreated(Event*)), this, SLOT(insertEvent(Event*)));
@@ -155,7 +163,7 @@ void MainWindow::showAddEventDialog() {
 
 // inserisco un nuovo evento nel model, aggiorno la lista di elementi mostrati nel calendar
 // e in caso anche la lista degli avvisi
-void MainWindow::insertEvent(Event *e) { // TODO: controlla gestione memoria nell'insert
+void MainWindow::insertEvent(Event *e) {
     // inserisco l'evento nel model
     auto it = model.insertEvent(e);
 
@@ -176,8 +184,7 @@ void MainWindow::checkAndAddMemo(Event *e) {
             scheduler->addMsg("L'evento " + e->getName() + " sta per iniziare", diff);
 
             if(currentAlert->doesRepeat()) {
-                scheduler->addMsg("Manca sempre meno all'inizio dell'evento " + e->getName(),
-                                    diff + 5*60*1000);
+                scheduler->addMsg("Manca sempre meno all'inizio dell'evento " + e->getName(), diff + 5*60*1000);
             }
         }
     }
@@ -194,7 +201,7 @@ void MainWindow::refreshList(const QDate& date) {
 // crea un widget adeguato a seconda dell'evento considerato (il widget verrà utilizzato
 // per essere mostrato nella lista di eventi del calendario
 EventWidget* MainWindow::createEventWidget(const Model::It& it, QListWidget *parent) {
-    Event* currentEvent = &**it;
+    Event* currentEvent = &**it; // ottengo direttamente l'evento dall'iteratore
 
     // evento di default -> birthday
     QIcon eventIcon = QIcon(":/res/birthday.png");
@@ -229,7 +236,23 @@ void MainWindow::ontimeout(std::string msg) {
     alertMsg->show();
 }
 
-// alla chiusura dell'applicativo esso si occuperà di
+void MainWindow::onModifiedEvent(Model::It it) {
+
+    // aggiorno la lista degli eventi mostrati nel giorno selezionato
+    if((*it)->getDate() == calendar->selectedDate())
+        refreshList(calendar->selectedDate());
+
+    // se il giorno dell'evento è quello corrente, controllo se l'evento
+    // prevede di mostrare degli avvisi all'utente e in questo caso li aggiorno
+    if((*it)->getDate() == QDate::currentDate() && dynamic_cast<Alert*>(&**it)) {
+        scheduler->clear();
+
+        for(auto it : model.getEvents(QDate::currentDate()))
+            checkAndAddMemo(&**it);
+    }
+}
+
+// alla chiusura dell'applicativo (e quindi della mainwindow) esso si occuperà di
 // salvare tutte le informazioni del model in un file, in modo che esse
 // possano essere caricate correttamente alla prossima esecuzione
 void MainWindow::closeEvent(QCloseEvent *event) {

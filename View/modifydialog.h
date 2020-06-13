@@ -25,6 +25,7 @@ public:
 
 signals:
     void deleteEvent(Model::It);
+    void modifiedEvent(Model::It);
 
 protected slots:
     virtual void modifyPushed();

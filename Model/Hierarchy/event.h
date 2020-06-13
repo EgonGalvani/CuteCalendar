@@ -25,7 +25,7 @@ public:
     Event(const std::string& nome,const std::string& descr,const std::string& luogo,
           const Date& date,const std::vector<std::string>& vettoreTag);
 
-    //Pure virtual methods
+    // virtual methods
     /**
      * @brief permette di clonare l'oggetto
      * @return il nuovo oggetto clone

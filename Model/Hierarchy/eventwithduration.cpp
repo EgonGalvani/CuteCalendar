@@ -7,9 +7,8 @@ EventWithDuration::EventWithDuration(const Time& start,const Time& end,
     : Event(nome,descr,luogo,data,tags),
       startTime(start),endTime(end){}
 
+
 Time EventWithDuration::getDuration() const {
-    //POTREBBE ESSERCI UN METODO PIÙ EFFICACE,
-    //Difference converted in seconds, e poi ricostruisco ora,minuti,secondi
     unsigned short x = (endTime - startTime).second();
     unsigned short hour = x / 3600;
     x %= 3600;
@@ -20,7 +19,7 @@ Time EventWithDuration::getDuration() const {
 }
 
 bool EventWithDuration::isCompleted() const {
-    return Event::isCompleted() && endTime<Time();
+   return Event::isCompleted() || (getDate() == Date() && endTime<Time());
 }
 
 void EventWithDuration::serialize(QJsonObject &json) const{

@@ -4,7 +4,7 @@
 #include "eventwithduration.h"
 #include "alert.h"
 
-class Reminder : public EventWithDuration,public Alert {
+class Reminder : public EventWithDuration, public Alert {
 private:
     /**
      * @brief l'urgency enum rappresenta la priorità/urgenza dell'evento
