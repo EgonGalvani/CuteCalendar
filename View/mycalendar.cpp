@@ -5,7 +5,7 @@ MyCalendar::MyCalendar(const Model* m,QWidget *parent)
     : QCalendarWidget(parent) , model(m)
 {}
 
-MyCalendar::~MyCalendar() { }
+
 
 void MyCalendar::paintCell(QPainter *painter, const QRect &rect, const QDate &date) const {
     if (selectedDate() == date || !model->hasEvent(date))

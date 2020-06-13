@@ -11,7 +11,7 @@
 class MyCalendar : public QCalendarWidget {
 public:
     MyCalendar(const Model*,QWidget* parent=0);
-    ~MyCalendar();
+    ~MyCalendar()=default;
 
 protected:
     void paintCell(QPainter *painter, const QRect &rect, const QDate &date) const override;

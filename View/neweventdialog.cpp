@@ -20,12 +20,7 @@ NewEventDialog::NewEventDialog(QDate date,QDialog *parent) : QDialog(parent), da
     setMinimumSize(200,600);
 }
 
-NewEventDialog::~NewEventDialog()
-{
-    delete mainLayout;
-    delete selLayout;
-    delete eventLayout;
-}
+
 
 void NewEventDialog::deleteLayout(QLayout* layout) {
     QLayoutItem* child;
