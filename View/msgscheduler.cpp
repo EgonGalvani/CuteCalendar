@@ -5,6 +5,7 @@
 MsgScheduler::MsgScheduler(QObject *parent)
     : QObject(parent) {}
 
+// eliminazione dei timer attivi e dei relativi messaggi
 void MsgScheduler::clear() {
     for(QTimer* timer : timers) {
         timer->stop();
@@ -15,6 +16,10 @@ void MsgScheduler::clear() {
     msgs.clear();
 }
 
+/* aggiunta di un nuovo messaggio e del relativo timer
+ @param msg: messaggio
+ @msec: numero di millisecondi che devono essere attesi prima di generare il signal relativo al messaggio
+*/
 void MsgScheduler::addMsg(const std::string& msg, int msec) {
     QTimer *timer = new QTimer(this);
     timer->setInterval(msec);
@@ -25,6 +30,7 @@ void MsgScheduler::addMsg(const std::string& msg, int msec) {
     msgs.emplace(timer->timerId(), msg);
 }
 
+// slot che si occupa della gestione del signal generato dai singoli timer
 void MsgScheduler::ontimeout() {
     QTimer* timer = qobject_cast<QTimer*>(sender());
     if(timer) {
@@ -37,18 +43,17 @@ void MsgScheduler::ontimeout() {
 }
 
 void MsgScheduler::removeTimer(QTimer* timer) {
-    // rimuovo il messaggio telativo al timer
+    // il messaggio associato al timer viene rimosso
     msgs.erase(timer->timerId());
 
-    // trovo il timer e lo rimuovo da quelli salvati
+    // il timer viene trovato e rimosso da quelli salvati
     auto timerIt = std::find(timers.begin(), timers.end(), timer);
     timers.erase(timerIt);
 
-    // elimino il timer
+    // distruzione del timer
     delete timer;
 }
 
 MsgScheduler::~MsgScheduler() {
-    clear();
-    // std::cout << "Cleaned from distructor" << std::endl;
+    clear(); // rimozione di tutte le informazioni dalla classe (in particolare vegono distrutti i timer attivi)
 }

@@ -7,6 +7,7 @@
 #include <vector>
 #include "enterlineedit.h"
 
+// widget utilizzato per l'inserimento dei tag di interesse
 class TagPicker : public QWidget {
     Q_OBJECT
 
@@ -18,10 +19,12 @@ private:
 public:
     TagPicker(QWidget* = nullptr);
 
+    // gestione dei tag selezionati dall'utente
     std::vector<std::string> getTags() const;
     void addTag(const std::string&);
     void addTags(const std::vector<std::string>&);
 
+    // gestione dello stato del widget
     bool isEnabled() const;
     void setEnabled(bool);
 

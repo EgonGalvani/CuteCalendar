@@ -14,8 +14,8 @@ CheckList::CheckList(QWidget* parent)
 void CheckList::addItem(const QString& label, bool checked) {
     QString itemLabel = label.trimmed();
 
-    if(!itemLabel.isEmpty()) { // controllo che la label dell'item non sia vuota
-        if(!hasItem(itemLabel)) { // controllo che non esista già l'item nella lista
+    if(!itemLabel.isEmpty()) { // controlla che la label dell'item non sia vuota
+        if(!hasItem(itemLabel)) { // controlla che non esista già l'item nella lista
 
             // aggiunta dell'item nella lista
             QListWidgetItem* item = new QListWidgetItem;
@@ -23,14 +23,14 @@ void CheckList::addItem(const QString& label, bool checked) {
             QCheckBox *checkBox = new QCheckBox(itemLabel, this);
             checkBox->setChecked(checked);
             setItemWidget(item, checkBox);
-            scrollToItem(item); // faccio lo scroll della lista per mostrare il nuovo item inserito
+            scrollToItem(item); // esegue lo scroll della lista per mostrare il nuovo item inserito
         } else
             throw std::logic_error("Elemento già presente nella lista");
     } else
         throw std::logic_error("La stringa da inserire non può essere vuota");
 }
 
-// controllo se un item con la stringa indicata è già presente nella lista
+// controlla se un item con la stringa indicata è già presente nella lista
 bool CheckList::hasItem(const QString &label) const {
     bool found = false;
     for(int i = 0; i < count() && !found; i++) {
