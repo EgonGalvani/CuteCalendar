@@ -6,36 +6,26 @@
 
 class Reminder : public EventWithDuration, public Alert {
 private:
-    /**
-     * @brief l'urgency enum rappresenta la priorità/urgenza dell'evento
-     */
-    enum urgency {
-        Error = 0,
-        LOW = 1,
-        MEDIUM,
-        HIGH
-    };
-
-    urgency urg;
+    unsigned int _urgency;
 public:
 
-    void setUrgency(const int& urg);
+    void setUrgency(const unsigned int& urg);
 
     /**
      * @brief ID univoco dell'evento
      */
     static const int ID = 1;
 
-    Reminder(const int& urgency,const Time& start,const Time& end,
+    Reminder(const unsigned int& urgency,const Time& start,const Time& end,
              const Time& alert, bool rep, const std::string& nome,
              const std::string& descr,const std::string& luogo,
-             const Date& data, const std::vector<std::string>& tag);
+             const Date& _data, const std::vector<std::string>& tag);
 
     /**
      * @brief permette di ottenere la priorita/urgenza dell'evento
-     * @return l'enum della priorità dell'evento
+     * @return la priorità dell'evento
      */
-    urgency getUrgency()const ;
+    unsigned int getUrgency()const ;
 
     //virtual
     /**

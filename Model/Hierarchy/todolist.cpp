@@ -4,23 +4,23 @@
 
 //std::vector<ListItem> items;
 
-ToDoList::ListItem::ListItem(const std::string& x, bool y) : description(x),done(y) {}
+ToDoList::ListItem::ListItem(const std::string& x, bool y) : _description(x),_done(y) {}
 
 std::string ToDoList::ListItem::getDescription() const {
-    return description;
+    return _description;
 }
 
 bool ToDoList::ListItem::isDone() const {
-    return done;
+    return _done;
 }
 
 void ToDoList::ListItem::setDone(const bool x) {
-    done = x;
+    _done = x;
 }
 
 void ToDoList::ListItem::serialize(QJsonObject &json) const {
 
-    json["item_description"] = QString::fromStdString(description);
+    json["item_description"] = QString::fromStdString(_description);
     json["item_isdone"] = isDone();
 
 }

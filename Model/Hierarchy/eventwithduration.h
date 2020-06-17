@@ -4,8 +4,8 @@
 #include "event.h"
 
 class EventWithDuration : virtual public Event {
-    Time startTime;
-    Time endTime;
+    Time _startTime;
+    Time _endTime;
 
 public:
     //virtual
@@ -29,7 +29,7 @@ public:
 
     EventWithDuration(const Time& start,const Time& end,
                       const std::string& nome = "",const std::string& descr = "",
-                      const std::string& luogo = "",const Date& data = Date(),
+                      const std::string& luogo = "",const Date& _data = Date(),
                       const std::vector<std::string>& tags = std::vector<std::string>());
 
     //GETTER SETTER

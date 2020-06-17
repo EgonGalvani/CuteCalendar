@@ -26,7 +26,7 @@ public:
 
     Workout(int attivita, const Time& start, const Time& end,
             const std::string& nome, const std::string& descr,
-            const std::string& luogo, const Date& data,
+            const std::string& luogo, const Date& _data,
             const std::vector<std::string>& tags);
 
     /**

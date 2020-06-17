@@ -11,8 +11,8 @@ private:
     class ListItem {
         friend ToDoList;
     private:
-        std::string description;
-        bool done;
+        std::string _description;
+        bool _done;
     public:
 
         ListItem(const std::string&, bool = true);

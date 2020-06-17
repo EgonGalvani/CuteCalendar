@@ -8,7 +8,7 @@ class AllDayEvent :virtual public Event{
 private:
 public:
     AllDayEvent(const std::string& nome = "",const std::string& descr = ""
-            ,const std::string& luogo = "", const Date& data = Date(),
+            ,const std::string& luogo = "", const Date& _data = Date(),
                              const std::vector<std::string>& tags = std::vector<std::string>());
 
     /**

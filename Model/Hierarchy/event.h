@@ -14,10 +14,10 @@
 class Event {
 
 private:
-    std::string name;
-    Date data;
-    std::string description;
-    std::string place;
+    std::string _name;
+    Date _data;
+    std::string _description;
+    std::string _place;
     std::vector<std::string> tags;
 
 public:
@@ -113,7 +113,7 @@ public:
      * @brief permette di impostare la data dell'evento
      * @param data evento
      */
-    void setDate(const Date data);
+    void setDate(const Date _data);
 
     //Vector manipulation methods
 

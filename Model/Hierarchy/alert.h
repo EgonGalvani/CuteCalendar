@@ -4,23 +4,23 @@
 
 class Alert : virtual public Event {
 private:
-    Time alertTime;
-    bool repeat;
+    Time _alertTime;
+    bool _repeat;
 public:
 
-    Alert(const Time& alertTime,const bool& repeat,const std::string& nome = "",
-          const std::string& descr = "",const std::string& luogo = "",const Date& data = Date(),
+    Alert(const Time& _alertTime,const bool& _repeat,const std::string& nome = "",
+          const std::string& descr = "",const std::string& luogo = "",const Date& _data = Date(),
                              const std::vector<std::string>& tags = std::vector<std::string>());
 
     /**
      * @brief permette di impostare l'orario nel quale viene attivata l'allerta
     */
-    void setAlertTime(const Time alertTime);
+    void setAlertTime(const Time _alertTime);
 
     /**
      * @brief permette di impostare se l'allerta viene ripetuta più volte(true)
     */
-    void setRepeat(const bool repeat);
+    void setRepeat(const bool _repeat);
 
     /**
      * @brief permette di ottenere l'orario dell'allerta

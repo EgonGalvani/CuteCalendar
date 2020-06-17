@@ -21,7 +21,7 @@ private:
     std::string place;
     QJsonArray tmp;
     std::vector<std::string>tags;
-    int urg;
+    unsigned int urg;
     int act;
     std::vector<std::string> vectPart;
     Time start;
