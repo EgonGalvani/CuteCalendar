@@ -9,13 +9,7 @@ EventWithDuration::EventWithDuration(const Time& start,const Time& end,
 
 
 Time EventWithDuration::getDuration() const {
-    unsigned short x = (_endTime - _startTime).second();
-    unsigned short hour = x / 3600;
-    x %= 3600;
-    unsigned short minutes = x / 60 ;
-    x %= 60;
-    unsigned short seconds = x;
-    return Time(hour,minutes,seconds);
+    return _endTime-_startTime;
 }
 
 bool EventWithDuration::isCompleted() const {
