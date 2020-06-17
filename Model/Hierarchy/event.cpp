@@ -1,22 +1,22 @@
 #include "event.h"
 
-std::string Event::getDesc() const{return  description;}
+std::string Event::getDesc() const{return  _description;}
 
-std::string Event::getName() const{return name;}
+std::string Event::getName() const{return _name;}
 
-std::string Event::getPlace() const{return place;}
+std::string Event::getPlace() const{return _place;}
 
-Date Event::getDate() const{return data;}
+Date Event::getDate() const{return Date(_data);}
 
 std::vector<std::string> Event::getTags() const {return tags;}
 
-void Event::setDesc(const std::string desc) {description = desc;}
+void Event::setDesc(const std::string desc) {_description = desc;}
 
-void Event::setName(const std::string nome) {name = nome;}
+void Event::setName(const std::string nome) {_name = nome;}
 
-void Event::setPlace(const std::string posto) {place = posto;}
+void Event::setPlace(const std::string posto) {_place = posto;}
 
-void Event::setDate(const Date x) {data = x;}
+void Event::setDate(const Date x) {_data = x;}
 
 void Event::addTag(const std::string tag) {
     if (!hasTag(tag)) tags.push_back(tag);
@@ -53,12 +53,12 @@ bool Event::atLeastOneTag() const {
 }
 
 Event::Event(const std::string& nome,const std::string& descr,const std::string& luogo,
-             const Date& date,const std::vector<std::string>& vettoreTag) : name(nome),data(date),
-             description(descr),place(luogo),tags(vettoreTag) {
+             const Date& date,const std::vector<std::string>& vettoreTag) : _name(nome),_data(date),
+             _description(descr),_place(luogo),tags(vettoreTag) {
 }
 
 bool Event::isCompleted() const {
-    return data < Date();
+    return _data < Date();
 }
 
 void Event::serialize(QJsonObject &json) const {

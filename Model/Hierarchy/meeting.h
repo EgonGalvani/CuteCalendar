@@ -16,9 +16,9 @@ public:
     static const int ID = 3;
 
     Meeting(const std::vector<std::string>& part, const Time& start,
-            const Time& end, const Time& alert, bool repeat,
+            const Time& end, const Time& alert, bool _repeat,
             const std::string& nome, const std::string& descr,
-            const std::string& luogo, const Date& data,
+            const std::string& luogo, const Date& _data,
             const std::vector<std::string>& vettoreTag);
 
     /**

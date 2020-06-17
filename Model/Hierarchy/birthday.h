@@ -6,7 +6,7 @@
 class BirthDay : public AllDayEvent {
 
 private:
-    unsigned short annoNascita;
+    unsigned short _annoNascita;
 
 public:
 

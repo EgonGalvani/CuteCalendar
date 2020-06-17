@@ -5,11 +5,11 @@ EventWithDuration::EventWithDuration(const Time& start,const Time& end,
                                      const std::string& luogo,const Date& data,
                                      const std::vector<std::string>&tags)
     : Event(nome,descr,luogo,data,tags),
-      startTime(start),endTime(end){}
+      _startTime(start),_endTime(end){}
 
 
 Time EventWithDuration::getDuration() const {
-    unsigned short x = (endTime - startTime).second();
+    unsigned short x = (_endTime - _startTime).second();
     unsigned short hour = x / 3600;
     x %= 3600;
     unsigned short minutes = x / 60 ;
@@ -19,21 +19,21 @@ Time EventWithDuration::getDuration() const {
 }
 
 bool EventWithDuration::isCompleted() const {
-   return Event::isCompleted() || (getDate() == Date() && endTime<Time());
+   return Event::isCompleted() || (getDate() == Date() && _endTime<Time());
 }
 
 void EventWithDuration::serialize(QJsonObject &json) const{
 
     Event::serialize(json);
-    json["START_TIME"] = QString::fromStdString(startTime.toString());
-    json["END_TIME"] = QString::fromStdString(endTime.toString());
+    json["START_TIME"] = QString::fromStdString(_startTime.toString());
+    json["END_TIME"] = QString::fromStdString(_endTime.toString());
 
 }
 
 //GETTER SETTER
-Time EventWithDuration::getStartTime() const {return  startTime;}
-Time EventWithDuration::getEndTime() const {return endTime;}
-void EventWithDuration::setStartTime(const Time start) {startTime=start;}
-void EventWithDuration::setEndTime(const Time end) {endTime=end;}
+Time EventWithDuration::getStartTime() const {return  _startTime;}
+Time EventWithDuration::getEndTime() const {return _endTime;}
+void EventWithDuration::setStartTime(const Time start) {_startTime=start;}
+void EventWithDuration::setEndTime(const Time end) {_endTime=end;}
 
 
