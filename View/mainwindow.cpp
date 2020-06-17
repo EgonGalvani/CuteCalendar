@@ -30,8 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     catch(std::exception& e) { std::cout << e.what(); }
 
     // scheduler di messaggi
-    scheduler = new MsgScheduler(this);
-    connect(scheduler, SIGNAL(timeout(std::string)),
+    connect(&scheduler, SIGNAL(timeout(std::string)),
             this, SLOT(ontimeout(std::string)));
 
     // aggiungo un memo per ogni evento con avviso del giorno corrente
@@ -137,7 +136,7 @@ void MainWindow::deleteEvent(Model::It it) {
 
     // se l'evento eliminato aveva dei memo allora li aggiorno
     if(isAlert && isToday) {
-        scheduler->clear();
+        scheduler.clear();
         for(auto e : model.getEvents(QDate::currentDate()))
             checkAndAddMemo(&**e);
     }
@@ -170,8 +169,10 @@ void MainWindow::insertEvent(Event *e) {
     // viene inserito in coda un nuovo elmento
     eventList->addItem(createEventWidget(it));
 
-    if(e->getDate() == QDate::currentDate())
-        checkAndAddMemo(e);
+    // ottengo l'evento appena inserito direttamente dall'iteratore
+    Event* event = &**it;
+    if(event->getDate() == QDate::currentDate())
+        checkAndAddMemo(event);
 }
 
 // controlla che l'evento passato sia di tipo alert e di conseguenza
@@ -181,10 +182,10 @@ void MainWindow::checkAndAddMemo(Event *e) {
     if(currentAlert) {
         int diff = QTime::currentTime().msecsTo(currentAlert->getAlertTime());
         if(diff > 0) {
-            scheduler->addMsg("L'evento " + e->getName() + " sta per iniziare", diff);
+            scheduler.addMsg("L'evento " + e->getName() + " sta per iniziare", diff);
 
             if(currentAlert->doesRepeat()) {
-                scheduler->addMsg("Manca sempre meno all'inizio dell'evento " + e->getName(), diff + 5*60*1000);
+                scheduler.addMsg("Manca sempre meno all'inizio dell'evento " + e->getName(), diff + 5*60*1000);
             }
         }
     }
@@ -245,7 +246,7 @@ void MainWindow::onModifiedEvent(Model::It it) {
     // se il giorno dell'evento è quello corrente, controllo se l'evento
     // prevede di mostrare degli avvisi all'utente e in questo caso li aggiorno
     if((*it)->getDate() == QDate::currentDate() && dynamic_cast<Alert*>(&**it)) {
-        scheduler->clear();
+        scheduler.clear();
 
         for(auto it : model.getEvents(QDate::currentDate()))
             checkAndAddMemo(&**it);

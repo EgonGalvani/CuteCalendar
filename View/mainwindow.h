@@ -38,8 +38,8 @@ private:
     // Model
     Model model;
 
-    // Scheduler for messages to show to use r
-    MsgScheduler *scheduler;
+    // Scheduler for messages to show
+    MsgScheduler scheduler;
 
     // Elementi calendario
     QGroupBox *calendarBlock;
