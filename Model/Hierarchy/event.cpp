@@ -69,13 +69,16 @@ void Event::serialize(QJsonObject &json) const {
     json["PLACE"] = QString::fromStdString(getPlace());
 
     QJsonArray tagArray;
+    //è una sorta di conversione,
+    //da std::vector a qjsonArray
     if (!tags.empty()) {
-        std::vector<std::string> temp = tags;
-
-        foreach (const std::string tag, temp) {
+        //Si itera il vettore prendendo ogni stringa al suo interno
+        foreach (const std::string tag, tags) {
+            //Si converte la stringa in qstring e la si inserisce nel qjsonarray
             tagArray.append(QString::fromStdString(tag));
         }
     }
+    //Si inserisce il qjsonarray nel qjsonobject
     json["TAGS"] = tagArray;
 }
 

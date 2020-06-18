@@ -14,7 +14,10 @@ Time Alert::getAlertTime() const{return _alertTime;}
 bool Alert::doesRepeat() const{return _repeat;}
 
 void Alert::serialize(QJsonObject &json) const{
+    //chiamata alla classe base
     Event::serialize(json);
+
+    //Conversione = Time->std::string->QString->QJSonValue
     json["ALERT_TIME"] = QString::fromStdString(_alertTime.toString());
     json["REPEAT"] = _repeat;
 }

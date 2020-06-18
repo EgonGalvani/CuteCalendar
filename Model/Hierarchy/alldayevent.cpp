@@ -10,6 +10,7 @@ Time AllDayEvent::getDuration() const {
 }
 
 void AllDayEvent::serialize(QJsonObject &json) const {
+    //Chiamata alla base
     Event::serialize(json);
 }
 

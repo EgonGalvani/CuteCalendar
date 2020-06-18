@@ -13,11 +13,12 @@ Time EventWithDuration::getDuration() const {
 }
 
 bool EventWithDuration::isCompleted() const {
+    //Controlla se la data è passata, altrimenti se non lo è controlla se
+    //è il giorno corrente && controlla che la l'ora di fine sia < di quella attuale
    return Event::isCompleted() || (getDate() == Date() && _endTime<Time());
 }
 
 void EventWithDuration::serialize(QJsonObject &json) const{
-
     Event::serialize(json);
     json["START_TIME"] = QString::fromStdString(_startTime.toString());
     json["END_TIME"] = QString::fromStdString(_endTime.toString());

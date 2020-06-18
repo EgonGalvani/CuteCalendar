@@ -13,6 +13,9 @@ BirthDay *BirthDay::clone() const{
 
 void BirthDay::serialize(QJsonObject &json) const{
     AllDayEvent::serialize(json);
+    //Il metodo va a rimpiazzare l'id messo dalla base con il suo,
+    //può fungere da controllo di "corruzione nel salvataggio",
+    //se l'id infatti rimane 0 qualcosa è andato storto e l'oggetto salvato è "corrotto"
     json.insert("ID",BirthDay::ID);
     json["ANNO_NASCITA"] = _annoNascita;
 }

@@ -10,6 +10,8 @@
 
 class Factory {
 
+    static const int nEventi = 5;
+
 private:
 
 
