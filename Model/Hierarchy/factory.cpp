@@ -69,10 +69,10 @@ Event* Factory::parse() {
     //l'id 0 è riservato e se è maggiore di nEventi significa che è un campo corrotto
     //o modificato
     if (id == 0 || id>nEventi) throw std::runtime_error("Salvataggio corrotto : ID INVALIDO");
-    //controllo validità
-    firstCheck();
     //parse campi in comune a tutti
     firstParse();
+    //controllo validità
+    firstCheck();
     //parse campi in comune alla maggior parte degli eventi
     secondParse();
 
