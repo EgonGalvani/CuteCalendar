@@ -39,7 +39,7 @@ void ViewAllenamento::setEnabled(bool e) {
     attivita->setEnabled(e);
 
 }
-
+//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
 void ViewAllenamento::pushSaves(Model::It it) {
     ModView::pushSaves(it);
 
@@ -55,7 +55,7 @@ void ViewAllenamento::pushSaves(Model::It it) {
     } else
         throw std::logic_error("Tipo errato per la modifica di un allenamento");
 }
-
+//Caricamento del contenuto delle evento nella view
 void ViewAllenamento::fillView(Model::It it) {
     ModView::fillView(it);
 
@@ -67,12 +67,14 @@ void ViewAllenamento::fillView(Model::It it) {
     } else
         throw std::logic_error("Tipo errato per essere mostrato come allenamento");
 }
-
+//Controllo errori nella view prima del salvataggio
 bool ViewAllenamento::checkPushable(){
 
     return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && !attivita->currentText().isEmpty();
 }
-
+/**Funzione che crea un evento Workout e lo ritorna
+@param date: data nella quale viene creato l'evento
+**/
 Workout *ViewAllenamento::createEvent(QDate date)
 {
 

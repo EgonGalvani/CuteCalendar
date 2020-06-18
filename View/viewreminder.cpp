@@ -49,7 +49,7 @@ void ViewPromemoria::setEnabled(bool e) {
     urgency->setReadOnly(!e);
 
 }
-
+//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
 void ViewPromemoria::pushSaves(Model::It it) {
     ModView::pushSaves(it);
 
@@ -77,7 +77,7 @@ void ViewPromemoria::pushSaves(Model::It it) {
      } else
         throw std::logic_error("Tipo errato per apportare le modifiche del reminder");
 }
-
+//Caricamento del contenuto delle evento nella view
 void ViewPromemoria::fillView(Model::It it) {
     ModView::fillView(it);
 
@@ -103,12 +103,14 @@ void ViewPromemoria::fillView(Model::It it) {
         throw std::logic_error("Tipo errato per essere mostrato come reminder");
     }
 }
-
+//Controllo errori nella view prima del salvataggio
 bool ViewPromemoria::checkPushable()
 {
     return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && alert->value()%5==0 ;
 }
-
+/**Funzione che crea un evento Reminder e lo ritorna
+@param date: data nella quale viene creato l'evento
+**/
 Reminder *ViewPromemoria::createEvent(QDate date)
 {
     if(checkPushable()){

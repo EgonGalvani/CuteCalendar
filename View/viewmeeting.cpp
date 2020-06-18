@@ -95,7 +95,7 @@ void ViewMeeting::setEnabled(bool b) {
     alert->setEnabled(b);
     checkRep->setEnabled(b);
 }
-
+//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
 void ViewMeeting::pushSaves(Model::It it) {
     ModView::pushSaves(it);
 
@@ -126,7 +126,7 @@ void ViewMeeting::pushSaves(Model::It it) {
     } else
         throw std::logic_error("Tipo errato per la modifica di una view meeting");
 }
-
+//Caricamento del contenuto delle evento nella view
 void ViewMeeting::fillView(Model::It it) {
     ModView::fillView(it);
 
@@ -155,12 +155,14 @@ void ViewMeeting::fillView(Model::It it) {
     } else
         throw std::logic_error("Tipo errato per essere mostrato in una view meeting");
 }
-
+//Controllo errori nella view prima del salvataggio
 bool ViewMeeting::checkPushable()
 {
     return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && alert->value()%5==0 && emailList->count()!=0;
 }
-
+/**Funzione che crea un evento Meeting e lo ritorna
+@param date: data nella quale viene creato l'evento
+**/
 Meeting *ViewMeeting::createEvent(QDate date)
 {
     if(checkPushable()){

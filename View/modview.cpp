@@ -33,7 +33,7 @@ void ModView::setEnabled(bool e) {
     txtLuogo->setReadOnly(!e);
     checkTag->setEnabled(e);
 }
-//Get di enabled
+
 bool ModView::isEnabled() const {
     return enabled;
 }
