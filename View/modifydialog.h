@@ -21,7 +21,7 @@ class ModifyDialog : public QDialog {
 
 public:
     explicit ModifyDialog(QDate date,const Model::It&, QDialog *parent = nullptr);
-    virtual ~ModifyDialog();
+    virtual ~ModifyDialog()=default;
 
 signals:
     void deleteEvent(Model::It);

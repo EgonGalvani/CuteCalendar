@@ -12,6 +12,7 @@
 ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     :  QDialog(parent), it(it), modifyEnabled(false), date(date) {
 
+    // init grafica
     layout= new QVBoxLayout;
     viewLayout= new QVBoxLayout;
     buttomLayout = new QHBoxLayout;
@@ -20,6 +21,7 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     btnDelete = new QPushButton(tr("Delete"),this);
     btnModify = new QPushButton(tr("Modify"),this);
 
+    //Serie di if che controllano che tipo di view deve essere creata
     Event* currentEvent = &**it;
     if(dynamic_cast<Workout*>(currentEvent))
         view = new ViewAllenamento(this);
@@ -34,12 +36,14 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     else
         throw std::runtime_error("Il tipo considerato non rappresenta un evento valido");
 
+    //Aggiunta di Label "Completato"
     completato->setAlignment(Qt::AlignCenter);
     viewLayout->addWidget(completato);
-
     viewLayout->addWidget(view);
-    view->fillView(it);
 
+    view->fillView(it); //Recupero dei dati dal Model
+
+    //Controllo se l'evento è completato
     if((*it)->isCompleted()) {
         completato->setText("Completato");
         completato->setStyleSheet("QLabel { color: #fff; padding: 4px; background-color : green;}");
@@ -52,7 +56,7 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     buttomLayout->addWidget(btnDelete);
     buttomLayout->addWidget(btnModify);
 
-    //connects
+    //connects signal di bottone cliccato con gli SLOT opportuni
     connect(btnModify, SIGNAL(clicked()), this, SLOT(modifyPushed()));
     connect(btnDelete, SIGNAL(clicked()), this, SLOT(deletePushed()));
 
@@ -63,13 +67,9 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     setMinimumSize(200,600);
 }
 
-ModifyDialog::~ModifyDialog()
-{
-    delete layout;
-    delete viewLayout;
-    delete buttomLayout;
-}
 
+
+//Set dei parametri della view come modificabili e cambio dell'etichetta del bottone da "Modify" a "Confirm". Nel caso venga ripremuto pusha i salvataggi al model.
 void ModifyDialog::modifyPushed() {
     if(!modifyEnabled) {
         view->setEnabled(true);
@@ -88,6 +88,7 @@ void ModifyDialog::modifyPushed() {
     }
 }
 
+//Cancellazione dell'evento
 void ModifyDialog::deletePushed() {
     //emetto un signal di eliminazione
     emit deleteEvent(it);

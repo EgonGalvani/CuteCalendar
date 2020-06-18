@@ -3,6 +3,7 @@
 ModView::ModView(QWidget *parent)
         : QWidget(parent), enabled(true){
 
+    //init grafica
     mainLayout = new QVBoxLayout(this);
 
     lTag = new QLabel("Tag",this);
@@ -23,7 +24,7 @@ ModView::ModView(QWidget *parent)
     mainLayout->addWidget(lTag);
     mainLayout->addWidget(checkTag);
 }
-
+//Set delle componenti della view a enabled o disabled
 void ModView::setEnabled(bool e) {
     enabled = e;
 
@@ -32,11 +33,11 @@ void ModView::setEnabled(bool e) {
     txtLuogo->setReadOnly(!e);
     checkTag->setEnabled(e);
 }
-
+//Get di enabled
 bool ModView::isEnabled() const {
     return enabled;
 }
-
+//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
 void ModView::pushSaves(Model::It it) {
     (*it)->setDesc((txtDesc->toPlainText()).toStdString());
     (*it)->setName((txtNome->text()).toStdString());
@@ -46,7 +47,7 @@ void ModView::pushSaves(Model::It it) {
        (*it)->addTag(tag);
     }
 }
-
+//Caricamento del contenuto delle evento nella view
 void ModView::fillView(Model::It it) {
     txtDesc->setText(QString::fromStdString((*it)->getDesc()));
     txtNome->setText(QString::fromStdString((*it)->getName()));
@@ -56,6 +57,7 @@ void ModView::fillView(Model::It it) {
     }
 }
 
+//Controllo errori nella view prima del salvataggio
 bool ModView::checkPushable() {
     return !txtDesc->toPlainText().isEmpty() && !txtNome->text().isEmpty() && !txtLuogo->text().isEmpty();
 }
