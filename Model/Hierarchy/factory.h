@@ -62,13 +62,13 @@ public:
      * @brief Costruttore di Factory
      * @param il json dal quale estrapolare l'evento
      */
-    Factory(QJsonObject &js);
+    Factory(QJsonObject &js,Date data);
 
     /**
      * @brief funzione che permette di estrapolare l'evento dal json passato nel costruttore
      * @return un puntatore all'evento estrapolato
      */
-    Event* parse(Date data);
+    Event* parse();
 };
 
 #endif // FACTORY_H

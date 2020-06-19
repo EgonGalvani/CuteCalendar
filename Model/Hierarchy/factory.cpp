@@ -45,9 +45,10 @@ void Factory::secondParse() {
     }
 }
 
-Factory::Factory(QJsonObject &js) : json(js) {
+Factory::Factory(QJsonObject &js,Date dt) : json(js) {
     tags = std::vector<std::string>();
     vectPart = std::vector<std::string>();
+    date = dt;
 }
 
 bool Factory::isEmail(const std::string& email) const{
@@ -59,12 +60,10 @@ bool Factory::isEmail(const std::string& email) const{
    return std::regex_match(email, pattern);
 }
 
-Event* Factory::parse(Date dt) {
+Event* Factory::parse() {
 
     //ricava l'id,campo fondamentale per il parsing
     id = json["ID"].toInt();
-    date = dt;
-
     //l'id 0 è riservato e se è maggiore di nEventi significa che è un campo corrotto
     //o modificato
     if (id == 0 || id>nEventi) throw std::runtime_error("Salvataggio corrotto : ID INVALIDO");

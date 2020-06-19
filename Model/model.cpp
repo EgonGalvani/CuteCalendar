@@ -62,8 +62,8 @@ void Model::parse(QJsonObject &json)  {
         temp>>data;
         for (auto it = item.begin();it!=item.end();++it) {
             QJsonObject tmp = (*it).toObject();
-            Factory f1 = Factory(tmp);
-            _data.insert(data,DeepPtr<Event>(f1.parse(data)));
+            Factory f1 = Factory(tmp,data);
+            _data.insert(data,DeepPtr<Event>(f1.parse()));
         }
     }
 }
