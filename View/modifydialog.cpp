@@ -68,8 +68,8 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
 }
 
 
-
-//Set dei parametri della view come modificabili e cambio dell'etichetta del bottone da "Modify" a "Confirm". Nel caso venga ripremuto pusha i salvataggi al model.
+// Set dei parametri della view come modificabili e cambio dell'etichetta del bottone da "Modify" a "Confirm".
+// Nel caso venga ripremuto effettua la modifica delle informazioni dell'evento considerato.
 void ModifyDialog::modifyPushed() {
     if(!modifyEnabled) {
         view->setEnabled(true);
@@ -80,7 +80,7 @@ void ModifyDialog::modifyPushed() {
         try {
             view->pushSaves(it);
             QMessageBox::information(this, QString("Successo"), QString("Le modifiche sono state apportate con successo"));
-            emit modifiedEvent(it);
+            emit modifiedEvent(it); // emetto un signal per comunicare che l'evento è stato modificato
             close();
         } catch(std::exception& e) {
             QMessageBox::critical(this, QString("Error"), QString::fromStdString(e.what()));

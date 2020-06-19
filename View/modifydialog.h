@@ -32,8 +32,9 @@ protected slots:
     virtual void deletePushed();
 
 private:
-    //Model
+    // Iteratore che si riferisce all'evento di interesse
     Model::It it;
+
     //Puntatore Polimorfo alla view
     ModView* view;
     bool modifyEnabled;

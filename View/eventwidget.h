@@ -9,11 +9,13 @@
 
 class EventWidget : public QListWidgetItem {
 private:
+    // iteratore che si riferisce all'evento di interesse
     Model::It _data;
 
 public:
     EventWidget(const Model::It& info, const QIcon& icon, QListWidget* view = nullptr);
 
+    // getter per l'iteratore
     Model::It getData() const;
 };
 

@@ -23,7 +23,7 @@ ViewMeeting::ViewMeeting(QWidget *parent)
     inizio= new QTimeEdit(this);
     fine= new QTimeEdit(this);
     alert = new QSpinBox(this);
-    checkRep= new QCheckBox("Ripeti avviso all'inizio dell'evento", this);
+    checkRep= new QCheckBox("Ripeti notifica una seconda volta", this);
 
     alert->setRange(5,60);
     alert->setSingleStep(5);
@@ -93,8 +93,8 @@ void ViewMeeting::setEnabled(bool b) {
     checkRep->setEnabled(b);
 }
 
-//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewMeeting::pushSaves(const Model::It& it) {
+// Salvataggio delle modifiche apportate dall'utente nell'iteratore passato
+void ViewMeeting::pushSaves(const Model::It& it) const {
     ModView::pushSaves(it);
 
     Meeting* currEve = dynamic_cast<Meeting*>(&**it);
@@ -117,7 +117,7 @@ void ViewMeeting::pushSaves(const Model::It& it) {
         throw std::logic_error("Tipo errato per la modifica di una view meeting");
 }
 
-//Caricamento del contenuto delle evento nella view
+// Caricamento del contenuto delle evento nella view
 void ViewMeeting::fillView(const Model::It& it) {
     ModView::fillView(it);
 

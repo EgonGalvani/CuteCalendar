@@ -22,7 +22,7 @@ void ViewToDoList::setEnabled(bool b) {
     inputLine->setEnabled(b);
 }
 
-void ViewToDoList::pushSaves(const Model::It& it) {
+void ViewToDoList::pushSaves(const Model::It& it) const {
     ModView::pushSaves(it);
 
     ToDoList* currEve = dynamic_cast<ToDoList*>(&**it);

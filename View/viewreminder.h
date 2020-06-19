@@ -23,14 +23,13 @@ class ViewPromemoria : public ModView {
     QLabel* alertL;
     QLabel* start;
     QLabel* end;
-    QLabel* rep;
 
 public:
     explicit ViewPromemoria(QWidget *parent = 0);
     ~ViewPromemoria() = default;
 
     void setEnabled(bool) override;
-    void pushSaves(const Model::It&) override;
+    void pushSaves(const Model::It&) const override;
     void fillView(const Model::It&) override;
     bool checkPushable(QString&) const override;
     virtual Reminder* createEvent(const QDate& date) override;

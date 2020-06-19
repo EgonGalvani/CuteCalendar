@@ -18,6 +18,7 @@ ViewAllenamento::ViewAllenamento(QWidget *parent)
     attivita->addItem("Piscina");
     attivita->addItem("Palestra");
 
+    // vengono impostati i valori di default
     inizio->setTime(QTime::currentTime());
     if(inizio->time().hour()<23)
         fine->setTime(inizio->time().addSecs(3600));
@@ -35,10 +36,10 @@ void ViewAllenamento::setEnabled(bool e) {
     inizio->setEnabled(e);
     fine->setEnabled(e);
     attivita->setEnabled(e);
-
 }
-//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewAllenamento::pushSaves(const Model::It& it) {
+
+// Salvataggio delle modifiche apportate dall'utente nell'iteratore passato
+void ViewAllenamento::pushSaves(const Model::It& it) const {
     ModView::pushSaves(it);
 
     Workout* currEve = dynamic_cast<Workout*>(&**it);

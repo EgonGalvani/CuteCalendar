@@ -40,7 +40,7 @@ bool ModView::isEnabled() const {
 }
 
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ModView::pushSaves(const Model::It& it) {
+void ModView::pushSaves(const Model::It& it) const {
     QString error = "";
     if(checkPushable(error)){
         (*it)->setDesc((txtDesc->toPlainText()).toStdString());

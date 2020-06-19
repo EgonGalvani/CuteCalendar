@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
         checkAndAddMemo(&**it);
 
     // init grafica
-    calendarBlock = new QGroupBox(QString("Calendar"));
+    calendarBlock = new QGroupBox(QString("Calendario"));
     calendar = new MyCalendar(&model,this);
     infoBlock = new QGroupBox(QString("Info"));
     initCalendarBox();
@@ -68,7 +68,7 @@ void MainWindow::initCalendarBox() {
 void MainWindow::initInfoBox() {
 
     // init selected date label
-    selectedDateLabel = new QLabel(QString("Selected date: ")
+    selectedDateLabel = new QLabel(QString("Data selezionata: ")
         .append(calendar->selectedDate().toString("dd/MM/yyyy")));
     selectedDateLabel->setAlignment(Qt::AlignCenter);
     selectedDateLabel->setFont(QFont("Lato", 13, QFont::Bold));
@@ -81,7 +81,7 @@ void MainWindow::initInfoBox() {
     refreshList(calendar->selectedDate()); // aggiungo gli eventi della data corrente
 
     // init add event button
-    addEventBtn = new QPushButton(tr("Add Event"),this);
+    addEventBtn = new QPushButton(tr("Aggiungi evento"),this);
     connect(addEventBtn, SIGNAL(clicked(bool)), this, SLOT(showAddEventDialog()));
 
     // aggiungo gli elementi al layout
@@ -110,10 +110,10 @@ void MainWindow::showEventDetailsDialog(QListWidgetItem *it) {
             connect(modifyDialog, SIGNAL(modifiedEvent(Model::It)), this , SLOT(onModifiedEvent(Model::It)));
             modifyDialog->exec();
         } catch(std::exception& e) {
-            QMessageBox::critical(this, QString("Error"), QString::fromStdString(e.what()));
+            QMessageBox::critical(this, QString("Errore"), QString::fromStdString(e.what()));
         }
     } else
-        QMessageBox::critical(this, QString("Error"), QString("Error no valid type of ViewCreated"));
+        QMessageBox::critical(this, QString("Errore"), QString("Tipo di view non valido"));
 }
 
 // richiede al model di eliminare un evento e aggiorna di conseguenza la view
@@ -126,9 +126,9 @@ void MainWindow::deleteEvent(Model::It it) {
     // elimino dal model l'elemento considerato
     try {
         model.removeEvent(it);
-        QMessageBox::information(this, QString("Success"), QString("Evento rimosso con successo"));
+        QMessageBox::information(this, QString("Successo"), QString("Evento rimosso con successo"));
     } catch(...) {
-        QMessageBox::critical(this, QString("Error"), QString("Error deleting element"));
+        QMessageBox::critical(this, QString("Errore"), QString("Errore durante l'eliminazione dell'evento"));
     }
 
     // aggiorno la lista di eventi mostrata nel calendar
@@ -146,7 +146,7 @@ void MainWindow::deleteEvent(Model::It it) {
 // (poichè è cambiato il giorno selezionato, dovranno essere visualizzati gli eventi di quel giorno)
 void MainWindow::selectedDateChanged() {
     // aggiornamento label
-    selectedDateLabel->setText(QString("Selected date: ")
+    selectedDateLabel->setText(QString("Data selezionata: ")
         .append(calendar->selectedDate().toString("dd/MM/yyyy")));
 
     // aggiornamento lista
@@ -232,7 +232,6 @@ EventWidget* MainWindow::createEventWidget(const Model::It& it, QListWidget *par
 void MainWindow::ontimeout(std::string msg) {
     QMessageBox* alertMsg = new QMessageBox(this);
     alertMsg->setText(QString::fromStdString(msg));
-    alertMsg->setInformativeText("success");
     alertMsg->setModal(false);
     alertMsg->show();
 }

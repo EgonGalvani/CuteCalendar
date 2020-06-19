@@ -16,7 +16,6 @@ NewEventDialog::NewEventDialog(QDate date,QDialog *parent) : QDialog(parent), da
     mainLayout->setAlignment(Qt::AlignTop);
     initComboBox();
 
-
     setLayout(mainLayout);
     setMinimumSize(200,700);
 }
@@ -62,7 +61,6 @@ void NewEventDialog::initComboBox() {
 void NewEventDialog::changedSel(int index) {
     deleteLayout(eventLayout);
 
-    // Possibile memory leak DA RISOLVERE
     switch(index){
         case 0:
             view = new ViewAllenamento(this);
@@ -78,13 +76,9 @@ void NewEventDialog::changedSel(int index) {
             break;
         case 4:
             view = new ViewToDoList(this);
-
-        // default:
-            // ERRORE
     }
 
     eventLayout->addWidget(view);
-
     QPushButton* addEvent= new QPushButton(tr("Aggiungi Evento"));
     connect(addEvent,SIGNAL(clicked(bool)),this, SLOT(addPushed()));
     eventLayout->addWidget(addEvent);

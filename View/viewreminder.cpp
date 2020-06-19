@@ -8,7 +8,7 @@ ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
     inizio= new QTimeEdit(this);
     fine= new QTimeEdit(this);
     alert = new QSpinBox(this);
-    checkRep= new QCheckBox(this);
+    checkRep= new QCheckBox("Ripeti notifica una seconda volta", this);
     urgency = new QSpinBox(this);
 
     urgency->setRange(1,10);
@@ -23,7 +23,6 @@ ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
     start = new QLabel("Inizio",this);
     end = new QLabel("Fine",this);
     alertL= new QLabel("Notifica",this);
-    rep = new QLabel("Ripeti",this);
     urg= new QLabel("Urgenza",this);
 
     mainLayout->addWidget(start);
@@ -32,7 +31,6 @@ ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
     mainLayout->addWidget(fine);
     mainLayout->addWidget(alertL);
     mainLayout->addWidget(alert);
-    mainLayout->addWidget(rep);
     mainLayout->addWidget(checkRep);
     mainLayout->addWidget(urg);
     mainLayout->addWidget(urgency);
@@ -45,10 +43,10 @@ void ViewPromemoria::setEnabled(bool e) {
     alert->setEnabled(e);
     checkRep->setEnabled(e);
     urgency->setReadOnly(!e);
-
 }
-//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewPromemoria::pushSaves(const Model::It& it) {
+
+// Salvataggio delle modifiche apportate dall'utente nell'iteratore passato
+void ViewPromemoria::pushSaves(const Model::It& it) const {
     ModView::pushSaves(it);
 
     Reminder* currEve = dynamic_cast<Reminder*>(&**it);

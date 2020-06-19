@@ -31,8 +31,8 @@ void ViewCompleanno::setEnabled(bool e) {
     annoNascita->setReadOnly(!e);
 }
 
-//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewCompleanno::pushSaves(const Model::It& it) {
+// Salvataggio delle modifiche apportate dall'utente nell'iteratore passato
+void ViewCompleanno::pushSaves(const Model::It& it) const {
     ModView::pushSaves(it);
 
     BirthDay* currEve = dynamic_cast<BirthDay*>(&**it);
@@ -47,7 +47,7 @@ void ViewCompleanno::pushSaves(const Model::It& it) {
         throw std::logic_error("Tipo errato per la modifica di un Compleanno");
 }
 
-//Caricamento del contenuto delle evento nella view
+// Caricamento del contenuto delle evento nella view
 void ViewCompleanno::fillView(const Model::It& it) {
     ModView::fillView(it);
 
