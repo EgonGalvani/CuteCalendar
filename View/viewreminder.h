@@ -11,10 +11,7 @@
 class ViewPromemoria : public ModView {
     Q_OBJECT
 
-public:
-    explicit ViewPromemoria(QWidget *parent = 0);
-    ~ViewPromemoria() = default;
-
+    //Elementi della view
     QTimeEdit* inizio;
     QTimeEdit* fine;
     QSpinBox* alert;
@@ -28,10 +25,14 @@ public:
     QLabel* end;
     QLabel* rep;
 
+public:
+    explicit ViewPromemoria(QWidget *parent = 0);
+    ~ViewPromemoria() = default;
+
     void setEnabled(bool) override;
     void pushSaves(Model::It) override;
     void fillView(const Model::It&) override;
-    bool checkPushable() const override;
+    bool checkPushable() override;
     virtual Reminder* createEvent(QDate date) override;
 };
 

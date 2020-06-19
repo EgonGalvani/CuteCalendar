@@ -39,7 +39,7 @@ void ViewAllenamento::setEnabled(bool e) {
     attivita->setEnabled(e);
 
 }
-
+//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
 void ViewAllenamento::pushSaves(Model::It it) {
     ModView::pushSaves(it);
 
@@ -50,13 +50,15 @@ void ViewAllenamento::pushSaves(Model::It it) {
             currEve->setEndTime(fine->time());
             currEve->setActivity(attivita->currentIndex()+1);
         } else {
-            QMessageBox::critical(this, QString("Error"), "Qualche campo vuoto non ho tempo di fare tutti i vari check quindi arrangiati fratellì");
-            throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");}
+
+            throw std::logic_error("Errore nella modifica");}
     } else
         throw std::logic_error("Tipo errato per la modifica di un allenamento");
 }
 
+//Caricamento del contenuto delle evento nella view
 void ViewAllenamento::fillView(const Model::It& it) {
+
     ModView::fillView(it);
 
     Workout* currEve = dynamic_cast<Workout*>(&**it);
@@ -68,15 +70,40 @@ void ViewAllenamento::fillView(const Model::It& it) {
         throw std::logic_error("Tipo errato per essere mostrato come allenamento");
 }
 
-bool ViewAllenamento::checkPushable() const {
-    return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && !attivita->currentText().isEmpty();
+//Controllo errori nella view prima del salvataggio
+bool ViewAllenamento::checkPushable() {
+
+    bool ritorno=ModView::checkPushable();
+    if(!inizio->time().isValid()){
+        ritorno=false;
+        ModView::errori+="Il campo Inizio non è valido. ";
+
+    }
+    if(!fine->time().isValid()){
+        ritorno=false;
+        ModView::errori+="Il campo Fine non è valido. " ;
+    }
+    if(!(inizio->time() < fine->time())){
+        ritorno=false;
+        ModView::errori+="Il campo Inizio deve essere minore di Fine. ";
+    }
+
+    if(attivita->currentText().isEmpty()){
+        ritorno=false;
+        ModView::errori+="Il campo attività non può essere vuoto. ";
+    }
+
+    return   ritorno;
 }
 
+/**Funzione che crea un evento Workout e lo ritorna
+@param date: data nella quale viene creato l'evento
+**/
 Workout* ViewAllenamento::createEvent(QDate date) {
     if(checkPushable()){
         Workout* ritorno = new Workout(attivita->currentIndex()+1,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
         return ritorno;
-    } else throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
+    } else throw std::logic_error("Errore nella creazione");
 }
 
 

@@ -42,7 +42,7 @@ void Model::serialize(QJsonObject &json) const{
             (*(*vit)).serialize(eventjson);
             arrayEvent.push_back(eventjson);
         }
-        //Ogni riga sarà ID progressivo {data,evento1,evento2...,eventoN}
+        //Ogni riga sarà {data[evento1,evento2...,eventoN],data2[..]}
         json[QString::fromStdString(key.toString())] = arrayEvent;
     }
 }
@@ -62,7 +62,7 @@ void Model::parse(QJsonObject &json)  {
         temp>>data;
         for (auto it = item.begin();it!=item.end();++it) {
             QJsonObject tmp = (*it).toObject();
-            Factory f1 = Factory(tmp);
+            Factory f1 = Factory(tmp,data);
             _data.insert(data,DeepPtr<Event>(f1.parse()));
         }
     }

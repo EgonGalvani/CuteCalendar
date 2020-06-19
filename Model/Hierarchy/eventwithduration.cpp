@@ -9,21 +9,16 @@ EventWithDuration::EventWithDuration(const Time& start,const Time& end,
 
 
 Time EventWithDuration::getDuration() const {
-    unsigned short x = (_endTime - _startTime).second();
-    unsigned short hour = x / 3600;
-    x %= 3600;
-    unsigned short minutes = x / 60 ;
-    x %= 60;
-    unsigned short seconds = x;
-    return Time(hour,minutes,seconds);
+    return _endTime-_startTime;
 }
 
 bool EventWithDuration::isCompleted() const {
-   return Event::isCompleted() || (getDate() == Date() && _endTime<Time());
+    //Controlla se la data è passata, altrimenti se non lo è controlla se
+    //è il giorno corrente && controlla che la l'ora di fine sia < di quella attuale
+   return Event::getDate()<Date() || (getDate() == Date() && _endTime<Time());
 }
 
 void EventWithDuration::serialize(QJsonObject &json) const{
-
     Event::serialize(json);
     json["START_TIME"] = QString::fromStdString(_startTime.toString());
     json["END_TIME"] = QString::fromStdString(_endTime.toString());

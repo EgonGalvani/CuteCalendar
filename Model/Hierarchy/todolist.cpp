@@ -59,6 +59,7 @@ void ToDoList::serialize(QJsonObject &json) const {
     QJsonArray arrayToDo = QJsonArray();
     for (auto it = items.begin();it!=items.end();++it) {
         QJsonObject itemjson = QJsonObject();
+        //serializza ogni item
         (*it).serialize(itemjson);
         arrayToDo.push_back(itemjson);
     }

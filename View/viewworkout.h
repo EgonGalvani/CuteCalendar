@@ -10,20 +10,21 @@
 class ViewAllenamento : public ModView {
     Q_OBJECT
 
+    //Elementi della view
+    QTimeEdit* inizio;
+    QTimeEdit* fine;
+    QLabel* start;
+    QLabel* end;
+    QComboBox* attivita;
+
 public:
    explicit ViewAllenamento(QWidget *parent = 0);
    ~ViewAllenamento() = default;
 
-   QTimeEdit* inizio;
-   QTimeEdit* fine;
-   QLabel* start;
-   QLabel* end;
-   QComboBox* attivita;
-
    void setEnabled(bool) override;
    void pushSaves(Model::It) override;
    void fillView(const Model::It&) override;
-   bool checkPushable() const override;
+   bool checkPushable() override;
    Workout *createEvent(QDate date) override;
 };
 

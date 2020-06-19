@@ -8,6 +8,7 @@
 #include "viewtodolist.h"
 
 NewEventDialog::NewEventDialog(QDate date,QDialog *parent) : QDialog(parent), date(date) {
+    //init grafica
     mainLayout = new QVBoxLayout();
     selLayout = new QVBoxLayout();
     eventLayout = new QVBoxLayout();
@@ -15,13 +16,13 @@ NewEventDialog::NewEventDialog(QDate date,QDialog *parent) : QDialog(parent), da
     mainLayout->setAlignment(Qt::AlignTop);
     initComboBox();
 
-    resize(450, height());
+
     setLayout(mainLayout);
     setMinimumSize(200,600);
 }
 
 
-
+// Funzione che cancella tutti gli elementi di un layout.
 void NewEventDialog::deleteLayout(QLayout* layout) {
     QLayoutItem* child;
 
@@ -37,6 +38,7 @@ void NewEventDialog::deleteLayout(QLayout* layout) {
     }
 }
 
+//Funzione che crea la Combobox e la aggiunge al Layout.
 void NewEventDialog::initComboBox() {
     selEvento = new QComboBox();
     selEvento->addItem("Allenamento");
@@ -56,6 +58,7 @@ void NewEventDialog::initComboBox() {
     changedSel(0);
 }
 
+//Funzione che riconosce il tipo di view da instanziare
 void NewEventDialog::changedSel(int index) {
     deleteLayout(eventLayout);
 
@@ -87,6 +90,8 @@ void NewEventDialog::changedSel(int index) {
     eventLayout->addWidget(addEvent);
 }
 
+
+//Slot che riconosce che il pulsante è stato premuto e quindi cerca di aggiungere l'evento
 void NewEventDialog::addPushed() {
 
 
@@ -95,9 +100,11 @@ void NewEventDialog::addPushed() {
         QMessageBox::information(this, QString("Successo"), QString("L'inserimento ha avuto successo"));
         close();
     } catch(...) {
-        QMessageBox::critical(this, QString("Error"),"Fallito inserimento"/**, se.getMessage()**/);
+
+
+        QMessageBox::critical(this, QString("Error"),view->getErrori());
     }
-    //Qua chiuderei solo se il push è corretto tho
-    //close();
+
+
 
 }

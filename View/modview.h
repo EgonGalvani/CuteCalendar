@@ -23,15 +23,16 @@ public:
     virtual void setEnabled(bool);
     virtual void pushSaves(Model::It);
     virtual void fillView(const Model::It&);
-    virtual bool checkPushable() const;
+    virtual bool checkPushable();
     virtual Event* createEvent(QDate date) = 0;
 
     bool isEnabled() const;
+    QString getErrori() const;
 protected:
     bool enabled;
 
+    //Elementi della view
     QVBoxLayout* mainLayout;
-
     QLabel* lNome;
     QLabel* lDesc;
     QLabel* lLuogo;
@@ -41,6 +42,10 @@ protected:
     QLineEdit* txtLuogo;
     QTextEdit* txtDesc;
     TagPicker* checkTag;
+
+    //Controllo Errori
+    QString errori;
+
 };
 
 #endif // MODVIEW_H

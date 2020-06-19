@@ -3,6 +3,7 @@
 ModView::ModView(QWidget *parent)
         : QWidget(parent), enabled(true){
 
+    //init grafica
     mainLayout = new QVBoxLayout(this);
 
     lTag = new QLabel("Tag",this);
@@ -22,8 +23,10 @@ ModView::ModView(QWidget *parent)
     mainLayout->addWidget(txtDesc);
     mainLayout->addWidget(lTag);
     mainLayout->addWidget(checkTag);
-}
 
+
+}
+//Set delle componenti della view a enabled o disabled
 void ModView::setEnabled(bool e) {
     enabled = e;
 
@@ -37,16 +40,24 @@ bool ModView::isEnabled() const {
     return enabled;
 }
 
+QString ModView::getErrori() const
+{
+    return errori;
+}
+//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
 void ModView::pushSaves(Model::It it) {
-    (*it)->setDesc((txtDesc->toPlainText()).toStdString());
-    (*it)->setName((txtNome->text()).toStdString());
-    (*it)->setPlace((txtLuogo->text()).toStdString());
-    (*it)->clearTags();
-    for (auto tag: checkTag->getTags()){
-       (*it)->addTag(tag);
+    if(checkPushable()){
+        (*it)->setDesc((txtDesc->toPlainText()).toStdString());
+        (*it)->setName((txtNome->text()).toStdString());
+        (*it)->setPlace((txtLuogo->text()).toStdString());
+        (*it)->clearTags();
+        for (auto tag: checkTag->getTags()){
+            (*it)->addTag(tag);
+        }
     }
 }
 
+//Caricamento del contenuto delle evento nella view
 void ModView::fillView(const Model::It& it) {
     txtDesc->setText(QString::fromStdString((*it)->getDesc()));
     txtNome->setText(QString::fromStdString((*it)->getName()));
@@ -56,6 +67,18 @@ void ModView::fillView(const Model::It& it) {
     }
 }
 
-bool ModView::checkPushable() const {
-    return !txtDesc->toPlainText().isEmpty() && !txtNome->text().isEmpty() && !txtLuogo->text().isEmpty();
+//Controllo errori nella view prima del salvataggio
+bool ModView::checkPushable() {
+    errori="";
+    bool ritorno=true;
+    if(txtNome->text().isEmpty()){
+        ritorno=false;
+        errori +=  + "Il campo nome non può essere vuoto. ";
+    }
+    if(txtDesc->toPlainText().isEmpty()){
+        ritorno=false;
+        errori +=  + "Il campo Descrizione non può essere vuoto. ";
+    }
+
+    return ritorno;
 }

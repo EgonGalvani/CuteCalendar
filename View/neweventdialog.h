@@ -27,13 +27,14 @@ signals:
     void newEventCreated(Event*);
 
 private:
+    //Elementi della view
     QVBoxLayout* mainLayout;
     QComboBox* selEvento;
     QVBoxLayout* selLayout ;
     QVBoxLayout* eventLayout;
 
     QDate date;
-
+    //Puntatore polimorfo alla view dell'evento
     ModView* view;
 
     void initComboBox();

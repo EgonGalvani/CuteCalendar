@@ -32,8 +32,8 @@ void ViewToDoList::pushSaves(Model::It it) {
             for(auto item : checkList->getStatus())
                 currEve->addItem(item.first, item.second);
         } else {
-            QMessageBox::critical(this, QString("Error"), "Qualche campo vuoto non ho tempo di fare tutti i vari check quindi arrangiati fratellì");
-            throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");}
+
+            throw std::logic_error("Errore nella modifica");}
     } else
         throw std::logic_error("Tipo errato per salvataggio da view todolist");
 }
@@ -49,9 +49,16 @@ void ViewToDoList::fillView(const Model::It& it) {
         throw std::logic_error("Tipo errato per essere mostrato in una view todolist");
 }
 
-bool ViewToDoList::checkPushable() const
+bool ViewToDoList::checkPushable()
 {
-    return ModView::checkPushable() && checkList->getStatus().size()!=0;
+    bool ritorno=ModView::checkPushable();
+
+    if(checkList->getStatus().size()!=0){
+        ritorno=false;
+        ModView::errori+="La ToDoList non può essere vuota. ";
+    }
+
+    return   ritorno;
 }
 
 void ViewToDoList::addItem() {
@@ -71,5 +78,5 @@ ToDoList* ViewToDoList::createEvent(QDate date) {
         for(auto item : checkList->getStatus())
             ritorno->addItem(item.first, item.second);
         return ritorno;
-    }else throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
+    }else throw std::logic_error("Errore nella creazione");
 }

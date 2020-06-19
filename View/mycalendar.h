@@ -14,9 +14,11 @@ public:
     ~MyCalendar()=default;
 
 protected:
+
     void paintCell(QPainter *painter, const QRect &rect, const QDate &date) const override;
 
 private:
+    // Puntatore al Model
     const Model* model;
 };
 

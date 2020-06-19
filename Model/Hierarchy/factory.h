@@ -10,6 +10,8 @@
 
 class Factory {
 
+    static const int nEventi = 5;
+
 private:
 
 
@@ -60,7 +62,7 @@ public:
      * @brief Costruttore di Factory
      * @param il json dal quale estrapolare l'evento
      */
-    Factory(QJsonObject &js);
+    Factory(QJsonObject &js,Date data);
 
     /**
      * @brief funzione che permette di estrapolare l'evento dal json passato nel costruttore

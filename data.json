@@ -2,7 +2,6 @@
     "01/05/2020": [
         {
             "ALERT_TIME": "23:55:00",
-            "DATA": "01/05/2020",
             "DESCRIPTION": "Festa del lavoro (giorno di riposo!)",
             "END_TIME": "00:00:00",
             "ID": 1,
@@ -21,7 +20,6 @@
     "01/06/2020": [
         {
             "ALERT_TIME": "17:55:00",
-            "DATA": "01/06/2020",
             "DESCRIPTION": "Meeting per il progetto di P2, ultimi bug da risolvere ",
             "END_TIME": "19:00:00",
             "ID": 3,
@@ -44,7 +42,6 @@
     "01/11/2020": [
         {
             "ALERT_TIME": "23:55:00",
-            "DATA": "01/11/2020",
             "DESCRIPTION": "Festa di tutti i santi",
             "END_TIME": "00:00:00",
             "ID": 1,
@@ -62,7 +59,6 @@
     "02/06/2020": [
         {
             "ALERT_TIME": "23:55:00",
-            "DATA": "02/06/2020",
             "DESCRIPTION": "Festa della repubblica italiana!",
             "END_TIME": "00:00:00",
             "ID": 1,
@@ -82,7 +78,6 @@
     "06/06/2020": [
         {
             "ACTIVITY": 2,
-            "DATA": "06/06/2020",
             "DESCRIPTION": "Prima lezione di pallavolo!",
             "END_TIME": "18:00:00",
             "ID": 2,
@@ -96,10 +91,27 @@
             ]
         }
     ],
+    "06/07/2020": [
+        {
+            "ALERT_TIME": "17:16:13",
+            "DESCRIPTION": "Prova orale riguardante il progetto \"cutecalendar\" di Programmazione ad oggetti",
+            "END_TIME": "18:21:13",
+            "ID": 1,
+            "NAME": "Esame Orale P2",
+            "PLACE": "Eraclea",
+            "REPEAT": true,
+            "START_TIME": "17:21:13",
+            "TAGS": [
+                "P2",
+                "Esame",
+                "Eraclea"
+            ],
+            "URGENCY": 10
+        }
+    ],
     "10/10/2020": [
         {
             "ANNO_NASCITA": 1999,
-            "DATA": "10/10/2020",
             "DESCRIPTION": "Compleanno del magnifico Daniele, fiero portatore del 19 in analisi e 18 in P2",
             "ID": 4,
             "NAME": "Compleanno Daniele",
@@ -114,7 +126,6 @@
     "15/08/2020": [
         {
             "ALERT_TIME": "23:55:00",
-            "DATA": "15/08/2020",
             "DESCRIPTION": "Grigliata con amici!",
             "END_TIME": "00:00:00",
             "ID": 1,
@@ -133,7 +144,6 @@
     "16/01/2020": [
         {
             "ANNO_NASCITA": 2000,
-            "DATA": "16/01/2020",
             "DESCRIPTION": "Compleanno del raro esemplare di Valton difficilmente avvistabile in mezzo ai banchi universitari",
             "ID": 4,
             "NAME": "Compleanno Valton",
@@ -148,7 +158,6 @@
     "17/11/2020": [
         {
             "ANNO_NASCITA": 1999,
-            "DATA": "17/11/2020",
             "DESCRIPTION": "Compleanno del 3 in 2, Egon. ",
             "ID": 4,
             "NAME": "Compleanno Egon",
@@ -162,7 +171,6 @@
     ],
     "18/06/2020": [
         {
-            "DATA": "18/06/2020",
             "DESCRIPTION": "Lista della spesa per festa",
             "ID": 5,
             "NAME": "Lista spesa ",
@@ -190,12 +198,23 @@
                     "item_isdone": false
                 }
             ]
+        },
+        {
+            "ANNO_NASCITA": 1900,
+            "DESCRIPTION": "Compleanno zia stefania",
+            "ID": 4,
+            "NAME": "Compleanno zia ",
+            "PLACE": "Bergamo",
+            "TAGS": [
+                "Bergamo",
+                "Compleanno",
+                "Stefania"
+            ]
         }
     ],
     "25/12/2020": [
         {
             "ALERT_TIME": "23:55:00",
-            "DATA": "25/12/2020",
             "DESCRIPTION": "Festa di Natale!",
             "END_TIME": "00:00:00",
             "ID": 1,
@@ -214,7 +233,6 @@
     "27/06/2020": [
         {
             "ACTIVITY": 1,
-            "DATA": "27/06/2020",
             "DESCRIPTION": "Partita di calcetto in patronato con amici",
             "END_TIME": "18:00:00",
             "ID": 2,
@@ -230,7 +248,6 @@
     "29/05/2020": [
         {
             "ALERT_TIME": "17:55:00",
-            "DATA": "29/05/2020",
             "DESCRIPTION": "Ultimo meeting nel quale si aggiornerà codice,da ora in poi solo bug testing & fixing e documentazione",
             "END_TIME": "19:00:00",
             "ID": 3,
@@ -253,7 +270,6 @@
     ],
     "30/05/2020": [
         {
-            "DATA": "30/05/2020",
             "DESCRIPTION": "Lista della spesa per sabato",
             "ID": 5,
             "NAME": "Lista spesa",

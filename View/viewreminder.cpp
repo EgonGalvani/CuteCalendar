@@ -49,7 +49,7 @@ void ViewPromemoria::setEnabled(bool e) {
     urgency->setReadOnly(!e);
 
 }
-
+//Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
 void ViewPromemoria::pushSaves(Model::It it) {
     ModView::pushSaves(it);
 
@@ -70,14 +70,15 @@ void ViewPromemoria::pushSaves(Model::It it) {
 
             delete currInizio;
         }else {
-            QMessageBox::critical(this, QString("Error"), "Qualche campo vuoto non ho tempo di fare tutti i vari check quindi arrangiati fratellì");
-            throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
+
+            throw std::logic_error("Errore nella modifica");
         }
 
      } else
         throw std::logic_error("Tipo errato per apportare le modifiche del reminder");
 }
 
+//Caricamento del contenuto delle evento nella view
 void ViewPromemoria::fillView(const Model::It& it) {
     ModView::fillView(it);
 
@@ -102,11 +103,34 @@ void ViewPromemoria::fillView(const Model::It& it) {
     }
 }
 
-bool ViewPromemoria::checkPushable() const
-{
-    return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && alert->value()%5==0 ;
+//Controllo errori nella view prima del salvataggio
+bool ViewPromemoria::checkPushable() {
+    bool ritorno=ModView::checkPushable();
+    if(!inizio->time().isValid()){
+        ritorno=false;
+        ModView::errori+="Il campo Inizio non è valido. ";
+
+    }
+    if(!fine->time().isValid()){
+        ritorno=false;
+        ModView::errori+="Il campo Fine non è valido. " ;
+    }
+    if(!(inizio->time() < fine->time())){
+        ritorno=false;
+        ModView::errori+="Il campo Inizio deve essere minore di Fine. ";
+    }
+
+    if(alert->value()<5){
+        ritorno=false;
+        ModView::errori+="Il minimo valore per il campo Alert accettato è 5. ";
+    }
+
+    return   ritorno;
 }
 
+/**Funzione che crea un evento Reminder e lo ritorna
+@param date: data nella quale viene creato l'evento
+**/
 Reminder *ViewPromemoria::createEvent(QDate date)
 {
     if(checkPushable()){
@@ -116,5 +140,5 @@ Reminder *ViewPromemoria::createEvent(QDate date)
         Reminder* ritorno = new Reminder(urgency->value(),inizio->time(),fine->time(),t2,checkRep->isChecked(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
         delete currInizio;
         return ritorno;
-    }else throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
+    }else throw std::logic_error("Errore nella creazione");
 }

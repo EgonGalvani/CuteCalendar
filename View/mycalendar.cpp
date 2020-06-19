@@ -6,12 +6,11 @@ MyCalendar::MyCalendar(const Model* m,QWidget *parent)
 {}
 
 
-
+//Coloro le celle del calendario che contengono un Evento o sono Selezionate
 void MyCalendar::paintCell(QPainter *painter, const QRect &rect, const QDate &date) const {
     if (selectedDate() == date || !model->hasEvent(date))
         QCalendarWidget::paintCell(painter, rect, date);
-    else { // our conditions
-        // When the conditions are matched, passed QDate is drawn as we like.
+    else {
         painter->save();
         painter->fillRect(rect,Qt::yellow);
         painter->drawText(rect, Qt::AlignCenter,QString::number(date.day()));

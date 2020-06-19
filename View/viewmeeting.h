@@ -21,28 +21,29 @@ private:
     bool hasEmail(const QString&) const;
     std::vector<std::string> getEmails() const;
 
+    //Elementi della view
+    QTimeEdit* inizio;
+    QTimeEdit* fine;
+    QSpinBox* alert;
+
+    EnterLineEdit* emailLineEdit;
+    QListWidget* emailList;
+
+    QCheckBox* checkRep;
+
+    QLabel* alertL;
+    QLabel* emailLabel;
+    QLabel* start;
+    QLabel* end;
+
 public:
       explicit ViewMeeting(QWidget *parent = 0);
       ~ViewMeeting() = default;
 
-      QTimeEdit* inizio;
-      QTimeEdit* fine;
-      QSpinBox* alert;
-
-      EnterLineEdit* emailLineEdit;
-      QListWidget* emailList;
-
-      QCheckBox* checkRep;
-
-      QLabel* alertL;
-      QLabel* emailLabel;
-      QLabel* start;
-      QLabel* end;
-
       void setEnabled(bool) override;
       void pushSaves(Model::It) override;
       void fillView(const Model::It&) override;
-      bool checkPushable() const override;
+      bool checkPushable() override;
       Meeting* createEvent(QDate date) override;
 };
 

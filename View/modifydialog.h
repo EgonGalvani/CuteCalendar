@@ -21,7 +21,7 @@ class ModifyDialog : public QDialog {
 
 public:
     explicit ModifyDialog(QDate date,const Model::It&, QDialog *parent = nullptr);
-    virtual ~ModifyDialog();
+    virtual ~ModifyDialog()=default;
 
 signals:
     void deleteEvent(Model::It);
@@ -32,16 +32,20 @@ protected slots:
     virtual void deletePushed();
 
 private:
+    //Model
     Model::It it;
+    //Puntatore Polimorfo alla view
     ModView* view;
     bool modifyEnabled;
 
+    //Elementi della view
     QVBoxLayout* layout;
     QVBoxLayout* viewLayout;
     QHBoxLayout* buttomLayout;
     QLabel* completato;
     QDate date;
 
+    // Bottoni per gestire gli eventi di modifica e eliminazione
     QPushButton* btnModify;
     QPushButton* btnDelete;
 };
