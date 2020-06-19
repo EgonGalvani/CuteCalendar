@@ -23,8 +23,6 @@ ViewAllenamento::ViewAllenamento(QWidget *parent)
         fine->setTime(inizio->time().addSecs(3600));
     else fine->setTime(QTime::fromString("23:59:00"));
 
-
-
     mainLayout->addWidget(attivita);
     mainLayout->addWidget(start);
     mainLayout->addWidget(inizio);
@@ -40,18 +38,18 @@ void ViewAllenamento::setEnabled(bool e) {
 
 }
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewAllenamento::pushSaves(Model::It it,QString& err) {
-    ModView::pushSaves(it,err);
+void ViewAllenamento::pushSaves(Model::It it) {
+    ModView::pushSaves(it);
 
     Workout* currEve = dynamic_cast<Workout*>(&**it);
     if(currEve) {
-        if(checkPushable(err)){
+        QString error = "";
+        if(checkPushable(error)){
             currEve->setStartTime(inizio->time());
             currEve->setEndTime(fine->time());
             currEve->setActivity(attivita->currentIndex()+1);
-        } else {
-
-            throw std::logic_error("Errore nella modifica");}
+        } else
+            throw std::logic_error(error.toStdString());
     } else
         throw std::logic_error("Tipo errato per la modifica di un allenamento");
 }
@@ -71,7 +69,7 @@ void ViewAllenamento::fillView(const Model::It& it) {
 }
 
 //Controllo errori nella view prima del salvataggio
-bool ViewAllenamento::checkPushable(QString& err) {
+bool ViewAllenamento::checkPushable(QString& err) const {
 
     bool ritorno=ModView::checkPushable(err);
     if(!inizio->time().isValid()){
@@ -93,17 +91,17 @@ bool ViewAllenamento::checkPushable(QString& err) {
         err+="Il campo attività non può essere vuoto.\n";
     }
 
-    return   ritorno;
+    return ritorno;
 }
 
 /**Funzione che crea un evento Workout e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Workout* ViewAllenamento::createEvent(QDate date,QString& err) {
-    if(checkPushable(err)){
-        Workout* ritorno = new Workout(attivita->currentIndex()+1,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
-        return ritorno;
-    } else throw std::logic_error("Errore nella creazione");
+Workout* ViewAllenamento::createEvent(const QDate& date) {
+    QString error = "";
+    if(checkPushable(error)){
+        return new Workout(attivita->currentIndex()+1,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
+    } else throw std::logic_error(error.toStdString());
 }
 
 

@@ -30,10 +30,10 @@ public:
     ~ViewPromemoria() = default;
 
     void setEnabled(bool) override;
-    void pushSaves(Model::It,QString&) override;
+    void pushSaves(Model::It) override;
     void fillView(const Model::It&) override;
-    bool checkPushable(QString&) override;
-    virtual Reminder* createEvent(QDate date,QString& err) override;
+    bool checkPushable(QString&) const override;
+    virtual Reminder* createEvent(const QDate& date) override;
 };
 
 #endif // VIEWPROMEMORIA_H

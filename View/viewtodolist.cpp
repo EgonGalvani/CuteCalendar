@@ -22,18 +22,18 @@ void ViewToDoList::setEnabled(bool b) {
     inputLine->setEnabled(b);
 }
 
-void ViewToDoList::pushSaves(Model::It it,QString& err) {
-    ModView::pushSaves(it,err);
+void ViewToDoList::pushSaves(Model::It it) {
+    ModView::pushSaves(it);
 
     ToDoList* currEve = dynamic_cast<ToDoList*>(&**it);
     if(currEve) {
-        if(checkPushable(err)){
+        QString error = "";
+        if(checkPushable(error)){
             currEve->clear();
             for(auto item : checkList->getStatus())
                 currEve->addItem(item.first, item.second);
-        } else {
-
-            throw std::logic_error("Errore nella modifica");}
+        } else
+            throw std::logic_error(error.toStdString());
     } else
         throw std::logic_error("Tipo errato per salvataggio da view todolist");
 }
@@ -49,16 +49,15 @@ void ViewToDoList::fillView(const Model::It& it) {
         throw std::logic_error("Tipo errato per essere mostrato in una view todolist");
 }
 
-bool ViewToDoList::checkPushable(QString& err)
-{
-    bool ritorno=ModView::checkPushable(err);
+bool ViewToDoList::checkPushable(QString& err) const {
+    bool ritorno= ModView::checkPushable(err);
 
     if(checkList->getStatus().size()==0){
         ritorno=false;
         err+="La ToDoList non può essere vuota.\n";
     }
 
-    return   ritorno;
+    return ritorno;
 }
 
 void ViewToDoList::addItem() {
@@ -71,12 +70,12 @@ void ViewToDoList::addItem() {
     inputLine->clear();
 }
 
-// TODO
-ToDoList* ViewToDoList::createEvent(QDate date,QString& err) {
-    if(checkPushable(err)){
+ToDoList* ViewToDoList::createEvent(const QDate& date) {
+    QString error = "";
+    if(checkPushable(error)){
         ToDoList* ritorno = new ToDoList(txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
         for(auto item : checkList->getStatus())
             ritorno->addItem(item.first, item.second);
         return ritorno;
-    }else throw std::logic_error("Errore nella creazione");
+    }else throw std::logic_error(error.toStdString());
 }

@@ -92,34 +92,27 @@ void ViewMeeting::setEnabled(bool b) {
     alert->setEnabled(b);
     checkRep->setEnabled(b);
 }
+
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewMeeting::pushSaves(Model::It it,QString& err) {
-    ModView::pushSaves(it,err);
+void ViewMeeting::pushSaves(Model::It it) {
+    ModView::pushSaves(it);
 
     Meeting* currEve = dynamic_cast<Meeting*>(&**it);
     if(currEve) {
-        if (checkPushable(err)){
+        QString error = "";
+        if (checkPushable(error)){
             currEve->setStartTime(inizio->time());
             currEve->setEndTime(fine->time());
 
-            QTime* currInizio = new QTime(inizio->time());
-
-            QTime t2 =currInizio->addSecs(alert->value()*(-60));
+            QTime t2 = QTime(inizio->time()).addSecs(alert->value()*(-60));
 
             currEve->setAlertTime(t2);
             currEve->setRepeat(checkRep->isChecked());
 
-            delete currInizio;
-            //memory leak t2?
-            for(auto email : getEmails()){
+            for(auto email : getEmails())
                 currEve->addPartecipant(email);
-            }
-
-        }else {
-
-            throw std::logic_error("Errore nella modifica");
-        }
-
+        }else
+            throw std::logic_error(error.toStdString());
     } else
         throw std::logic_error("Tipo errato per la modifica di una view meeting");
 }
@@ -133,12 +126,11 @@ void ViewMeeting::fillView(const Model::It& it) {
         inizio->setTime(currEve->getStartTime());
         fine->setTime(currEve->getEndTime());
 
-        QTime* currInizio = new QTime(inizio->time());
-        QTime* currAlert = new QTime(currEve->getAlertTime());
-        int secs = currInizio->secsTo(*currAlert);        
+        QTime currInizio = QTime(inizio->time());
+        QTime currAlert = QTime(currEve->getAlertTime());
+        int secs = currInizio.secsTo(currAlert);
+
         alert->setValue(secs/-60);
-        delete currInizio;
-        delete currAlert;
         checkRep->setChecked(currEve->doesRepeat());
 
         for(auto email : currEve->getPartecipants()){
@@ -150,46 +142,45 @@ void ViewMeeting::fillView(const Model::It& it) {
 }
 
 //Controllo errori nella view prima del salvataggio
-bool ViewMeeting::checkPushable(QString& err) {
+bool ViewMeeting::checkPushable(QString& err) const {
     bool ritorno=ModView::checkPushable(err);
     if(!inizio->time().isValid()){
         ritorno=false;
         err+="Il campo Inizio non è valido.\n";
 
     }
+
     if(!fine->time().isValid()){
         ritorno=false;
         err+="Il campo Fine non è valido.\n" ;
     }
+
     if(!(inizio->time() < fine->time())){
         ritorno=false;
         err+="Il campo Inizio deve essere minore di Fine.\n";
     }
+
     if(emailList->count()==0){
         ritorno=false;
         err+="Il campo emails non può essere vuoto.\n";
     }
+
     if(alert->value()<5){
         ritorno=false;
         err+="Il minimo valore per il campo Alert accettato è 5.\n";
     }
 
-    return   ritorno;
+    return ritorno;
 }
 
 /**Funzione che crea un evento Meeting e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Meeting *ViewMeeting::createEvent(QDate date,QString& err)
-{
-    if(checkPushable(err)){
-        QTime* currInizio = new QTime(inizio->time());
-        QTime t2 =currInizio->addSecs(alert->value()*-60);
-        Meeting* ritorno = new Meeting(getEmails(),inizio->time(),fine->time(), t2, checkRep->isChecked() , txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
-        delete currInizio;
-        return ritorno;
-    }else {
-
-        throw std::logic_error("Errore nella creazione");
-    }
+Meeting *ViewMeeting::createEvent(const QDate& date) {
+    QString error = "";
+    if(checkPushable(error)){
+        QTime t2 = QTime(inizio->time()).addSecs(alert->value()*-60);
+        return new Meeting(getEmails(),inizio->time(),fine->time(), t2, checkRep->isChecked() , txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
+    }else
+        throw std::logic_error(error.toStdString());
 }

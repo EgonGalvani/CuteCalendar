@@ -20,7 +20,6 @@ ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
         fine->setTime(inizio->time().addSecs(3600));
     else fine->setTime(QTime::fromString("23:59:00"));
 
-
     start = new QLabel("Inizio",this);
     end = new QLabel("Fine",this);
     alertL= new QLabel("Notifica",this);
@@ -37,7 +36,6 @@ ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
     mainLayout->addWidget(checkRep);
     mainLayout->addWidget(urg);
     mainLayout->addWidget(urgency);
-
 }
 
 void ViewPromemoria::setEnabled(bool e) {
@@ -50,29 +48,23 @@ void ViewPromemoria::setEnabled(bool e) {
 
 }
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewPromemoria::pushSaves(Model::It it,QString& err) {
-    ModView::pushSaves(it,err);
+void ViewPromemoria::pushSaves(Model::It it) {
+    ModView::pushSaves(it);
 
     Reminder* currEve = dynamic_cast<Reminder*>(&**it);
     if(currEve) {
-        if (checkPushable(err)){
+        QString error = "";
+        if (checkPushable(error)){
             currEve->setStartTime(inizio->time());
             currEve->setEndTime(fine->time());
             currEve->setUrgency(urgency->value());
 
-
-            QTime* currInizio = new QTime(inizio->time());
-
-            QTime t2 =currInizio->addSecs(alert->value()*(-60));
+            QTime t2 = QTime(inizio->time()).addSecs(alert->value()*(-60));
 
             currEve->setAlertTime(t2);
             currEve->setRepeat(checkRep->isChecked());
-
-            delete currInizio;
-        }else {
-
-            throw std::logic_error("Errore nella modifica");
-        }
+        }else
+            throw std::logic_error(error.toStdString());
 
      } else
         throw std::logic_error("Tipo errato per apportare le modifiche del reminder");
@@ -88,15 +80,9 @@ void ViewPromemoria::fillView(const Model::It& it) {
         fine->setTime(currEve->getEndTime());
         urgency->setValue(currEve->getUrgency());
 
-        QTime* currInizio = new QTime(inizio->time());
-        QTime* currAlert = new QTime(currEve->getAlertTime());
-        int secs = currInizio->secsTo(*currAlert);
+        int secs = inizio->time().secsTo(currEve->getAlertTime());
 
         alert->setValue(secs/-60);
-
-        delete currInizio;
-        delete currAlert;
-
         checkRep->setChecked(currEve->doesRepeat());
     } else {
         throw std::logic_error("Tipo errato per essere mostrato come reminder");
@@ -104,17 +90,19 @@ void ViewPromemoria::fillView(const Model::It& it) {
 }
 
 //Controllo errori nella view prima del salvataggio
-bool ViewPromemoria::checkPushable(QString& err) {
+bool ViewPromemoria::checkPushable(QString& err) const {
     bool ritorno=ModView::checkPushable(err);
+
     if(!inizio->time().isValid()){
         ritorno=false;
         err+="Il campo Inizio non è valido.\n";
-
     }
+
     if(!fine->time().isValid()){
         ritorno=false;
         err+="Il campo Fine non è valido.\n" ;
     }
+
     if(!(inizio->time() < fine->time())){
         ritorno=false;
         err+="Il campo Inizio deve essere minore di Fine.\n";
@@ -125,20 +113,16 @@ bool ViewPromemoria::checkPushable(QString& err) {
        err+="Il minimo valore per il campo Alert accettato è 5.\n";
     }
 
-    return   ritorno;
+    return ritorno;
 }
 
 /**Funzione che crea un evento Reminder e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Reminder *ViewPromemoria::createEvent(QDate date,QString& err)
-{
-    if(checkPushable(err)){
-
-        QTime* currInizio = new QTime(inizio->time());
-        QTime t2 =currInizio->addSecs(alert->value()*-60);
-        Reminder* ritorno = new Reminder(urgency->value(),inizio->time(),fine->time(),t2,checkRep->isChecked(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
-        delete currInizio;
-        return ritorno;
-    }else throw std::logic_error("Errore nella creazione");
+Reminder *ViewPromemoria::createEvent(const QDate& date) {
+    QString error = "";
+    if(checkPushable(error)){
+        QTime t2 = (inizio->time()).addSecs(alert->value()*-60);
+        return new Reminder(urgency->value(),inizio->time(),fine->time(),t2,checkRep->isChecked(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
+    }else throw std::logic_error(error.toStdString());
 }

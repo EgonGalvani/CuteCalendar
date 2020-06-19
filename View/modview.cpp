@@ -23,9 +23,8 @@ ModView::ModView(QWidget *parent)
     mainLayout->addWidget(txtDesc);
     mainLayout->addWidget(lTag);
     mainLayout->addWidget(checkTag);
-
-
 }
+
 //Set delle componenti della view a enabled o disabled
 void ModView::setEnabled(bool e) {
     enabled = e;
@@ -40,10 +39,10 @@ bool ModView::isEnabled() const {
     return enabled;
 }
 
-
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ModView::pushSaves(Model::It it,QString& err) {
-    if(checkPushable(err)){
+void ModView::pushSaves(Model::It it) {
+    QString error = "";
+    if(checkPushable(error)){
         (*it)->setDesc((txtDesc->toPlainText()).toStdString());
         (*it)->setName((txtNome->text()).toStdString());
         (*it)->setPlace((txtLuogo->text()).toStdString());
@@ -51,7 +50,8 @@ void ModView::pushSaves(Model::It it,QString& err) {
         for (auto tag: checkTag->getTags()){
             (*it)->addTag(tag);
         }
-    }
+    } else
+        throw std::logic_error(error.toStdString());
 }
 
 //Caricamento del contenuto delle evento nella view
@@ -65,9 +65,9 @@ void ModView::fillView(const Model::It& it) {
 }
 
 //Controllo errori nella view prima del salvataggio
-bool ModView::checkPushable(QString& err) {
+bool ModView::checkPushable(QString& err) const {
 
-    bool ritorno=true;
+    bool ritorno = true;
 
     if(txtNome->text().isEmpty()){
         ritorno=false;

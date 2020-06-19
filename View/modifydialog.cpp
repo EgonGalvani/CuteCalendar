@@ -77,16 +77,13 @@ void ModifyDialog::modifyPushed() {
         btnModify->setFocus();
         modifyEnabled = true;
     } else {
-        QString errors="";
         try {
-
-            view->pushSaves(it,errors);
+            view->pushSaves(it);
             QMessageBox::information(this, QString("Successo"), QString("Le modifiche sono state apportate con successo"));
             emit modifiedEvent(it);
             close();
-        } catch(...) {
-
-            QMessageBox::critical(this, QString("Error"), errors);
+        } catch(std::exception& e) {
+            QMessageBox::critical(this, QString("Error"), QString::fromStdString(e.what()));
         }
     }
 }

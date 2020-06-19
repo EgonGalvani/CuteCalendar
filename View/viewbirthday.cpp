@@ -16,37 +16,35 @@ ViewCompleanno::ViewCompleanno(QWidget *parent)
 /**Funzione che crea un evento Birthday e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-BirthDay *ViewCompleanno::createEvent(QDate date,QString& err)
+BirthDay *ViewCompleanno::createEvent(const QDate& date)
 {
-    if(checkPushable(err)){ //controllo che l'evento da inserire sia corretto
-        BirthDay* ritorno = new BirthDay(annoNascita->text().toUShort(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
-        return ritorno;
-    }else throw std::logic_error("Errore nella creazione");
+    QString error = "";
+    if(checkPushable(error)){ //controllo che l'evento da inserire sia corretto
+        return new BirthDay(annoNascita->text().toUShort(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
+    }else
+        throw std::logic_error(error.toStdString());
 }
 
 //Set delle componenti della view a enabled se e==TRUE o disabled se e==FALSE
-void ViewCompleanno::setEnabled(bool e)
-{
+void ViewCompleanno::setEnabled(bool e) {
     ModView::setEnabled(e);
     annoNascita->setReadOnly(!e);
 }
 
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewCompleanno::pushSaves(Model::It it,QString& err)
-{
-    ModView::pushSaves(it,err);
+void ViewCompleanno::pushSaves(Model::It it) {
+    ModView::pushSaves(it);
 
     BirthDay* currEve = dynamic_cast<BirthDay*>(&**it);
     if(currEve) {
-        if(checkPushable(err)){
+        QString error = "";
+        if(checkPushable(error)){
             currEve->setNascita(annoNascita->value());
         }else{
-
-            throw std::logic_error("Errore nella modifica");
+            throw std::logic_error(error.toStdString());
         }
     } else
         throw std::logic_error("Tipo errato per la modifica di un Compleanno");
-
 }
 
 //Caricamento del contenuto delle evento nella view

@@ -93,18 +93,11 @@ void NewEventDialog::changedSel(int index) {
 
 //Slot che riconosce che il pulsante è stato premuto e quindi cerca di aggiungere l'evento
 void NewEventDialog::addPushed() {
-
-    QString errors="";
     try {
-        emit newEventCreated(view->createEvent(date,errors));
+        emit newEventCreated(view->createEvent(date));
         QMessageBox::information(this, QString("Successo"), QString("L'inserimento ha avuto successo"));
         close();
-    } catch(...) {
-
-
-        QMessageBox::critical(this, QString("Error"),errors);
+    } catch(std::exception& e) {
+        QMessageBox::critical(this, QString("Error"), QString::fromStdString(e.what()));
     }
-
-
-
 }

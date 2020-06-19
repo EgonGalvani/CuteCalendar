@@ -21,10 +21,10 @@ public:
     virtual ~ModView() = default;
 
     virtual void setEnabled(bool);
-    virtual void pushSaves(Model::It,QString&);
+    virtual void pushSaves(Model::It);
     virtual void fillView(const Model::It&);
-    virtual bool checkPushable(QString&);
-    virtual Event* createEvent(QDate date,QString&) = 0;
+    virtual bool checkPushable(QString&) const;
+    virtual Event* createEvent(const QDate& date) = 0;
 
     bool isEnabled() const;
 
@@ -42,9 +42,6 @@ protected:
     QLineEdit* txtLuogo;
     QTextEdit* txtDesc;
     TagPicker* checkTag;
-
-
-
 };
 
 #endif // MODVIEW_H
