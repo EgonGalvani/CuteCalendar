@@ -14,8 +14,6 @@ void Factory::firstParse() {
     //Ricavo dei campi dati di evento
     nome = json["NAME"].toString().toStdString();
     //conversione stringa -> data
-    temp= std::istringstream(json["DATA"].toString().toStdString());
-    temp>>date;
     descr = json["DESCRIPTION"].toString().toStdString();
     place = json["PLACE"].toString().toStdString();
     //conversione jsonarray -> array stringhe
@@ -61,10 +59,11 @@ bool Factory::isEmail(const std::string& email) const{
    return std::regex_match(email, pattern);
 }
 
-Event* Factory::parse() {
+Event* Factory::parse(Date dt) {
 
     //ricava l'id,campo fondamentale per il parsing
     id = json["ID"].toInt();
+    date = dt;
 
     //l'id 0 è riservato e se è maggiore di nEventi significa che è un campo corrotto
     //o modificato

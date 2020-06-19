@@ -64,7 +64,6 @@ bool Event::isCompleted() const {
 void Event::serialize(QJsonObject &json) const {
     json["ID"] = 0;
     json["NAME"] = QString::fromStdString(getName());
-    json["DATA"] = QString::fromStdString(getDate().toString());
     json["DESCRIPTION"] = QString::fromStdString(getDesc());
     json["PLACE"] = QString::fromStdString(getPlace());
 

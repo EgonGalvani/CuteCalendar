@@ -68,7 +68,7 @@ public:
      * @brief funzione che permette di estrapolare l'evento dal json passato nel costruttore
      * @return un puntatore all'evento estrapolato
      */
-    Event* parse();
+    Event* parse(Date data);
 };
 
 #endif // FACTORY_H
