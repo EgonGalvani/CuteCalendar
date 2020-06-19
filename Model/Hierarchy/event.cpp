@@ -57,10 +57,6 @@ Event::Event(const std::string& nome,const std::string& descr,const std::string&
              _description(descr),_place(luogo),tags(vettoreTag) {
 }
 
-bool Event::isCompleted() const {
-    return _data < Date();
-}
-
 void Event::serialize(QJsonObject &json) const {
     json["ID"] = 0;
     json["NAME"] = QString::fromStdString(getName());
