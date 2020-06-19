@@ -1,9 +1,6 @@
 #include <QApplication>
-#include "View/mainwindow.h"
 
-#include "Model/DataType/date.h"
-#include <iostream>
-#include <QDate>
+#include "View/mainwindow.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);

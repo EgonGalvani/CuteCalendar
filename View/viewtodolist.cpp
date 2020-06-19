@@ -38,7 +38,7 @@ void ViewToDoList::pushSaves(Model::It it) {
         throw std::logic_error("Tipo errato per salvataggio da view todolist");
 }
 
-void ViewToDoList::fillView(Model::It it) {
+void ViewToDoList::fillView(const Model::It& it) {
     ModView::fillView(it);
 
     ToDoList* currEve = dynamic_cast<ToDoList*>(&**it);
@@ -49,7 +49,7 @@ void ViewToDoList::fillView(Model::It it) {
         throw std::logic_error("Tipo errato per essere mostrato in una view todolist");
 }
 
-bool ViewToDoList::checkPushable()
+bool ViewToDoList::checkPushable() const
 {
     return ModView::checkPushable() && checkList->getStatus().size()!=0;
 }

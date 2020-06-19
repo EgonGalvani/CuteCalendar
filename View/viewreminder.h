@@ -30,8 +30,8 @@ public:
 
     void setEnabled(bool) override;
     void pushSaves(Model::It) override;
-    void fillView(Model::It) override;
-    bool checkPushable() override;
+    void fillView(const Model::It&) override;
+    bool checkPushable() const override;
     virtual Reminder* createEvent(QDate date) override;
 };
 

@@ -61,15 +61,12 @@ bool ViewMeeting::hasEmail(const QString& email) const {
 
 std::vector<std::string> ViewMeeting::getEmails() const
 {
+    std::vector<std::string> retEmails;
+    for(int i = 0; i < emailList->count(); i++)
+        retEmails.push_back(emailList->item(i)->text().toStdString());
 
-        std::vector<std::string> retEmails;
-        for(int i = 0; i < emailList->count(); i++)
-            retEmails.push_back(emailList->item(i)->text().toStdString());
-
-        return retEmails;
-
+    return retEmails;
 }
-
 
 void ViewMeeting::addEmail() {
     QString email = emailLineEdit->text().trimmed();
@@ -127,7 +124,7 @@ void ViewMeeting::pushSaves(Model::It it) {
         throw std::logic_error("Tipo errato per la modifica di una view meeting");
 }
 
-void ViewMeeting::fillView(Model::It it) {
+void ViewMeeting::fillView(const Model::It& it) {
     ModView::fillView(it);
 
     Meeting* currEve = dynamic_cast<Meeting*>(&**it);
@@ -147,17 +144,11 @@ void ViewMeeting::fillView(Model::It it) {
             if(!hasEmail(QString::fromStdString(email)))
             emailList->addItem(QString::fromStdString(email));
         }
-
-
-
-
-
     } else
         throw std::logic_error("Tipo errato per essere mostrato in una view meeting");
 }
 
-bool ViewMeeting::checkPushable()
-{
+bool ViewMeeting::checkPushable() const {
     return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && alert->value()%5==0 && emailList->count()!=0;
 }
 

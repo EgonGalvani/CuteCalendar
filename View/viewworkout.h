@@ -20,11 +20,10 @@ public:
    QLabel* end;
    QComboBox* attivita;
 
-
    void setEnabled(bool) override;
    void pushSaves(Model::It) override;
-   void fillView(Model::It) override;
-   bool checkPushable() override;
+   void fillView(const Model::It&) override;
+   bool checkPushable() const override;
    Workout *createEvent(QDate date) override;
 };
 

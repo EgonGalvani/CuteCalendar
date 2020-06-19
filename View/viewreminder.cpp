@@ -78,7 +78,7 @@ void ViewPromemoria::pushSaves(Model::It it) {
         throw std::logic_error("Tipo errato per apportare le modifiche del reminder");
 }
 
-void ViewPromemoria::fillView(Model::It it) {
+void ViewPromemoria::fillView(const Model::It& it) {
     ModView::fillView(it);
 
     Reminder* currEve = dynamic_cast<Reminder*>(&**it);
@@ -91,8 +91,6 @@ void ViewPromemoria::fillView(Model::It it) {
         QTime* currAlert = new QTime(currEve->getAlertTime());
         int secs = currInizio->secsTo(*currAlert);
 
-
-
         alert->setValue(secs/-60);
 
         delete currInizio;
@@ -104,7 +102,7 @@ void ViewPromemoria::fillView(Model::It it) {
     }
 }
 
-bool ViewPromemoria::checkPushable()
+bool ViewPromemoria::checkPushable() const
 {
     return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && alert->value()%5==0 ;
 }

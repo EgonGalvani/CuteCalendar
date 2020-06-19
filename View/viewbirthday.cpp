@@ -10,8 +10,6 @@ ViewCompleanno::ViewCompleanno(QWidget *parent)
 
     mainLayout->addWidget(nascita);
     mainLayout->addWidget(annoNascita);
-
-
 }
 
 BirthDay *ViewCompleanno::createEvent(QDate date)
@@ -26,7 +24,6 @@ void ViewCompleanno::setEnabled(bool e)
 {
     ModView::setEnabled(e);
     annoNascita->setReadOnly(!e);
-
 }
 
 void ViewCompleanno::pushSaves(Model::It it)
@@ -46,7 +43,7 @@ void ViewCompleanno::pushSaves(Model::It it)
 
 }
 
-void ViewCompleanno::fillView(Model::It it)
+void ViewCompleanno::fillView(const Model::It& it)
 {
     ModView::fillView(it);
      BirthDay* currEve = dynamic_cast< BirthDay*>(&**it);
@@ -56,7 +53,7 @@ void ViewCompleanno::fillView(Model::It it)
         throw std::logic_error("Tipo errato per essere mostrato come Compleanno");
 }
 
-bool ViewCompleanno::checkPushable()
+bool ViewCompleanno::checkPushable() const
 {
     return ModView::checkPushable() && !annoNascita->text().isEmpty();
 }

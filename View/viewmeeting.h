@@ -41,8 +41,8 @@ public:
 
       void setEnabled(bool) override;
       void pushSaves(Model::It) override;
-      void fillView(Model::It) override;
-      bool checkPushable() override;
+      void fillView(const Model::It&) override;
+      bool checkPushable() const override;
       Meeting* createEvent(QDate date) override;
 };
 

@@ -56,7 +56,7 @@ void ViewAllenamento::pushSaves(Model::It it) {
         throw std::logic_error("Tipo errato per la modifica di un allenamento");
 }
 
-void ViewAllenamento::fillView(Model::It it) {
+void ViewAllenamento::fillView(const Model::It& it) {
     ModView::fillView(it);
 
     Workout* currEve = dynamic_cast<Workout*>(&**it);
@@ -68,19 +68,15 @@ void ViewAllenamento::fillView(Model::It it) {
         throw std::logic_error("Tipo errato per essere mostrato come allenamento");
 }
 
-bool ViewAllenamento::checkPushable(){
-
+bool ViewAllenamento::checkPushable() const {
     return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && !attivita->currentText().isEmpty();
 }
 
-Workout *ViewAllenamento::createEvent(QDate date)
-{
-
+Workout* ViewAllenamento::createEvent(QDate date) {
     if(checkPushable()){
         Workout* ritorno = new Workout(attivita->currentIndex()+1,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
         return ritorno;
     } else throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
-
 }
 
 

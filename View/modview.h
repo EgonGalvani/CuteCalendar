@@ -9,8 +9,6 @@
 #include <QVBoxLayout>
 #include <QMessageBox>
 
-
-
 #include "Model/model.h"
 #include "tagpicker.h"
 #include "../Model/Hierarchy/event.h"
@@ -24,8 +22,8 @@ public:
 
     virtual void setEnabled(bool);
     virtual void pushSaves(Model::It);
-    virtual void fillView(Model::It);
-    virtual bool checkPushable();
+    virtual void fillView(const Model::It&);
+    virtual bool checkPushable() const;
     virtual Event* createEvent(QDate date) = 0;
 
     bool isEnabled() const;
@@ -38,9 +36,6 @@ protected:
     QLabel* lDesc;
     QLabel* lLuogo;
     QLabel* lTag;
-
-
-
 
     QLineEdit* txtNome;
     QLineEdit* txtLuogo;

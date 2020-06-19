@@ -47,7 +47,7 @@ void ModView::pushSaves(Model::It it) {
     }
 }
 
-void ModView::fillView(Model::It it) {
+void ModView::fillView(const Model::It& it) {
     txtDesc->setText(QString::fromStdString((*it)->getDesc()));
     txtNome->setText(QString::fromStdString((*it)->getName()));
     txtLuogo->setText(QString::fromStdString((*it)->getPlace()));
@@ -56,6 +56,6 @@ void ModView::fillView(Model::It it) {
     }
 }
 
-bool ModView::checkPushable() {
+bool ModView::checkPushable() const {
     return !txtDesc->toPlainText().isEmpty() && !txtNome->text().isEmpty() && !txtLuogo->text().isEmpty();
 }
