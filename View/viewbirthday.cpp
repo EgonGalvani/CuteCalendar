@@ -32,7 +32,7 @@ void ViewCompleanno::setEnabled(bool e) {
 }
 
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewCompleanno::pushSaves(Model::It it) {
+void ViewCompleanno::pushSaves(const Model::It& it) {
     ModView::pushSaves(it);
 
     BirthDay* currEve = dynamic_cast<BirthDay*>(&**it);

@@ -38,7 +38,7 @@ void ViewAllenamento::setEnabled(bool e) {
 
 }
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewAllenamento::pushSaves(Model::It it) {
+void ViewAllenamento::pushSaves(const Model::It& it) {
     ModView::pushSaves(it);
 
     Workout* currEve = dynamic_cast<Workout*>(&**it);

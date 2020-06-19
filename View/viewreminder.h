@@ -30,7 +30,7 @@ public:
     ~ViewPromemoria() = default;
 
     void setEnabled(bool) override;
-    void pushSaves(Model::It) override;
+    void pushSaves(const Model::It&) override;
     void fillView(const Model::It&) override;
     bool checkPushable(QString&) const override;
     virtual Reminder* createEvent(const QDate& date) override;

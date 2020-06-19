@@ -94,7 +94,7 @@ void ViewMeeting::setEnabled(bool b) {
 }
 
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewMeeting::pushSaves(Model::It it) {
+void ViewMeeting::pushSaves(const Model::It& it) {
     ModView::pushSaves(it);
 
     Meeting* currEve = dynamic_cast<Meeting*>(&**it);

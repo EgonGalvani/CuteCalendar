@@ -48,7 +48,7 @@ void ViewPromemoria::setEnabled(bool e) {
 
 }
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewPromemoria::pushSaves(Model::It it) {
+void ViewPromemoria::pushSaves(const Model::It& it) {
     ModView::pushSaves(it);
 
     Reminder* currEve = dynamic_cast<Reminder*>(&**it);

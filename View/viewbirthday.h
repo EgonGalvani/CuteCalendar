@@ -18,7 +18,7 @@ class ViewCompleanno : public ModView {
        BirthDay* createEvent(const QDate& date) override;
 
        void setEnabled(bool) override;
-       void pushSaves(Model::It) override;
+       void pushSaves(const Model::It&) override;
        void fillView(const Model::It&) override;
 };
 

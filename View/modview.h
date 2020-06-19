@@ -21,7 +21,7 @@ public:
     virtual ~ModView() = default;
 
     virtual void setEnabled(bool);
-    virtual void pushSaves(Model::It);
+    virtual void pushSaves(const Model::It&);
     virtual void fillView(const Model::It&);
     virtual bool checkPushable(QString&) const;
     virtual Event* createEvent(const QDate& date) = 0;

@@ -41,7 +41,7 @@ public:
       ~ViewMeeting() = default;
 
       void setEnabled(bool) override;
-      void pushSaves(Model::It) override;
+      void pushSaves(const Model::It&) override;
       void fillView(const Model::It&) override;
       bool checkPushable(QString&) const override;
       Meeting* createEvent(const QDate& date) override;
