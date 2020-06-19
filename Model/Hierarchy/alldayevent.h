@@ -17,6 +17,8 @@ public:
      */
     Time getDuration() const;
 
+    bool isCompleted() const;
+
     /**
      * @brief permette di serializzare l'oggetto e le sue eventuali classe basi in formato json
      * @param json object che conterrà al suo interno la serializzazione

@@ -42,7 +42,7 @@ public:
      * @brief permette di sapere se l'evento è già avvenuto(quindi è già passata la data)
      * @return true se l'evento è già avvenuto
      */
-    virtual bool isCompleted() const;
+    virtual bool isCompleted() const = 0;
 
 
     /**
