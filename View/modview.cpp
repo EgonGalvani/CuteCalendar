@@ -40,13 +40,10 @@ bool ModView::isEnabled() const {
     return enabled;
 }
 
-QString ModView::getErrori() const
-{
-    return errori;
-}
+
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ModView::pushSaves(Model::It it) {
-    if(checkPushable()){
+void ModView::pushSaves(Model::It it,QString& err) {
+    if(checkPushable(err)){
         (*it)->setDesc((txtDesc->toPlainText()).toStdString());
         (*it)->setName((txtNome->text()).toStdString());
         (*it)->setPlace((txtLuogo->text()).toStdString());
@@ -68,16 +65,17 @@ void ModView::fillView(const Model::It& it) {
 }
 
 //Controllo errori nella view prima del salvataggio
-bool ModView::checkPushable() {
-    errori="";
+bool ModView::checkPushable(QString& err) {
+
     bool ritorno=true;
+
     if(txtNome->text().isEmpty()){
         ritorno=false;
-        errori +=  + "Il campo nome non può essere vuoto. ";
+        err +=  + "Il campo nome non può essere vuoto.\n";
     }
     if(txtDesc->toPlainText().isEmpty()){
         ritorno=false;
-        errori +=  + "Il campo Descrizione non può essere vuoto. ";
+        err +=  + "Il campo Descrizione non può essere vuoto.\n";
     }
 
     return ritorno;

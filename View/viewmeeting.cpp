@@ -93,12 +93,12 @@ void ViewMeeting::setEnabled(bool b) {
     checkRep->setEnabled(b);
 }
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewMeeting::pushSaves(Model::It it) {
-    ModView::pushSaves(it);
+void ViewMeeting::pushSaves(Model::It it,QString& err) {
+    ModView::pushSaves(it,err);
 
     Meeting* currEve = dynamic_cast<Meeting*>(&**it);
     if(currEve) {
-        if (checkPushable()){
+        if (checkPushable(err)){
             currEve->setStartTime(inizio->time());
             currEve->setEndTime(fine->time());
 
@@ -150,28 +150,28 @@ void ViewMeeting::fillView(const Model::It& it) {
 }
 
 //Controllo errori nella view prima del salvataggio
-bool ViewMeeting::checkPushable() {
-    bool ritorno=ModView::checkPushable();
+bool ViewMeeting::checkPushable(QString& err) {
+    bool ritorno=ModView::checkPushable(err);
     if(!inizio->time().isValid()){
         ritorno=false;
-        ModView::errori+="Il campo Inizio non è valido. ";
+        err+="Il campo Inizio non è valido.\n";
 
     }
     if(!fine->time().isValid()){
         ritorno=false;
-        ModView::errori+="Il campo Fine non è valido. " ;
+        err+="Il campo Fine non è valido.\n" ;
     }
     if(!(inizio->time() < fine->time())){
         ritorno=false;
-        ModView::errori+="Il campo Inizio deve essere minore di Fine. ";
+        err+="Il campo Inizio deve essere minore di Fine.\n";
     }
     if(emailList->count()==0){
         ritorno=false;
-        ModView::errori+="Il campo emails non può essere vuoto. ";
+        err+="Il campo emails non può essere vuoto.\n";
     }
     if(alert->value()<5){
         ritorno=false;
-        ModView::errori+="Il minimo valore per il campo Alert accettato è 5. ";
+        err+="Il minimo valore per il campo Alert accettato è 5.\n";
     }
 
     return   ritorno;
@@ -180,9 +180,9 @@ bool ViewMeeting::checkPushable() {
 /**Funzione che crea un evento Meeting e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Meeting *ViewMeeting::createEvent(QDate date)
+Meeting *ViewMeeting::createEvent(QDate date,QString& err)
 {
-    if(checkPushable()){
+    if(checkPushable(err)){
         QTime* currInizio = new QTime(inizio->time());
         QTime t2 =currInizio->addSecs(alert->value()*-60);
         Meeting* ritorno = new Meeting(getEmails(),inizio->time(),fine->time(), t2, checkRep->isChecked() , txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());

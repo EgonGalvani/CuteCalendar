@@ -40,12 +40,12 @@ void ViewAllenamento::setEnabled(bool e) {
 
 }
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewAllenamento::pushSaves(Model::It it) {
-    ModView::pushSaves(it);
+void ViewAllenamento::pushSaves(Model::It it,QString& err) {
+    ModView::pushSaves(it,err);
 
     Workout* currEve = dynamic_cast<Workout*>(&**it);
     if(currEve) {
-        if(checkPushable()){
+        if(checkPushable(err)){
             currEve->setStartTime(inizio->time());
             currEve->setEndTime(fine->time());
             currEve->setActivity(attivita->currentIndex()+1);
@@ -71,26 +71,26 @@ void ViewAllenamento::fillView(const Model::It& it) {
 }
 
 //Controllo errori nella view prima del salvataggio
-bool ViewAllenamento::checkPushable() {
+bool ViewAllenamento::checkPushable(QString& err) {
 
-    bool ritorno=ModView::checkPushable();
+    bool ritorno=ModView::checkPushable(err);
     if(!inizio->time().isValid()){
         ritorno=false;
-        ModView::errori+="Il campo Inizio non è valido. ";
+        err+="Il campo Inizio non è valido.\n";
 
     }
     if(!fine->time().isValid()){
         ritorno=false;
-        ModView::errori+="Il campo Fine non è valido. " ;
+        err+="Il campo Fine non è valido.\n" ;
     }
     if(!(inizio->time() < fine->time())){
         ritorno=false;
-        ModView::errori+="Il campo Inizio deve essere minore di Fine. ";
+        err+="Il campo Inizio deve essere minore di Fine.\n";
     }
 
     if(attivita->currentText().isEmpty()){
         ritorno=false;
-        ModView::errori+="Il campo attività non può essere vuoto. ";
+        err+="Il campo attività non può essere vuoto.\n";
     }
 
     return   ritorno;
@@ -99,8 +99,8 @@ bool ViewAllenamento::checkPushable() {
 /**Funzione che crea un evento Workout e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Workout* ViewAllenamento::createEvent(QDate date) {
-    if(checkPushable()){
+Workout* ViewAllenamento::createEvent(QDate date,QString& err) {
+    if(checkPushable(err)){
         Workout* ritorno = new Workout(attivita->currentIndex()+1,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
         return ritorno;
     } else throw std::logic_error("Errore nella creazione");

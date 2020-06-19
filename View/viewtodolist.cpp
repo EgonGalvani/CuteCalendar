@@ -22,12 +22,12 @@ void ViewToDoList::setEnabled(bool b) {
     inputLine->setEnabled(b);
 }
 
-void ViewToDoList::pushSaves(Model::It it) {
-    ModView::pushSaves(it);
+void ViewToDoList::pushSaves(Model::It it,QString& err) {
+    ModView::pushSaves(it,err);
 
     ToDoList* currEve = dynamic_cast<ToDoList*>(&**it);
     if(currEve) {
-        if(checkPushable()){
+        if(checkPushable(err)){
             currEve->clear();
             for(auto item : checkList->getStatus())
                 currEve->addItem(item.first, item.second);
@@ -49,13 +49,13 @@ void ViewToDoList::fillView(const Model::It& it) {
         throw std::logic_error("Tipo errato per essere mostrato in una view todolist");
 }
 
-bool ViewToDoList::checkPushable()
+bool ViewToDoList::checkPushable(QString& err)
 {
-    bool ritorno=ModView::checkPushable();
+    bool ritorno=ModView::checkPushable(err);
 
-    if(checkList->getStatus().size()!=0){
+    if(checkList->getStatus().size()==0){
         ritorno=false;
-        ModView::errori+="La ToDoList non può essere vuota. ";
+        err+="La ToDoList non può essere vuota.\n";
     }
 
     return   ritorno;
@@ -72,8 +72,8 @@ void ViewToDoList::addItem() {
 }
 
 // TODO
-ToDoList* ViewToDoList::createEvent(QDate date) {
-    if(checkPushable()){
+ToDoList* ViewToDoList::createEvent(QDate date,QString& err) {
+    if(checkPushable(err)){
         ToDoList* ritorno = new ToDoList(txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
         for(auto item : checkList->getStatus())
             ritorno->addItem(item.first, item.second);

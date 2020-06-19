@@ -18,7 +18,7 @@ NewEventDialog::NewEventDialog(QDate date,QDialog *parent) : QDialog(parent), da
 
 
     setLayout(mainLayout);
-    setMinimumSize(200,600);
+    setMinimumSize(200,700);
 }
 
 
@@ -94,15 +94,15 @@ void NewEventDialog::changedSel(int index) {
 //Slot che riconosce che il pulsante è stato premuto e quindi cerca di aggiungere l'evento
 void NewEventDialog::addPushed() {
 
-
+    QString errors="";
     try {
-        emit newEventCreated(view->createEvent(date));
+        emit newEventCreated(view->createEvent(date,errors));
         QMessageBox::information(this, QString("Successo"), QString("L'inserimento ha avuto successo"));
         close();
     } catch(...) {
 
 
-        QMessageBox::critical(this, QString("Error"),view->getErrori());
+        QMessageBox::critical(this, QString("Error"),errors);
     }
 
 

@@ -22,10 +22,10 @@ public:
    ~ViewAllenamento() = default;
 
    void setEnabled(bool) override;
-   void pushSaves(Model::It) override;
+   void pushSaves(Model::It,QString&) override;
    void fillView(const Model::It&) override;
-   bool checkPushable() override;
-   Workout *createEvent(QDate date) override;
+   bool checkPushable(QString&) override;
+   Workout *createEvent(QDate date,QString& err) override;
 };
 
 #endif // VIEWALLENAMENTO_H

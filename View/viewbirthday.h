@@ -15,12 +15,12 @@ class ViewCompleanno : public ModView {
       explicit ViewCompleanno(QWidget *parent = 0);
       ~ViewCompleanno() = default;
 
-       BirthDay* createEvent(QDate date) override;
+       BirthDay* createEvent(QDate date,QString&) override;
 
        void setEnabled(bool) override;
-       void pushSaves(Model::It) override;
+       void pushSaves(Model::It,QString&) override;
        void fillView(const Model::It&) override;
-       bool checkPushable() override;
+
 };
 
 #endif // VIEWCOMPLEANNO_H

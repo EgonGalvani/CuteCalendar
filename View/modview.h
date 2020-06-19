@@ -21,13 +21,13 @@ public:
     virtual ~ModView() = default;
 
     virtual void setEnabled(bool);
-    virtual void pushSaves(Model::It);
+    virtual void pushSaves(Model::It,QString&);
     virtual void fillView(const Model::It&);
-    virtual bool checkPushable();
-    virtual Event* createEvent(QDate date) = 0;
+    virtual bool checkPushable(QString&);
+    virtual Event* createEvent(QDate date,QString&) = 0;
 
     bool isEnabled() const;
-    QString getErrori() const;
+
 protected:
     bool enabled;
 
@@ -43,8 +43,7 @@ protected:
     QTextEdit* txtDesc;
     TagPicker* checkTag;
 
-    //Controllo Errori
-    QString errori;
+
 
 };
 

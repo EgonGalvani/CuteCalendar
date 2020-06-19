@@ -50,12 +50,12 @@ void ViewPromemoria::setEnabled(bool e) {
 
 }
 //Passaggio del contenuto della view al Model per il salvataggio delle modifiche.
-void ViewPromemoria::pushSaves(Model::It it) {
-    ModView::pushSaves(it);
+void ViewPromemoria::pushSaves(Model::It it,QString& err) {
+    ModView::pushSaves(it,err);
 
     Reminder* currEve = dynamic_cast<Reminder*>(&**it);
     if(currEve) {
-        if (checkPushable()){
+        if (checkPushable(err)){
             currEve->setStartTime(inizio->time());
             currEve->setEndTime(fine->time());
             currEve->setUrgency(urgency->value());
@@ -104,25 +104,25 @@ void ViewPromemoria::fillView(const Model::It& it) {
 }
 
 //Controllo errori nella view prima del salvataggio
-bool ViewPromemoria::checkPushable() {
-    bool ritorno=ModView::checkPushable();
+bool ViewPromemoria::checkPushable(QString& err) {
+    bool ritorno=ModView::checkPushable(err);
     if(!inizio->time().isValid()){
         ritorno=false;
-        ModView::errori+="Il campo Inizio non è valido. ";
+        err+="Il campo Inizio non è valido.\n";
 
     }
     if(!fine->time().isValid()){
         ritorno=false;
-        ModView::errori+="Il campo Fine non è valido. " ;
+        err+="Il campo Fine non è valido.\n" ;
     }
     if(!(inizio->time() < fine->time())){
         ritorno=false;
-        ModView::errori+="Il campo Inizio deve essere minore di Fine. ";
+        err+="Il campo Inizio deve essere minore di Fine.\n";
     }
 
     if(alert->value()<5){
         ritorno=false;
-        ModView::errori+="Il minimo valore per il campo Alert accettato è 5. ";
+       err+="Il minimo valore per il campo Alert accettato è 5.\n";
     }
 
     return   ritorno;
@@ -131,9 +131,9 @@ bool ViewPromemoria::checkPushable() {
 /**Funzione che crea un evento Reminder e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Reminder *ViewPromemoria::createEvent(QDate date)
+Reminder *ViewPromemoria::createEvent(QDate date,QString& err)
 {
-    if(checkPushable()){
+    if(checkPushable(err)){
 
         QTime* currInizio = new QTime(inizio->time());
         QTime t2 =currInizio->addSecs(alert->value()*-60);

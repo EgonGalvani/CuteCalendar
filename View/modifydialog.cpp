@@ -64,7 +64,7 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     layout->addLayout(buttomLayout);
 
     setLayout(layout);
-    setMinimumSize(200,600);
+    setMinimumSize(200,700);
 }
 
 
@@ -77,14 +77,16 @@ void ModifyDialog::modifyPushed() {
         btnModify->setFocus();
         modifyEnabled = true;
     } else {
+        QString errors="";
         try {
-            view->pushSaves(it);
+
+            view->pushSaves(it,errors);
             QMessageBox::information(this, QString("Successo"), QString("Le modifiche sono state apportate con successo"));
             emit modifiedEvent(it);
             close();
         } catch(...) {
 
-            QMessageBox::critical(this, QString("Error"), view->getErrori());
+            QMessageBox::critical(this, QString("Error"), errors);
         }
     }
 }

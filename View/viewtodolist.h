@@ -16,11 +16,11 @@ public:
     ~ViewToDoList() = default;
 
     void setEnabled(bool) override;
-    void pushSaves(Model::It) override;
+    void pushSaves(Model::It,QString&) override;
     void fillView(const Model::It&) override;
-    bool checkPushable() override;
+    bool checkPushable(QString&) override;
 
-    virtual ToDoList* createEvent(QDate date) override;
+    virtual ToDoList* createEvent(QDate date,QString& err) override;
 private slots:
     void addItem();
 };
