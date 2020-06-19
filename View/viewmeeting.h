@@ -25,6 +25,7 @@ public:
       explicit ViewMeeting(QWidget *parent = 0);
       ~ViewMeeting() = default;
 
+      //Elementi della view
       QTimeEdit* inizio;
       QTimeEdit* fine;
       QSpinBox* alert;

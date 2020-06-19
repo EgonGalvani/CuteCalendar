@@ -23,7 +23,7 @@ BirthDay *ViewCompleanno::createEvent(QDate date)
     if(checkPushable()){ //controllo che l'evento da inserire sia corretto
         BirthDay* ritorno = new BirthDay(annoNascita->text().toUShort(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
         return ritorno;
-    }else throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
+    }else throw std::logic_error("Errore nella creazione");
 }
 
 //Set delle componenti della view a enabled se e==TRUE o disabled se e==FALSE
@@ -44,8 +44,8 @@ void ViewCompleanno::pushSaves(Model::It it)
         if(checkPushable()){
             currEve->setNascita(annoNascita->value());
         }else{
-            QMessageBox::critical(this, QString("Error"), "Qualche campo vuoto non ho tempo di fare tutti i vari check quindi arrangiati fratellì");
-            throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
+
+            throw std::logic_error("Errore nella modifica");
         }
     } else
         throw std::logic_error("Tipo errato per la modifica di un Compleanno");
@@ -61,11 +61,7 @@ void ViewCompleanno::fillView(Model::It it)
     } else
         throw std::logic_error("Tipo errato per essere mostrato come Compleanno");
 }
-//Controllo errori nella view prima del salvataggio
-bool ViewCompleanno::checkPushable()
-{
-    return ModView::checkPushable() && !annoNascita->text().isEmpty();
-}
+
 
 
 

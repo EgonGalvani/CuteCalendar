@@ -15,6 +15,8 @@ public:
     explicit ViewPromemoria(QWidget *parent = 0);
     ~ViewPromemoria() = default;
 
+
+    //Elementi della view
     QTimeEdit* inizio;
     QTimeEdit* fine;
     QSpinBox* alert;

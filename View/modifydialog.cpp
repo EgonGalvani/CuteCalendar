@@ -83,7 +83,8 @@ void ModifyDialog::modifyPushed() {
             emit modifiedEvent(it);
             close();
         } catch(...) {
-            QMessageBox::critical(this, QString("Error"), QString("Si sono riscontrati dei problemi durante il salvataggio delle modifiche..."));
+
+            QMessageBox::critical(this, QString("Error"), view->getErrori());
         }
     }
 }

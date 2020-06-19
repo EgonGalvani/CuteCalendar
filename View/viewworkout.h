@@ -14,6 +14,7 @@ public:
    explicit ViewAllenamento(QWidget *parent = 0);
    ~ViewAllenamento() = default;
 
+   //Elementi della view
    QTimeEdit* inizio;
    QTimeEdit* fine;
    QLabel* start;

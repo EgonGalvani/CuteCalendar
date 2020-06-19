@@ -11,6 +11,7 @@
 
 
 
+
 #include "Model/model.h"
 #include "tagpicker.h"
 #include "../Model/Hierarchy/event.h"
@@ -29,23 +30,25 @@ public:
     virtual Event* createEvent(QDate date) = 0;
 
     bool isEnabled() const;
+    QString getErrori() const;
 protected:
     bool enabled;
 
+    //Elementi della view
     QVBoxLayout* mainLayout;
-
     QLabel* lNome;
     QLabel* lDesc;
     QLabel* lLuogo;
     QLabel* lTag;
-
-
-
-
     QLineEdit* txtNome;
     QLineEdit* txtLuogo;
     QTextEdit* txtDesc;
     TagPicker* checkTag;
+
+
+    //Controllo Errori
+    QString errori;
+
 };
 
 #endif // MODVIEW_H

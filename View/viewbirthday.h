@@ -8,17 +8,19 @@
 class ViewCompleanno : public ModView {
     Q_OBJECT
 
-    public:
-      explicit ViewCompleanno(QWidget *parent = 0);
-      ~ViewCompleanno() = default;
+public:
+    explicit ViewCompleanno(QWidget *parent = 0);
+    ~ViewCompleanno() = default;
 
-       BirthDay* createEvent(QDate date) override;
-       QSpinBox* annoNascita;
-       QLabel* nascita;
-       void setEnabled(bool) override;
-       void pushSaves(Model::It) override;
-       void fillView(Model::It) override;
-       bool checkPushable() override;
+    BirthDay* createEvent(QDate date) override;
+    void setEnabled(bool) override;
+    void pushSaves(Model::It) override;
+    void fillView(Model::It) override;
+
+
+    //Elementi della view
+    QSpinBox* annoNascita;
+    QLabel* nascita;
 
 };
 

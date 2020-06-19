@@ -100,7 +100,9 @@ void NewEventDialog::addPushed() {
         QMessageBox::information(this, QString("Successo"), QString("L'inserimento ha avuto successo"));
         close();
     } catch(...) {
-        QMessageBox::critical(this, QString("Error"),"Fallito inserimento");
+
+
+        QMessageBox::critical(this, QString("Error"),view->getErrori());
     }
 
 

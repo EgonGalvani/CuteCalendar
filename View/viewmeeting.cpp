@@ -119,8 +119,8 @@ void ViewMeeting::pushSaves(Model::It it) {
             }
 
         }else {
-            QMessageBox::critical(this, QString("Error"), "Qualche campo vuoto non ho tempo di fare tutti i vari check quindi arrangiati fratellì");
-            throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
+
+            throw std::logic_error("Errore nella modifica");
         }
 
     } else
@@ -158,7 +158,30 @@ void ViewMeeting::fillView(Model::It it) {
 //Controllo errori nella view prima del salvataggio
 bool ViewMeeting::checkPushable()
 {
-    return ModView::checkPushable() && inizio->time().isValid() && fine->time().isValid() && (inizio->time() < fine->time()) && alert->value()%5==0 && emailList->count()!=0;
+    bool ritorno=ModView::checkPushable();
+    if(!inizio->time().isValid()){
+        ritorno=false;
+        ModView::errori+="Il campo Inizio non è valido. ";
+
+    }
+    if(!fine->time().isValid()){
+        ritorno=false;
+        ModView::errori+="Il campo Fine non è valido. " ;
+    }
+    if(!(inizio->time() < fine->time())){
+        ritorno=false;
+        ModView::errori+="Il campo Inizio deve essere minore di Fine. ";
+    }
+    if(emailList->count()==0){
+        ritorno=false;
+        ModView::errori+="Il campo emails non può essere vuoto. ";
+    }
+    if(alert->value()<5){
+        ritorno=false;
+        ModView::errori+="Il minimo valore per il campo Alert accettato è 5. ";
+    }
+
+    return   ritorno;
 }
 /**Funzione che crea un evento Meeting e lo ritorna
 @param date: data nella quale viene creato l'evento
@@ -171,5 +194,8 @@ Meeting *ViewMeeting::createEvent(QDate date)
         Meeting* ritorno = new Meeting(getEmails(),inizio->time(),fine->time(), t2, checkRep->isChecked() , txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());
         delete currInizio;
         return ritorno;
-    }else throw std::logic_error("Fratellì sto inserimento non si fa se non mi controlli bene i campi");
+    }else {
+
+        throw std::logic_error("Errore nella creazione");
+    }
 }
