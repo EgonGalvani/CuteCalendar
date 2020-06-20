@@ -71,12 +71,12 @@ bool ModView::checkPushable(QString& err) const {
 
     if(txtNome->text().trimmed().isEmpty()){
         ritorno=false;
-        err +=  + "Il campo nome non può essere vuoto.\n";
+        err +=  + "Il campo Nome non può essere vuoto.\n";
     }
 
     if(txtLuogo->text().trimmed().isEmpty()){
         ritorno=false;
-        err +=  + "Il campo luogo non può essere vuoto.\n";
+        err +=  + "Il campo Luogo non può essere vuoto.\n";
     }
 
     if(txtDesc->toPlainText().trimmed().isEmpty()){

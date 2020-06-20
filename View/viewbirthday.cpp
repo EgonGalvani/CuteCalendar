@@ -47,6 +47,18 @@ void ViewBirthday::pushSaves(const Model::It& it) const {
         throw std::logic_error("Tipo errato per la modifica di un Compleanno");
 }
 
+//Controllo errori nella view prima del salvataggio
+bool ViewBirthday::checkPushable(QString& err) const {
+
+    bool ritorno = ModView::checkPushable(err);
+    if(annoNascita->value() > QDate::currentDate().year()) {
+        ritorno = false;
+        err += "L'anno di nascita non può essere maggiore di quello corrente.\n";
+    }
+
+    return ritorno;
+}
+
 // Caricamento del contenuto delle evento nella view
 void ViewBirthday::fillView(const Model::It& it) {
     ModView::fillView(it);

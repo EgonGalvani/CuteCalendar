@@ -20,6 +20,7 @@ class ViewBirthday : public ModView {
        void setEnabled(bool) override;
        void pushSaves(const Model::It&) const override;
        void fillView(const Model::It&) override;
+       bool checkPushable(QString&) const override;
 };
 
 #endif // VIEWCOMPLEANNO_H
