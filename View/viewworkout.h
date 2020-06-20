@@ -7,7 +7,7 @@
 #include <QTimeEdit>
 #include <QComboBox>
 
-class ViewAllenamento : public ModView {
+class ViewWorkout : public ModView {
     Q_OBJECT
 
     //Elementi della view
@@ -18,8 +18,8 @@ class ViewAllenamento : public ModView {
     QComboBox* attivita;
 
 public:
-   explicit ViewAllenamento(QWidget *parent = 0);
-   ~ViewAllenamento() = default;
+   explicit ViewWorkout(QWidget *parent = 0);
+   ~ViewWorkout() = default;
 
    void setEnabled(bool) override;
    void pushSaves(const Model::It&) const override;

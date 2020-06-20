@@ -206,20 +206,20 @@ EventWidget* MainWindow::createEventWidget(const Model::It& it, QListWidget *par
 
     // evento di default -> birthday
     QIcon eventIcon = QIcon(":/res/birthday.png");
-    QColor widgetColor = QColor(Qt::green);
+    QColor widgetColor = QColor(186, 255, 201);
 
     if(dynamic_cast<Meeting*>(currentEvent)) {
         eventIcon = QIcon(":/res/meeting.jpg");
-        widgetColor = QColor(Qt::yellow);
+        widgetColor = QColor(255, 255, 186);
     } else if(dynamic_cast<Reminder*>(currentEvent)) {
         eventIcon = QIcon(":/res/reminder.png");
-        widgetColor = QColor(Qt::cyan);
+        widgetColor = QColor(186, 255, 255);
     } else if(dynamic_cast<ToDoList*>(currentEvent)) {
         eventIcon = QIcon(":/res/todolist.png");
-        widgetColor = QColor(Qt::green);
-    } else {
+        widgetColor = QColor(255, 223, 186);
+    } else if(dynamic_cast<Workout*>(currentEvent)){
         eventIcon = QIcon(":/res/workout.jpg");
-        widgetColor = QColor(Qt::lightGray);
+        widgetColor = QColor(255, 179, 186);
     }
 
     EventWidget* e = new EventWidget(it, eventIcon, parent);

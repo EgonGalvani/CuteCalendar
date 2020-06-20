@@ -8,7 +8,7 @@
 #include "modview.h"
 #include "../Model/Hierarchy/reminder.h"
 
-class ViewPromemoria : public ModView {
+class ViewReminder : public ModView {
     Q_OBJECT
 
     //Elementi della view
@@ -25,8 +25,8 @@ class ViewPromemoria : public ModView {
     QLabel* end;
 
 public:
-    explicit ViewPromemoria(QWidget *parent = 0);
-    ~ViewPromemoria() = default;
+    explicit ViewReminder(QWidget *parent = 0);
+    ~ViewReminder() = default;
 
     void setEnabled(bool) override;
     void pushSaves(const Model::It&) const override;

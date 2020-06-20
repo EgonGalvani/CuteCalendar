@@ -1,7 +1,7 @@
 #include "viewbirthday.h"
 
 
-ViewCompleanno::ViewCompleanno(QWidget *parent)
+ViewBirthday::ViewBirthday(QWidget *parent)
     : ModView(parent) {
     //init grafica
     nascita = new QLabel("Anno di Nascita");
@@ -16,7 +16,7 @@ ViewCompleanno::ViewCompleanno(QWidget *parent)
 /**Funzione che crea un evento Birthday e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-BirthDay *ViewCompleanno::createEvent(const QDate& date)
+BirthDay *ViewBirthday::createEvent(const QDate& date)
 {
     QString error = "";
     if(checkPushable(error)){ //controllo che l'evento da inserire sia corretto
@@ -26,13 +26,13 @@ BirthDay *ViewCompleanno::createEvent(const QDate& date)
 }
 
 //Set delle componenti della view a enabled se e==TRUE o disabled se e==FALSE
-void ViewCompleanno::setEnabled(bool e) {
+void ViewBirthday::setEnabled(bool e) {
     ModView::setEnabled(e);
     annoNascita->setReadOnly(!e);
 }
 
 // Salvataggio delle modifiche apportate dall'utente nell'iteratore passato
-void ViewCompleanno::pushSaves(const Model::It& it) const {
+void ViewBirthday::pushSaves(const Model::It& it) const {
     ModView::pushSaves(it);
 
     BirthDay* currEve = dynamic_cast<BirthDay*>(&**it);
@@ -48,7 +48,7 @@ void ViewCompleanno::pushSaves(const Model::It& it) const {
 }
 
 // Caricamento del contenuto delle evento nella view
-void ViewCompleanno::fillView(const Model::It& it) {
+void ViewBirthday::fillView(const Model::It& it) {
     ModView::fillView(it);
 
     BirthDay* currEve = dynamic_cast< BirthDay*>(&**it);

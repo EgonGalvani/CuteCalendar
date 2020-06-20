@@ -3,7 +3,7 @@
 #include "viewreminder.h"
 #include "Model/Hierarchy/reminder.h"
 
-ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
+ViewReminder::ViewReminder(QWidget *parent) : ModView(parent) {
 
     inizio= new QTimeEdit(this);
     fine= new QTimeEdit(this);
@@ -36,7 +36,7 @@ ViewPromemoria::ViewPromemoria(QWidget *parent) : ModView(parent) {
     mainLayout->addWidget(urgency);
 }
 
-void ViewPromemoria::setEnabled(bool e) {
+void ViewReminder::setEnabled(bool e) {
     ModView::setEnabled(e);
     inizio->setEnabled(e);
     fine->setEnabled(e);
@@ -46,7 +46,7 @@ void ViewPromemoria::setEnabled(bool e) {
 }
 
 // Salvataggio delle modifiche apportate dall'utente nell'iteratore passato
-void ViewPromemoria::pushSaves(const Model::It& it) const {
+void ViewReminder::pushSaves(const Model::It& it) const {
     ModView::pushSaves(it);
 
     Reminder* currEve = dynamic_cast<Reminder*>(&**it);
@@ -69,7 +69,7 @@ void ViewPromemoria::pushSaves(const Model::It& it) const {
 }
 
 //Caricamento del contenuto delle evento nella view
-void ViewPromemoria::fillView(const Model::It& it) {
+void ViewReminder::fillView(const Model::It& it) {
     ModView::fillView(it);
 
     Reminder* currEve = dynamic_cast<Reminder*>(&**it);
@@ -88,7 +88,7 @@ void ViewPromemoria::fillView(const Model::It& it) {
 }
 
 //Controllo errori nella view prima del salvataggio
-bool ViewPromemoria::checkPushable(QString& err) const {
+bool ViewReminder::checkPushable(QString& err) const {
     bool ritorno=ModView::checkPushable(err);
 
     if(!inizio->time().isValid()){
@@ -117,7 +117,7 @@ bool ViewPromemoria::checkPushable(QString& err) const {
 /**Funzione che crea un evento Reminder e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Reminder *ViewPromemoria::createEvent(const QDate& date) {
+Reminder *ViewReminder::createEvent(const QDate& date) {
     QString error = "";
     if(checkPushable(error)){
         QTime t2 = (inizio->time()).addSecs(alert->value()*-60);

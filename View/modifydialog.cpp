@@ -24,11 +24,11 @@ ModifyDialog::ModifyDialog(QDate date,const Model::It& it, QDialog *parent)
     //Serie di if che controllano che tipo di view deve essere creata
     Event* currentEvent = &**it;
     if(dynamic_cast<Workout*>(currentEvent))
-        view = new ViewAllenamento(this);
+        view = new ViewWorkout(this);
     else if(dynamic_cast<BirthDay*>(currentEvent))
-        view = new ViewCompleanno(this);
+        view = new ViewBirthday(this);
     else if(dynamic_cast<Reminder*>(currentEvent))
-        view = new ViewPromemoria(this);
+        view = new ViewReminder(this);
     else if(dynamic_cast<Meeting*>(currentEvent))
         view = new ViewMeeting(this);
     else if(dynamic_cast<ToDoList*>(currentEvent))

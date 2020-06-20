@@ -3,7 +3,7 @@
 #include "viewworkout.h"
 #include "Model/Hierarchy/workout.h"
 
-ViewAllenamento::ViewAllenamento(QWidget *parent)
+ViewWorkout::ViewWorkout(QWidget *parent)
         : ModView(parent) {
 
     inizio= new QTimeEdit(this);
@@ -31,7 +31,7 @@ ViewAllenamento::ViewAllenamento(QWidget *parent)
     mainLayout->addWidget(fine);
 }
 
-void ViewAllenamento::setEnabled(bool e) {
+void ViewWorkout::setEnabled(bool e) {
     ModView::setEnabled(e);
     inizio->setEnabled(e);
     fine->setEnabled(e);
@@ -39,7 +39,7 @@ void ViewAllenamento::setEnabled(bool e) {
 }
 
 // Salvataggio delle modifiche apportate dall'utente nell'iteratore passato
-void ViewAllenamento::pushSaves(const Model::It& it) const {
+void ViewWorkout::pushSaves(const Model::It& it) const {
     ModView::pushSaves(it);
 
     Workout* currEve = dynamic_cast<Workout*>(&**it);
@@ -56,7 +56,7 @@ void ViewAllenamento::pushSaves(const Model::It& it) const {
 }
 
 //Caricamento del contenuto delle evento nella view
-void ViewAllenamento::fillView(const Model::It& it) {
+void ViewWorkout::fillView(const Model::It& it) {
 
     ModView::fillView(it);
 
@@ -70,7 +70,7 @@ void ViewAllenamento::fillView(const Model::It& it) {
 }
 
 //Controllo errori nella view prima del salvataggio
-bool ViewAllenamento::checkPushable(QString& err) const {
+bool ViewWorkout::checkPushable(QString& err) const {
 
     bool ritorno=ModView::checkPushable(err);
     if(!inizio->time().isValid()){
@@ -87,7 +87,7 @@ bool ViewAllenamento::checkPushable(QString& err) const {
         err+="Il campo Inizio deve essere minore di Fine.\n";
     }
 
-    if(attivita->currentText().isEmpty()){
+    if(attivita->currentText().trimmed().isEmpty()){
         ritorno=false;
         err+="Il campo attività non può essere vuoto.\n";
     }
@@ -98,7 +98,7 @@ bool ViewAllenamento::checkPushable(QString& err) const {
 /**Funzione che crea un evento Workout e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Workout* ViewAllenamento::createEvent(const QDate& date) {
+Workout* ViewWorkout::createEvent(const QDate& date) {
     QString error = "";
     if(checkPushable(error)){
         return new Workout(attivita->currentIndex()+1,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());

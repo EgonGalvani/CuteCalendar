@@ -144,10 +144,10 @@ void ViewMeeting::fillView(const Model::It& it) {
 //Controllo errori nella view prima del salvataggio
 bool ViewMeeting::checkPushable(QString& err) const {
     bool ritorno=ModView::checkPushable(err);
+
     if(!inizio->time().isValid()){
         ritorno=false;
         err+="Il campo Inizio non è valido.\n";
-
     }
 
     if(!fine->time().isValid()){

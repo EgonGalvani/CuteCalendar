@@ -63,16 +63,16 @@ void NewEventDialog::changedSel(int index) {
 
     switch(index){
         case 0:
-            view = new ViewAllenamento(this);
+            view = new ViewWorkout(this);
             break;
         case 1:
-            view = new ViewCompleanno(this);
+            view = new ViewBirthday(this);
             break;
         case 2:
             view = new ViewMeeting(this);
             break;
         case 3:
-            view = new ViewPromemoria(this);
+            view = new ViewReminder(this);
             break;
         case 4:
             view = new ViewToDoList(this);

@@ -5,15 +5,15 @@
 #include <QSpinBox>
 #include "../Model/Hierarchy/birthday.h"
 
-class ViewCompleanno : public ModView {
+class ViewBirthday : public ModView {
     Q_OBJECT
 
     QSpinBox* annoNascita;
     QLabel* nascita;
 
     public:
-      explicit ViewCompleanno(QWidget *parent = 0);
-      ~ViewCompleanno() = default;
+      explicit ViewBirthday(QWidget *parent = 0);
+      ~ViewBirthday() = default;
 
        BirthDay* createEvent(const QDate& date) override;
 
