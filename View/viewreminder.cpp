@@ -22,7 +22,7 @@ ViewReminder::ViewReminder(QWidget *parent) : ModView(parent) {
 
     start = new QLabel("Inizio",this);
     end = new QLabel("Fine",this);
-    alertL= new QLabel("Notifica",this);
+    alertL= new QLabel("Notifica prima dell'evento: (in minuti)",this);
     urg= new QLabel("Urgenza",this);
 
     mainLayout->addWidget(start);

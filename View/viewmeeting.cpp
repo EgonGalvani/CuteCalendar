@@ -34,7 +34,7 @@ ViewMeeting::ViewMeeting(QWidget *parent)
     else fine->setTime(QTime::fromString("23:59:00"));
 
     emailLabel= new QLabel("Emails", this);
-    alertL= new QLabel("Notifica", this);
+    alertL= new QLabel("Notifica prima dell'evento: (in minuti)", this);
     start = new QLabel("Inizio", this);
     end = new QLabel("Fine", this);
 

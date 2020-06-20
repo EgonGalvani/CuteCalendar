@@ -81,7 +81,7 @@ void MainWindow::initInfoBox() {
     refreshList(calendar->selectedDate()); // aggiungo gli eventi della data corrente
 
     // init add event button
-    addEventBtn = new QPushButton(tr("Aggiungi evento"),this);
+    addEventBtn = new QPushButton(tr("Aggiungi evento nella data selezionata"),this);
     connect(addEventBtn, SIGNAL(clicked(bool)), this, SLOT(showAddEventDialog()));
 
     // aggiungo gli elementi al layout
@@ -218,7 +218,7 @@ EventWidget* MainWindow::createEventWidget(const Model::It& it, QListWidget *par
         eventIcon = QIcon(":/res/todolist.png");
         widgetColor = QColor(255, 223, 186);
     } else if(dynamic_cast<Workout*>(currentEvent)){
-        eventIcon = QIcon(":/res/workout.jpg");
+        eventIcon = QIcon(":/res/workout.png");
         widgetColor = QColor(255, 179, 186);
     }
 
