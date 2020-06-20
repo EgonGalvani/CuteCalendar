@@ -98,7 +98,7 @@ bool ViewWorkout::checkPushable(QString& err) const {
 /**Funzione che crea un evento Workout e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Workout* ViewWorkout::createEvent(const QDate& date) {
+Workout* ViewWorkout::createEvent(const QDate& date) const {
     QString error = "";
     if(checkPushable(error)){
         return new Workout(attivita->currentIndex()+1,inizio->time(),fine->time(),txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(),Date(date),checkTag->getTags());

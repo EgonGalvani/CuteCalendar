@@ -19,7 +19,7 @@ public:
     void pushSaves(const Model::It&) const override;
     void fillView(const Model::It&) override;
     bool checkPushable(QString&) const override;
-    ToDoList* createEvent(const QDate& date) override;
+    ToDoList* createEvent(const QDate& date) const override;
 
 private slots:
     void addItem();

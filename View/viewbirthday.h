@@ -15,7 +15,7 @@ class ViewBirthday : public ModView {
       explicit ViewBirthday(QWidget *parent = 0);
       ~ViewBirthday() = default;
 
-       BirthDay* createEvent(const QDate& date) override;
+       BirthDay* createEvent(const QDate& date) const override;
 
        void setEnabled(bool) override;
        void pushSaves(const Model::It&) const override;

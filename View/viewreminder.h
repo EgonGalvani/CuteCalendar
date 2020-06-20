@@ -32,7 +32,7 @@ public:
     void pushSaves(const Model::It&) const override;
     void fillView(const Model::It&) override;
     bool checkPushable(QString&) const override;
-    virtual Reminder* createEvent(const QDate& date) override;
+    virtual Reminder* createEvent(const QDate& date) const override;
 };
 
 #endif // VIEWPROMEMORIA_H

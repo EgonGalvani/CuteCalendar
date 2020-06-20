@@ -16,7 +16,7 @@ ViewBirthday::ViewBirthday(QWidget *parent)
 /**Funzione che crea un evento Birthday e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-BirthDay *ViewBirthday::createEvent(const QDate& date)
+BirthDay *ViewBirthday::createEvent(const QDate& date) const
 {
     QString error = "";
     if(checkPushable(error)){ //controllo che l'evento da inserire sia corretto

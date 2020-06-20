@@ -44,7 +44,7 @@ public:
       void pushSaves(const Model::It&) const override;
       void fillView(const Model::It&) override;
       bool checkPushable(QString&) const override;
-      Meeting* createEvent(const QDate& date) override;
+      Meeting* createEvent(const QDate& date) const override;
 };
 
 #endif // VIEWMEETING_H

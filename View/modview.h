@@ -24,7 +24,7 @@ public:
     virtual void pushSaves(const Model::It&) const;
     virtual void fillView(const Model::It&);
     virtual bool checkPushable(QString&) const;
-    virtual Event* createEvent(const QDate& date) = 0;
+    virtual Event* createEvent(const QDate& date) const = 0;
 
     bool isEnabled() const;
 

@@ -25,7 +25,7 @@ public:
    void pushSaves(const Model::It&) const override;
    void fillView(const Model::It&) override;
    bool checkPushable(QString&) const override;
-   Workout *createEvent(const QDate& date) override;
+   Workout *createEvent(const QDate& date) const override;
 };
 
 #endif // VIEWALLENAMENTO_H

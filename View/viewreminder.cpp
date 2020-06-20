@@ -117,7 +117,7 @@ bool ViewReminder::checkPushable(QString& err) const {
 /**Funzione che crea un evento Reminder e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Reminder *ViewReminder::createEvent(const QDate& date) {
+Reminder *ViewReminder::createEvent(const QDate& date) const {
     QString error = "";
     if(checkPushable(error)){
         QTime t2 = (inizio->time()).addSecs(alert->value()*-60);

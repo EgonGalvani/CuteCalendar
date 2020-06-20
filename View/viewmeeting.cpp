@@ -176,7 +176,7 @@ bool ViewMeeting::checkPushable(QString& err) const {
 /**Funzione che crea un evento Meeting e lo ritorna
 @param date: data nella quale viene creato l'evento
 **/
-Meeting *ViewMeeting::createEvent(const QDate& date) {
+Meeting *ViewMeeting::createEvent(const QDate& date) const {
     QString error = "";
     if(checkPushable(error)){
         QTime t2 = QTime(inizio->time()).addSecs(alert->value()*-60);

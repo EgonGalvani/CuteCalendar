@@ -70,7 +70,7 @@ void ViewToDoList::addItem() {
     inputLine->clear();
 }
 
-ToDoList* ViewToDoList::createEvent(const QDate& date) {
+ToDoList* ViewToDoList::createEvent(const QDate& date) const {
     QString error = "";
     if(checkPushable(error)){
         ToDoList* ritorno = new ToDoList(txtNome->text().toStdString(),txtDesc->toPlainText().toStdString(),txtLuogo->text().toStdString(), Date(date), checkTag->getTags());
